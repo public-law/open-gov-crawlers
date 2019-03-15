@@ -14,7 +14,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     def __init__(self):
         super()
-        self.finished = False
+        self.data_submitted = False
         # The merged data to return for conversion to a JSON tree
         self.oar = {'chapters': []}
 
@@ -27,13 +27,14 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         return spider
 
     def spider_idle(self, spider):
-        if self.finished: return
+        if self.data_submitted: return
 
-        self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.finalize_crawl), spider)
+        # Schedule a null request
+        self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.submit_data), spider)
         raise scrapy.exceptions.DontCloseSpider
 
-    def finalize_crawl(self, _):
-        self.finished = True
+    def submit_data(self, _):
+        self.data_submitted = True
         return self.oar
 
 
