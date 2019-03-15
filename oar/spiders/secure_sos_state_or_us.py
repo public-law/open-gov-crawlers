@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import scrapy
 from scrapy import signals
 
@@ -13,19 +14,27 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     def __init__(self):
         super()
+        self.finished = False
         # The merged data to return for conversion to a JSON tree
         self.oar = {'chapters': []}
 
 
-    # Register to receive a signal
+    # Register to receive the signal
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
         return spider
 
-    def spider_closed(self, spider):
-        spider.logger.info(f'SPIDER CLOSED: {spider.name} with {len(spider.oar["chapters"])} chapters')
+    def spider_idle(self, spider):
+        if self.finished: return
+
+        self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.finalize_crawl), spider)
+        raise scrapy.exceptions.DontCloseSpider
+
+    def finalize_crawl(self, _):
+        self.finished = True
+        return self.oar
 
 
     def parse(self, response):
@@ -79,5 +88,3 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             #
             # Or... just scrape the Rule Contents and yield them as simple key/value pairs to
             # be included in the "JSON" output. And then post-process into proper JSON.
-
-        yield chapter
