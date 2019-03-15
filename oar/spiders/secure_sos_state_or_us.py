@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy import signals
+
 from oar import items
 
 
@@ -7,6 +9,24 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     name = "secure.sos.state.or.us"
     allowed_domains = ["secure.sos.state.or.us"]
     start_urls = ["https://secure.sos.state.or.us/oard/ruleSearch.action"]
+
+
+    def __init__(self):
+        super()
+        # The merged data to return for conversion to a JSON tree
+        self.oar = {'chapters': []}
+
+
+    # Register to receive a signal
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.spider_closed, signal=signals.spider_closed)
+        return spider
+
+    def spider_closed(self, spider):
+        spider.logger.info(f'SPIDER CLOSED: {spider.name} with {len(spider.oar["chapters"])} chapters')
+
 
     def parse(self, response):
         for option in response.css("#browseForm option"):
@@ -23,6 +43,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
                 divisions=[],
             )
+
+            self.oar['chapters'].append(chapter)
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
