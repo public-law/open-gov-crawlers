@@ -47,6 +47,12 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             # 1. Find the rules w/in the new division.
             # 2. Add empty rules to the division.
-            # 3. Create another Spider to retrieve just the text of the rules.
+            # 3. Create a Pipeline to output the to-be-scraped Rule URLs to a plaintext file.
+            # 4. Create a RuleTextSpider to retrieve just the text of the rules.
+            # 5. This RuleTextSpider can create a second JSON file with a simple JSON lines format.
+            # 6. A script can use both JSON files as input and create a good single file.
+            #
+            # Or... do the final yield in a spider_idle signal handler:
+            # https://docs.scrapy.org/en/latest/topics/signals.html
 
         yield chapter
