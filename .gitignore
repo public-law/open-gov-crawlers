@@ -126,5 +126,4 @@ dmypy.json
 .vscode
 
 # Temp. output
-output.txt
-output.json
+*.json
