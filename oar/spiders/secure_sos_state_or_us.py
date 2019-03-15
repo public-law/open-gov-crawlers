@@ -52,7 +52,10 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             # 5. This RuleTextSpider can create a second JSON file with a simple JSON lines format.
             # 6. A script can use both JSON files as input and create a good single file.
             #
-            # Or... do the final yield in a spider_idle signal handler:
+            # Or... do the final yield in a spider_idle or spider_closed signal handler:
             # https://docs.scrapy.org/en/latest/topics/signals.html
+            #
+            # Or... just scrape the Rule Contents and yield them as simple key/value pairs to
+            # be included in the "JSON" output. And then post-process into proper JSON.
 
         yield chapter
