@@ -16,7 +16,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         super()
         self.data_submitted = False
         # The merged data to return for conversion to a JSON tree
-        self.oar = {'chapters': []}
+        self.oar = items.OAR(chapters=[])
 
 
     # Register to receive the signal
@@ -29,7 +29,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     def spider_idle(self, spider):
         if self.data_submitted: return
 
-        # Schedule a null request
+        # Schedule an ignored request to simply return data
         self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.submit_data), spider)
         raise scrapy.exceptions.DontCloseSpider
 
