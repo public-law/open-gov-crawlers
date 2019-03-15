@@ -8,4 +8,5 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     start_urls = ["https://secure.sos.state.or.us/oard/ruleSearch.action"]
 
     def parse(self, response):
-        self.logger.info(f"A response from {response.url} just arrived!")
+        for option in response.css("#browseForm option").getall():
+            yield {"chapter_name": option}
