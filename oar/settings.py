@@ -14,7 +14,7 @@ BOT_NAME = "oar"
 SPIDER_MODULES = ["oar.spiders"]
 NEWSPIDER_MODULE = "oar.spiders"
 
-LOG_LEVEL = "WARN"
+LOG_LEVEL = "INFO"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'oar (+http://www.yourdomain.com)'
@@ -53,9 +53,10 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'oar.middlewares.OarDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    #   'oar.middlewares.OarDownloaderMiddleware': 543,
+    "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 1
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -65,7 +66,7 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {"oar.pipelines.OarPipeline": 300}
+# ITEM_PIPELINES = {"oar.pipelines.OarPipeline": 300}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -82,8 +83,9 @@ ITEM_PIPELINES = {"oar.pipelines.OarPipeline": 300}
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-# HTTPCACHE_ENABLED = True
-# HTTPCACHE_EXPIRATION_SECS = 0
-# HTTPCACHE_DIR = 'httpcache'
-# HTTPCACHE_IGNORE_HTTP_CODES = []
-# HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+# Enabled for development:
+HTTPCACHE_ENABLED = True
+HTTPCACHE_EXPIRATION_SECS = 0
+HTTPCACHE_DIR = "httpcache"
+HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
+HTTPCACHE_POLICY = "scrapy.extensions.httpcache.DummyPolicy"

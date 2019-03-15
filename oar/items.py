@@ -14,6 +14,7 @@ class Chapter(scrapy.Item):
     number = scrapy.Field()
     name = scrapy.Field()
     url = scrapy.Field()
+    divisions = scrapy.Field()
 
 
 class Division(scrapy.Item):
