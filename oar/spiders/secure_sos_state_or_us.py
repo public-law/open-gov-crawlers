@@ -26,7 +26,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
-
             yield request
 
     def parse_chapter_page(self, response):
@@ -36,15 +35,18 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             db_id = a.xpath("@href").get().split("=")[1]
             number, name = map(str.strip, a.xpath("text()").get().split("-", 1))
             number = number.split(" ")[1]
-
-            chapter["divisions"].append(
-                items.Division(
-                    kind="Division",
-                    db_id=db_id,
-                    number=number,
-                    name=name,
-                    url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
-                )
+            division = items.Division(
+                kind="Division",
+                db_id=db_id,
+                number=number,
+                name=name,
+                url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
             )
+
+            chapter["divisions"].append(division)
+
+            # 1. Find the rules w/in the new division.
+            # 2. Add empty rules to the division.
+            # 3. Create another Spider to retrieve just the text of the rules.
 
         yield chapter

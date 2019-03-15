@@ -23,3 +23,12 @@ class Division(scrapy.Item):
     number = scrapy.Field()
     name = scrapy.Field()
     url = scrapy.Field()
+    rules = scrapy.Field()
+
+
+class Rule(scrapy.Item):
+    kind = scrapy.Field()
+    number = scrapy.Field()
+    name = scrapy.Field()
+    text = scrapy.Field()
+    url = scrapy.Field()
