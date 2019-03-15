@@ -16,6 +16,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
             chapter = items.Chapter(
+                kind="Chapter",
                 db_id=db_id,
                 number=number,
                 name=name,
@@ -35,6 +36,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             number = number.split(" ")[1]
 
             yield items.Division(
+                kind="Division",
                 db_id=db_id,
                 number=number,
                 name=name,

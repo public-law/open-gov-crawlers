@@ -9,6 +9,7 @@ import scrapy
 
 
 class Chapter(scrapy.Item):
+    kind = scrapy.Field()
     db_id = scrapy.Field()
     number = scrapy.Field()
     name = scrapy.Field()
@@ -16,6 +17,7 @@ class Chapter(scrapy.Item):
 
 
 class Division(scrapy.Item):
+    kind = scrapy.Field()
     db_id = scrapy.Field()
     number = scrapy.Field()
     name = scrapy.Field()

@@ -14,7 +14,7 @@ BOT_NAME = "oar"
 SPIDER_MODULES = ["oar.spiders"]
 NEWSPIDER_MODULE = "oar.spiders"
 
-LOG_LEVEL = "DEBUG"
+LOG_LEVEL = "WARN"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'oar (+http://www.yourdomain.com)'
@@ -65,9 +65,7 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'oar.pipelines.OarPipeline': 300,
-# }
+ITEM_PIPELINES = {"oar.pipelines.OarPipeline": 300}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

@@ -122,4 +122,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# IDE's
 .vscode
+
+# Temp. output
+output.txt
