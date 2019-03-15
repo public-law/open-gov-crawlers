@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from oar import items
 
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
@@ -13,4 +14,4 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             if db_id == "-1":
                 continue
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
-            yield {"db_id": db_id, "number": number, "name": name}
+            yield items.Chapter(db_id=db_id, name=name, number=number)

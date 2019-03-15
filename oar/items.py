@@ -8,7 +8,7 @@
 import scrapy
 
 
-class OarItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Chapter(scrapy.Item):
+    db_id = scrapy.Field()
+    number = scrapy.Field()
+    name = scrapy.Field()
