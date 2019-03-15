@@ -27,6 +27,16 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             request.meta["chapter"] = chapter
             yield request
 
-    def parse_chapter_page(self, response) -> None:
-        chapter = response.meta["chapter"]
-        pass
+    def parse_chapter_page(self, response):
+        # chapter = response.meta["chapter"]
+        for a in response.css("#accordion > h3 > a"):
+            db_id = a.xpath("@href").get().split("=")[1]
+            number, name = map(str.strip, a.xpath("text()").get().split("-", 1))
+            number = number.split(" ")[1]
+
+            yield items.Division(
+                db_id=db_id,
+                number=number,
+                name=name,
+                url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
+            )
