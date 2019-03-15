@@ -12,3 +12,4 @@ class Chapter(scrapy.Item):
     db_id = scrapy.Field()
     number = scrapy.Field()
     name = scrapy.Field()
+    url = scrapy.Field()

@@ -13,5 +13,20 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             db_id = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
+
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
-            yield items.Chapter(db_id=db_id, name=name, number=number)
+            chapter = items.Chapter(
+                db_id=db_id,
+                number=number,
+                name=name,
+                url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
+            )
+            yield chapter
+
+            request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
+            request.meta["chapter"] = chapter
+            yield request
+
+    def parse_chapter_page(self, response) -> None:
+        chapter = response.meta["chapter"]
+        pass
