@@ -14,33 +14,26 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     def __init__(self):
         super()
+
+        # A flag, set after post-processing is finished, to avoid an infinite
+        # loop.
         self.data_submitted = False
-        # The merged data to return for conversion to a JSON tree
+
+        # The object to return for conversion to a JSON tree. All the parse
+        # methods add their results to this structure.
         self.oar = items.OAR(chapters=[])
 
 
-    @classmethod
-    def from_crawler(cls, crawler, *args, **kwargs):
-        """Register to receive the idle event"""
-        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
-        crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
-        return spider
-
-
-    def spider_idle(self, spider):
-        """Schedule a simple request in order to return data"""
-        if self.data_submitted: return
-
-        self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.submit_data), spider)
-        raise scrapy.exceptions.DontCloseSpider
-
-
-    def submit_data(self, _):
-        self.data_submitted = True
-        return self.oar
-
-
     def parse(self, response):
+        """The primary Scrapy callback to begin scraping. Kick off scraping by parsing
+        the main OAR page.
+        """
+        return self.parse_search_page(response)
+
+
+    def parse_search_page(self, response):
+        """The search page contains a list of Chapters, with the names,
+        numbers, and internal id's."""
         for option in response.css("#browseForm option"):
             db_id = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
@@ -62,12 +55,16 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             request.meta["chapter"] = chapter
             yield request
 
+
     def parse_chapter_page(self, response):
+        """A Chapter's page contains a hierarchical list of all its Divisions
+        along with their contained Rules.
+        """
         chapter = response.meta["chapter"]
 
-        for a in response.css("#accordion > h3 > a"):
-            db_id = a.xpath("@href").get().split("=")[1]
-            number, name = map(str.strip, a.xpath("text()").get().split("-", 1))
+        for anchor in response.css("#accordion > h3 > a"):
+            db_id = anchor.xpath("@href").get().split("=")[1]
+            number, name = map(str.strip, anchor.xpath("text()").get().split("-", 1))
             number = number.split(" ")[1]
             division = items.Division(
                 kind="Division",
@@ -79,15 +76,37 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             chapter["divisions"].append(division)
 
-            # 1. Find the rules w/in the new division.
-            # 2. Add empty rules to the division.
-            # 3. Create a Pipeline to output the to-be-scraped Rule URLs to a plaintext file.
-            # 4. Create a RuleTextSpider to retrieve just the text of the rules.
-            # 5. This RuleTextSpider can create a second JSON file with a simple JSON lines format.
-            # 6. A script can use both JSON files as input and create a good single file.
-            #
-            # Or... do the final yield in a spider_idle or spider_closed signal handler:
-            # https://docs.scrapy.org/en/latest/topics/signals.html
-            #
-            # Or... just scrape the Rule Contents and yield them as simple key/value pairs to
-            # be included in the "JSON" output. And then post-process into proper JSON.
+
+
+    #
+    # Output a single object: a JSON tree containing all the scraped data. This
+    # code implements that strategy by registering a signal (event) listener to
+    # execute after all scraping has finished, and the data is collected.
+    #
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        """Register to receive the idle event"""
+        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
+        return spider
+
+
+    def spider_idle(self, spider):
+        """Schedule a simple request in order to return the collected data"""
+        if self.data_submitted: return
+
+        null_request = scrapy.Request('http://neverssl.com/', callback=self.submit_data)
+        self.crawler.engine.schedule(null_request, spider)
+        raise scrapy.exceptions.DontCloseSpider
+
+
+    def submit_data(self, _):
+        """Simply return the collection of all the scraped data. Ignore the actual
+        scraped content. I haven't figured out another way to submit the merged
+        results.
+
+        To be used as a callback when the spider is idle (i.e., has finished scraping.)
+        """
+        self.data_submitted = True
+        return self.oar
