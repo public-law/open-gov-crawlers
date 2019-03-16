@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import scrapy
 from scrapy import signals
 
@@ -55,6 +56,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         chapter = response.meta["chapter"]
         division_index = {}
 
+        # Collect the Divisions
         for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("=")[1]
             number, name = map(str.strip, anchor.xpath("text()").get().split("-", 1))
@@ -63,6 +65,12 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             chapter["divisions"].append(division)
             division_index[number] = division
+
+        # Collect empty Rules
+        for anchor in response.css(".rule_div > p"):
+            number = anchor.css("a::text").get().strip()
+            name   = anchor.xpath("text()").get().strip()
+            logging.info(f'Rule: {number} {name}')
 
 
 
