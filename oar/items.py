@@ -7,10 +7,11 @@
 
 import scrapy
 
+
 class OAR(scrapy.Item):
     chapters = scrapy.Field()
 
-    
+
 class Chapter(scrapy.Item):
     kind = scrapy.Field()
     db_id = scrapy.Field()
@@ -30,7 +31,7 @@ class Division(scrapy.Item):
 
     def number_in_rule_format(self):
         """Rules use zero-padded Division numbers"""
-        return self['number'].zfill(3)
+        return self["number"].zfill(3)
 
 
 class Rule(scrapy.Item):
@@ -41,4 +42,4 @@ class Rule(scrapy.Item):
     url = scrapy.Field()
 
     def division_number(self):
-        return self['number'].split('-')[1]
+        return self["number"].split("-")[1]
