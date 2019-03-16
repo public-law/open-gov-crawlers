@@ -6,8 +6,9 @@ from scrapy import signals
 
 from oar import items
 
-DOMAIN     = "secure.sos.state.or.us"
+DOMAIN = "secure.sos.state.or.us"
 URL_PREFIX = f"https://{DOMAIN}/oard/"
+
 
 def oar_url(relative_fragment: str) -> str:
     return URL_PREFIX + relative_fragment
@@ -18,9 +19,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 
-
     def __init__(self):
-        super()
+        super().__init__()
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
@@ -30,17 +30,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # methods add their results to this structure.
         self.oar = items.OAR(chapters=[])
 
-
     def parse(self, response):
         """The primary Scrapy callback to begin scraping. Kick off scraping by parsing
         the main OAR page.
         """
         return self.parse_search_page(response)
 
-
     def parse_search_page(self, response):
-        """The search page contains a list of Chapters, with the names,
-        numbers, and internal id's."""
+        """
+        The search page contains a list of Chapters, with the names,
+        numbers, and internal id's.
+        """
         for option in response.css("#browseForm option"):
             db_id = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
@@ -48,12 +48,11 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
             chapter = new_chapter(db_id, number, name)
-            self.oar['chapters'].append(chapter)
+            self.oar["chapters"].append(chapter)
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
             yield request
-
 
     def parse_chapter_page(self, response):
         """A Chapter's page contains a hierarchical list of all its Divisions
@@ -78,8 +77,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             #       in either css or xpath selectors:
             try:
                 number = anchor.css("strong > a::text").get().strip()
-                name   = anchor.xpath("text()").get().strip()
-                rule   = new_rule(number, name)
+                name = anchor.xpath("text()").get().strip()
+                rule = new_rule(number, name)
 
                 # Retrieve the Rule details
                 request = scrapy.Request(rule["url"], callback=self.parse_rule_page)
@@ -88,26 +87,25 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
                 # Find its Division and add it
                 parent_division = division_index[rule.division_number()]
-                parent_division['rules'].append(rule)
+                parent_division["rules"].append(rule)
             except:
-                logging.info(f'Error parsing anchor: {anchor.get()}')
-
+                logging.info(f"Error parsing anchor: {anchor.get()}")
 
     def parse_rule_page(self, response):
         """The Rule page contains the actual Rule's full text.
         The Rule object has already been created with the remaining info,
         so here we just retrieve the text and save it.
         """
-        raw_paragraphs        = response.xpath("//p")[1:-1].getall()
-        cleaned_up_paragraphs = [p.strip().replace('  ', '').replace('\n', '') for p in raw_paragraphs]
-        non_empty_paragraphs  = [p for p in cleaned_up_paragraphs if len(p) > 0]
+        raw_paragraphs = response.xpath("//p")[1:-1].getall()
+        cleaned_up_paragraphs = [
+            p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
+        ]
+        non_empty_paragraphs = [p for p in cleaned_up_paragraphs if len(p) > 0]
 
-        rule         = response.meta["rule"]
+        rule = response.meta["rule"]
         rule["text"] = "\n".join(non_empty_paragraphs)
 
         logging.debug(rule)
-
-
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -118,19 +116,23 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         """Register to receive the idle event"""
-        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
+        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(
+            crawler, *args, **kwargs
+        )
         crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
         return spider
 
-
     def spider_idle(self, spider):
         """Schedule a simple request in order to return the collected data"""
-        if self.data_submitted: return
+        if self.data_submitted:
+            return
 
-        null_request = scrapy.Request('http://neverssl.com/', callback=self.submit_data)
+        # This is a hack: I don't yet know how to schedule a request to just
+        # submit data _without_ also triggering a scrape. So I provide a URL
+        # to a simple site that we're going to ignore.
+        null_request = scrapy.Request("http://neverssl.com/", callback=self.submit_data)
         self.crawler.engine.schedule(null_request, spider)
         raise scrapy.exceptions.DontCloseSpider
-
 
     def submit_data(self, _):
         """Simply return the collection of all the scraped data. Ignore the actual
@@ -172,5 +174,3 @@ def new_rule(number, name):
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
     )
-
-
