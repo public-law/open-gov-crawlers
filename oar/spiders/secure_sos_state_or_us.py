@@ -81,7 +81,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 name   = anchor.xpath("text()").get().strip()
                 rule   = new_rule(number, name)
 
-                # Retrive the Rule details
+                # Retrieve the Rule details
                 request = scrapy.Request(rule["url"], callback=self.parse_rule_page)
                 request.meta["rule"] = rule
                 yield request
@@ -99,7 +99,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         so here we just retrieve the text and save it.
         """
         rule         = response.meta["rule"]
-        rule["text"] = response.xpath("//p").getall()
+        rule["text"] = "\n".join(response.xpath("//p")[1:-1].getall())
+        logging.info(rule)
 
 
 
