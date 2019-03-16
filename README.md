@@ -1,7 +1,7 @@
 # oregon-administrative-rules-parser
 Parse the Oregon Administrative Rules into well formed JSON
 
-```
+```bash
 $ scrapy crawl secure.sos.state.or.us
 ```
 
