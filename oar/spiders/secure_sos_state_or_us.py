@@ -1,15 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import scrapy
 from scrapy import signals
 
 from oar import items
 
+DOMAIN     = "secure.sos.state.or.us"
+URL_PREFIX = f"https://{DOMAIN}/oard/"
+
+def oar_url(relative_fragment: str) -> str:
+    return URL_PREFIX + relative_fragment
+
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
-    name = "secure.sos.state.or.us"
-    allowed_domains = ["secure.sos.state.or.us"]
-    start_urls = ["https://secure.sos.state.or.us/oard/ruleSearch.action"]
+    name = DOMAIN
+    allowed_domains = [DOMAIN]
+    start_urls = [oar_url("ruleSearch.action")]
 
 
     def __init__(self):
@@ -40,15 +47,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 continue
 
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
-            chapter = items.Chapter(
-                kind="Chapter",
-                db_id=db_id,
-                number=number,
-                name=name,
-                url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
-                divisions=[],
-            )
-
+            chapter = new_chapter(db_id, number, name)
             self.oar['chapters'].append(chapter)
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
@@ -61,20 +60,52 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         along with their contained Rules.
         """
         chapter = response.meta["chapter"]
+        division_index = {}
 
+        # Collect the Divisions
         for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("=")[1]
             number, name = map(str.strip, anchor.xpath("text()").get().split("-", 1))
             number = number.split(" ")[1]
-            division = items.Division(
-                kind="Division",
-                db_id=db_id,
-                number=number,
-                name=name,
-                url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
-            )
+            division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division)
+            division_index[division.number_in_rule_format()] = division
+
+        # Collect empty Rules
+        for anchor in response.css(".rule_div > p"):
+            # TODO: Figure out how to do both of these
+            #       in either css or xpath selectors:
+            try:
+                number = anchor.css("strong > a::text").get().strip()
+                name   = anchor.xpath("text()").get().strip()
+                rule   = new_rule(number, name)
+
+                # Retrieve the Rule details
+                request = scrapy.Request(rule["url"], callback=self.parse_rule_page)
+                request.meta["rule"] = rule
+                yield request
+
+                # Find its Division and add it
+                parent_division = division_index[rule.division_number()]
+                parent_division['rules'].append(rule)
+            except:
+                logging.info(f'Error parsing anchor: {anchor.get()}')
+
+
+    def parse_rule_page(self, response):
+        """The Rule page contains the actual Rule's full text.
+        The Rule object has already been created with the remaining info,
+        so here we just retrieve the text and save it.
+        """
+        raw_paragraphs        = response.xpath("//p")[1:-1].getall()
+        cleaned_up_paragraphs = [p.strip().replace('  ', '').replace('\n', '') for p in raw_paragraphs]
+        non_empty_paragraphs  = [p for p in cleaned_up_paragraphs if len(p) > 0]
+
+        rule         = response.meta["rule"]
+        rule["text"] = "\n".join(non_empty_paragraphs)
+
+        logging.debug(rule)
 
 
 
@@ -110,3 +141,36 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         """
         self.data_submitted = True
         return self.oar
+
+
+def new_chapter(db_id, number, name):
+    return items.Chapter(
+        kind="Chapter",
+        db_id=db_id,
+        number=number,
+        name=name,
+        url=oar_url(f"displayChapterRules.action?selectedChapter={db_id}"),
+        divisions=[],
+    )
+
+
+def new_division(db_id, number, name):
+    return items.Division(
+        kind="Division",
+        db_id=db_id,
+        number=number,
+        name=name,
+        url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
+        rules=[],
+    )
+
+
+def new_rule(number, name):
+    return items.Rule(
+        kind="Rule",
+        number=number,
+        name=name,
+        url=oar_url(f"view.action?ruleNumber={number}"),
+    )
+
+
