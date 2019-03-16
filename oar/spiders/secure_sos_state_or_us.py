@@ -70,17 +70,23 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division)
-            division_index[number] = division
+            division_index[division.number_in_rule_format()] = division
 
         # Collect empty Rules
         for anchor in response.css(".rule_div > p"):
             # TODO: Figure out how to do both of these
             #       in either css or xpath selectors:
-            number = anchor.css("a::text").get().strip()
-            name   = anchor.xpath("text()").get().strip()
-            rule   = new_rule(number, name)
+            try:
+                number = anchor.css("strong > a::text").get().strip()
+                name   = anchor.xpath("text()").get().strip()
+                rule   = new_rule(number, name)
 
-            logging.info(rule)
+                # Find its Division and add it
+                parent_division = division_index[rule.division_number()]
+                parent_division['rules'].append(rule)
+            except:
+                logging.info(f'Error parsing anchor: {anchor.get()}')
+
 
 
 
@@ -136,6 +142,7 @@ def new_division(db_id, number, name):
         number=number,
         name=name,
         url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
+        rules=[],
     )
 
 
