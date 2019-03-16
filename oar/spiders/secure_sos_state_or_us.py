@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+
 import scrapy
+from scrapy import signals
+
 from oar import items
 
 
@@ -7,6 +10,35 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     name = "secure.sos.state.or.us"
     allowed_domains = ["secure.sos.state.or.us"]
     start_urls = ["https://secure.sos.state.or.us/oard/ruleSearch.action"]
+
+
+    def __init__(self):
+        super()
+        self.data_submitted = False
+        # The merged data to return for conversion to a JSON tree
+        self.oar = items.OAR(chapters=[])
+
+
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        """Register to receive the idle event"""
+        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
+        crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
+        return spider
+
+
+    def spider_idle(self, spider):
+        """Schedule a simple request in order to return data"""
+        if self.data_submitted: return
+
+        self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.submit_data), spider)
+        raise scrapy.exceptions.DontCloseSpider
+
+
+    def submit_data(self, _):
+        self.data_submitted = True
+        return self.oar
+
 
     def parse(self, response):
         for option in response.css("#browseForm option"):
@@ -23,6 +55,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
                 divisions=[],
             )
+
+            self.oar['chapters'].append(chapter)
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
@@ -57,5 +91,3 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             #
             # Or... just scrape the Rule Contents and yield them as simple key/value pairs to
             # be included in the "JSON" output. And then post-process into proper JSON.
-
-        yield chapter

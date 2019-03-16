@@ -16,6 +16,10 @@ NEWSPIDER_MODULE = "oar.spiders"
 
 LOG_LEVEL = "INFO"
 
+# Output the JSON tree as one simple JSON object.
+FEED_FORMAT = "jsonlines"
+FEED_URI    = "stdout:"
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'oar (+http://www.yourdomain.com)'
 
