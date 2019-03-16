@@ -81,12 +81,25 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 name   = anchor.xpath("text()").get().strip()
                 rule   = new_rule(number, name)
 
+                # Retrive the Rule details
+                request = scrapy.Request(rule["url"], callback=self.parse_rule_page)
+                request.meta["rule"] = rule
+                yield request
+
                 # Find its Division and add it
                 parent_division = division_index[rule.division_number()]
                 parent_division['rules'].append(rule)
             except:
                 logging.info(f'Error parsing anchor: {anchor.get()}')
 
+
+    def parse_rule_page(self, response):
+        """The Rule page contains the actual Rule's full text.
+        The Rule object has already been created with the remaining info,
+        so here we just retrieve the text and save it.
+        """
+        rule         = response.meta["rule"]
+        rule["text"] = response.xpath("//p").getall()
 
 
 
