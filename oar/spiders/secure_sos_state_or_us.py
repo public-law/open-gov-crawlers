@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+
 import scrapy
 from scrapy import signals
 
@@ -19,19 +19,21 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         self.oar = items.OAR(chapters=[])
 
 
-    # Register to receive the signal
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
+        """Register to receive the idle event"""
         spider = super(SecureSosStateOrUsSpider, cls).from_crawler(crawler, *args, **kwargs)
         crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
         return spider
 
+
     def spider_idle(self, spider):
+        """Schedule a simple request in order to return data"""
         if self.data_submitted: return
 
-        # Schedule an ignored request to simply return data
         self.crawler.engine.schedule(scrapy.Request('http://neverssl.com/', callback=self.submit_data), spider)
         raise scrapy.exceptions.DontCloseSpider
+
 
     def submit_data(self, _):
         self.data_submitted = True
