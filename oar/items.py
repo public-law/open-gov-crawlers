@@ -10,6 +10,7 @@ import scrapy
 class OAR(scrapy.Item):
     chapters = scrapy.Field()
 
+    
 class Chapter(scrapy.Item):
     kind = scrapy.Field()
     db_id = scrapy.Field()

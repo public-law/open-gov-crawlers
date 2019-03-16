@@ -6,11 +6,17 @@ from scrapy import signals
 
 from oar import items
 
+DOMAIN     = "secure.sos.state.or.us"
+URL_PREFIX = f"https://{DOMAIN}/oard/"
+
+def oar_url(relative_fragment: str) -> str:
+    return URL_PREFIX + relative_fragment
+
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
-    name = "secure.sos.state.or.us"
-    allowed_domains = ["secure.sos.state.or.us"]
-    start_urls = ["https://secure.sos.state.or.us/oard/ruleSearch.action"]
+    name = DOMAIN
+    allowed_domains = [DOMAIN]
+    start_urls = [oar_url("ruleSearch.action")]
 
 
     def __init__(self):
@@ -68,9 +74,13 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
         # Collect empty Rules
         for anchor in response.css(".rule_div > p"):
+            # TODO: Figure out how to do both of these
+            #       in either css or xpath selectors:
             number = anchor.css("a::text").get().strip()
             name   = anchor.xpath("text()").get().strip()
-            logging.info(f'Rule: {number} {name}')
+            rule   = new_rule(number, name)
+
+            logging.info(rule)
 
 
 
@@ -114,7 +124,7 @@ def new_chapter(db_id, number, name):
         db_id=db_id,
         number=number,
         name=name,
-        url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
+        url=oar_url(f"displayChapterRules.action?selectedChapter={db_id}"),
         divisions=[],
     )
 
@@ -125,5 +135,16 @@ def new_division(db_id, number, name):
         db_id=db_id,
         number=number,
         name=name,
-        url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
+        url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
     )
+
+
+def new_rule(number, name):
+    return items.Rule(
+        kind="Rule",
+        number=number,
+        name=name,
+        url=oar_url(f"view.action?ruleNumber={number}"),
+    )
+
+
