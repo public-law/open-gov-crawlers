@@ -40,15 +40,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 continue
 
             number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
-            chapter = items.Chapter(
-                kind="Chapter",
-                db_id=db_id,
-                number=number,
-                name=name,
-                url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
-                divisions=[],
-            )
-
+            chapter = new_chapter(db_id, number, name)
             self.oar['chapters'].append(chapter)
 
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
@@ -61,20 +53,16 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         along with their contained Rules.
         """
         chapter = response.meta["chapter"]
+        division_index = {}
 
         for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("=")[1]
             number, name = map(str.strip, anchor.xpath("text()").get().split("-", 1))
             number = number.split(" ")[1]
-            division = items.Division(
-                kind="Division",
-                db_id=db_id,
-                number=number,
-                name=name,
-                url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
-            )
+            division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division)
+            division_index[number] = division
 
 
 
@@ -110,3 +98,24 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         """
         self.data_submitted = True
         return self.oar
+
+
+def new_chapter(db_id, number, name):
+    return items.Chapter(
+        kind="Chapter",
+        db_id=db_id,
+        number=number,
+        name=name,
+        url=f"https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter={db_id}",
+        divisions=[],
+    )
+
+
+def new_division(db_id, number, name):
+    return items.Division(
+        kind="Division",
+        db_id=db_id,
+        number=number,
+        name=name,
+        url=f"https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision={db_id}",
+    )
