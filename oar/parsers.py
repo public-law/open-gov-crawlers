@@ -10,4 +10,4 @@ def statute_meta(text: str) -> List[str]:
     input:  'ORS 181A.235 & ORS 192'
     output: ['181A.235', 'ORS 192']
     """
-    return [s.strip() for s in text.split("&")]
+    return [s.strip() for s in re.compile(r"[,&]").split(text)]
