@@ -10,5 +10,4 @@ def statute_meta(text: str) -> List[str]:
     input:  'ORS 181A.235 & ORS 192'
     output: ['181A.235', 'ORS 192']
     """
-    stemmed_text = text.replace("&", "").replace("  ", " ")
-    return re.findall(r"ORS [^ ]+", stemmed_text)
+    return [s.strip() for s in text.split("&")]

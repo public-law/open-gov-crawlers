@@ -14,9 +14,10 @@ def test_statute_meta_2():
     assert statute_meta(raw_text) == expected
 
 
-@pytest.mark.skip(reason="TODO")
 def test_statute_meta_3():
     raw_text = "ORS 243.061 - 243.302"
+    expected = ["ORS 243.061 - 243.302"]
+    assert statute_meta(raw_text) == expected
 
 
 @pytest.mark.skip(reason="TODO")
