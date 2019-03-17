@@ -71,7 +71,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             number = raw_number.split(" ")[1]
             name = titlecase(raw_name)
             division = new_division(db_id, number, name)
-            logging.info(division)
 
             chapter["divisions"].append(division)
             division_index[division.number_in_rule_format()] = division
@@ -105,7 +104,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
         ]
-        non_empty_paragraphs = [p for p in cleaned_up_paragraphs if len(p) > 0]
+        non_empty_paragraphs = filter(None, cleaned_up_paragraphs)
 
         rule = response.meta["rule"]
         rule["text"] = "\n".join(non_empty_paragraphs)

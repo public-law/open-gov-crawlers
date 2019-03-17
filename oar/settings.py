@@ -9,16 +9,17 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+LOG_LEVEL = "INFO"
+
 BOT_NAME = "oar"
 
 SPIDER_MODULES = ["oar.spiders"]
 NEWSPIDER_MODULE = "oar.spiders"
 
-LOG_LEVEL = "INFO"
 
 # Output the JSON tree as one simple JSON object.
 FEED_FORMAT = "jsonlines"
-FEED_URI    = "stdout:"
+FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'oar (+http://www.yourdomain.com)'
