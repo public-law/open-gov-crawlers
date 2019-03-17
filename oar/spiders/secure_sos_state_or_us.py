@@ -3,6 +3,7 @@
 import logging
 import scrapy
 from scrapy import signals
+from titlecase import titlecase
 
 from oar import items
 
@@ -64,8 +65,11 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # Collect the Divisions
         for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("=")[1]
-            number, name = map(str.strip, anchor.xpath("text()").get().split("-", 1))
-            number = number.split(" ")[1]
+            raw_number, raw_name = map(
+                str.strip, anchor.xpath("text()").get().split("-", 1)
+            )
+            number = raw_number.split(" ")[1]
+            name = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division)
@@ -100,7 +104,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
         ]
-        non_empty_paragraphs = [p for p in cleaned_up_paragraphs if len(p) > 0]
+        non_empty_paragraphs = filter(None, cleaned_up_paragraphs)
 
         rule = response.meta["rule"]
         rule["text"] = "\n".join(non_empty_paragraphs)
