@@ -155,7 +155,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         return self.oar
 
 
-def new_chapter(db_id, number, name):
+def new_chapter(db_id: str, number: str, name: str):
     return items.Chapter(
         kind="Chapter",
         db_id=db_id,
@@ -166,7 +166,7 @@ def new_chapter(db_id, number, name):
     )
 
 
-def new_division(db_id, number, name):
+def new_division(db_id: str, number: str, name: str):
     return items.Division(
         kind="Division",
         db_id=db_id,
@@ -177,7 +177,7 @@ def new_division(db_id, number, name):
     )
 
 
-def new_rule(number, name):
+def new_rule(number: str, name: str):
     return items.Rule(
         kind="Rule",
         number=number,
