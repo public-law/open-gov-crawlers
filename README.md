@@ -1,5 +1,7 @@
-# oregon-administrative-rules-parser
-Parse the Oregon Administrative Rules into well formed JSON
+[![Build Status](https://travis-ci.com/public-law/oregon-administrative-rules-parser.svg?branch=master)](https://travis-ci.com/public-law/oregon-administrative-rules-parser)
+
+# Oregon Administrative Rules Parser
+Parse the OAR into well formed JSON
 
 ```bash
 $ scrapy crawl secure.sos.state.or.us
