@@ -27,7 +27,7 @@ def test_statute_meta_4():
 
 
 @pytest.mark.xfail
-def test_statute_meta_constituion():
+def test_statute_meta_constitution():
     raw_text = "ORS 273.045, 273.775 - 273.79 & OR Const., Art. VIII & Sec. 5"
     expected = ["ORS 273.045", "273.775 - 273.79", "OR Const., Art. VIII", "Sec. 5"]
     assert statute_meta(raw_text) == expected

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 import logging
+import pytz
 import scrapy
 from scrapy import signals
 from titlecase import titlecase
@@ -29,7 +31,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
         # The object to return for conversion to a JSON tree. All the parse
         # methods add their results to this structure.
-        self.oar = items.OAR(chapters=[])
+        self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
 
     def parse(self, response):
         """The primary Scrapy callback to begin scraping.
@@ -182,3 +184,9 @@ def new_rule(number: str, name: str):
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
     )
+
+
+def todays_date() -> str:
+    pacific = pytz.timezone("US/Pacific")
+    fmt = "%Y-%m-%d"
+    return pacific.localize(datetime.now()).strftime(fmt)
