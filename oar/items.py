@@ -10,6 +10,7 @@ import scrapy
 
 class OAR(scrapy.Item):
     chapters = scrapy.Field()
+    date_accessed = scrapy.Field()
 
 
 class Chapter(scrapy.Item):
