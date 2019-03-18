@@ -41,5 +41,9 @@ class Rule(scrapy.Item):
     text = scrapy.Field()
     url = scrapy.Field()
 
+    statutory_authority = scrapy.Field()  # List[str]
+    statutes_implemented = scrapy.Field()  # List[str]
+    history = scrapy.Field()  # str
+
     def division_number(self):
         return self["number"].split("-")[1]
