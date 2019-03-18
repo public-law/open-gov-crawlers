@@ -12,3 +12,7 @@ def statute_meta(text: str) -> List[str]:
       output: ['181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
+
+
+def meta_sections(text: str) -> dict:
+    pass
