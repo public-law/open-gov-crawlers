@@ -32,13 +32,15 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         self.oar = items.OAR(chapters=[])
 
     def parse(self, response):
-        """The primary Scrapy callback to begin scraping. Kick off scraping by parsing
-        the main OAR page.
+        """The primary Scrapy callback to begin scraping.
+
+        Kick off scraping by parsing the main OAR page.
         """
         return self.parse_search_page(response)
 
     def parse_search_page(self, response):
-        """
+        """Parse the top-level page.
+
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
@@ -56,7 +58,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             yield request
 
     def parse_chapter_page(self, response):
-        """A Chapter's page contains a hierarchical list of all its Divisions
+        """Parse a mid-level page.
+
+        A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
         chapter = response.meta["chapter"]
@@ -96,7 +100,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 logging.info(f"Error parsing anchor: {anchor.get()}")
 
     def parse_rule_page(self, response):
-        """The Rule page contains the actual Rule's full text.
+        """Parse a leaf node (bottom level) page.
+
+        The Rule page contains the actual Rule's full text.
         The Rule object has already been created with the remaining info,
         so here we just retrieve the text and save it.
         """
@@ -139,17 +145,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _):
-        """Simply return the collection of all the scraped data. Ignore the actual
-        scraped content. I haven't figured out another way to submit the merged
-        results.
+        """Simply return the collection of all the scraped data.
 
-        To be used as a callback when the spider is idle (i.e., has finished scraping.)
+        Ignore the actual scraped content. I haven't figured out another
+        way to submit the merged results. To be used as a callback when
+        the spider is idle (i.e., has finished scraping.)
         """
         self.data_submitted = True
         return self.oar
 
 
-def new_chapter(db_id, number, name):
+def new_chapter(db_id: str, number: str, name: str):
     return items.Chapter(
         kind="Chapter",
         db_id=db_id,
@@ -160,7 +166,7 @@ def new_chapter(db_id, number, name):
     )
 
 
-def new_division(db_id, number, name):
+def new_division(db_id: str, number: str, name: str):
     return items.Division(
         kind="Division",
         db_id=db_id,
@@ -171,7 +177,7 @@ def new_division(db_id, number, name):
     )
 
 
-def new_rule(number, name):
+def new_rule(number: str, name: str):
     return items.Rule(
         kind="Rule",
         number=number,
