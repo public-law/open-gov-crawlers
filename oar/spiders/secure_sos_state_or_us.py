@@ -112,10 +112,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
         ]
-        non_empty_paragraphs = filter(None, cleaned_up_paragraphs)
+        non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
+        content_paragaphs = non_empty_paragraphs[0:-1]
+
+        meta_paragraph = non_empty_paragraphs[-1]
+        metadata = parsers.meta_sections(meta_paragraph)
 
         rule = response.meta["rule"]
-        rule["text"] = "\n".join(non_empty_paragraphs)
+        rule["text"] = "\n".join(content_paragaphs)
+        rule["authority"] = metadata["authority"]
+        rule["implements"] = metadata["implements"]
+        rule["history"] = metadata["history"]
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
