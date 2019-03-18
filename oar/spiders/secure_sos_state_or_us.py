@@ -115,8 +115,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         rule = response.meta["rule"]
         rule["text"] = "\n".join(non_empty_paragraphs)
 
-        logging.debug(rule)
-
     #
     # Output a single object: a JSON tree containing all the scraped data. This
     # code implements that strategy by registering a signal (event) listener to
