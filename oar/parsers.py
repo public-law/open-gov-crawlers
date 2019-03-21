@@ -9,7 +9,7 @@ def statute_meta(text: str) -> List[str]:
 
     For example:
       input:  'ORS 181A.235 & ORS 192'
-      output: ['181A.235', 'ORS 192']
+      output: ['ORS 181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
 
