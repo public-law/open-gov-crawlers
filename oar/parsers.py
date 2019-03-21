@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import Any, Dict, List
 
 SEPARATOR = re.compile(r"[,&]")
 
@@ -14,5 +14,5 @@ def statute_meta(text: str) -> List[str]:
     return [s.strip() for s in SEPARATOR.split(text)]
 
 
-def meta_sections(text: str) -> dict:
+def meta_sections(text: str) -> Dict[str, Any]:
     pass

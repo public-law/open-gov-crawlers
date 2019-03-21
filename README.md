@@ -34,3 +34,13 @@ This produces the output:
               "text": "<p>Prior to adoption, amendment, or repeal of any rule, the Public Employees' Benefit Board...
 ```
 (etc.)
+
+
+Development Environment Notes
+-----------------------------
+
+Run the pytest tests like this:
+
+```bash
+pytest
+```
