@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 import logging
+import pytz
 import scrapy
 from scrapy import signals
 from titlecase import titlecase
@@ -29,7 +31,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
         # The object to return for conversion to a JSON tree. All the parse
         # methods add their results to this structure.
-        self.oar = items.OAR(chapters=[])
+        self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
 
     def parse(self, response):
         """The primary Scrapy callback to begin scraping.
@@ -110,12 +112,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
         ]
-        non_empty_paragraphs = filter(None, cleaned_up_paragraphs)
+        non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
+        content_paragaphs = non_empty_paragraphs[0:-1]
+
+        meta_paragraph = non_empty_paragraphs[-1]
+        metadata = parsers.meta_sections(meta_paragraph)
 
         rule = response.meta["rule"]
-        rule["text"] = "\n".join(non_empty_paragraphs)
-
-        logging.debug(rule)
+        rule["text"] = "\n".join(content_paragaphs)
+        rule["authority"] = metadata["authority"]
+        rule["implements"] = metadata["implements"]
+        rule["history"] = metadata["history"]
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -184,3 +191,9 @@ def new_rule(number: str, name: str):
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
     )
+
+
+def todays_date() -> str:
+    pacific = pytz.timezone("US/Pacific")
+    fmt = "%Y-%m-%d"
+    return pacific.localize(datetime.now()).strftime(fmt)

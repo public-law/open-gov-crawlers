@@ -1,2 +1,5 @@
 scrapy
 titlecase
+pytz
+
+pytest-testdox

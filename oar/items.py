@@ -10,6 +10,7 @@ import scrapy
 
 class OAR(scrapy.Item):
     chapters = scrapy.Field()
+    date_accessed = scrapy.Field()
 
 
 class Chapter(scrapy.Item):
@@ -40,6 +41,10 @@ class Rule(scrapy.Item):
     name = scrapy.Field()
     text = scrapy.Field()
     url = scrapy.Field()
+
+    authority = scrapy.Field()  # List[str]
+    implements = scrapy.Field()  # List[str]
+    history = scrapy.Field()  # str
 
     def division_number(self):
         return self["number"].split("-")[1]
