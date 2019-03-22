@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict, List
 
-SEPARATOR = re.compile(r"[,&]")
+SEPARATOR = re.compile(r"(?<=\d),|&")
 
 
 def statute_meta(text: str) -> List[str]:
