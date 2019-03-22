@@ -11,6 +11,7 @@ This produces the output:
 
 ```json
 {
+  "date_accessed": "2019-03-21",
   "chapters": [
     {
       "kind": "Chapter",
@@ -31,7 +32,17 @@ This produces the output:
               "number": "101-001-0000",
               "name": "Notice of Proposed Rule Changes",
               "url": "https://secure.sos.state.or.us/oard/view.action?ruleNumber=101-001-0000",
-              "text": "<p>Prior to adoption, amendment, or repeal of any rule, the Public Employees' Benefit Board...
+              "authority": [
+                "ORS 243.061 - 243.302"
+              ],
+              "implements": [
+                "ORS 183.310 - 183.550",
+                "192.660",
+                "243.061 - 243.302",
+                "292.05"
+              ],
+              "history": "PEBB 2-2009, f. 7-29-09, cert. ef. 8-1-09<br>PEBB 1-2009(Temp), f. &amp; cert. ef. 2-24-09 thru 8-22-09<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-1999, f. 12-8-99, cert. ef. 1-1-00"
+              "text": "<p>Prior to adoption, amendment, or repeal of any rule,",
 ```
 (etc.)
 
