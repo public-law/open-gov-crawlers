@@ -24,7 +24,7 @@ This produces the output:
           "kind": "Division",
           "db_id": "1",
           "number": "1",
-          "name": "PROCEDURAL RULES",
+          "name": "Procedural Rules",
           "url": "https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=1",
           "rules": [
             {
