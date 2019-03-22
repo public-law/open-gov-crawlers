@@ -29,6 +29,10 @@ class TestStatuteMeta:
         expected = ["ORS 273.045", "273.775 - 273.79", "OR Const., Art. VIII", "Sec. 5"]
         assert statute_meta(raw_text) == expected
 
+    def test_handles_const_cite_without_comma(self):
+        raw_text = "ORS 407.115, 407.125 & Art. XI-A OR Const."
+        expected = ["ORS 407.115", "407.125", "Art. XI-A OR Const."]
+
 
 @pytest.mark.describe("meta_sections()")
 class TestMetaSections:
