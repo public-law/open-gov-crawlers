@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict, List
 
-SEPARATOR = re.compile(r"(?<=\d),|&")
+SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 
 
 def meta_sections(text: str) -> Dict[str, Any]:
