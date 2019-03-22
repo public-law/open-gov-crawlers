@@ -19,6 +19,6 @@ def meta_sections(text: str) -> Dict[str, Any]:
 
     return {
         "authority": statute_meta(authority.split("</b>")[1].strip()),
-        "implements": [implements.split("</b>")[1].strip()],
+        "implements": statute_meta(implements.split("</b>")[1].strip()),
         "history": history.replace("<b>History:</b><br>", "").replace("<br></p>", ""),
     }
