@@ -41,10 +41,10 @@ class TestStatuteMeta:
 @pytest.mark.describe("meta_sections()")
 class TestMetaSections:
     def test_parses_when_all_three_types_are_present(self):
-        raw_text = "<p><b>Statutory/Other Authority:</b> ORS 243.061 - 243.302<br><b>Statutes/Other Implemented:</b> ORS.243.125(1)<br><b>History:</b><br>PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp;amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp;amp; cert. ef. 12-4-03<br></p>"
+        raw_text = "<p><b>Statutory/Other Authority:</b> ORS 243.061 - 243.302<br><b>Statutes/Other Implemented:</b> ORS.243.125(1)<br><b>History:</b><br>PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03<br></p>"
         expected = {
             "authority": ["ORS 243.061 - 243.302"],
             "implements": ["ORS.243.125(1)"],
-            "history": "PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp;amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp;amp; cert. ef. 12-4-03",
+            "history": "PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03",
         }
         assert meta_sections(raw_text) == expected
