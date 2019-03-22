@@ -42,7 +42,6 @@ This produces the output:
                 "292.05"
               ],
               "history": "PEBB 2-2009, f. 7-29-09, cert. ef. 8-1-09<br>PEBB 1-2009(Temp), f. &amp; cert. ef. 2-24-09 thru 8-22-09<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-1999, f. 12-8-99, cert. ef. 1-1-00",
-              "text": "<p>Prior to adoption, amendment, or repeal of any rule,"
               }
             ]
           }
