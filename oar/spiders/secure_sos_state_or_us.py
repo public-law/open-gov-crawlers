@@ -8,6 +8,7 @@ from scrapy import signals
 from titlecase import titlecase
 
 from oar import items
+from oar import parsers
 
 DOMAIN = "secure.sos.state.or.us"
 URL_PREFIX = f"https://{DOMAIN}/oard/"
