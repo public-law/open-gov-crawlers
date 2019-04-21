@@ -1,5 +1,10 @@
-FROM ubuntu
-RUN apt-get update
-RUN apt-get install -y wget
+FROM python:3.7
 
-CMD ["scrapy crawl secure.sos.state.or.us"]
+COPY oar /app/oar
+COPY scrapy.cfg /app
+COPY requirements.txt /app
+
+WORKDIR /app
+RUN pip3 install -r requirements.txt
+
+CMD ["scrapy", "crawl", "secure.sos.state.or.us"]
