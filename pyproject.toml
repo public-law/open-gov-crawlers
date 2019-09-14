@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "oar"
+version = "0.1.0"
+description = ""
+authors = ["Robb Shecter <robb@public.law>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+scrapy = "^1.7"
+titlecase = "^0.12.0"
+pytz = "^2019.2"
+
+[tool.poetry.dev-dependencies]
+pytest-testdox = "^1.1"
+pytest = "^5.1"
+mypy = "^0.720.0"
+pylint = "^2.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
