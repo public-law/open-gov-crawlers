@@ -22,7 +22,7 @@ FEED_FORMAT = "jsonlines"
 FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'oar (+http://www.yourdomain.com)'
+USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
