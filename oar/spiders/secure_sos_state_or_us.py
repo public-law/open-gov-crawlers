@@ -41,6 +41,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         """
         return self.parse_search_page(response)
 
+
     def parse_search_page(self, response):
         """Parse the top-level page.
 
@@ -59,6 +60,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
             yield request
+
 
     def parse_chapter_page(self, response):
         """Parse a mid-level page.
