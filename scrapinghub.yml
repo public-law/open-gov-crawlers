@@ -1,5 +1,5 @@
 project: 426181
 stacks:
-  default: scrapy:1.6-py3
+  default: scrapy:1.6-py3.7
 requirements:
   file: scrapinghub-requirements.txt
