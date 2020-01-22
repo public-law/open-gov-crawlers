@@ -412,6 +412,19 @@ version = ">=17.9.0"
 
 [[package]]
 category = "main"
+description = "Crawlera middleware for Scrapy"
+name = "scrapy-crawlera"
+optional = false
+python-versions = "*"
+version = "1.6.0"
+
+[package.dependencies]
+scrapy = ">=1.0.0"
+six = "*"
+w3lib = "*"
+
+[[package]]
+category = "main"
 description = "Service identity verification for pyOpenSSL & cryptography."
 name = "service-identity"
 optional = false
@@ -544,7 +557,7 @@ test = ["zope.event"]
 testing = ["coverage", "nose", "zope.event"]
 
 [metadata]
-content-hash = "ac55cc77123840d9242dbe6739f783cb4244b3806ed82eee3603e44a198d5e24"
+content-hash = "e7f9034e9762a5366f9abee97e99dff8133332f1f792a4a1c272e4a4931244a9"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -788,6 +801,10 @@ queuelib = [
 scrapy = [
     {file = "Scrapy-1.8.0-py2.py3-none-any.whl", hash = "sha256:4352c64c7ffc70148a7988db837bb25bccafb3350ab9c978c1f9a8930521959b"},
     {file = "Scrapy-1.8.0.tar.gz", hash = "sha256:fe06576f9a4971de9dc0175c60fd92561e8275f2bad585c1cb5d65c5181b2db0"},
+]
+scrapy-crawlera = [
+    {file = "scrapy-crawlera-1.6.0.tar.gz", hash = "sha256:c48fdeb53e0a227de899ff8b1c5596f6fdf4e42194fd18a52e9cb1afd3286792"},
+    {file = "scrapy_crawlera-1.6.0-py2.py3-none-any.whl", hash = "sha256:3d0d754c64674ac92be9e8e50aacbda647464c4d8847c8896316f72bc36383db"},
 ]
 service-identity = [
     {file = "service_identity-18.1.0-py2.py3-none-any.whl", hash = "sha256:001c0707759cb3de7e49c078a7c0c9cd12594161d3bf06b9c254fdcb1a60dc36"},

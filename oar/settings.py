@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 # Scrapy settings for oar project
 #
@@ -28,12 +29,13 @@ USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 2
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 # DOWNLOAD_DELAY = 3
+DOWNLOAD_TIMEOUT = 600
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -60,8 +62,12 @@ CONCURRENT_REQUESTS = 1
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     #   'oar.middlewares.OarDownloaderMiddleware': 543,
-    "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 1
+    "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 1,
+    'scrapy_crawlera.CrawleraMiddleware': 610
 }
+
+CRAWLERA_ENABLED = True
+CRAWLERA_APIKEY = os.environ['CRAWLERA_KEY']
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -75,7 +81,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-# AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = False
 # The initial download delay
 # AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
