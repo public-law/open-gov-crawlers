@@ -41,10 +41,10 @@ ROBOTSTXT_OBEY = True
 DOWNLOAD_TIMEOUT = 600
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 50
+CONCURRENT_REQUESTS = 5
 
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 50
+CONCURRENT_REQUESTS_PER_DOMAIN = 5
 
 # CONCURRENT_REQUESTS_PER_IP = 16
 
@@ -89,7 +89,7 @@ CRAWLERA_APIKEY = os.environ['CRAWLERA_KEY']
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = False
 
 # The initial download delay
 # AUTOTHROTTLE_START_DELAY = 5
