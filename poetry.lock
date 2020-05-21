@@ -24,7 +24,6 @@ tests = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.i
 [[package]]
 category = "main"
 description = "Self-service finite-state machines for the programmer on the go."
-marker = "python_version >= \"3.5\""
 name = "automat"
 optional = false
 python-versions = "*"
@@ -60,7 +59,6 @@ version = "0.4.3"
 [[package]]
 category = "main"
 description = "Symbolic constants in Python"
-marker = "python_version >= \"3.5\""
 name = "constantly"
 optional = false
 python-versions = "*"
@@ -96,7 +94,6 @@ version = "1.1.0"
 [[package]]
 category = "main"
 description = "A featureful, immutable, and correct URL for Python."
-marker = "python_version >= \"3.5\""
 name = "hyperlink"
 optional = false
 python-versions = "*"
@@ -108,7 +105,6 @@ idna = ">=2.5"
 [[package]]
 category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
-marker = "python_version >= \"3.5\""
 name = "idna"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -133,7 +129,6 @@ testing = ["packaging", "importlib-resources"]
 [[package]]
 category = "main"
 description = ""
-marker = "python_version >= \"3.5\""
 name = "incremental"
 optional = false
 python-versions = "*"
@@ -287,7 +282,6 @@ version = "2.0.5"
 [[package]]
 category = "main"
 description = "Hamcrest framework for matcher objects"
-marker = "python_version >= \"3.5\""
 name = "pyhamcrest"
 optional = false
 python-versions = ">=3.5"
@@ -385,12 +379,13 @@ category = "main"
 description = "A high-level Web Crawling and Web Scraping framework"
 name = "scrapy"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "1.8.0"
+python-versions = ">=3.5"
+version = "2.1.0"
 
 [package.dependencies]
 PyDispatcher = ">=2.0.5"
 PyPyDispatcher = ">=2.1.0"
+Twisted = ">=17.9.0"
 cryptography = ">=2.0"
 cssselect = ">=0.9.1"
 lxml = ">=3.5.0"
@@ -399,13 +394,8 @@ protego = ">=0.1.15"
 pyOpenSSL = ">=16.2.0"
 queuelib = ">=1.4.2"
 service-identity = ">=16.0.0"
-six = ">=1.10.0"
 w3lib = ">=1.17.0"
 "zope.interface" = ">=4.1.3"
-
-[package.dependencies.Twisted]
-python = ">=3.5"
-version = ">=17.9.0"
 
 [[package]]
 category = "main"
@@ -459,7 +449,6 @@ version = "0.12.0"
 [[package]]
 category = "main"
 description = "An asynchronous networking framework written in Python"
-marker = "python_version >= \"3.5\""
 name = "twisted"
 optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
@@ -551,7 +540,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "e7f9034e9762a5366f9abee97e99dff8133332f1f792a4a1c272e4a4931244a9"
+content-hash = "80267661c23b7d7afe9c46cfb2c872fc6a8e47c951aadae2bbe84ce2d458554d"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -788,8 +777,8 @@ queuelib = [
     {file = "queuelib-1.5.0.tar.gz", hash = "sha256:42b413295551bdc24ed9376c1a2cd7d0b1b0fa4746b77b27ca2b797a276a1a17"},
 ]
 scrapy = [
-    {file = "Scrapy-1.8.0-py2.py3-none-any.whl", hash = "sha256:4352c64c7ffc70148a7988db837bb25bccafb3350ab9c978c1f9a8930521959b"},
-    {file = "Scrapy-1.8.0.tar.gz", hash = "sha256:fe06576f9a4971de9dc0175c60fd92561e8275f2bad585c1cb5d65c5181b2db0"},
+    {file = "Scrapy-2.1.0-py2.py3-none-any.whl", hash = "sha256:883ab2dcb6cafb22c7448616baeb5b4d7bedef57ca6a9a5f4e902cb1d6e7aeca"},
+    {file = "Scrapy-2.1.0.tar.gz", hash = "sha256:640aea0f9be9b055f5cfec5ab78ee88bb37a5be3809b138329bd2af51392ec7f"},
 ]
 scrapy-crawlera = [
     {file = "scrapy-crawlera-1.7.0.tar.gz", hash = "sha256:68362b42e86f1bf50741cd3688788fd0ebdee3ce5e0497ebf6fab8349d8676a9"},
