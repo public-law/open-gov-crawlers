@@ -73,12 +73,12 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
         # Collect the Divisions
         for anchor in response.css("#accordion > h3 > a"):
-            db_id = anchor.xpath("@href").get().split("=")[1]
+            db_id: str = anchor.xpath("@href").get().split("=")[1]
             raw_number, raw_name = map(
                 str.strip, anchor.xpath("text()").get().split("-", 1)
             )
             number = raw_number.split(" ")[1]
-            name = titlecase(raw_name)
+            name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division)
