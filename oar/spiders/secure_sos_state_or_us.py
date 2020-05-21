@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import datetime, date
 import logging
+from oar.items import Chapter
 import pytz
 import scrapy
-from scrapy import signals
+import scrapy.exceptions
+import scrapy.http
+import scrapy.signals
 from titlecase import titlecase
+from typing import List
+from typing_extensions import Protocol
+
 
 from oar import items
 from oar import parsers
@@ -34,21 +40,21 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # methods add their results to this structure.
         self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
 
-    def parse(self, response):
+    def parse(self, response: scrapy.http.Response):
         """The primary Scrapy callback to begin scraping.
 
         Kick off scraping by parsing the main OAR page.
         """
         return self.parse_search_page(response)
 
-    def parse_search_page(self, response):
+    def parse_search_page(self, response: scrapy.http.Response):
         """Parse the top-level page.
 
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
         for option in response.css("#browseForm option"):
-            db_id = option.xpath("@value").get()
+            db_id: str = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
@@ -62,13 +68,13 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             request.meta["chapter"] = chapter
             yield request
 
-    def parse_chapter_page(self, response):
+    def parse_chapter_page(self, response: scrapy.http.Response):
         """Parse a mid-level page.
 
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter = response.meta["chapter"]
+        chapter: Chapter = response.meta["chapter"]
         division_index = {}
 
         # Collect the Divisions
@@ -90,7 +96,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             #       Possibly add a second url attribute to Rule, e.g.,
             #       scraping_url. Meanwhile, the current one is canonical_url.
             try:
-                number = anchor.css("strong > a::text").get().strip()
+                number: str = anchor.css("strong > a::text").get().strip()
                 name = anchor.xpath("text()").get().strip()
                 rule = new_rule(number, name)
 
@@ -106,14 +112,14 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             except:
                 logging.info(f"Error parsing anchor: {anchor.get()}")
 
-    def parse_rule_page(self, response):
+    def parse_rule_page(self, response: scrapy.http.Response):
         """Parse a leaf node (bottom level) page.
 
         The Rule page contains the actual Rule's full text.
         The Rule object has already been created with the remaining info,
         so here we just retrieve the text and save it.
         """
-        raw_paragraphs = response.xpath("//p")[1:-1].getall()
+        raw_paragraphs: List[str] = response.xpath("//p")[1:-1].getall()
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
         ]
@@ -137,11 +143,12 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
-        """Register to receive the idle event"""
+        """Override to register to receive the idle event"""
         spider: SecureSosStateOrUsSpider = super(SecureSosStateOrUsSpider, cls).from_crawler(
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
+        crawler.signals.connect(
+            spider.spider_idle, signal=scrapy.signals.spider_idle)
         return spider
 
     def spider_idle(self, spider):
@@ -199,7 +206,12 @@ def new_rule(number: str, name: str):
     )
 
 
+class SimpleTimezone(Protocol):
+    def localize(self, dt: datetime) -> date:
+        ...
+
+
 def todays_date() -> str:
-    pacific = pytz.timezone("US/Pacific")
+    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
     fmt = "%Y-%m-%d"
-    return pacific.localize(datetime.now()).strftime(fmt)
+    return mountain.localize(datetime.now()).strftime(fmt)
