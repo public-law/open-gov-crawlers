@@ -12,7 +12,7 @@ pytz = "^2019.3"
 scrapy-crawlera = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.761"
+mypy = ">= 0.761"
 pytest-testdox = "^1.2.1"
 
 [build-system]

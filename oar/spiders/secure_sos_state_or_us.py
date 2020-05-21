@@ -99,7 +99,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             #       Possibly add a second url attribute to Rule, e.g.,
             #       scraping_url. Meanwhile, the current one is canonical_url.
             try:
-                number: str = anchor.css("strong > a::text").get().strip()
+                number = anchor.css("strong > a::text").get().strip()
                 name = anchor.xpath("text()").get().strip()
                 rule = new_rule(number, name)
 
