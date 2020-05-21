@@ -8,6 +8,7 @@ import scrapy
 import scrapy.exceptions
 import scrapy.http
 import scrapy.signals
+from scrapy import Selector
 from titlecase import titlecase
 from typing import List
 from typing_extensions import Protocol
@@ -53,8 +54,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
+        option: Selector
         for option in response.css("#browseForm option"):
-            db_id: str = option.xpath("@value").get()
+            db_id = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
@@ -78,6 +80,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         division_index = {}
 
         # Collect the Divisions
+        anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
             db_id: str = anchor.xpath("@href").get().split("=")[1]
             raw_number, raw_name = map(
@@ -101,8 +104,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 rule = new_rule(number, name)
 
                 # Retrieve the Rule details
+                canonical_url: str = rule["url"]
                 request = scrapy.Request(
-                    rule["url"], callback=self.parse_rule_page)
+                    canonical_url, callback=self.parse_rule_page)
                 request.meta["rule"] = rule
                 yield request
 
