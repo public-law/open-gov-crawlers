@@ -41,7 +41,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         """
         return self.parse_search_page(response)
 
-
     def parse_search_page(self, response):
         """Parse the top-level page.
 
@@ -53,14 +52,15 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
+            number, name = map(str.strip, option.xpath(
+                "text()").get().split("-", 1))
             chapter = new_chapter(db_id, number, name)
             self.oar["chapters"].append(chapter)
 
-            request = scrapy.Request(chapter["url"], callback=self.parse_chapter_page)
+            request = scrapy.Request(
+                chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
             yield request
-
 
     def parse_chapter_page(self, response):
         """Parse a mid-level page.
@@ -86,15 +86,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
         # Collect empty Rules
         for anchor in response.css(".rule_div > p"):
-            # TODO: Figure out how to do both of these
-            #       in either css or xpath selectors:
+            # TODO: Use the Rule's db_id to generate its URL for scraping.
+            #       Possibly add a second url attribute to Rule, e.g.,
+            #       scraping_url. Meanwhile, the current one is canonical_url.
             try:
                 number = anchor.css("strong > a::text").get().strip()
                 name = anchor.xpath("text()").get().strip()
                 rule = new_rule(number, name)
 
                 # Retrieve the Rule details
-                request = scrapy.Request(rule["url"], callback=self.parse_rule_page)
+                request = scrapy.Request(
+                    rule["url"], callback=self.parse_rule_page)
                 request.meta["rule"] = rule
                 yield request
 
@@ -150,7 +152,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # This is a hack: I don't yet know how to schedule a request to just
         # submit data _without_ also triggering a scrape. So I provide a URL
         # to a simple site that we're going to ignore.
-        null_request = scrapy.Request("http://neverssl.com/", callback=self.submit_data)
+        null_request = scrapy.Request(
+            "http://neverssl.com/", callback=self.submit_data)
         self.crawler.engine.schedule(null_request, spider)
         raise scrapy.exceptions.DontCloseSpider
 
