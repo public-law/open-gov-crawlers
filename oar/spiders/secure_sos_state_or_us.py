@@ -25,6 +25,10 @@ def oar_url(relative_fragment: str) -> str:
     return URL_PREFIX + relative_fragment
 
 
+class ParseException(Exception):
+    pass
+
+
 class SecureSosStateOrUsSpider(scrapy.Spider):
     name = DOMAIN
     allowed_domains = [DOMAIN]
@@ -94,27 +98,37 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             division_index[division.number_in_rule_format()] = division
 
         # Collect empty Rules
-        for anchor in response.css(".rule_div > p"):
+        for anchor_paragraph in response.css(".rule_div > p"):
             # TODO: Use the Rule's db_id to generate its URL for scraping.
             #       Possibly add a second url attribute to Rule, e.g.,
             #       scraping_url. Meanwhile, the current one is canonical_url.
             try:
-                number = anchor.css("strong > a::text").get().strip()
-                name = anchor.xpath("text()").get().strip()
-                rule = new_rule(number, name)
+                number = anchor_paragraph.css("strong > a::text").get()
+                if number is None:
+                    raise ParseException("Couldn't parse number")
+                number = number.strip()
+
+                name = anchor_paragraph.xpath("text()").get()
+                if name is None:
+                    raise ParseException("Couldn't parse name")
+                name = name.strip()
+
+                internal_path = anchor_paragraph.xpath(
+                    '//a').xpath('@href').get()
+                rule = new_rule(number, name, internal_path)
 
                 # Retrieve the Rule details
-                canonical_url: str = rule["url"]
                 request = scrapy.Request(
-                    canonical_url, callback=self.parse_rule_page)
+                    rule['internal_url'], callback=self.parse_rule_page)
                 request.meta["rule"] = rule
                 yield request
 
                 # Find its Division and add it
                 parent_division = division_index[rule.division_number()]
                 parent_division["rules"].append(rule)
-            except:
-                logging.info(f"Error parsing anchor: {anchor.get()}")
+            except ParseException as e:
+                logging.info(
+                    f"Error parsing anchor paragraph: {anchor_paragraph.get()}, {e}")
 
     def parse_rule_page(self, response: scrapy.http.Response):
         """Parse a leaf node (bottom level) page.
@@ -201,12 +215,13 @@ def new_division(db_id: str, number: str, name: str):
     )
 
 
-def new_rule(number: str, name: str):
+def new_rule(number: str, name: str, internal_path: str):
     return items.Rule(
         kind="Rule",
         number=number,
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
+        internal_url=oar_url(internal_path)
     )
 
 

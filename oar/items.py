@@ -41,6 +41,7 @@ class Rule(scrapy.Item):
     name = scrapy.Field()
     text = scrapy.Field()
     url = scrapy.Field()
+    internal_url = scrapy.Field()
 
     authority = scrapy.Field()  # List[str]
     implements = scrapy.Field()  # List[str]
