@@ -127,8 +127,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 parent_division = division_index[rule.division_number()]
                 parent_division["rules"].append(rule)
             except ParseException as e:
-                logging.info(
-                    f"Error parsing anchor paragraph: {anchor_paragraph.get()}, {e}")
+                logging.warn(
+                    f"Error parsing anchor paragraph: {anchor_paragraph.get()}, in chapter {chapter['number']}: {e}")
 
     def parse_rule_page(self, response: scrapy.http.Response):
         """Parse a leaf node (bottom level) page.
