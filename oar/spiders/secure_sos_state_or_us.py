@@ -138,7 +138,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         """Register to receive the idle event"""
-        spider = super(SecureSosStateOrUsSpider, cls).from_crawler(
+        spider: SecureSosStateOrUsSpider = super(SecureSosStateOrUsSpider, cls).from_crawler(
             crawler, *args, **kwargs
         )
         crawler.signals.connect(spider.spider_idle, signal=signals.spider_idle)
