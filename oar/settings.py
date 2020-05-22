@@ -10,10 +10,9 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "DEBUG"
 
 BOT_NAME = "oar"
-
 SPIDER_MODULES = ["oar.spiders"]
 NEWSPIDER_MODULE = "oar.spiders"
 
@@ -32,7 +31,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.25
 
 #
 # Crawlera Best Practices. Current Plan is "C50".
@@ -44,7 +43,7 @@ DOWNLOAD_TIMEOUT = 600
 CONCURRENT_REQUESTS = 5
 
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 3
+CONCURRENT_REQUESTS_PER_DOMAIN = 5
 
 # CONCURRENT_REQUESTS_PER_IP = 16
 
@@ -52,7 +51,9 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 3
 # COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
-# TELNETCONSOLE_ENABLED = False
+TELNETCONSOLE_ENABLED = True
+TELNETCONSOLE_USERNAME = 'scrapy'
+TELNETCONSOLE_PASSWORD = 'scrapy'
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -89,7 +90,7 @@ CRAWLERA_APIKEY = os.environ['CRAWLERA_KEY']
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = False
 
 # The initial download delay
 AUTOTHROTTLE_START_DELAY = 1

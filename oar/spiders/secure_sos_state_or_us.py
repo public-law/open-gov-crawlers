@@ -114,8 +114,10 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
                 name = name.strip()
 
                 internal_path = anchor_paragraph.xpath(
-                    '//a').xpath('@href').get()
+                    'strong/a').xpath('@href').get()
                 rule = new_rule(number, name, internal_path)
+                logging.debug(
+                    f"Got internal url in Chapter {chapter['number']}:  {rule['internal_url']}")
 
                 # Retrieve the Rule details
                 request = scrapy.Request(
@@ -137,6 +139,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         The Rule object has already been created with the remaining info,
         so here we just retrieve the text and save it.
         """
+        logging.debug(
+            f"Parsing rule page... {response.meta['rule']['number']}")
         raw_paragraphs: List[str] = response.xpath("//p")[1:-1].getall()
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
@@ -221,7 +225,7 @@ def new_rule(number: str, name: str, internal_path: str):
         number=number,
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
-        internal_url=oar_url(internal_path)
+        internal_url=f"https://secure.sos.state.or.us{internal_path}"
     )
 
 
