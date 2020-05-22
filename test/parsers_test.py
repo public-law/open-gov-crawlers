@@ -1,7 +1,8 @@
 import io
 import pytest
 from typing import TextIO
-from oar.parsers import statute_meta, meta_sections
+
+from oar.parsers import meta_sections, parse_division, statute_meta
 
 
 def fixture(filename: str) -> TextIO:
@@ -66,3 +67,11 @@ class TestFixture:
         with fixture('division_450.html') as f:
             html = f.read()
             assert len(html) > 0
+
+
+@pytest.mark.describe('parse_division()')
+class TestParseDivision:
+    def test_correct_number_of_rules(self):
+        with fixture('division_450.html') as f:
+            html = f.read()
+            assert len(parse_division(html)) == 2

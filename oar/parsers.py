@@ -1,4 +1,6 @@
 import re
+
+from scrapy import Selector
 from typing import Any, Dict, List
 from oar.text import delete_all
 
@@ -23,3 +25,7 @@ def statute_meta(text: str) -> List[str]:
       output: ['ORS 181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
+
+
+def parse_division(html: Selector):
+    pass
