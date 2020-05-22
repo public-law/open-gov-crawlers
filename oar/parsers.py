@@ -29,7 +29,7 @@ def statute_meta(text: str) -> List[str]:
     return [s.strip() for s in SEPARATOR.split(text)]
 
 
-def parse_division(html: Selector) -> List[Any]:
+def parse_division(html: Selector) -> List[Rule]:
     return [parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')]
 
 
