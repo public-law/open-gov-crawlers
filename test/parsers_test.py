@@ -105,3 +105,11 @@ class TestParseDivision:
             first_authority = parse_division(html)[0]['authority']
 
             assert first_authority == expected
+
+    def test_rule_implements(self):
+        with fixture('division_450.html') as f:
+            html = Selector(text=f.read())
+            expected = ['ORS 359']
+            first_implements = parse_division(html)[0]['implements']
+
+            assert first_implements == expected
