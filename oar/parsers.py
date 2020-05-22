@@ -49,7 +49,7 @@ def parse_rule(rule_div: Selector) -> Rule:
 
 
 def parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
-    raw_paragraphs: List[str] = rule_div.xpath("p")[1:-1].getall()
+    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
     cleaned_up_paragraphs = [
         p.strip().replace("\n", "") for p in raw_paragraphs
     ]
@@ -57,10 +57,10 @@ def parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
         re.sub(r' +', ' ', p) for p in cleaned_up_paragraphs
     ]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-    content_paragaphs = non_empty_paragraphs[1:]
+    content_paragaphs = non_empty_paragraphs[1:-1]
 
-    # meta_paragraph = non_empty_paragraphs[-1]
-    # metadata = meta_sections(meta_paragraph)
+    meta_paragraph = non_empty_paragraphs[-1]
+    metadata = meta_sections(meta_paragraph)
 
     return Rule(
         kind="Rule",
