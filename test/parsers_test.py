@@ -4,6 +4,10 @@ from typing import TextIO
 from oar.parsers import statute_meta, meta_sections
 
 
+def fixture(filename: str) -> TextIO:
+    return open(f"test/fixtures/{filename}")
+
+
 @pytest.mark.describe("statute_meta()")
 class TestStatuteMeta:
     def test_handles_a_single_chapter_citation(self):
@@ -56,12 +60,8 @@ class TestMetaSections:
         assert meta_sections(raw_text) == expected
 
 
-def fixture(filename: str) -> TextIO:
-    return open(f"test/fixtures/{filename}")
-
-
 @pytest.mark.describe("fixture()")
-class TestFixtures:
+class TestFixture:
     def test_can_access_a_fixture(self):
         with fixture('division_450.html') as f:
             html = f.read()
