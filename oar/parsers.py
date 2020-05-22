@@ -15,6 +15,10 @@ class ParseException(Exception):
 
 
 def meta_sections(text: str) -> Dict[str, Any]:
+    # Somewhat tricky: The history section uses embedded <br>
+    # tags, so we want to leave those in place. Therefore, we want
+    # to use just the first two <br>'s to split the meta section
+    # into three parts.
     authority, implements, history = text.split("<br>", maxsplit=2)
 
     return {
@@ -45,10 +49,10 @@ def parse_rule(rule_div: Selector) -> Rule:
     name = rule_div.css('strong::text').get()
     name = name.strip()
 
-    return parse_rule_content(rule_div, number, name)
+    return _parse_rule_content(rule_div, number, name)
 
 
-def parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
+def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
     raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
     cleaned_up_paragraphs = [
         p.strip().replace("\n", "") for p in raw_paragraphs
