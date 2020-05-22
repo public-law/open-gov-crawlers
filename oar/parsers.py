@@ -7,6 +7,11 @@ from oar.items import Rule
 from oar.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
+DOMAIN = "secure.sos.state.or.us"
+
+
+class ParseException(Exception):
+    pass
 
 
 def meta_sections(text: str) -> Dict[str, Any]:
@@ -37,13 +42,19 @@ def parse_rule(rule_div: Selector) -> Rule:
     number = rule_div.css("strong > a::text").get()
     number = number.strip()
 
-    name = rule_div.css('Strong::text').get()
+    name = rule_div.css('strong::text').get()
     name = name.strip()
 
     return Rule(
         kind="Rule",
         number=number,
         name=name,
-        # url=oar_url(f"view.action?ruleNumber={number}"),
-        # internal_url=f"https://secure.sos.state.or.us{internal_path}"
+        url=oar_url(f"view.action?ruleNumber={number}")
     )
+
+
+URL_PREFIX = f"https://{DOMAIN}/oard/"
+
+
+def oar_url(relative_fragment: str) -> str:
+    return URL_PREFIX + relative_fragment

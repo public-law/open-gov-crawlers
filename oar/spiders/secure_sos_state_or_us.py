@@ -16,17 +16,7 @@ from typing_extensions import Protocol
 
 from oar import items
 from oar import parsers
-
-DOMAIN = "secure.sos.state.or.us"
-URL_PREFIX = f"https://{DOMAIN}/oard/"
-
-
-def oar_url(relative_fragment: str) -> str:
-    return URL_PREFIX + relative_fragment
-
-
-class ParseException(Exception):
-    pass
+from oar.parsers import DOMAIN, oar_url, ParseException
 
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
