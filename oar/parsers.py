@@ -28,4 +28,4 @@ def statute_meta(text: str) -> List[str]:
 
 
 def parse_division(html: Selector):
-    pass
+    return html.xpath('//div[@class="rule_div"]')

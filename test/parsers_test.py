@@ -1,11 +1,11 @@
-import io
 import pytest
-from typing import TextIO
+from scrapy.selector import Selector
+from typing import Any, IO
 
 from oar.parsers import meta_sections, parse_division, statute_meta
 
 
-def fixture(filename: str) -> TextIO:
+def fixture(filename: str) -> IO[Any]:
     return open(f"test/fixtures/{filename}")
 
 
@@ -73,5 +73,5 @@ class TestFixture:
 class TestParseDivision:
     def test_correct_number_of_rules(self):
         with fixture('division_450.html') as f:
-            html = f.read()
+            html = Selector(text=f.read())
             assert len(parse_division(html)) == 2
