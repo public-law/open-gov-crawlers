@@ -139,8 +139,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         The Rule object has already been created with the remaining info,
         so here we just retrieve the text and save it.
         """
-        logging.debug(
-            f"Parsing rule page... {response.meta['rule']['number']}")
         raw_paragraphs: List[str] = response.xpath("//p")[1:-1].getall()
         cleaned_up_paragraphs = [
             p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
