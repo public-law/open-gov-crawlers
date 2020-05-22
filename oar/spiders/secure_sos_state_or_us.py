@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
-import logging
 from oar.items import Chapter, Division
 import pytz
 import scrapy
@@ -10,13 +9,11 @@ import scrapy.http
 import scrapy.signals
 from scrapy import Selector
 from titlecase import titlecase
-from typing import List
 from typing_extensions import Protocol
 
 
 from oar import items
-from oar import parsers
-from oar.parsers import DOMAIN, oar_url, ParseException, parse_division
+from oar.parsers import DOMAIN, oar_url, parse_division
 
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
@@ -92,10 +89,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     def parse_division_page(self, response: scrapy.http.Response):
         division: Division = response.meta['division']
-
-        rule_div: Selector
-        for rule_div in response.css('.rule-div'):
-            division['rules'].append(parse_division(rule_div))
+        division['rules'].extend(parse_division(response))
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
