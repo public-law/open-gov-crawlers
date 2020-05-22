@@ -72,7 +72,13 @@ class TestFixture:
 @pytest.mark.describe('parse_division()')
 class TestParseDivision:
 
-    def test_correct_number_of_rules(self):
+    def test_number_of_rules(self):
         with fixture('division_450.html') as f:
             html = Selector(text=f.read())
             assert len(parse_division(html)) == 2
+
+    def test_rule_numbers(self):
+        with fixture('division_450.html') as f:
+            html = Selector(text=f.read())
+            numbers = [n['number'] for n in parse_division(html)]
+            assert numbers == ['123-450-0000', '123-450-0010']

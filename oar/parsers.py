@@ -34,9 +34,12 @@ def parse_division(html: Selector) -> List[Rule]:
 
 
 def parse_rule(rule_div: Selector) -> Rule:
+    number = rule_div.css("strong > a::text").get()
+    number = number.strip()
+
     return Rule(
         kind="Rule",
-        # number=number,
+        number=number,
         # name=name,
         # url=oar_url(f"view.action?ruleNumber={number}"),
         # internal_url=f"https://secure.sos.state.or.us{internal_path}"
