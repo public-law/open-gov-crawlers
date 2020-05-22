@@ -1,4 +1,6 @@
+import io
 import pytest
+from typing import TextIO
 from oar.parsers import statute_meta, meta_sections
 
 
@@ -52,3 +54,15 @@ class TestMetaSections:
             "history": "PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03",
         }
         assert meta_sections(raw_text) == expected
+
+
+def fixture(filename: str) -> TextIO:
+    return open(f"test/fixtures/{filename}")
+
+
+@pytest.mark.describe("fixture()")
+class TestFixtures:
+    def test_can_access_a_fixture(self):
+        with fixture('division_450.html') as f:
+            html = f.read()
+            assert len(html) > 0
