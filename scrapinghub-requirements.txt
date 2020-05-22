@@ -1,2 +1,3 @@
-titlecase
 pytz
+titlecase
+typing_extensions
