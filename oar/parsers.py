@@ -68,7 +68,7 @@ def parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
         text="\n".join(content_paragaphs),
-        # authority=metadata["authority"],
+        authority=metadata["authority"],
         # implements=metadata["implements"],
         # history=metadata["history"]
     )
