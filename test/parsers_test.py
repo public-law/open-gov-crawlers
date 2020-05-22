@@ -82,3 +82,9 @@ class TestParseDivision:
             html = Selector(text=f.read())
             numbers = [n['number'] for n in parse_division(html)]
             assert numbers == ['123-450-0000', '123-450-0010']
+
+    def test_rule_names(self):
+        with fixture('division_450.html') as f:
+            html = Selector(text=f.read())
+            names = [n['name'] for n in parse_division(html)]
+            assert names == ['Definitions', 'Grants']
