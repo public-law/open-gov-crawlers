@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
-import logging
-from oar.items import Chapter
+from oar.items import Chapter, Division
 import pytz
 import scrapy
 import scrapy.exceptions
@@ -10,23 +9,11 @@ import scrapy.http
 import scrapy.signals
 from scrapy import Selector
 from titlecase import titlecase
-from typing import List
 from typing_extensions import Protocol
 
 
 from oar import items
-from oar import parsers
-
-DOMAIN = "secure.sos.state.or.us"
-URL_PREFIX = f"https://{DOMAIN}/oard/"
-
-
-def oar_url(relative_fragment: str) -> str:
-    return URL_PREFIX + relative_fragment
-
-
-class ParseException(Exception):
-    pass
+from oar.parsers import DOMAIN, oar_url, parse_division
 
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
@@ -81,7 +68,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         along with their contained Rules.
         """
         chapter: Chapter = response.meta["chapter"]
-        division_index = {}
 
         # Collect the Divisions
         anchor: Selector
@@ -93,69 +79,17 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             number = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
-
             chapter["divisions"].append(division)
-            division_index[division.number_in_rule_format()] = division
 
-        # Collect empty Rules
-        for anchor_paragraph in response.css(".rule_div > p"):
-            # TODO: Use the Rule's db_id to generate its URL for scraping.
-            #       Possibly add a second url attribute to Rule, e.g.,
-            #       scraping_url. Meanwhile, the current one is canonical_url.
-            try:
-                number = anchor_paragraph.css("strong > a::text").get()
-                if number is None:
-                    raise ParseException("Couldn't parse number")
-                number = number.strip()
+            # Request a scrape of the Division page
+            url: str = division['url']
+            request = scrapy.Request(url, callback=self.parse_division_page)
+            request.meta['division'] = division
+            yield request
 
-                name = anchor_paragraph.xpath("text()").get()
-                if name is None:
-                    raise ParseException("Couldn't parse name")
-                name = name.strip()
-
-                internal_path = anchor_paragraph.xpath(
-                    'strong/a').xpath('@href').get()
-                rule = new_rule(number, name, internal_path)
-                logging.debug(
-                    f"Got internal url in Chapter {chapter['number']}:  {rule['internal_url']}")
-
-                # Retrieve the Rule details
-                request = scrapy.Request(
-                    rule['internal_url'], callback=self.parse_rule_page)
-                request.meta["rule"] = rule
-                yield request
-
-                # Find its Division and add it
-                parent_division = division_index[rule.division_number()]
-                parent_division["rules"].append(rule)
-            except ParseException as e:
-                logging.warn(
-                    f"Error parsing anchor paragraph: {anchor_paragraph.get()}, in chapter {chapter['number']}: {e}")
-
-    def parse_rule_page(self, response: scrapy.http.Response):
-        """Parse a leaf node (bottom level) page.
-
-        The Rule page contains the actual Rule's full text.
-        The Rule object has already been created with the remaining info,
-        so here we just retrieve the text and save it.
-        """
-        logging.debug(
-            f"Parsing rule page... {response.meta['rule']['number']}")
-        raw_paragraphs: List[str] = response.xpath("//p")[1:-1].getall()
-        cleaned_up_paragraphs = [
-            p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
-        ]
-        non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-        content_paragaphs = non_empty_paragraphs[0:-1]
-
-        meta_paragraph = non_empty_paragraphs[-1]
-        metadata = parsers.meta_sections(meta_paragraph)
-
-        rule = response.meta["rule"]
-        rule["text"] = "\n".join(content_paragaphs)
-        rule["authority"] = metadata["authority"]
-        rule["implements"] = metadata["implements"]
-        rule["history"] = metadata["history"]
+    def parse_division_page(self, response: scrapy.http.Response):
+        division: Division = response.meta['division']
+        division['rules'].extend(parse_division(response))
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -216,16 +150,6 @@ def new_division(db_id: str, number: str, name: str):
         name=name,
         url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
         rules=[],
-    )
-
-
-def new_rule(number: str, name: str, internal_path: str):
-    return items.Rule(
-        kind="Rule",
-        number=number,
-        name=name,
-        url=oar_url(f"view.action?ruleNumber={number}"),
-        internal_url=f"https://secure.sos.state.or.us{internal_path}"
     )
 
 
