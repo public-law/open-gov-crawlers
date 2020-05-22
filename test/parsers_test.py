@@ -88,3 +88,9 @@ class TestParseDivision:
             html = Selector(text=f.read())
             names = [n['name'] for n in parse_division(html)]
             assert names == ['Definitions', 'Grants']
+
+    def test_rule_text(self):
+        with fixture('division_450.html') as f:
+            html = Selector(text=f.read())
+            first_text = parse_division(html)[0]['text']
+            assert first_text == '<p>(1) “Commission” means the Oregon Arts Commission.</p><p>(2) “Executive Director” means the administrator of the Arts Program of the Oregon Business Development Department.</p>'
