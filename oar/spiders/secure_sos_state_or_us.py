@@ -71,7 +71,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         along with their contained Rules.
         """
         chapter: Chapter = response.meta["chapter"]
-        division_index = {}
 
         # Collect the Divisions
         anchor: Selector
@@ -83,15 +82,16 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             number = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
-
             chapter["divisions"].append(division)
-            division_index[division.number_in_rule_format()] = division
 
-            request = scrapy.Request(
-                division['url'], callback=self.parse_division_page)
+            # Request a scrape of the Division page
+            url: str = division['url']
+            request = scrapy.Request(url, callback=self.parse_division_page)
+            request.meta['division'] = division
+            yield request
 
     def parse_division_page(self, response: scrapy.http.Response):
-        division: Division = response.meta['Division']
+        division: Division = response.meta['division']
 
         rule_div: Selector
         for rule_div in response.css('.rule-div'):
