@@ -1,5 +1,6 @@
 import re
 from typing import Any, Dict, List
+from oar.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 
@@ -10,7 +11,7 @@ def meta_sections(text: str) -> Dict[str, Any]:
     return {
         "authority": statute_meta(authority.split("</b>")[1].strip()),
         "implements": statute_meta(implements.split("</b>")[1].strip()),
-        "history": _delete_all(history, ["<b>History:</b><br>", "<br></p>"]),
+        "history": delete_all(history, ["<b>History:</b><br>", "<br></p>"]),
     }
 
 
@@ -22,14 +23,3 @@ def statute_meta(text: str) -> List[str]:
       output: ['ORS 181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
-
-
-def _delete_all(text: str, fragments: List[str]) -> str:
-    result = text
-    for s in fragments:
-        result = _delete(result, s)
-    return result
-
-
-def _delete(text: str, fragment: str) -> str:
-    return text.replace(fragment, "")
