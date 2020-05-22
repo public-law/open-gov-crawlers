@@ -113,3 +113,11 @@ class TestParseDivision:
             first_implements = parse_division(html)[0]['implements']
 
             assert first_implements == expected
+
+    def test_rule_history(self):
+        with fixture('division_450.html') as f:
+            html = Selector(text=f.read())
+            expected = 'OBDD 2-2011, f. & cert. ef. 1-3-11'
+            first_history = parse_division(html)[0]['history']
+
+            assert first_history == expected

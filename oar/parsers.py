@@ -70,7 +70,7 @@ def parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
         text="\n".join(content_paragaphs),
         authority=metadata["authority"],
         implements=metadata["implements"],
-        # history=metadata["history"]
+        history=metadata["history"]
     )
 
 
