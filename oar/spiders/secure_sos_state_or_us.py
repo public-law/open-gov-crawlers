@@ -2,7 +2,7 @@
 
 from datetime import datetime, date
 import logging
-from oar.items import Chapter
+from oar.items import Chapter, Division
 import pytz
 import scrapy
 import scrapy.exceptions
@@ -16,7 +16,7 @@ from typing_extensions import Protocol
 
 from oar import items
 from oar import parsers
-from oar.parsers import DOMAIN, oar_url, ParseException
+from oar.parsers import DOMAIN, oar_url, ParseException, parse_division
 
 
 class SecureSosStateOrUsSpider(scrapy.Spider):
@@ -87,63 +87,15 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             chapter["divisions"].append(division)
             division_index[division.number_in_rule_format()] = division
 
-        # Collect empty Rules
-        for anchor_paragraph in response.css(".rule_div > p"):
-            # TODO: Use the Rule's db_id to generate its URL for scraping.
-            #       Possibly add a second url attribute to Rule, e.g.,
-            #       scraping_url. Meanwhile, the current one is canonical_url.
-            try:
-                number = anchor_paragraph.css("strong > a::text").get()
-                if number is None:
-                    raise ParseException("Couldn't parse number")
-                number = number.strip()
+            request = scrapy.Request(
+                division['url'], callback=self.parse_division_page)
 
-                name = anchor_paragraph.xpath("text()").get()
-                if name is None:
-                    raise ParseException("Couldn't parse name")
-                name = name.strip()
+    def parse_division_page(self, response: scrapy.http.Response):
+        division: Division = response.meta['Division']
 
-                internal_path = anchor_paragraph.xpath(
-                    'strong/a').xpath('@href').get()
-                rule = new_rule(number, name, internal_path)
-                logging.debug(
-                    f"Got internal url in Chapter {chapter['number']}:  {rule['internal_url']}")
-
-                # Retrieve the Rule details
-                request = scrapy.Request(
-                    rule['internal_url'], callback=self.parse_rule_page)
-                request.meta["rule"] = rule
-                yield request
-
-                # Find its Division and add it
-                parent_division = division_index[rule.division_number()]
-                parent_division["rules"].append(rule)
-            except ParseException as e:
-                logging.warn(
-                    f"Error parsing anchor paragraph: {anchor_paragraph.get()}, in chapter {chapter['number']}: {e}")
-
-    def parse_rule_page(self, response: scrapy.http.Response):
-        """Parse a leaf node (bottom level) page.
-
-        The Rule page contains the actual Rule's full text.
-        The Rule object has already been created with the remaining info,
-        so here we just retrieve the text and save it.
-        """
-        raw_paragraphs: List[str] = response.xpath("//p")[1:-1].getall()
-        cleaned_up_paragraphs = [
-            p.strip().replace("  ", "").replace("\n", "") for p in raw_paragraphs
-        ]
-        non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-        content_paragaphs = non_empty_paragraphs[0:-1]
-
-        meta_paragraph = non_empty_paragraphs[-1]
-        metadata = parsers.meta_sections(meta_paragraph)
-
-        rule = response.meta["rule"]
-        rule["text"] = "\n".join(content_paragaphs)
-        rule["authority"] = metadata["authority"]
-        rule["implements"] = metadata["implements"]
-        rule["history"] = metadata["history"]
+        rule_div: Selector
+        for rule_div in response.css('.rule-div'):
+            division['rules'].append(parse_division(rule_div))
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -204,16 +156,6 @@ def new_division(db_id: str, number: str, name: str):
         name=name,
         url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
         rules=[],
-    )
-
-
-def new_rule(number: str, name: str, internal_path: str):
-    return items.Rule(
-        kind="Rule",
-        number=number,
-        name=name,
-        url=oar_url(f"view.action?ruleNumber={number}"),
-        internal_url=f"https://secure.sos.state.or.us{internal_path}"
     )
 
 
