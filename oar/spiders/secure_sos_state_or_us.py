@@ -46,8 +46,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         numbers, and internal id's.
         """
         option: Selector
-        # TODO: Remove the 'first four' debug limitation.
-        for option in response.css("#browseForm option")[0:4]:
+        # TODO: Remove the 'first few' debug limitation.
+        for option in response.css("#browseForm option")[0:3]:
             db_id: str = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
@@ -73,7 +73,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
-            db_id: str = anchor.xpath("@href").get().split("=")[1]
+            db_id: str = anchor.xpath("@href").get().split(
+                "selectedDivision=")[1]
             raw_number, raw_name = map(
                 str.strip, anchor.xpath("text()").get().split("-", 1)
             )
