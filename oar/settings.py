@@ -10,7 +10,7 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-LOG_LEVEL = os.environ.get('SCRAPY_LOG_LEVEL', 'WARN')
+LOG_LEVEL = 'DEBUG'
 
 BOT_NAME = "oar"
 SPIDER_MODULES = ["oar.spiders"]
