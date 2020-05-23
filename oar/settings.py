@@ -76,7 +76,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 CRAWLERA_ENABLED = True
-CRAWLERA_APIKEY = os.environ['CRAWLERA_KEY']
+CRAWLERA_APIKEY = os.environ['CRAWLERA_APIKEY']
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
