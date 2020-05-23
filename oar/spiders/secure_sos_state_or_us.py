@@ -47,7 +47,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         """
         option: Selector
         # TODO: Remove the 'first few' debug limitation.
-        for option in response.css("#browseForm option")[0:3]:
+        for option in response.css("#browseForm option")[0:2]:
             db_id: str = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
@@ -82,9 +82,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
-            division_list = chapter["divisions"]
-            division_list.append(division)
-            chapter["divisions"] = division_list
+            chapter["divisions"].append(division)
+            chapter['divisions'].append('HEY THERE')
 
             # Request a scrape of the Division page
             url: str = division['url']
