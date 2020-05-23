@@ -19,7 +19,9 @@ NEWSPIDER_MODULE = "oar.spiders"
 
 # Output the JSON tree as one simple JSON object.
 FEED_FORMAT = "jsonlines"
-FEED_URI = "stdout:"
+
+# Causes a crash on Scraping Hub
+# FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'

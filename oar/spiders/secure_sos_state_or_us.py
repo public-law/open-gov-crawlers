@@ -46,8 +46,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         numbers, and internal id's.
         """
         option: Selector
-        for option in response.css("#browseForm option"):
-            db_id = option.xpath("@value").get()
+        # TODO: Remove the 'first four' debug limitation.
+        for option in response.css("#browseForm option")[0:4]:
+            db_id: str = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
@@ -116,7 +117,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # submit data _without_ also triggering a scrape. So I provide a URL
         # to a simple site that we're going to ignore.
         null_request = scrapy.Request(
-            "http://neverssl.com/", callback=self.submit_data)
+            "https://www.public.law/about-us", callback=self.submit_data)
         self.crawler.engine.schedule(null_request, spider)
         raise scrapy.exceptions.DontCloseSpider
 
@@ -128,7 +129,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         the spider is idle (i.e., has finished scraping.)
         """
         self.data_submitted = True
-        return self.oar
+        yield self.oar
 
 
 def new_chapter(db_id: str, number: str, name: str):
