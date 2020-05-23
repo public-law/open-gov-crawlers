@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 # Scrapy settings for oar project
 #
@@ -9,7 +10,7 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-LOG_LEVEL = "DEBUG"
+LOG_LEVEL = "INFO"
 
 BOT_NAME = "oar"
 SPIDER_MODULES = ["oar.spiders"]
@@ -18,7 +19,7 @@ NEWSPIDER_MODULE = "oar.spiders"
 
 # Output the JSON tree as one simple JSON object.
 FEED_FORMAT = "jsonlines"
-# FEED_URI = "stdout:"
+FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'
@@ -30,7 +31,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.25
+DOWNLOAD_DELAY = 0.5
 
 #
 # Crawlera Best Practices. Current Plan is "C50".
@@ -42,7 +43,7 @@ DOWNLOAD_TIMEOUT = 600
 CONCURRENT_REQUESTS = 5
 
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 5
+CONCURRENT_REQUESTS_PER_DOMAIN = 3
 
 # CONCURRENT_REQUESTS_PER_IP = 16
 
@@ -75,7 +76,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 CRAWLERA_ENABLED = True
-# CRAWLERA_APIKEY = os.environ['CRAWLERA_APIKEY']
+CRAWLERA_APIKEY = os.environ['CRAWLERA_KEY']
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -96,7 +97,7 @@ AUTOTHROTTLE_START_DELAY = 1
 AUTOTHROTTLE_MAX_DELAY = 10
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 4.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = False
 

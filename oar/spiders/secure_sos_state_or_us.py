@@ -93,8 +93,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
-    # code implements that strategy by registering a signal (event) listener to
-    # execute after all scraping has finished, and the data is collected.
+    # code implements that strategy by registering a signal event listener to
+    # execute after all scraping has finished and the data is collected.
     #
 
     @classmethod
@@ -108,7 +108,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         return spider
 
     def spider_idle(self, spider):
-        """Schedule a simple request in order to return the collected data"""
+        """Schedule a simple request to return the collected data"""
         if self.data_submitted:
             return
 
