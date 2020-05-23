@@ -21,8 +21,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super(SecureSosStateOrUsSpider, self).__init__(*args, **kwargs)
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
