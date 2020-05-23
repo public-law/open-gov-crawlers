@@ -10,7 +10,7 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = os.environ.get('SCRAPY_LOG_LEVEL', 'WARN')
 
 BOT_NAME = "oar"
 SPIDER_MODULES = ["oar.spiders"]
@@ -25,8 +25,6 @@ FEED_FORMAT = "jsonlines"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'
-
-# Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 
@@ -36,7 +34,7 @@ ROBOTSTXT_OBEY = True
 DOWNLOAD_DELAY = 0.5
 
 #
-# Crawlera Best Practices. Current Plan is "C50".
+# Crawlera Best Practices.
 #
 
 DOWNLOAD_TIMEOUT = 600
@@ -45,7 +43,7 @@ DOWNLOAD_TIMEOUT = 600
 CONCURRENT_REQUESTS = 5
 
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 3
+CONCURRENT_REQUESTS_PER_DOMAIN = 4
 
 # CONCURRENT_REQUESTS_PER_IP = 16
 
@@ -81,7 +79,9 @@ CRAWLERA_ENABLED = True
 
 # This breaks on Scraping Hub although it works locally. Commenting it out
 # for now.
-# CRAWLERA_APIKEY = os.environ['CRAWLERA_APIKEY']
+VAR = 'CRAWLERA_APIKEY'
+if VAR in os.environ:
+    CRAWLERA_APIKEY = os.environ[VAR]
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -97,12 +97,12 @@ CRAWLERA_ENABLED = True
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 1
+AUTOTHROTTLE_START_DELAY = 0.25
 # The maximum download delay to be set in case of high latencies
 AUTOTHROTTLE_MAX_DELAY = 10
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 4.0
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = False
 
