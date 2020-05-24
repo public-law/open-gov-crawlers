@@ -40,10 +40,10 @@ DOWNLOAD_DELAY = 0.5
 DOWNLOAD_TIMEOUT = 600
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 5
+CONCURRENT_REQUESTS = 1
 
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 4
+CONCURRENT_REQUESTS_PER_DOMAIN = 1
 
 # CONCURRENT_REQUESTS_PER_IP = 16
 
@@ -102,7 +102,7 @@ AUTOTHROTTLE_START_DELAY = 0.25
 AUTOTHROTTLE_MAX_DELAY = 10
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 4.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = False
 

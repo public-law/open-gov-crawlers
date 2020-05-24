@@ -82,8 +82,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
-            # chapter['divisions'].append(division)
-            self.oar['chapters'].append('HEY THERE')
+            chapter['divisions'].append(division)
+            # self.oar['chapters'].append('HEY THERE')
 
             # Request a scrape of the Division page
             URL: str = division['url']
