@@ -55,11 +55,14 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             number, name = map(str.strip, option.xpath(
                 "text()").get().split("-", 1))
             chapter = new_chapter(db_id, number, name)
+
+            new_chapter_index = len(self.oar['chapters'])
             self.oar["chapters"].append(chapter)
 
             request = scrapy.Request(
                 chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter"] = chapter
+            request.meta['chapter_index'] = new_chapter_index
             yield request
 
     def parse_chapter_page(self, response: scrapy.http.Response):
@@ -68,7 +71,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter: Chapter = response.meta["chapter"]
+        # chapter: Chapter = response.meta["chapter"]
+        chapter: Chapter = self.oar['chapters'][response.meta['chapter_index']]
 
         # Collect the Divisions
         anchor: Selector
@@ -83,7 +87,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             division = new_division(db_id, number, name)
 
             chapter['divisions'].append(division)
-            # self.oar['chapters'].append('HEY THERE')
 
             # Request a scrape of the Division page
             URL: str = division['url']
