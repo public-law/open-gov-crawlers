@@ -47,7 +47,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         numbers, and internal id's.
         """
         option: Selector
-        for option in response.css("#browseForm option"):
+        # TODO: Remove the 'first few' debug limitation.
+        for option in response.css("#browseForm option")[0:2]:
             db_id: str = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
