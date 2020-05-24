@@ -9,6 +9,7 @@ import scrapy.http
 import scrapy.signals
 from scrapy import Selector
 from titlecase import titlecase
+from typing import Final
 from typing_extensions import Protocol
 
 
@@ -21,7 +22,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: str):
         super(SecureSosStateOrUsSpider, self).__init__(*args, **kwargs)
 
         # A flag, set after post-processing is finished, to avoid an infinite
@@ -61,7 +62,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
 
             request = scrapy.Request(
                 chapter["url"], callback=self.parse_chapter_page)
-            request.meta["chapter"] = chapter
             request.meta['chapter_index'] = new_chapter_index
             yield request
 
@@ -71,7 +71,6 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        # chapter: Chapter = response.meta["chapter"]
         chapter: Chapter = self.oar['chapters'][response.meta['chapter_index']]
 
         # Collect the Divisions
@@ -91,11 +90,14 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             # Request a scrape of the Division page
             URL: str = division['url']
             request = scrapy.Request(URL, callback=self.parse_division_page)
-            request.meta['division'] = division
+            request.meta['division_index'] = len(chapter['divisions']) - 1
+            request.meta['chapter_index'] = response.meta['chapter_index']
             yield request
 
     def parse_division_page(self, response: scrapy.http.Response):
-        division: Division = response.meta['division']
+        chapter: Chapter = self.oar['chapters'][response.meta['chapter_index']]
+        division: Division = chapter['divisions'][response.meta['division_index']]
+
         division['rules'].extend(parse_division(response))
 
     #
