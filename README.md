@@ -1,4 +1,4 @@
-![Python application](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Python%20application/badge.svg)
+![Test Suite](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Python%20application/badge.svg)
 
 # Oregon Administrative Rules Parser
 Parse the OAR into well formed JSON
