@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/public-law/oregon-administrative-rules-parser.svg?branch=master)](https://travis-ci.com/public-law/oregon-administrative-rules-parser)
+![Python application](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Python%20application/badge.svg)
 
 # Oregon Administrative Rules Parser
 Parse the OAR into well formed JSON
