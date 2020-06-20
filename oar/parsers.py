@@ -34,9 +34,9 @@ def meta_sections(text: str) -> Dict[str, Any]:
         authority, implements, history = text.split("<br>", maxsplit=2)
 
     return {
-        "authority": _list_meta(authority),
+        "authority":  _list_meta(authority),
         "implements": _list_meta(implements),
-        "history": _string_meta(history),
+        "history":    _string_meta(history),
     }
 
 
