@@ -87,8 +87,8 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             chapter['divisions'].append(division)
 
             # Request a scrape of the Division page
-            URL: str = division['url']
-            request = scrapy.Request(URL, callback=self.parse_division_page)
+            request = scrapy.Request(
+                division['url'], callback=self.parse_division_page)
             request.meta['division_index'] = len(chapter['divisions']) - 1
             request.meta['chapter_index'] = response.meta['chapter_index']
             yield request
@@ -139,7 +139,7 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         yield self.oar
 
 
-def new_chapter(db_id: str, number: str, name: str):
+def new_chapter(db_id: str, number: str, name: str) -> Chapter:
     return items.Chapter(
         kind="Chapter",
         db_id=db_id,
@@ -150,7 +150,7 @@ def new_chapter(db_id: str, number: str, name: str):
     )
 
 
-def new_division(db_id: str, number: str, name: str):
+def new_division(db_id: str, number: str, name: str) -> Division:
     return items.Division(
         kind="Division",
         db_id=db_id,

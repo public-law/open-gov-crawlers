@@ -19,13 +19,27 @@ def meta_sections(text: str) -> Dict[str, Any]:
     # tags, so we want to leave those in place. Therefore, we want
     # to use just the first two <br>'s to split the meta section
     # into three parts.
-    authority, implements, history = text.split("<br>", maxsplit=2)
+    if ("Statutory/Other Authority" not in text) and ("Statutes/Other Implemented" not in text):
+        return {
+            "authority": [],
+            "implements": [],
+            "history": delete_all(text, ["<b>History:</b><br>", "<br> </p>"]).strip(),
+        }
 
-    return {
-        "authority": statute_meta(authority.split("</b>")[1].strip()),
-        "implements": statute_meta(implements.split("</b>")[1].strip()),
-        "history": delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip(),
-    }
+    authority, implements, history = text.split("<br>", maxsplit=2)
+    authority_meta  = statute_meta(authority.split("</b>")[1].strip())
+    implements_meta = statute_meta(implements.split("</b>")[1].strip())
+
+    try:
+        sections = {
+            "authority": authority_meta,
+            "implements": implements_meta,
+            "history": delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip(),
+        }
+    except:
+        raise ParseException(f'Could not parse meta section: {text}')
+
+    return sections
 
 
 def statute_meta(text: str) -> List[str]:
@@ -39,15 +53,16 @@ def statute_meta(text: str) -> List[str]:
 
 
 def parse_division(html: Selector) -> List[Rule]:
-    return [parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')]
+    rules = [parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')]
+    if len(rules) == 0:
+        raise ParseException("Found no Rules in the Division")
+
+    return rules
 
 
 def parse_rule(rule_div: Selector) -> Rule:
-    number = rule_div.css("strong > a::text").get()
-    number = number.strip()
-
-    name = rule_div.css('strong::text').get()
-    name = name.strip()
+    number = rule_div.css("strong > a::text").get().strip()
+    name   = rule_div.css('strong::text').get().strip()
 
     return _parse_rule_content(rule_div, number, name)
 
