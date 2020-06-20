@@ -32,19 +32,19 @@ def meta_sections(text: str) -> Dict[str, Any]:
         authority_meta = []
         implements, history = text.split("<br>", maxsplit=1)
         implements_meta = _list_meta(implements)
-        history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
+        history_meta = _string_meta(history)
 
     elif "Statutes/Other Implemented" not in text:
         authority, history = text.split("<br>", maxsplit=1)
         authority_meta  = _list_meta(authority)
         implements_meta = []
-        history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
+        history_meta = _string_meta(history)
 
     else:
         authority, implements, history = text.split("<br>", maxsplit=2)
         authority_meta  = _list_meta(authority)
         implements_meta = _list_meta(implements)
-        history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
+        history_meta = _string_meta(history)
 
     return {
         "authority": authority_meta,
@@ -55,6 +55,9 @@ def meta_sections(text: str) -> Dict[str, Any]:
 
 def _list_meta(section: str) -> List[str]:
     return statute_meta(section.split("</b>")[1].strip())
+
+def _string_meta(section: str) -> str:
+    return delete_all(section, ["<b>History:</b><br>", "<br> </p>"]).strip()
 
 
 def statute_meta(text: str) -> List[str]:
