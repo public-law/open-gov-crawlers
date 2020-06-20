@@ -29,10 +29,21 @@ def meta_sections(text: str) -> Dict[str, Any]:
             "history": delete_all(text, ["<p><b>History:</b><br>", "<br> </p>"]).strip(),
         }
 
-    if ("Statutory/Other Authority" not in text):
+    if "Statutory/Other Authority" not in text:
         implements, history = text.split("<br>", maxsplit=1)
         implements_meta = statute_meta(implements.split("</b>")[1].strip())
         authority_meta = []
+
+        return {
+            "authority": authority_meta,
+            "implements": implements_meta,
+            "history": delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip(),
+        }
+
+    if "Statutes/Other Implemented" not in text:
+        authority, history = text.split("<br>", maxsplit=1)
+        authority_meta  = statute_meta(authority.split("</b>")[1].strip())
+        implements_meta = []
 
         return {
             "authority": authority_meta,
