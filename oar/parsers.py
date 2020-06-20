@@ -19,23 +19,19 @@ def meta_sections(text: str) -> Dict[str, Any]:
     # tags, so we want to leave those in place. Therefore, we want
     # to use just the first two <br>'s to split the meta section
     # into three parts.
-    authority_meta: List[str]
-    implements_meta: List[str]
+    authority_meta: List[str] = []
+    implements_meta: List[str] = []
 
     if ("Statutory/Other Authority" not in text) and ("Statutes/Other Implemented" not in text):
-        authority_meta = []
-        implements_meta = []
         history = text
 
     elif "Statutory/Other Authority" not in text:
-        authority_meta = []
         implements, history = text.split("<br>", maxsplit=1)
         implements_meta = _list_meta(implements)
 
     elif "Statutes/Other Implemented" not in text:
         authority, history = text.split("<br>", maxsplit=1)
         authority_meta  = _list_meta(authority)
-        implements_meta = []
 
     else:
         authority, implements, history = text.split("<br>", maxsplit=2)
