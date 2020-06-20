@@ -60,6 +60,15 @@ class TestMetaSections:
         }
         assert meta_sections(raw_text) == expected
 
+    def test_parses_when_only_history_is_present(self):
+        raw_text = "<p><b>History:</b><br>PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03<br> </p>"
+        expected = {
+            "authority": [],
+            "implements": [],
+            "history": "PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03",
+        }
+        assert meta_sections(raw_text) == expected
+
 
 @pytest.mark.describe("fixture()")
 class TestFixture:

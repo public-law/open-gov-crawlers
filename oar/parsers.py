@@ -23,7 +23,7 @@ def meta_sections(text: str) -> Dict[str, Any]:
         return {
             "authority": [],
             "implements": [],
-            "history": delete_all(text, ["<b>History:</b><br>", "<br> </p>"]).strip(),
+            "history": delete_all(text, ["<p><b>History:</b><br>", "<br> </p>"]).strip(),
         }
 
     authority, implements, history = text.split("<br>", maxsplit=2)
