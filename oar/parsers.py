@@ -24,40 +24,27 @@ def meta_sections(text: str) -> Dict[str, Any]:
     history_meta: str
 
     if ("Statutory/Other Authority" not in text) and ("Statutes/Other Implemented" not in text):
-        return {
-            "authority": [],
-            "implements": [],
-            "history": delete_all(text, ["<p><b>History:</b><br>", "<br> </p>"]).strip(),
-        }
+        authority_meta = []
+        implements_meta = []
+        history_meta = delete_all(text, ["<p><b>History:</b><br>", "<br> </p>"]).strip()
 
-    if "Statutory/Other Authority" not in text:
+    elif "Statutory/Other Authority" not in text:
+        authority_meta = []
         implements, history = text.split("<br>", maxsplit=1)
         implements_meta = statute_meta(implements.split("</b>")[1].strip())
-        authority_meta = []
         history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
 
-        return {
-            "authority": authority_meta,
-            "implements": implements_meta,
-            "history": history_meta,
-        }
-
-    if "Statutes/Other Implemented" not in text:
+    elif "Statutes/Other Implemented" not in text:
         authority, history = text.split("<br>", maxsplit=1)
         authority_meta  = statute_meta(authority.split("</b>")[1].strip())
         implements_meta = []
         history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
 
-        return {
-            "authority": authority_meta,
-            "implements": implements_meta,
-            "history": history_meta,
-        }
-
-    authority, implements, history = text.split("<br>", maxsplit=2)
-    authority_meta  = statute_meta(authority.split("</b>")[1].strip())
-    implements_meta = statute_meta(implements.split("</b>")[1].strip())
-    history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
+    else:
+        authority, implements, history = text.split("<br>", maxsplit=2)
+        authority_meta  = statute_meta(authority.split("</b>")[1].strip())
+        implements_meta = statute_meta(implements.split("</b>")[1].strip())
+        history_meta = delete_all(history, ["<b>History:</b><br>", "<br> </p>"]).strip()
 
     return {
         "authority": authority_meta,
