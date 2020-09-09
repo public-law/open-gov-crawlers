@@ -1,7 +1,6 @@
 import scrapy
 
 
-# Nothing at all
 class UsAgGaOpinions(scrapy.Spider):
     """Scrape the Georgia Attorney General Opinions
 
@@ -15,7 +14,11 @@ class UsAgGaOpinions(scrapy.Spider):
         "https://law.georgia.gov/opinions/unofficial",
     ]
 
-    def parse(self, response):
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse_index_page)
+
+    def parse_index_page(self, response):
         yield {"Index URL": response.url}
 
         opinion_paths = response.xpath(
@@ -29,7 +32,9 @@ class UsAgGaOpinions(scrapy.Spider):
             "//a[contains(@title, 'Go to next page')]/@href"
         ).get()
 
-        yield scrapy.Request(response.urljoin(next_page_path), callback=self.parse)
+        yield scrapy.Request(
+            response.urljoin(next_page_path), callback=self.parse_index_page
+        )
 
     def parse_opinion_page(self, response):
         yield {"Opinion URL": response.url}
