@@ -19,7 +19,10 @@ class UsAgGaOpinions(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_index_page)
 
     def parse_index_page(self, response):
-        yield {"Index URL": response.url}
+        #
+        # Find all the individual opinions on this index page
+        # and parse them.
+        #
 
         opinion_paths = response.xpath(
             "//td[contains(@class, 'views-field-title')]/a/@href"
@@ -27,6 +30,10 @@ class UsAgGaOpinions(scrapy.Spider):
 
         for url in [response.urljoin(p) for p in opinion_paths]:
             yield scrapy.Request(url, callback=self.parse_opinion_page)
+
+        #
+        # Go to the next index page, if there is one.
+        #
 
         next_page_path = response.xpath(
             "//a[contains(@title, 'Go to next page')]/@href"
