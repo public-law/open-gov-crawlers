@@ -16,12 +16,20 @@ class UsAgGaOpinions(scrapy.Spider):
     ]
 
     def parse(self, response):
+        yield {"Index URL": response.url}
+
         opinion_paths = response.xpath(
             "//td[contains(@class, 'views-field-title')]/a/@href"
         ).getall()
 
         for url in [response.urljoin(p) for p in opinion_paths]:
-            yield scrapy.Request(url, callback=self.parse_opinion)
+            yield scrapy.Request(url, callback=self.parse_opinion_page)
 
-    def parse_opinion(self, response):
+        next_page_path = response.xpath(
+            "//a[contains(@title, 'Go to next page')]/@href"
+        ).get()
+
+        yield scrapy.Request(response.urljoin(next_page_path), callback=self.parse)
+
+    def parse_opinion_page(self, response):
         yield {"Opinion URL": response.url}
