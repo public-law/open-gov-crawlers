@@ -12,7 +12,7 @@ import os
 
 LOG_LEVEL = "DEBUG"
 
-BOT_NAME = "oar"
+BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]
 NEWSPIDER_MODULE = "public_law.spiders"
 
