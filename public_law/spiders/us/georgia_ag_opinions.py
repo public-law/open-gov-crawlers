@@ -2,20 +2,21 @@ from scrapy import Spider
 from scrapy.http import Request, Response
 
 
-class UsGaAgOpinions(Spider):
+class GeorgiaAgOpinions(Spider):
     """Scrape the Georgia Attorney General Opinions
 
-    Scrape both the official and unofficial opinions,
-    producing one JSON record per opinion.
+    Retrieve both the official and unofficial opinions,
+    producing one JSON object per opinion (page).
     """
 
-    name = "us_ga_ag_opinions"
+    name = "georgia_ag_opinions"
     start_urls = [
         "https://law.georgia.gov/opinions/official",
         "https://law.georgia.gov/opinions/unofficial",
     ]
 
     def parse(self, response: Response):
+        """Framework callback which begins the parsing."""
         return self.parse_index_page(response)
 
     def parse_index_page(self, response: Response):

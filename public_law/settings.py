@@ -10,11 +10,11 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = "DEBUG"
 
 BOT_NAME = "oar"
-SPIDER_MODULES = ["oar.spiders"]
-NEWSPIDER_MODULE = "oar.spiders"
+SPIDER_MODULES = ["public_law.spiders"]
+NEWSPIDER_MODULE = "public_law.spiders"
 
 
 # Output the JSON tree as one simple JSON object.
@@ -24,7 +24,7 @@ FEED_FORMAT = "jsonlines"
 # FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Public.Law Parser (https://www.public.law/contact-us)'
+USER_AGENT = "Public.Law Parser (https://www.public.law/contact-us)"
 ROBOTSTXT_OBEY = True
 
 
@@ -52,8 +52,8 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 4
 
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED = True
-TELNETCONSOLE_USERNAME = 'scrapy'
-TELNETCONSOLE_PASSWORD = 'scrapy'
+TELNETCONSOLE_USERNAME = "scrapy"
+TELNETCONSOLE_PASSWORD = "scrapy"
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -64,22 +64,22 @@ TELNETCONSOLE_PASSWORD = 'scrapy'
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    'oar.middlewares.OarSpiderMiddleware': 543,
+#    'public_law.middlewares.OarSpiderMiddleware': 543,
 # }
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    #   'oar.middlewares.OarDownloaderMiddleware': 543,
+    #   'public_law.middlewares.OarDownloaderMiddleware': 543,
     "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 1,
-    'scrapy_crawlera.CrawleraMiddleware': 610
+    "scrapy_crawlera.CrawleraMiddleware": 610,
 }
 
 CRAWLERA_ENABLED = True
 
 # This breaks on Scraping Hub although it works locally. Commenting it out
 # for now.
-VAR = 'CRAWLERA_APIKEY'
+VAR = "CRAWLERA_APIKEY"
 if VAR in os.environ:
     CRAWLERA_APIKEY = os.environ[VAR]
 
@@ -91,7 +91,7 @@ if VAR in os.environ:
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {"oar.pipelines.OarPipeline": 300}
+# ITEM_PIPELINES = {"public_law.pipelines.OarPipeline": 300}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
