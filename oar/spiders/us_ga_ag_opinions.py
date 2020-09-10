@@ -1,24 +1,24 @@
-import scrapy
+from scrapy import Spider
+from scrapy.http import Request, Response
 
 
-class UsAgGaOpinions(scrapy.Spider):
+class UsGaAgOpinions(Spider):
     """Scrape the Georgia Attorney General Opinions
 
     Scrape both the official and unofficial opinions,
     producing one JSON record per opinion.
     """
 
-    name = "us_ag_ga_opinions"
+    name = "us_ga_ag_opinions"
     start_urls = [
         "https://law.georgia.gov/opinions/official",
         "https://law.georgia.gov/opinions/unofficial",
     ]
 
-    def start_requests(self):
-        for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse_index_page)
+    def parse(self, response: Response):
+        return self.parse_index_page(response)
 
-    def parse_index_page(self, response):
+    def parse_index_page(self, response: Response):
         #
         # Find all the individual opinions on this index page
         # and parse them.
@@ -29,7 +29,7 @@ class UsAgGaOpinions(scrapy.Spider):
         ).getall()
 
         for url in [response.urljoin(p) for p in opinion_paths]:
-            yield scrapy.Request(url, callback=self.parse_opinion_page)
+            yield Request(url, callback=self.parse_opinion_page)
 
         #
         # Go to the next index page, if there is one.
@@ -39,9 +39,10 @@ class UsAgGaOpinions(scrapy.Spider):
             "//a[contains(@title, 'Go to next page')]/@href"
         ).get()
 
-        yield scrapy.Request(
-            response.urljoin(next_page_path), callback=self.parse_index_page
-        )
+        if next_page_path is not None:
+            yield Request(
+                response.urljoin(next_page_path), callback=self.parse_index_page
+            )
 
-    def parse_opinion_page(self, response):
+    def parse_opinion_page(self, response: Response):
         yield {"Opinion URL": response.url}
