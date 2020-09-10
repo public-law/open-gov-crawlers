@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "oar"
+name = "public-law-spiders"
 version = "1.1.0"
 description = ""
 authors = ["Robb Shecter <robb@public.law>"]
