@@ -21,10 +21,9 @@ class GeorgiaAgOpinions(Spider):
 
     def parse_index_page(self, response: Response):
         #
-        # Find all the individual opinions on this index page
-        # and parse them.
+        # 1. Find all the individual opinions on this index page
+        # and request a parse for each.
         #
-
         opinion_paths = response.xpath(
             "//td[contains(@class, 'views-field-title')]/a/@href"
         ).getall()
@@ -33,9 +32,8 @@ class GeorgiaAgOpinions(Spider):
             yield Request(url, callback=self.parse_opinion_page)
 
         #
-        # Go to the next index page, if there is one.
+        # 2. Go to the next index page, if there is one.
         #
-
         next_page_path = response.xpath(
             "//a[contains(@title, 'Go to next page')]/@href"
         ).get()
