@@ -17,6 +17,7 @@ class ParseException(Exception):
 
 class OpinionParseResult(NamedTuple):
     summary: str
+    title: str
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
@@ -86,11 +87,14 @@ def parse_rule(rule_div: Selector) -> Rule:
 
 def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     summary = html.css(".page-top__subtitle--re p::text").get()
-
     if summary is None:
         raise ParseException("Couldn't parse the summary")
 
-    return OpinionParseResult(summary=summary)
+    title = html.css("h1.page-top__title--opinion::text").get()
+    if title is None:
+        raise ParseException("Couldn't parse the title")
+
+    return OpinionParseResult(summary=summary, title=" ".join(title.strip().split()))
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
