@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 from scrapy import Selector
@@ -93,6 +94,10 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     return OpinionParseResult(
         summary=summary, title=title, is_official=title.startswith("Official")
     )
+
+
+def opinion_date_to_iso8601(date: str) -> str:
+    return datetime.strptime(date, "%B %d, %Y").isoformat().split("T")[0]
 
 
 def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:

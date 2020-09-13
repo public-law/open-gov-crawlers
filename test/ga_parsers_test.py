@@ -1,11 +1,17 @@
 from typing import Any, IO
 from scrapy.selector import Selector
 
-from public_law.parsers import parse_ag_opinion
+from public_law.parsers import opinion_date_to_iso8601, parse_ag_opinion
 
 
 def fixture(filename: str) -> IO[Any]:
     return open(f"test/fixtures/{filename}")
+
+
+class TestOpinionDateToISO8601:
+    def test_sample_1(self):
+        opinion_date = "OCTOBER 02, 2017"
+        assert opinion_date_to_iso8601(opinion_date) == "2017-10-02"
 
 
 class TestParseAgOpinion:
