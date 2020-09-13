@@ -18,6 +18,7 @@ class ParseException(Exception):
 class OpinionParseResult(NamedTuple):
     summary: str
     title: str
+    is_official: bool
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
@@ -89,7 +90,9 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
     title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
 
-    return OpinionParseResult(summary=summary, title=title)
+    return OpinionParseResult(
+        summary=summary, title=title, is_official=title.startswith("Official")
+    )
 
 
 def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:

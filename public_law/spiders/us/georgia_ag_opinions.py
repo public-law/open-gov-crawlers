@@ -49,4 +49,8 @@ class GeorgiaAgOpinions(Spider):
         self, response: Response
     ) -> Generator[Dict[str, Any], None, None]:
         result = parse_ag_opinion(response)
-        yield {"summary": result.summary, "title": result.title}
+        yield {
+            "summary": result.summary,
+            "title": result.title,
+            "is_official": result.is_official,
+        }
