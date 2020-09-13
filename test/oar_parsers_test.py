@@ -1,4 +1,3 @@
-import pytest
 from scrapy.selector import Selector
 from typing import Any, IO
 
@@ -9,7 +8,6 @@ def fixture(filename: str) -> IO[Any]:
     return open(f"test/fixtures/{filename}")
 
 
-@pytest.mark.describe("statute_meta()")
 class TestStatuteMeta:
     def test_a_single_chapter_citation(self):
         raw_text = "ORS 183"
@@ -49,7 +47,6 @@ class TestStatuteMeta:
         assert statute_meta(raw_text) == expected
 
 
-@pytest.mark.describe("meta_sections()")
 class TestMetaSections:
     def test_parses_when_all_three_types_are_present(self):
         raw_text = "<p><b>Statutory/Other Authority:</b> ORS 243.061 - 243.302<br><b>Statutes/Other Implemented:</b> ORS.243.125(1)<br><b>History:</b><br>PEBB 2-2005, f. 7-26-05, cert. ef. 7-29-05<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-2003, f. &amp; cert. ef. 12-4-03<br> </p>"
@@ -88,7 +85,6 @@ class TestMetaSections:
         assert meta_sections(raw_text) == expected
 
 
-@pytest.mark.describe("fixture()")
 class TestFixture:
     def test_can_access_a_fixture(self):
         with fixture("division_450.html") as f:
@@ -96,7 +92,6 @@ class TestFixture:
             assert len(html) > 0
 
 
-@pytest.mark.describe("parse_division()")
 class TestParseDivision:
     def test_number_of_rules(self):
         with fixture("division_450.html") as f:
