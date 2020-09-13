@@ -84,7 +84,7 @@ def parse_rule(rule_div: Selector) -> Rule:
     return _parse_rule_content(rule_div, number, name)
 
 
-def parse_ag_opinion(html: Selector) -> OpinionParseResult:
+def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     summary = html.css(".page-top__subtitle--re p::text").get()
 
     if summary is None:
