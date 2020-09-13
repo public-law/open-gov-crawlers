@@ -21,6 +21,7 @@ pytest = "^6.0.1"
 wrapt = "^1.12.1"
 prospector = "^1.3.0"
 pytype = "^2020.8.28"
+ipython = "^7.18.1"
 
 [build-system]
 requires = ["poetry>=0.12"]
