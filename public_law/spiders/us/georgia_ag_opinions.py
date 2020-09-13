@@ -1,5 +1,6 @@
 from scrapy import Spider
 from scrapy.http import Request, Response
+from typing import Any, Dict, Generator
 
 
 class GeorgiaAgOpinions(Spider):
@@ -15,7 +16,7 @@ class GeorgiaAgOpinions(Spider):
         "https://law.georgia.gov/opinions/unofficial",
     ]
 
-    def parse(self, response: Response):
+    def parse(self, response: Response, **kwargs: Dict[str, Any]):
         """Framework callback which begins the parsing."""
         return self.parse_index_page(response)
 
@@ -43,5 +44,7 @@ class GeorgiaAgOpinions(Spider):
                 response.urljoin(next_page_path), callback=self.parse_index_page
             )
 
-    def parse_opinion_page(self, response: Response):
+    def parse_opinion_page(
+        self, response: Response
+    ) -> Generator[Dict[str, Any], None, None]:
         yield {"Opinion URL": response.url}

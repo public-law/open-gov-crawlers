@@ -6,6 +6,6 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-class OarPipeline(object):
-    def process_item(self, item, spider):
+class OarPipeline:
+    def process_item(self, item, _spider):
         return item

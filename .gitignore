@@ -127,3 +127,5 @@ dmypy.json
 
 # Temp. output
 *.json
+.pytype/
+out/

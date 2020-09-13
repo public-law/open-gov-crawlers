@@ -1,7 +1,8 @@
 import re
 
 from scrapy import Selector
-from typing import Any, Dict, List
+from typing import Dict, List, Union
+from scrapy.http import Response
 
 from public_law.items import Rule
 from public_law.text import delete_all
@@ -14,7 +15,7 @@ class ParseException(Exception):
     pass
 
 
-def meta_sections(text: str) -> Dict[str, Any]:
+def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     # Somewhat tricky: The history section uses embedded <br>
     # tags, so we want to leave those in place. Therefore, we want
     # to use just the first two <br>'s to split the meta section
@@ -62,7 +63,7 @@ def statute_meta(text: str) -> List[str]:
     return [s.strip() for s in SEPARATOR.split(text)]
 
 
-def parse_division(html: Selector) -> List[Rule]:
+def parse_division(html: Response) -> List[Rule]:
     rules = [
         parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
     ]
@@ -73,8 +74,8 @@ def parse_division(html: Selector) -> List[Rule]:
 
 
 def parse_rule(rule_div: Selector) -> Rule:
-    number = rule_div.css("strong > a::text").get().strip()
-    name = rule_div.css("strong::text").get().strip()
+    number: str = rule_div.css("strong > a::text").get(" ").strip()
+    name: str = rule_div.css("strong::text").get(" ").strip()
 
     return _parse_rule_content(rule_div, number, name)
 
