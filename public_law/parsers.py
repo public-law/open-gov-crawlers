@@ -1,7 +1,7 @@
 import re
 
 from scrapy import Selector
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 from scrapy.http import Response
 
 from public_law.items import Rule
@@ -80,8 +80,8 @@ def parse_rule(rule_div: Selector) -> Rule:
     return _parse_rule_content(rule_div, number, name)
 
 
-def parse_ag_opinion(raw_html: str):
-    pass
+def parse_ag_opinion(raw_html: str) -> Dict[str, Any]:
+    return {"summary": "Hi"}
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:

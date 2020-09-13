@@ -17,4 +17,4 @@ class TestParseAgOpinion:
             )
             result = parse_ag_opinion(f.read())
 
-            assert result.summary == expected_summary
+            assert result["summary"] == expected_summary
