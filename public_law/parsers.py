@@ -17,10 +17,10 @@ class ParseException(Exception):
 
 
 class OpinionParseResult(NamedTuple):
-    summary: str
     title: str
     is_official: bool
     date: str
+    summary: str
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
