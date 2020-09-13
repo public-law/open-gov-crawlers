@@ -1,7 +1,7 @@
 import re
 
 from scrapy import Selector
-from typing import Any, Dict, List, Union
+from typing import Dict, List, NamedTuple, Union
 from scrapy.http import Response
 
 from public_law.items import Rule
@@ -13,6 +13,10 @@ DOMAIN = "secure.sos.state.or.us"
 
 class ParseException(Exception):
     pass
+
+
+class OpinionParseResult(NamedTuple):
+    summary: str
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
@@ -80,13 +84,13 @@ def parse_rule(rule_div: Selector) -> Rule:
     return _parse_rule_content(rule_div, number, name)
 
 
-def parse_ag_opinion(html: Selector) -> Dict[str, Any]:
+def parse_ag_opinion(html: Selector) -> OpinionParseResult:
     summary = html.css(".page-top__subtitle--re p::text").get()
 
     if summary is None:
         raise ParseException("Couldn't parse the summary")
 
-    return {"summary": summary}
+    return OpinionParseResult(summary=summary)
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:

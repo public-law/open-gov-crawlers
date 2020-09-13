@@ -20,4 +20,4 @@ class TestParseAgOpinion:
             )
             result = parse_ag_opinion(html)
 
-            assert result["summary"] == expected_summary
+            assert result.summary == expected_summary
