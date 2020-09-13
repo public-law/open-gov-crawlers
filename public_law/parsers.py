@@ -80,6 +80,10 @@ def parse_rule(rule_div: Selector) -> Rule:
     return _parse_rule_content(rule_div, number, name)
 
 
+def parse_ag_opinion(raw_html: str):
+    pass
+
+
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
     raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
     cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
