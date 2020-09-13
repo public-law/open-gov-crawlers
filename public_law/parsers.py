@@ -94,7 +94,7 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     if title is None:
         raise ParseException("Couldn't parse the title")
 
-    return OpinionParseResult(summary=summary, title=" ".join(title.strip().split()))
+    return OpinionParseResult(summary=summary, title=_normalize_whitespace(title))
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
@@ -124,3 +124,7 @@ URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 def oar_url(relative_fragment: str) -> str:
     return URL_PREFIX + relative_fragment
+
+
+def _normalize_whitespace(text: str) -> str:
+    return " ".join(text.strip().split())
