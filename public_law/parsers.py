@@ -5,7 +5,7 @@ from typing import Dict, List, NamedTuple, Union
 from scrapy.http import Response
 
 from public_law.items import Rule
-from public_law.text import delete_all
+from public_law.text import delete_all, normalize_whitespace
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"
@@ -86,15 +86,19 @@ def parse_rule(rule_div: Selector) -> Rule:
 
 
 def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
-    summary = html.css(".page-top__subtitle--re p::text").get()
-    if summary is None:
-        raise ParseException("Couldn't parse the summary")
+    summary = _parse(
+        html, css=".page-top__subtitle--re p::text", expected="the summary"
+    )
+    title = _parse(html, css="h1.page-top__title--opinion::text", expected="the title")
 
-    title = html.css("h1.page-top__title--opinion::text").get()
-    if title is None:
-        raise ParseException("Couldn't parse the title")
+    return OpinionParseResult(summary=summary, title=title)
 
-    return OpinionParseResult(summary=summary, title=_normalize_whitespace(title))
+
+def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:
+    result = node.css(css).get()
+    if result is None:
+        raise ParseException(expected)
+    return normalize_whitespace(result)
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
@@ -124,7 +128,3 @@ URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 def oar_url(relative_fragment: str) -> str:
     return URL_PREFIX + relative_fragment
-
-
-def _normalize_whitespace(text: str) -> str:
-    return " ".join(text.strip().split())
