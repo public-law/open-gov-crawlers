@@ -1,3 +1,4 @@
+from public_law.parsers import parse_ag_opinion
 from scrapy import Spider
 from scrapy.http import Request, Response
 from typing import Any, Dict, Generator
@@ -47,4 +48,4 @@ class GeorgiaAgOpinions(Spider):
     def parse_opinion_page(
         self, response: Response
     ) -> Generator[Dict[str, Any], None, None]:
-        yield {"Opinion URL": response.url}
+        yield {"Summary": parse_ag_opinion(response).summary}
