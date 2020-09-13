@@ -21,3 +21,11 @@ class TestParseAgOpinion:
             result = parse_ag_opinion(html)
 
             assert result.summary == expected_summary
+
+    def test_gets_the_title(self):
+        with fixture("opinion-2017-3.html") as f:
+            html = Selector(text=f.read())
+            result = parse_ag_opinion(html)
+
+            expected_title = "Official Opinion 2017-3"
+            assert result.title == expected_title
