@@ -80,8 +80,9 @@ def parse_rule(rule_div: Selector) -> Rule:
     return _parse_rule_content(rule_div, number, name)
 
 
-def parse_ag_opinion(raw_html: str) -> Dict[str, Any]:
-    return {"summary": "Hi"}
+def parse_ag_opinion(html: Selector) -> Dict[str, Any]:
+    summary: str = html.css(".page-top__subtitle--re p::text").get()
+    return {"summary": summary}
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
