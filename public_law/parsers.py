@@ -20,6 +20,7 @@ class OpinionParseResult(NamedTuple):
     summary: str
     title: str
     is_official: bool
+    date: str
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
@@ -90,9 +91,13 @@ def parse_rule(rule_div: Selector) -> Rule:
 def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
     title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
+    date = _parse(html, css="time::text", expected="date")
 
     return OpinionParseResult(
-        summary=summary, title=title, is_official=title.startswith("Official")
+        summary=summary,
+        title=title,
+        is_official=title.startswith("Official"),
+        date=opinion_date_to_iso8601(date),
     )
 
 

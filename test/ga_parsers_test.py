@@ -42,3 +42,10 @@ class TestParseAgOpinion:
             result = parse_ag_opinion(html)
 
             assert result.is_official
+
+    def test_gets_the_date(self):
+        with fixture("opinion-2017-3.html") as f:
+            html = Selector(text=f.read())
+            result = parse_ag_opinion(html)
+
+            assert result.date == "2017-10-02"
