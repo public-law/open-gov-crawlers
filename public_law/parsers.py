@@ -81,7 +81,11 @@ def parse_rule(rule_div: Selector) -> Rule:
 
 
 def parse_ag_opinion(html: Selector) -> Dict[str, Any]:
-    summary: str = html.css(".page-top__subtitle--re p::text").get()
+    summary = html.css(".page-top__subtitle--re p::text").get()
+
+    if summary is None:
+        raise ParseException("Couldn't parse the summary")
+
     return {"summary": summary}
 
 
