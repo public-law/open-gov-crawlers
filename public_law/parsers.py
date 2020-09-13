@@ -86,10 +86,8 @@ def parse_rule(rule_div: Selector) -> Rule:
 
 
 def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
-    summary = _parse(
-        html, css=".page-top__subtitle--re p::text", expected="the summary"
-    )
-    title = _parse(html, css="h1.page-top__title--opinion::text", expected="the title")
+    summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
+    title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
 
     return OpinionParseResult(summary=summary, title=title)
 
@@ -97,7 +95,7 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
 def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:
     result = node.css(css).get()
     if result is None:
-        raise ParseException(expected)
+        raise ParseException(f"Could not parse the {expected}")
     return normalize_whitespace(result)
 
 
