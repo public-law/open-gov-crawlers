@@ -17,6 +17,7 @@ class OpinionParseResult(NamedTuple):
     is_official: bool
     date: str
     summary: str
+    full_text: str
 
 
 def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
@@ -24,11 +25,17 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
     title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
     date = _parse(html, css="time::text", expected="date")
 
+    paragraphs = [
+        normalize_whitespace(p) for p in html.css(".body-content p::text").getall()
+    ]
+    full_text = "\n".join(paragraphs)
+
     return OpinionParseResult(
         summary=summary,
         title=title,
         is_official=title.startswith("Official"),
         date=opinion_date_to_iso8601(date),
+        full_text=full_text,
     )
 
 

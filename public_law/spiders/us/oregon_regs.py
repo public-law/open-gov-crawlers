@@ -14,7 +14,7 @@ from titlecase import titlecase
 from typing_extensions import Protocol
 
 from public_law import items
-from public_law.parsers import DOMAIN, oar_url, parse_division
+from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
 
 
 class OregonRegs(Spider):
