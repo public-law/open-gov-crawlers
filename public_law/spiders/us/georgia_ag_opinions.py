@@ -1,7 +1,7 @@
 from public_law.parsers.us.georgia import parse_ag_opinion
 from scrapy import Spider
 from scrapy.http import Request, Response
-from typing import Any, Dict, Generator
+from typing import Any, Dict
 
 
 class GeorgiaAgOpinions(Spider):

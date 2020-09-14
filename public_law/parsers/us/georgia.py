@@ -13,6 +13,7 @@ class ParseException(Exception):
 class OpinionParseResult(NamedTuple):
     """All the collected data from an opinion page"""
 
+    source_url: str
     title: str
     is_official: bool
     date: str
@@ -20,7 +21,7 @@ class OpinionParseResult(NamedTuple):
     full_text: str
 
 
-def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
+def parse_ag_opinion(html: Response) -> OpinionParseResult:
     summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
     title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
     date = _parse(html, css="time::text", expected="date")
@@ -36,6 +37,7 @@ def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
         is_official=title.startswith("Official"),
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
+        source_url=html.url,
     )
 
 

@@ -1,4 +1,4 @@
-from scrapy.selector import Selector
+from scrapy.http import HtmlResponse
 
 from public_law.parsers.us.georgia import (
     opinion_date_to_iso8601,
@@ -9,7 +9,11 @@ from public_law.parsers.us.georgia import (
 
 def parsed_opinion(filename: str) -> OpinionParseResult:
     with open(f"test/fixtures/{filename}") as f:
-        html = Selector(text=f.read())
+        html = HtmlResponse(
+            url="https://law.georgia.gov/opinions/2017-3",
+            body=f.read(),
+            encoding="UTF-8",
+        )
         return parse_ag_opinion(html)
 
 
@@ -52,3 +56,6 @@ class TestParseAgOpinion:
             "Assistant Attorney General"
         )
         assert self.result.full_text == expected_text
+
+    def test_gets_the_source_url(self):
+        assert self.result.source_url == "https://law.georgia.gov/opinions/2017-3"
