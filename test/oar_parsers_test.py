@@ -1,7 +1,7 @@
 from scrapy.selector import Selector
 from typing import Any, IO
 
-from public_law.parsers import meta_sections, parse_division, statute_meta
+from public_law.parsers.us.oregon import meta_sections, parse_division, statute_meta
 
 
 def fixture(filename: str) -> IO[Any]:

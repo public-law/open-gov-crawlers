@@ -1,12 +1,11 @@
-from datetime import datetime
 import re
 
 from scrapy import Selector
 from scrapy.http import Response
-from typing import Dict, List, NamedTuple, Union
+from typing import Dict, List, Union
 
 from public_law.items import Rule
-from public_law.text import delete_all, normalize_whitespace
+from public_law.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"
@@ -14,14 +13,6 @@ DOMAIN = "secure.sos.state.or.us"
 
 class ParseException(Exception):
     pass
-
-
-class OpinionParseResult(NamedTuple):
-    """All the collected data from an opinion page"""
-    title: str
-    is_official: bool
-    date: str
-    summary: str
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
@@ -87,30 +78,6 @@ def parse_rule(rule_div: Selector) -> Rule:
     name: str = rule_div.css("strong::text").get(" ").strip()
 
     return _parse_rule_content(rule_div, number, name)
-
-
-def parse_ag_opinion(html: Union[Response, Selector]) -> OpinionParseResult:
-    summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
-    title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
-    date = _parse(html, css="time::text", expected="date")
-
-    return OpinionParseResult(
-        summary=summary,
-        title=title,
-        is_official=title.startswith("Official"),
-        date=opinion_date_to_iso8601(date),
-    )
-
-
-def opinion_date_to_iso8601(date: str) -> str:
-    return datetime.strptime(date, "%B %d, %Y").isoformat().split("T")[0]
-
-
-def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:
-    result = node.css(css).get()
-    if result is None:
-        raise ParseException(f"Could not parse the {expected}")
-    return normalize_whitespace(result)
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:

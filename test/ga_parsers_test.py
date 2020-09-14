@@ -1,6 +1,6 @@
 from scrapy.selector import Selector
 
-from public_law.parsers import (
+from public_law.parsers.us.georgia import (
     opinion_date_to_iso8601,
     parse_ag_opinion,
     OpinionParseResult,
