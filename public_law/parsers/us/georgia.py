@@ -1,9 +1,10 @@
 from datetime import datetime
+import re
 from typing import List, NamedTuple, Union
-from public_law.text import normalize_whitespace
-
 from scrapy import Selector
 from scrapy.http import Response
+
+from public_law.text import normalize_whitespace
 
 
 class ParseException(Exception):
@@ -32,6 +33,12 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
     ]
     full_text = "\n".join(paragraphs)
 
+    citations = re.findall(
+        r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text
+    )
+    citation_set = list(set(citations))
+    citation_set.sort()
+
     return OpinionParseResult(
         summary=summary,
         title=title,
@@ -39,7 +46,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
         source_url=html.url,
-        ocga_cites=["nothing", "here"],
+        ocga_cites=citation_set,
     )
 
 
