@@ -11,6 +11,15 @@ class ParseException(Exception):
     pass
 
 
+class CitationSet(NamedTuple):
+    """Extendable dict of citations"""
+
+    ocga: List[str]
+
+    def __repr__(self) -> str:
+        return self._asdict().__repr__()
+
+
 class OpinionParseResult(NamedTuple):
     """All the collected data from an opinion page"""
 
@@ -20,7 +29,7 @@ class OpinionParseResult(NamedTuple):
     date: str
     summary: str
     full_text: str
-    ocga_cites: List[str]
+    citations: CitationSet
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
@@ -46,7 +55,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
         source_url=html.url,
-        ocga_cites=citation_set,
+        citations=CitationSet(ocga=citation_set),
     )
 
 

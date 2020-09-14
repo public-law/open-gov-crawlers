@@ -69,4 +69,4 @@ class TestParseAgOpinion:
             "42-4-13(d.1)",
             "42-4-13(e)",
         ]
-        assert self.result.ocga_cites == expected_cites
+        assert self.result.citations.ocga == expected_cites
