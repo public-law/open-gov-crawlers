@@ -59,3 +59,14 @@ class TestParseAgOpinion:
 
     def test_gets_the_source_url(self):
         assert self.result.source_url == "https://law.georgia.gov/opinions/2017-3"
+
+    def test_gets_all_ocga_cites(self):
+        expected_cites = [
+            "26-5-58",
+            "26-5-40",
+            "35-3-33(a)(1)(C)",
+            "42-4-13(d.1)",
+            "42-4-13(d)(1)(B)",
+            "42-4-13(e)",
+        ]
+        assert self.result.ocga_cites == expected_cites
