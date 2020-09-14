@@ -1,11 +1,16 @@
-from typing import Any, IO
 from scrapy.selector import Selector
 
-from public_law.parsers import opinion_date_to_iso8601, parse_ag_opinion
+from public_law.parsers import (
+    opinion_date_to_iso8601,
+    parse_ag_opinion,
+    OpinionParseResult,
+)
 
 
-def fixture(filename: str) -> IO[Any]:
-    return open(f"test/fixtures/{filename}")
+def parsed_opinion(filename: str) -> OpinionParseResult:
+    with open(f"test/fixtures/{filename}") as f:
+        html = Selector(text=f.read())
+        return parse_ag_opinion(html)
 
 
 class TestOpinionDateToISO8601:
@@ -15,37 +20,22 @@ class TestOpinionDateToISO8601:
 
 
 class TestParseAgOpinion:
+    def setup(self):
+        self.result = parsed_opinion("opinion-2017-3.html")
+
     def test_gets_the_summary(self):
-        with fixture("opinion-2017-3.html") as f:
-            html = Selector(text=f.read())
-
-            expected_summary = (
-                "Updating of crimes and offenses for which "
-                "the Georgia Crime Information Center is "
-                "authorized to collect and file fingerprints."
-            )
-            result = parse_ag_opinion(html)
-
-            assert result.summary == expected_summary
+        expected_summary = (
+            "Updating of crimes and offenses for which "
+            "the Georgia Crime Information Center is "
+            "authorized to collect and file fingerprints."
+        )
+        assert self.result.summary == expected_summary
 
     def test_gets_the_title(self):
-        with fixture("opinion-2017-3.html") as f:
-            html = Selector(text=f.read())
-            result = parse_ag_opinion(html)
-
-            expected_title = "Official Opinion 2017-3"
-            assert result.title == expected_title
+        assert self.result.title == "Official Opinion 2017-3"
 
     def test_gets_is_official(self):
-        with fixture("opinion-2017-3.html") as f:
-            html = Selector(text=f.read())
-            result = parse_ag_opinion(html)
-
-            assert result.is_official
+        assert self.result.is_official
 
     def test_gets_the_date(self):
-        with fixture("opinion-2017-3.html") as f:
-            html = Selector(text=f.read())
-            result = parse_ag_opinion(html)
-
-            assert result.date == "2017-10-02"
+        assert self.result.date == "2017-10-02"

@@ -2,8 +2,8 @@ from datetime import datetime
 import re
 
 from scrapy import Selector
-from typing import Dict, List, NamedTuple, Union
 from scrapy.http import Response
+from typing import Dict, List, NamedTuple, Union
 
 from public_law.items import Rule
 from public_law.text import delete_all, normalize_whitespace
@@ -17,6 +17,7 @@ class ParseException(Exception):
 
 
 class OpinionParseResult(NamedTuple):
+    """All the collected data from an opinion page"""
     title: str
     is_official: bool
     date: str
@@ -117,7 +118,7 @@ def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
     cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
     cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-    content_paragaphs = non_empty_paragraphs[1:-1]
+    content_paragraphs = non_empty_paragraphs[1:-1]
 
     meta_paragraph = non_empty_paragraphs[-1]
     metadata = meta_sections(meta_paragraph)
@@ -127,7 +128,7 @@ def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
         number=number,
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
-        text="\n".join(content_paragaphs),
+        text="\n".join(content_paragraphs),
         authority=metadata["authority"],
         implements=metadata["implements"],
         history=metadata["history"],
