@@ -7,7 +7,8 @@ from public_law.parsers.us.georgia import (
 )
 
 
-def parsed_opinion(filename: str) -> OpinionParseResult:
+def parsed_opinion_fixture() -> OpinionParseResult:
+    filename = "opinion-2017-3.html"
     with open(f"test/fixtures/{filename}") as f:
         html = HtmlResponse(
             url="https://law.georgia.gov/opinions/2017-3",
@@ -25,7 +26,7 @@ class TestOpinionDateToISO8601:
 
 class TestParseAgOpinion:
     def setup(self):
-        self.result = parsed_opinion("opinion-2017-3.html")
+        self.result = parsed_opinion_fixture()
 
     def test_gets_the_summary(self):
         expected_summary = (
