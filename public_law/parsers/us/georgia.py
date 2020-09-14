@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import NamedTuple, Union
+from typing import List, NamedTuple, Union
 from public_law.text import normalize_whitespace
 
 from scrapy import Selector
@@ -19,6 +19,7 @@ class OpinionParseResult(NamedTuple):
     date: str
     summary: str
     full_text: str
+    ocga_cites: List[str]
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
@@ -38,6 +39,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
         source_url=html.url,
+        ocga_cites=["nothing", "here"],
     )
 
 
