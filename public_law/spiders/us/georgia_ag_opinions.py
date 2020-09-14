@@ -45,7 +45,5 @@ class GeorgiaAgOpinions(Spider):
                 response.urljoin(next_page_path), callback=self.parse_index_page
             )
 
-    def parse_opinion_page(
-        self, response: Response
-    ) -> Generator[Dict[str, Any], None, None]:
+    def parse_opinion_page(self, response: Response):
         yield parse_ag_opinion(response)._asdict()
