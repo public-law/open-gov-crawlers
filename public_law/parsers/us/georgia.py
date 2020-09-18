@@ -37,11 +37,11 @@ class OpinionParseResult(NamedTuple):
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
-    summary = _parse(html, css=".page-top__subtitle--re p::text", expected="summary")
-    title = _parse(html, css="h1.page-top__title--opinion::text", expected="title")
-    date = _parse(html, css="time::text", expected="date")
+    summary = first(html, css=".page-top__subtitle--re p::text", expected="summary")
+    title = first(html, css="h1.page-top__title--opinion::text", expected="title")
+    date = first(html, css="time::text", expected="date")
     full_text = pipe(
-        html.css(".body-content p::text").getall(),
+        all(html, ".body-content p::text"),
         map(normalize_whitespace),
         join("\n"),
     )
@@ -67,7 +67,11 @@ def opinion_date_to_iso8601(date: str) -> str:
     return datetime.strptime(date, "%B %d, %Y").isoformat().split("T")[0]
 
 
-def _parse(node: Union[Response, Selector], css: str, expected: str) -> str:
+def all(node: Union[Response, Selector], css: str) -> List[str]:
+    return node.css(css).getall()
+
+
+def first(node: Union[Response, Selector], css: str, expected: str) -> str:
     result = node.css(css).get()
     if result is None:
         raise ParseException(f"Could not parse the {expected}")
