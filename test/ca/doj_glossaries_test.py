@@ -1,8 +1,15 @@
-from datetime import datetime
+from typing_extensions import Protocol
+
+from datetime import datetime, date
 import pytz
 
 from scrapy.http import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
+
+
+class SimpleTimezone(Protocol):
+    def localize(self, dt: datetime) -> date:
+        ...
 
 
 def todays_date() -> str:

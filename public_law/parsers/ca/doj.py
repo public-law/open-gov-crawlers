@@ -2,8 +2,9 @@ from typing import List, NamedTuple, Union
 from scrapy import Selector
 from scrapy.http import Response
 from public_law.text import normalize_whitespace
+from typing_extensions import Protocol
 
-from datetime import datetime
+from datetime import datetime, date
 import pytz
 
 
@@ -41,6 +42,11 @@ def first(node: Union[Response, Selector], css: str, expected: str) -> str:
     if result is None:
         raise ParseException(f"Could not parse the {expected}")
     return normalize_whitespace(result)
+
+
+class SimpleTimezone(Protocol):
+    def localize(self, dt: datetime) -> date:
+        ...
 
 
 def todays_date() -> str:
