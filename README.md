@@ -1,6 +1,9 @@
 ![Test Suite](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Test%20Suite/badge.svg)
 
-# Oregon Administrative Rules Parser
+
+# Open-gov spiders written with Python/Scrapy
+
+## Oregon Administrative Rules Parser
 Parse the OAR into well formed JSON
 
 ```bash
