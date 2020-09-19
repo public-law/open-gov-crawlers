@@ -25,3 +25,9 @@ class TestParseGlossary:
             self.result.name
             == "Legal Aid Program Evaluation, Final Report; Glossary of Legal Terms"
         )
+
+    def test_gets_the_url(self):
+        assert (
+            self.result.source_url
+            == "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html"
+        )
