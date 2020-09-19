@@ -15,7 +15,9 @@ class GlossarySourceParseResult(NamedTuple):
 
 
 def parse_glossary(html: Response) -> GlossarySourceParseResult:
-    name = html.css("h1::text").get() + "; " + html.css("main > h2::text").get()
+    main = html.css("main")
+
+    name = main.css("h1::text").get() + "; " + main.css("h2::text").get()
     return GlossarySourceParseResult(name=name)
 
 
