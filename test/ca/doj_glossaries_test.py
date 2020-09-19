@@ -1,5 +1,5 @@
 from scrapy.http import HtmlResponse
-from public_law.parsers.ca.doj import parse_glossary
+from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
 
 
 def parsed_glossary() -> GlossarySourceParseResult:
@@ -14,5 +14,12 @@ def parsed_glossary() -> GlossarySourceParseResult:
         return parse_glossary(html)
 
 
-class ParseGlossaryTest:
-    pass
+class TestParseGlossary:
+    def setup(self):
+        self.result = parsed_glossary()
+
+    def test_gets_the_name(self):
+        assert (
+            self.result.name
+            == "Legal Aid Program Evaluation, Final Report; Glossary of Legal Terms"
+        )
