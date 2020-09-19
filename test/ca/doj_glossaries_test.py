@@ -3,7 +3,7 @@ from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
 
 
 def parsed_glossary() -> GlossarySourceParseResult:
-    filename = "www.justice.gc.ca_eng_rp-pr_cp-pm_eval_rep-rap_12_lap-paj_p7g.html"
+    filename = "legal-aid-glossary.html"
 
     with open(f"test/fixtures/{filename}") as f:
         html = HtmlResponse(
@@ -11,7 +11,9 @@ def parsed_glossary() -> GlossarySourceParseResult:
             body=f.read(),
             encoding="UTF-8",
         )
-        return parse_glossary(html)
+
+    parsed = parse_glossary(html)
+    return parsed
 
 
 class TestParseGlossary:
