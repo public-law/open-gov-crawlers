@@ -13,16 +13,22 @@ class GlossarySourceParseResult(NamedTuple):
 
     name: str
     source_url: str
-    # author: str
-    # pub_date: str
+    author: str
+    pub_date: str
 
 
 def parse_glossary(html: Response) -> GlossarySourceParseResult:
     main = html.css("main")
 
     name = first(main, "h1::text", "name") + "; " + first(main, "h2::text", "name")
+    pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
-    return GlossarySourceParseResult(name=name, source_url=html.url)
+    return GlossarySourceParseResult(
+        name=name,
+        source_url=html.url,
+        author="Department of Justice Canada",
+        pub_date=pub_date,
+    )
 
 
 def first(node: Union[Response, Selector], css: str, expected: str) -> str:

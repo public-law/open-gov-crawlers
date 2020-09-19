@@ -31,3 +31,9 @@ class TestParseGlossary:
             self.result.source_url
             == "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html"
         )
+
+    def test_gets_the_author(self):
+        assert self.result.author == "Department of Justice Canada"
+
+    def test_get_the_publication_date(self):
+        assert self.result.pub_date == "2015-01-07"
