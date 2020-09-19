@@ -1,10 +1,11 @@
 import re
 
 from scrapy import Selector
-from typing import Any, Dict, List
+from scrapy.http import Response
+from typing import Dict, List, Union
 
-from oar.items import Rule
-from oar.text import delete_all
+from public_law.items import Rule
+from public_law.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"
@@ -14,14 +15,16 @@ class ParseException(Exception):
     pass
 
 
-def meta_sections(text: str) -> Dict[str, Any]:
+def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     # Somewhat tricky: The history section uses embedded <br>
     # tags, so we want to leave those in place. Therefore, we want
     # to use just the first two <br>'s to split the meta section
     # into three parts.
-    authority = implements = ''
+    authority = implements = ""
 
-    if ("Statutory/Other Authority" not in text) and ("Statutes/Other Implemented" not in text):
+    if ("Statutory/Other Authority" not in text) and (
+        "Statutes/Other Implemented" not in text
+    ):
         history = text
 
     elif "Statutory/Other Authority" not in text:
@@ -34,14 +37,14 @@ def meta_sections(text: str) -> Dict[str, Any]:
         authority, implements, history = text.split("<br>", maxsplit=2)
 
     return {
-        "authority":  _list_meta(authority),
+        "authority": _list_meta(authority),
         "implements": _list_meta(implements),
-        "history":    _string_meta(history),
+        "history": _string_meta(history),
     }
 
 
 def _list_meta(section: str) -> List[str]:
-    if section == '':
+    if section == "":
         return []
     return statute_meta(section.split("</b>")[1].strip())
 
@@ -60,8 +63,10 @@ def statute_meta(text: str) -> List[str]:
     return [s.strip() for s in SEPARATOR.split(text)]
 
 
-def parse_division(html: Selector) -> List[Rule]:
-    rules = [parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')]
+def parse_division(html: Response) -> List[Rule]:
+    rules = [
+        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+    ]
     if len(rules) == 0:
         raise ParseException("Found no Rules in the Division")
 
@@ -69,22 +74,18 @@ def parse_division(html: Selector) -> List[Rule]:
 
 
 def parse_rule(rule_div: Selector) -> Rule:
-    number = rule_div.css("strong > a::text").get().strip()
-    name   = rule_div.css('strong::text').get().strip()
+    number: str = rule_div.css("strong > a::text").get(" ").strip()
+    name: str = rule_div.css("strong::text").get(" ").strip()
 
     return _parse_rule_content(rule_div, number, name)
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
     raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
-    cleaned_up_paragraphs = [
-        p.strip().replace("\n", "") for p in raw_paragraphs
-    ]
-    cleaned_up_paragraphs = [
-        re.sub(r' +', ' ', p) for p in cleaned_up_paragraphs
-    ]
+    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
+    cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-    content_paragaphs = non_empty_paragraphs[1:-1]
+    content_paragraphs = non_empty_paragraphs[1:-1]
 
     meta_paragraph = non_empty_paragraphs[-1]
     metadata = meta_sections(meta_paragraph)
@@ -94,10 +95,10 @@ def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
         number=number,
         name=name,
         url=oar_url(f"view.action?ruleNumber={number}"),
-        text="\n".join(content_paragaphs),
+        text="\n".join(content_paragraphs),
         authority=metadata["authority"],
         implements=metadata["implements"],
-        history=metadata["history"]
+        history=metadata["history"],
     )
 
 

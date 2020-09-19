@@ -1,3 +1,5 @@
+requirements.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +129,6 @@ dmypy.json
 
 # Temp. output
 *.json
+.pytype/
+out/
+.idea/

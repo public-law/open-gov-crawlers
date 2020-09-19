@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, date
-from oar.items import Chapter, Division
+from typing import Any, Dict, List
+from public_law.items import Chapter, Division
 import pytz
-import scrapy
+from scrapy import Spider
+from scrapy.crawler import Crawler
 import scrapy.exceptions
-import scrapy.http
+from scrapy.http import Request, Response
 import scrapy.signals
 from scrapy import Selector
 from titlecase import titlecase
-from typing import Final
 from typing_extensions import Protocol
 
+from public_law import items
+from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
 
-from oar import items
-from oar.parsers import DOMAIN, oar_url, parse_division
 
-
-class SecureSosStateOrUsSpider(scrapy.Spider):
-    name = DOMAIN
+class OregonRegs(Spider):
+    name = "oregon_regs"
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 
-    def __init__(self, *args: str, **kwargs: str):
-        super(SecureSosStateOrUsSpider, self).__init__(*args, **kwargs)
+    def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
+        super(OregonRegs, self).__init__(*args, **kwargs)
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
@@ -33,50 +33,46 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # methods add their results to this structure.
         self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
 
-    def parse(self, response: scrapy.http.Response):
+    def parse(self, response: Response, **_kwargs: Dict[str, Any]):
         """The primary Scrapy callback to begin scraping.
 
         Kick off scraping by parsing the main OAR page.
         """
         return self.parse_search_page(response)
 
-    def parse_search_page(self, response: scrapy.http.Response):
+    def parse_search_page(self, response: Response):
         """Parse the top-level page.
 
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
-        option: Selector
         for option in response.css("#browseForm option"):
-            db_id: str = option.xpath("@value").get()
+            db_id: Any = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath(
-                "text()").get().split("-", 1))
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
             chapter = new_chapter(db_id, number, name)
 
-            new_chapter_index = len(self.oar['chapters'])
+            new_chapter_index = len(self.oar["chapters"])
             self.oar["chapters"].append(chapter)
 
-            request = scrapy.Request(
-                chapter["url"], callback=self.parse_chapter_page)
-            request.meta['chapter_index'] = new_chapter_index
+            request = Request(chapter["url"], callback=self.parse_chapter_page)
+            request.meta["chapter_index"] = new_chapter_index
             yield request
 
-    def parse_chapter_page(self, response: scrapy.http.Response):
+    def parse_chapter_page(self, response: Response):
         """Parse a mid-level page.
 
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter: Chapter = self.oar['chapters'][response.meta['chapter_index']]
+        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]
 
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
-            db_id: str = anchor.xpath("@href").get().split(
-                "selectedDivision=")[1]
+            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]
             raw_number, raw_name = map(
                 str.strip, anchor.xpath("text()").get().split("-", 1)
             )
@@ -84,20 +80,19 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter['divisions'].append(division)
+            chapter["divisions"].append(division)
 
             # Request a scrape of the Division page
-            request = scrapy.Request(
-                division['url'], callback=self.parse_division_page)
-            request.meta['division_index'] = len(chapter['divisions']) - 1
-            request.meta['chapter_index'] = response.meta['chapter_index']
+            request = Request(division["url"], callback=self.parse_division_page)
+            request.meta["division_index"] = len(chapter["divisions"]) - 1
+            request.meta["chapter_index"] = response.meta["chapter_index"]
             yield request
 
-    def parse_division_page(self, response: scrapy.http.Response):
-        chapter: Chapter = self.oar['chapters'][response.meta['chapter_index']]
-        division: Division = chapter['divisions'][response.meta['division_index']]
+    def parse_division_page(self, response: Response):
+        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]
+        division: Division = chapter["divisions"][response.meta["division_index"]]
 
-        division['rules'].extend(parse_division(response))
+        division["rules"].extend(parse_division(response))
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -106,16 +101,15 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
     #
 
     @classmethod
-    def from_crawler(cls, crawler, *args, **kwargs):
+    def from_crawler(cls, crawler: Crawler, *args: List[str], **kwargs: Dict[str, Any]):
         """Override to register to receive the idle event"""
-        spider: SecureSosStateOrUsSpider = super(SecureSosStateOrUsSpider, cls).from_crawler(
+        spider: OregonRegs = super(OregonRegs, cls).from_crawler(
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(
-            spider.spider_idle, signal=scrapy.signals.spider_idle)
+        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)
         return spider
 
-    def spider_idle(self, spider):
+    def spider_idle(self, spider: Spider):
         """Schedule a simple request to return the collected data"""
         if self.data_submitted:
             return
@@ -123,8 +117,9 @@ class SecureSosStateOrUsSpider(scrapy.Spider):
         # This is a hack: I don't yet know how to schedule a request to just
         # submit data _without_ also triggering a scrape. So I provide a URL
         # to a simple site that we're going to ignore.
-        null_request = scrapy.Request(
-            "https://www.public.law/about-us", callback=self.submit_data)
+        null_request = Request(
+            "https://www.public.law/about-us", callback=self.submit_data
+        )
         self.crawler.engine.schedule(null_request, spider)
         raise scrapy.exceptions.DontCloseSpider
 
