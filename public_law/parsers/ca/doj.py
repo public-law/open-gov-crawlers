@@ -12,6 +12,11 @@ class ParseException(Exception):
     pass
 
 
+class GlossaryEntry(NamedTuple):
+    phrase: str
+    definition: str
+
+
 class GlossarySourceParseResult(NamedTuple):
     """All the info about a glossary source"""
 
@@ -20,6 +25,7 @@ class GlossarySourceParseResult(NamedTuple):
     author: str
     pub_date: str
     scrape_date: str
+    entries: List[GlossaryEntry]
 
 
 def parse_glossary(html: Response) -> GlossarySourceParseResult:
@@ -34,6 +40,7 @@ def parse_glossary(html: Response) -> GlossarySourceParseResult:
         author="Department of Justice Canada",
         pub_date=pub_date,
         scrape_date=todays_date(),
+        entries=[],
     )
 
 

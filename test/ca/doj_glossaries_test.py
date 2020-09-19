@@ -56,3 +56,6 @@ class TestParseGlossary:
 
     def test_gets_the_scrape_date(self):
         assert self.result.scrape_date == todays_date()
+
+    def test_gets_proper_number_of_entries(self):
+        assert len(self.result.entries) == 36
