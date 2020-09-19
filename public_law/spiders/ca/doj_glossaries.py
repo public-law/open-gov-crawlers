@@ -2,6 +2,8 @@ from scrapy import Spider
 from scrapy.http import Request, Response
 from typing import Any, Dict
 
+from public_law.parsers.ca.doj import parse_glossary
+
 
 class DojGlossaries(Spider):
     name = "canada_doj_glossaries"
@@ -12,4 +14,4 @@ class DojGlossaries(Spider):
 
     def parse(self, response: Response, **kwargs: Dict[str, Any]):
         """Framework callback which begins the parsing."""
-        yield {"url": response.url}
+        yield parse_glossary(response)._asdict()

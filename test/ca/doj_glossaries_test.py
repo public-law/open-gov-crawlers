@@ -1,5 +1,14 @@
+from datetime import datetime
+import pytz
+
 from scrapy.http import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
+
+
+def todays_date() -> str:
+    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
+    fmt = "%Y-%m-%d"
+    return mountain.localize(datetime.now()).strftime(fmt)
 
 
 def parsed_glossary() -> GlossarySourceParseResult:
@@ -35,5 +44,8 @@ class TestParseGlossary:
     def test_gets_the_author(self):
         assert self.result.author == "Department of Justice Canada"
 
-    def test_get_the_publication_date(self):
+    def test_gets_the_publication_date(self):
         assert self.result.pub_date == "2015-01-07"
+
+    def test_gets_the_scrape_date(self):
+        assert self.result.scrape_date == todays_date()

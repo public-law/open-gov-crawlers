@@ -3,6 +3,9 @@ from scrapy import Selector
 from scrapy.http import Response
 from public_law.text import normalize_whitespace
 
+from datetime import datetime
+import pytz
+
 
 class ParseException(Exception):
     pass
@@ -15,6 +18,7 @@ class GlossarySourceParseResult(NamedTuple):
     source_url: str
     author: str
     pub_date: str
+    scrape_date: str
 
 
 def parse_glossary(html: Response) -> GlossarySourceParseResult:
@@ -28,6 +32,7 @@ def parse_glossary(html: Response) -> GlossarySourceParseResult:
         source_url=html.url,
         author="Department of Justice Canada",
         pub_date=pub_date,
+        scrape_date=todays_date(),
     )
 
 
@@ -36,3 +41,9 @@ def first(node: Union[Response, Selector], css: str, expected: str) -> str:
     if result is None:
         raise ParseException(f"Could not parse the {expected}")
     return normalize_whitespace(result)
+
+
+def todays_date() -> str:
+    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
+    fmt = "%Y-%m-%d"
+    return mountain.localize(datetime.now()).strftime(fmt)
