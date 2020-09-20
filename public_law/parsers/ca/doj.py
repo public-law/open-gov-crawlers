@@ -16,6 +16,9 @@ class GlossaryEntry(NamedTuple):
     phrase: str
     definition: str
 
+    def __repr__(self) -> str:
+        return self._asdict().__repr__()
+
 
 class GlossarySourceParseResult(NamedTuple):
     """All the info about a glossary source"""
