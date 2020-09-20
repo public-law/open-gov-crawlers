@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 
 
 def delete_all(text: str, fragments: List[str]) -> str:
@@ -26,8 +26,8 @@ def normalize_whitespace(text: str) -> str:
 class NonemptyString(str):
     """A string which is guaranteed to have length > 0"""
 
-    def __new__(cls, content):
-        if len(content) == 0:
-            raise ValueError(f"content is empty")
+    def __new__(cls, content: Any):
+        if (not isinstance(content, str)) or len(content) == 0:
+            raise ValueError("Content is empty, cannot create a NonemptyString")
 
-        return super().__new__(cls, content)
+        return super().__new__(cls, content)  # type: ignore

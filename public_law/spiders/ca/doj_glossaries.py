@@ -1,5 +1,5 @@
 from scrapy import Spider
-from scrapy.http import Request, Response
+from scrapy.http import Response, HtmlResponse
 from typing import Any, Dict
 
 from public_law.parsers.ca.doj import parse_glossary
@@ -15,4 +15,5 @@ class DojGlossaries(Spider):
 
     def parse(self, response: Response, **kwargs: Dict[str, Any]):
         """Framework callback which begins the parsing."""
+        assert isinstance(response, HtmlResponse)
         yield parse_glossary(response)._asdict()

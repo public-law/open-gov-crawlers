@@ -1,10 +1,12 @@
-from datetime import datetime, date
-from scrapy import Selector  # type: ignore
-from scrapy.http import Response  # type: ignore
-from typing import List, NamedTuple, Union, Protocol
-import pytz
+from datetime import date, datetime
+from typing import List, NamedTuple, Protocol, Union
 
-from public_law.text import normalize_whitespace, NonemptyString
+import pytz
+from scrapy import Selector
+from scrapy.http import HtmlResponse
+from scrapy.selector.unified import SelectorList
+
+from public_law.text import NonemptyString, normalize_whitespace
 
 
 class ParseException(Exception):
@@ -32,21 +34,35 @@ class GlossarySourceParseResult(NamedTuple):
     entries: List[GlossaryEntry]
 
 
-def parse_glossary(html: Response) -> GlossarySourceParseResult:
-    main = html.css("main")
+def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
+    main: SelectorList = html.css("main")
 
     name = first(main, "h1::text", "name") + "; " + first(main, "h2::text", "name")
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: List[GlossaryEntry] = []
-    first_list = html.css("main dl")[0]
-    for prop in first_list.xpath("dt"):
+    dl_lists = html.css("main dl")
+    if len(dl_lists) == 0:
+        raise ParseException("No DL lists found")
+
+    if isinstance(dl_lists[0], Selector):
+        first_dl_list = dl_lists[0]
+    else:
+        raise ParseException("Expected a <dl>")
+
+    assert isinstance(first_dl_list, Selector)
+
+    for prop in first_dl_list.xpath("dt"):
+        assert isinstance(prop, Selector)
+
         entries.append(
             GlossaryEntry(
-                phrase=prop.xpath("normalize-space(strong/text())").get(),
-                definition=prop.xpath(
-                    "normalize-space(./following-sibling::dd/text())"
-                ).get(),
+                phrase=NonemptyString(
+                    prop.xpath("normalize-space(strong/text())").get()
+                ),
+                definition=NonemptyString(
+                    prop.xpath("normalize-space(./following-sibling::dd/text())").get()
+                ),
             )
         )
 
@@ -60,7 +76,7 @@ def parse_glossary(html: Response) -> GlossarySourceParseResult:
     )
 
 
-def first(node: Union[Response, Selector], css: str, expected: str) -> str:
+def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
     result = node.css(css).get()
     if result is None:
         raise ParseException(f"Could not parse the {expected}")
