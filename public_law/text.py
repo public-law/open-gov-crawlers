@@ -24,9 +24,17 @@ def normalize_whitespace(text: str) -> str:
 
 
 class NonemptyString(str):
-    """A string which is guaranteed to have length > 0"""
+    """A string which is guaranteed to have length > 0
+
+    Accepts `Any` type instead of `str` so that it will work
+    seamlessly with untyped 3rd party libraries, like Scrapy.
+    Therefore, the constructor does a certain amount of type
+    checking. This class is meant to sit on the boundary
+    between our local code and library code.
+    """
 
     def __new__(cls, content: Any):
+        """Create a new Nonempty String"""
         if (not isinstance(content, str)) or len(content) == 0:
             raise ValueError("Content is empty, cannot create a NonemptyString")
 
