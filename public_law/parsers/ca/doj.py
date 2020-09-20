@@ -1,12 +1,11 @@
-from datetime import date, datetime
-from typing import List, NamedTuple, Protocol, Union
+from typing import List, NamedTuple, Union
 
-import pytz
 from scrapy import Selector
 from scrapy.http import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
 from public_law.text import NonemptyString, normalize_whitespace
+from public_law.dates import todays_date
 
 
 class ParseException(Exception):
@@ -79,14 +78,3 @@ def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> s
     if result is None:
         raise ParseException(f"Could not parse the {expected}")
     return normalize_whitespace(result)
-
-
-class SimpleTimezone(Protocol):
-    def localize(self, dt: datetime) -> date:
-        ...
-
-
-def todays_date() -> str:
-    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
-    fmt = "%Y-%m-%d"
-    return mountain.localize(datetime.now()).strftime(fmt)

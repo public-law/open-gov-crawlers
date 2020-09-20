@@ -1,21 +1,6 @@
-from typing import Protocol
-
-from datetime import datetime, date
-import pytz
-
 from scrapy.http import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
-
-
-class SimpleTimezone(Protocol):
-    def localize(self, dt: datetime) -> date:
-        ...
-
-
-def todays_date() -> str:
-    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
-    fmt = "%Y-%m-%d"
-    return mountain.localize(datetime.now()).strftime(fmt)
+from public_law.dates import todays_date
 
 
 def parsed_glossary() -> GlossarySourceParseResult:
