@@ -34,13 +34,25 @@ def parse_glossary(html: Response) -> GlossarySourceParseResult:
     name = first(main, "h1::text", "name") + "; " + first(main, "h2::text", "name")
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
+    entries: List[GlossaryEntry] = []
+    first_list = html.css("main dl")[0]
+    for prop in first_list.xpath("dt"):
+        entries.append(
+            GlossaryEntry(
+                phrase=prop.xpath("normalize-space(./text())").get(),
+                definition=prop.xpath(
+                    "normalize-space(./following-sibling::dd/text())"
+                ).get(),
+            )
+        )
+
     return GlossarySourceParseResult(
         name=name,
         source_url=html.url,
         author="Department of Justice Canada",
         pub_date=pub_date,
         scrape_date=todays_date(),
-        entries=[],
+        entries=entries,
     )
 
 
