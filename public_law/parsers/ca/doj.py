@@ -39,7 +39,7 @@ def parse_glossary(html: Response) -> GlossarySourceParseResult:
     for prop in first_list.xpath("dt"):
         entries.append(
             GlossaryEntry(
-                phrase=prop.xpath("normalize-space(./text())").get(),
+                phrase=prop.xpath("normalize-space(strong/text())").get(),
                 definition=prop.xpath(
                     "normalize-space(./following-sibling::dd/text())"
                 ).get(),

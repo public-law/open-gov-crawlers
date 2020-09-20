@@ -59,3 +59,8 @@ class TestParseGlossary:
 
     def test_gets_proper_number_of_entries(self):
         assert len(self.result.entries) == 36
+
+    def test_gets_a_term_case_1(self):
+        term = self.result.entries[2]
+        assert term.phrase == "Adjournment"
+        assert term.definition == "postponement of a court hearing to another date."
