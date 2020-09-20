@@ -1,11 +1,10 @@
-from typing import List, NamedTuple, Union
-from scrapy import Selector
-from scrapy.http import Response
-from public_law.text import normalize_whitespace
-from typing_extensions import Protocol
-
 from datetime import datetime, date
+from scrapy import Selector  # type: ignore
+from scrapy.http import Response  # type: ignore
+from typing import List, NamedTuple, Union, Protocol
 import pytz
+
+from public_law.text import normalize_whitespace, NonemptyString
 
 
 class ParseException(Exception):
@@ -13,8 +12,10 @@ class ParseException(Exception):
 
 
 class GlossaryEntry(NamedTuple):
-    phrase: str
-    definition: str
+    """Represents one term and its definition in a particular Glossary"""
+
+    phrase: NonemptyString
+    definition: NonemptyString
 
     def __repr__(self) -> str:
         return self._asdict().__repr__()
