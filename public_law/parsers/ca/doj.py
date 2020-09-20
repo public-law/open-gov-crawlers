@@ -50,8 +50,6 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     else:
         raise ParseException("Expected a <dl>")
 
-    assert isinstance(first_dl_list, Selector)
-
     for prop in first_dl_list.xpath("dt"):
         assert isinstance(prop, Selector)
 
