@@ -1,6 +1,3 @@
-![Test Suite](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Test%20Suite/badge.svg)
-
-
 # Open-gov spiders written with Python/Scrapy
 
 ## Oregon Administrative Rules Parser
