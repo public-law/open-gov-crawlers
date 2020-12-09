@@ -1,3 +1,6 @@
+![Test Suite](https://github.com/public-law/scrapy-spiders/workflows/Test%20Suite/badge.svg)
+
+
 # Open-gov spiders written with Python/Scrapy
 
 | Publication |   |   |   |
