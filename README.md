@@ -1,8 +1,8 @@
 # Open-gov spiders written with Python/Scrapy
 
-* Canada / Dept. of Justice Legal Glossaries
-* U.S.A. / Georgia Attorney General Opinions
-* U.S.A. / Oregon Regulations
+* Canada / Dept. of Justice Legal Glossaries, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py)
+* U.S.A. / Georgia Attorney General Opinions, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py)
+* U.S.A. / Oregon Regulations, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py)
 
 
 ## Example: Oregon Administrative Rules Parser
