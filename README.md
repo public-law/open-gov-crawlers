@@ -1,7 +1,12 @@
 # Open-gov spiders written with Python/Scrapy
 
-## Oregon Administrative Rules Parser
-Parse the OAR into well formed JSON
+* Canada / Dept. of Justice Legal Glossaries
+* U.S.A. / Georgia Attorney General Opinions
+* U.S.A. / Oregon Regulations
+
+
+## Example: Oregon Administrative Rules Parser
+The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure:
 
 ```bash
 $ scrapy crawl secure.sos.state.or.us
