@@ -623,24 +623,6 @@ six = "*"
 
 [[package]]
 category = "dev"
-description = "Python REPL build on top of prompt_toolkit"
-name = "ptpython"
-optional = false
-python-versions = ">=3.6"
-version = "3.0.5"
-
-[package.dependencies]
-appdirs = "*"
-jedi = ">=0.9.0"
-prompt-toolkit = ">=3.0.0,<3.1.0"
-pygments = "*"
-importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
-
-[package.extras]
-ptipython = ["ipython"]
-
-[[package]]
-category = "dev"
 description = "Run a subprocess in a pseudo terminal"
 name = "ptyprocess"
 optional = false
@@ -1182,7 +1164,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "03fc33545f801abf2d2d46bee8976fd92d14a8d2196b88a4fce8a598f3dd8f02"
+content-hash = "93d1a6f6a5ea8e78e71aaa004db02c6551e77c12e6a2d17943dbf6bf77a6396e"
 lock-version = "1.1"
 python-versions = ">=3.7,<3.9"
 
@@ -1515,10 +1497,6 @@ prospector = [
 ]
 protego = [
     {file = "Protego-0.1.16.tar.gz", hash = "sha256:a682771bc7b51b2ff41466460896c1a5a653f9a1e71639ef365a72e66d8734b4"},
-]
-ptpython = [
-    {file = "ptpython-3.0.5-py2.py3-none-any.whl", hash = "sha256:382d080e4130b9be254776787206380359be4f73c25e6b4e8cc371905c4fa587"},
-    {file = "ptpython-3.0.5.tar.gz", hash = "sha256:5094e7e4daa77453d3c33eb7b7ebbf1060be4446521865a94e698bc85ff15930"},
 ]
 ptyprocess = [
     {file = "ptyprocess-0.6.0-py2.py3-none-any.whl", hash = "sha256:d7cc528d76e76342423ca640335bd3633420dc1366f258cb31d05e865ef5ca1f"},

@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, date
 from typing import Any, Dict, List
-from public_law.items import Chapter, Division
-import pytz
+
 from scrapy import Spider
+from scrapy import Selector
 from scrapy.crawler import Crawler
 import scrapy.exceptions
 from scrapy.http import Request, Response
 import scrapy.signals
-from scrapy import Selector
 from titlecase import titlecase
-from typing_extensions import Protocol
 
 from public_law import items
+from public_law.items import Chapter, Division
 from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
+from public_law.dates import todays_date
 
 
 class OregonRegs(Spider):
@@ -154,14 +153,3 @@ def new_division(db_id: str, number: str, name: str) -> Division:
         url=oar_url(f"displayDivisionRules.action?selectedDivision={db_id}"),
         rules=[],
     )
-
-
-class SimpleTimezone(Protocol):
-    def localize(self, dt: datetime) -> date:
-        ...
-
-
-def todays_date() -> str:
-    mountain: SimpleTimezone = pytz.timezone("US/Mountain")
-    fmt = "%Y-%m-%d"
-    return mountain.localize(datetime.now()).strftime(fmt)
