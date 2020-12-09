@@ -1,8 +1,10 @@
 # Open-gov spiders written with Python/Scrapy
 
-* Canada / Dept. of Justice Legal Glossaries, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py), [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py), [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py)
-* U.S.A. / Georgia Attorney General Opinions, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py), [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py), [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ga_parsers_test.py)
-* U.S.A. / Oregon Regulations, [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py), [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py), [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/oar_parsers_test.py)
+| Publication |   |   |   |
+| - | - | - | - |
+| Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py) |
+| U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ga_parsers_test.py) |
+| U.S.A. / Oregon Regulations | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/oar_parsers_test.py) |
 
 
 ## Example: Oregon Administrative Rules Parser
