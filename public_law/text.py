@@ -27,7 +27,7 @@ class NonemptyString(str):
     """A string which is guaranteed to have length > 0
 
     Accepts `Any` type instead of `str` so that it will work
-    seamlessly with untyped 3rd party libraries, like Scrapy.
+    seamlessly with untyped 3rd party libraries like Scrapy.
     Therefore, the constructor does a certain amount of type
     checking. This class is meant to sit on the boundary
     between our local code and library code.
