@@ -1,10 +1,17 @@
-![Test Suite](https://github.com/public-law/oregon-administrative-rules-parser/workflows/Test%20Suite/badge.svg)
+![Test Suite](https://github.com/public-law/scrapy-spiders/workflows/Test%20Suite/badge.svg)
 
 
 # Open-gov spiders written with Python/Scrapy
 
-## Oregon Administrative Rules Parser
-Parse the OAR into well formed JSON
+| Publication |   |   |   |
+| - | - | - | - |
+| Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py) |
+| U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ga_parsers_test.py) |
+| U.S.A. / Oregon Regulations | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/oar_parsers_test.py) |
+
+
+## Example: Oregon Administrative Rules Parser
+The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure:
 
 ```bash
 $ scrapy crawl secure.sos.state.or.us
