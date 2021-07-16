@@ -66,8 +66,17 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-Run the pytest tests like this:
+* Poetry for dependency management.
+* Pytest for testing:
+
+The pytest tests run easily:
 
 ```bash
 pytest
+```
+
+I use this to monitor and retest automatically as I work:
+
+```bash
+watchmedo shell-command --command='clear ; pytest' --patterns="*.py" --recursive .
 ```
