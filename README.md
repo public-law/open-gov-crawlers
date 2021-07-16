@@ -9,6 +9,8 @@
 | U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/ga_parsers_test.py) |
 | U.S.A. / Oregon Regulations | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/oar_parsers_test.py) |
 
+> FYI: We're looking for help writing more spiders like the Oregon Regulations. Drop us a line: support@public.law.
+
 
 ## Example: Oregon Administrative Rules Parser
 The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure:
