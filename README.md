@@ -66,7 +66,7 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Poetry for dependency management.
+### [Poetry](https://python-poetry.org/) for dependency management.
 
 So before I start working, I go into the virtual environment:
 
