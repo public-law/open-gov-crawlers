@@ -66,8 +66,15 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-* Poetry for dependency management.
-* Pytest for testing:
+### Poetry for dependency management.
+
+So before I start working, I go into the virtual environment:
+
+```bash
+poetry shell
+```
+
+### Pytest for testing.
 
 The pytest tests run easily:
 
