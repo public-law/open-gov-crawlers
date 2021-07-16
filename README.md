@@ -66,7 +66,14 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### [Poetry](https://python-poetry.org/) for dependency management.
+### Python 3.8.5
+
+I'll upgrade that soon; I like to be at the newest version. I'm personally using
+[pyenv](https://github.com/pyenv/pyenv) to install Python, but
+[asdf](https://asdf-vm.com/#/) is a good option too.
+
+
+### [Poetry](https://python-poetry.org/) for dependency management
 
 So before I start working, I go into the virtual environment:
 
@@ -74,7 +81,13 @@ So before I start working, I go into the virtual environment:
 poetry shell
 ```
 
-### Pytest for testing.
+Making sure I have the current deps installed is always good to do:
+
+```bash
+poetry install
+```
+
+### Pytest for testing
 
 The pytest tests run easily:
 
