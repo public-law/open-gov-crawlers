@@ -76,9 +76,6 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 CRAWLERA_ENABLED = True
-
-# This breaks on Scraping Hub although it works locally. Commenting it out
-# for now.
 VAR = "CRAWLERA_APIKEY"
 if VAR in os.environ:
     CRAWLERA_APIKEY = os.environ[VAR]
