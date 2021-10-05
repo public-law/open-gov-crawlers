@@ -1,3 +1,5 @@
+from scrapy.selector import Selector
+from typing import Any, IO
 from public_law.parsers.us.colorado import parse_division
 
 
