@@ -16,3 +16,8 @@ class TestParseTitle:
 
     def test_division_count(self):
         assert len(parse_title(TITLE_16)["divisions"]) == 8
+
+    def test_divisions_retrieved(self):
+        divs = parse_title(TITLE_16)["divisions"]
+
+        assert divs[0] == "Code of Criminal Procedure"
