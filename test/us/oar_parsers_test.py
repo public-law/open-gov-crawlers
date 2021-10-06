@@ -5,7 +5,18 @@ from public_law.parsers.us.oregon import meta_sections, parse_division, statute_
 
 
 def fixture(filename: str) -> IO[Any]:
-    return open(f"test/fixtures/{filename}")
+    return open(f"test/fixtures/{filename}", encoding="utf8")
+
+
+def fixture2(filename: str) -> str:
+    return fixture(filename).read()
+
+
+def html_fixture() -> Selector:
+    return Selector(text=fixture2("division_450.html"))
+
+
+DIV_450 = html_fixture()
 
 
 class TestStatuteMeta:
@@ -85,60 +96,45 @@ class TestMetaSections:
         assert meta_sections(raw_text) == expected
 
 
-class TestFixture:
+class TestTheFixture:
     def test_can_access_a_fixture(self):
-        with fixture("division_450.html") as f:
-            html = f.read()
-            assert len(html) > 0
+        assert len(fixture2("division_450.html")) > 0
 
 
 class TestParseDivision:
     def test_number_of_rules(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            assert len(parse_division(html)) == 2
+        assert len(parse_division(DIV_450)) == 2
 
     def test_rule_numbers(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            numbers = [n["number"] for n in parse_division(html)]
-            assert numbers == ["123-450-0000", "123-450-0010"]
+        numbers = [n["number"] for n in parse_division(DIV_450)]
+
+        assert numbers == ["123-450-0000", "123-450-0010"]
 
     def test_rule_names(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            names = [n["name"] for n in parse_division(html)]
+        names = [n["name"] for n in parse_division(DIV_450)]
 
-            assert names == ["Definitions", "Grants"]
+        assert names == ["Definitions", "Grants"]
 
     def test_rule_text(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            expected_text = "<p>(1) “Commission” means the Oregon Arts Commission.</p>\n<p>(2) “Executive Director” means the administrator of the Arts Program of the Oregon Business Development Department.</p>"
-            first_text = parse_division(html)[0]["text"]
+        expected_text = "<p>(1) “Commission” means the Oregon Arts Commission.</p>\n<p>(2) “Executive Director” means the administrator of the Arts Program of the Oregon Business Development Department.</p>"
+        first_text = parse_division(DIV_450)[0]["text"]
 
-            assert first_text == expected_text
+        assert first_text == expected_text
 
     def test_rule_authority(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            expected = ["ORS 359"]
-            first_authority = parse_division(html)[0]["authority"]
+        expected = ["ORS 359"]
+        first_authority = parse_division(DIV_450)[0]["authority"]
 
-            assert first_authority == expected
+        assert first_authority == expected
 
     def test_rule_implements(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            expected = ["ORS 359"]
-            first_implements = parse_division(html)[0]["implements"]
+        expected = ["ORS 359"]
+        first_implements = parse_division(DIV_450)[0]["implements"]
 
-            assert first_implements == expected
+        assert first_implements == expected
 
     def test_rule_history(self):
-        with fixture("division_450.html") as f:
-            html = Selector(text=f.read())
-            expected = "OBDD 2-2011, f. &amp; cert. ef. 1-3-11"
-            first_history = parse_division(html)[0]["history"]
+        expected = "OBDD 2-2011, f. &amp; cert. ef. 1-3-11"
+        first_history = parse_division(DIV_450)[0]["history"]
 
-            assert first_history == expected
+        assert first_history == expected
