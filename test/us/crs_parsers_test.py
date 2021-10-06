@@ -1,4 +1,4 @@
-from scrapy.selector import Selector
+from scrapy.selector.unified import Selector
 
 from public_law.parsers.us.colorado import parse_title
 
@@ -11,5 +11,5 @@ TITLE_16 = Selector(text=fixture("crs/title16.txt"))
 
 
 class TestParseTitle:
-    def test_title_of_title(self):
+    def test_name_of_title(self):
         assert parse_title(TITLE_16)["name"] == "Criminal Proceedings"
