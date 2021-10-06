@@ -5,13 +5,13 @@ from dataclasses import dataclass
 #
 
 
-@dataclass
+@dataclass(frozen=True)
 class Title:
     name: str
     number: str
     divisions: list
 
 
-@dataclass
+@dataclass(frozen=True)
 class Division:
     name: str
