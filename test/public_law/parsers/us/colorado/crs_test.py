@@ -54,6 +54,14 @@ class TestParseTitle:
 
         assert divs[-1].name == "Offenders - Registration"
 
+    def test_url_of_title_16_last_division(self):
+        last_division = PARSED_TITLE_16.divisions[-1]
+
+        assert (
+            last_division.source_url
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-16.pdf"
+        )
+
     def test_no_divisions(self):
         divs = PARSED_TITLE_4.divisions
 

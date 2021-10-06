@@ -16,3 +16,4 @@ class Title:
 @dataclass(frozen=True)
 class Division:
     name: str
+    source_url: str
