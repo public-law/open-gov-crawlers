@@ -10,7 +10,7 @@ def fixture(filename: str) -> str:
 # A title with no Divisions.
 TITLE_4 = Selector(text=fixture("crs/title04.txt"))
 
-# A title which does use Divisions.
+# A title which uses Divisions.
 TITLE_16 = Selector(text=fixture("crs/title16.txt"))
 
 
