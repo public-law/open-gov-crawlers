@@ -36,12 +36,12 @@ class TestParseTitle:
     def test_first_division_retrieved(self):
         divs = PARSED_TITLE_16.divisions
 
-        assert divs[0] == "Code of Criminal Procedure"
+        assert divs[0].name == "Code of Criminal Procedure"
 
     def test_last_division_retrieved(self):
         divs = PARSED_TITLE_16.divisions
 
-        assert divs[-1] == "Offenders - Registration"
+        assert divs[-1].name == "Offenders - Registration"
 
     def test_no_divisions(self):
         divs = PARSED_TITLE_4.divisions

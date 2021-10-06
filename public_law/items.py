@@ -56,3 +56,8 @@ class CrsTitle:
     name: str
     number: str
     divisions: list
+
+
+@dataclass
+class CrsDivision:
+    name: str
