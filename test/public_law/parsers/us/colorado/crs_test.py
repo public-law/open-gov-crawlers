@@ -9,11 +9,10 @@ def fixture(filename: str) -> str:
 
 # A Title with no Divisions.
 TITLE_4 = Selector(text=fixture("crs/title04.txt"))
+PARSED_TITLE_4 = parse_title(TITLE_4)
 
 # A Title which uses Divisions.
 TITLE_16 = Selector(text=fixture("crs/title16.txt"))
-
-PARSED_TITLE_4 = parse_title(TITLE_4)
 PARSED_TITLE_16 = parse_title(TITLE_16)
 
 

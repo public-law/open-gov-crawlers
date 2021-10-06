@@ -4,7 +4,7 @@ from scrapy import Selector
 from scrapy.http import Response
 from typing import Dict, List, Union
 
-from public_law.items import Rule
+from public_law.items.oar import Rule
 from public_law.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")

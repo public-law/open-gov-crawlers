@@ -1,11 +1,8 @@
-from dataclasses import dataclass
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://doc.scrapy.org/en/latest/topics/items.html
-
 import scrapy
+
+#
+# Items for the Oregon Administrative Rules.
+#
 
 
 class OAR(scrapy.Item):
@@ -49,15 +46,3 @@ class Rule(scrapy.Item):
 
     def division_number(self) -> str:
         return self["number"].split("-")[1]
-
-
-@dataclass
-class CrsTitle:
-    name: str
-    number: str
-    divisions: list
-
-
-@dataclass
-class CrsDivision:
-    name: str
