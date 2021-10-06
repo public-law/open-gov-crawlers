@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from dataclasses import dataclass
 
 # Define here the models for your scraped items
 #
@@ -49,3 +49,9 @@ class Rule(scrapy.Item):
 
     def division_number(self) -> str:
         return self["number"].split("-")[1]
+
+
+@dataclass
+class CrsTitle:
+    name: str
+    divisions: list
