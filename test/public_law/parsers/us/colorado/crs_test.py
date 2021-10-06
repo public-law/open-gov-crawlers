@@ -17,16 +17,28 @@ PARSED_TITLE_16 = parse_title(TITLE_16)
 
 
 class TestParseTitle:
-    def test_name_of_title_1(self):
+    def test_name_of_title_16(self):
         assert PARSED_TITLE_16.name == "Criminal Proceedings"
 
-    def test_name_of_title_2(self):
+    def test_url_of_title_16(self):
+        assert (
+            PARSED_TITLE_16.source_url
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-16.pdf"
+        )
+
+    def test_url_of_title_4(self):
+        assert (
+            PARSED_TITLE_4.source_url
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-04.pdf"
+        )
+
+    def test_name_of_title_4(self):
         assert PARSED_TITLE_4.name == "Uniform Commercial Code"
 
-    def test_title_number_1(self):
+    def test_title_number_16(self):
         assert PARSED_TITLE_16.number == "16"
 
-    def test_title_number_2(self):
+    def test_title_number_4(self):
         assert PARSED_TITLE_4.number == "4"
 
     def test_division_count(self):
