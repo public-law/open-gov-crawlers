@@ -10,6 +10,7 @@ class Title:
     name: str
     number: str
     divisions: list
+    source_url: str
 
 
 @dataclass(frozen=True)
