@@ -54,4 +54,5 @@ class Rule(scrapy.Item):
 @dataclass
 class CrsTitle:
     name: str
+    number: str
     divisions: list
