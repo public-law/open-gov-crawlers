@@ -67,9 +67,9 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.8.5
+### Python 3.9.7
 
-I'll upgrade that soon; I like to be at the newest version. I'm personally using
+I'm personally using
 [pyenv](https://github.com/pyenv/pyenv) to install Python, but
 [asdf](https://asdf-vm.com/#/) is a good option too.
 
@@ -101,3 +101,5 @@ I use this to monitor and retest automatically as I work:
 ```bash
 watchmedo shell-command --command='clear ; pytest' --patterns="*.py" --recursive .
 ```
+
+It has a small glitch, though: it usually runs all the tests twice when I save in VS Code. 
