@@ -1,5 +1,4 @@
-![Test Suite](https://github.com/public-law/scrapy-spiders/workflows/Test%20Suite/badge.svg)
-
+[![Test Suite](https://github.com/public-law/scrapy-spiders/actions/workflows/python-app.yml/badge.svg)](https://github.com/public-law/scrapy-spiders/actions/workflows/python-app.yml)
 
 # Open-gov spiders written with Python/Scrapy
 
