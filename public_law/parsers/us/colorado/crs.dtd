@@ -3,6 +3,7 @@
 <!ELEMENT BLEED        - - (B, CTR) >
 <!ELEMENT ARTICLE-TEXT - - (RHRTC) >
 <!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
+<!ELEMENT SOURCE-NOTE  - o (T | EDITORS-NOTE)* >
 <!ELEMENT ART-ANAL     - - (AL | I | ART-PART)+ >
 <!ELEMENT B            - - (#PCDATA | N | NL | IT | T)* >
 <!ELEMENT T            - o (#PCDATA | B | M | N)* >
@@ -15,8 +16,8 @@
 <!ELEMENT T-DIV        - o (#PCDATA) >
 <!ELEMENT COMMENT-HEAD - - (#PCDATA) >
 <!ELEMENT IT           - - (#PCDATA | N)* >
-<!ELEMENT AN-DIV       - - (#PCDATA | M | NL)* >
-<!ELEMENT AN-SUB       - - (#PCDATA | M | NL)* >
+<!ELEMENT AN-DIV       - - (#PCDATA | M | N | NL)* >
+<!ELEMENT AN-SUB       - - (#PCDATA | M | N | NL)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
 <!ELEMENT TITLE-TEXT   - - (#PCDATA) >
 <!ELEMENT TITLE-DIV    - - (#PCDATA) >
@@ -30,7 +31,6 @@
 <!ELEMENT ART-PART     - - (#PCDATA | NL)* >
 <!ELEMENT CTR          - o (#PCDATA) >
 <!ELEMENT SECTION-TEXT - - ANY >
-<!ELEMENT SOURCE-NOTE  - - (T) >
 <!ELEMENT CATCH-LINE   - - ANY >
 
 <!ELEMENT P            - o EMPTY >
