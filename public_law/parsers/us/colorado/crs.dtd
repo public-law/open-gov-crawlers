@@ -1,27 +1,35 @@
-<!ELEMENT CRS         o o ((BLEED, TITLE-NUM, TITLE-TEXT, TITLE-ANAL), (TITLE-DIV | EDITORS-NOTE | XREF-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ART-ANAL | SECTION-TEXT | SOURCE-NOTE)*) >
-<!ELEMENT BLEED       - - (B, CTR) >
+<!ELEMENT CRS          o o ((BLEED, TITLE-NUM, TITLE-TEXT, TITLE-ANAL), (TITLE-DIV | EDITORS-NOTE | XREF-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ARTICLE-PART | ART-ANAL | SECTION-TEXT | SOURCE-NOTE | COMMENT-HEAD | ANNO-NOTE)*) >
+<!ELEMENT ANNO-NOTE    - - (ANNO-TEXT, (T | P)+) >
+<!ELEMENT BLEED        - - (B, CTR) >
 <!ELEMENT ARTICLE-TEXT - - (RHRTC) >
 <!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
-<!ELEMENT ART-ANAL     - - (AL, I)+ >
-<!ELEMENT B           - - (#PCDATA | N)* >
-<!ELEMENT T           - o (#PCDATA | B | M | N)* >
+<!ELEMENT ART-ANAL     - - (AL | I | ART-PART)+ >
+<!ELEMENT B            - - (#PCDATA | N | IT)* >
+<!ELEMENT T            - o (#PCDATA | B | M | N)* >
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
-<!ELEMENT I           - o (#PCDATA) >
-<!ELEMENT AL          - o (#PCDATA) >
-<!ELEMENT M           - o (#PCDATA) >
-<!ELEMENT N           - o (#PCDATA) >
-<!ELEMENT DT          - o (#PCDATA) >
+<!ELEMENT I            - o (#PCDATA) >
+<!ELEMENT AL           - o (#PCDATA) >
+<!ELEMENT M            - o (#PCDATA) >
+<!ELEMENT DT           - o (#PCDATA) >
 <!ELEMENT T-DIV        - o (#PCDATA) >
+<!ELEMENT COMMENT-HEAD - - (#PCDATA) >
+<!ELEMENT IT           - - (#PCDATA | N)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
 <!ELEMENT TITLE-TEXT   - - (#PCDATA) >
 <!ELEMENT TITLE-DIV    - - (#PCDATA) >
 <!ELEMENT ARTICLE-NUM  - - (#PCDATA) >
-<!ELEMENT RHRTC       - - (#PCDATA) >
-<!ELEMENT RHFTO       - - (#PCDATA) >
+<!ELEMENT ARTICLE-PART - - (#PCDATA) >
+<!ELEMENT RHRTC        - - (#PCDATA) >
+<!ELEMENT RHFTO        - - (#PCDATA) >
 <!ELEMENT EDITORS-NOTE - - (#PCDATA | T)* >
 <!ELEMENT XREF-NOTE    - - (#PCDATA | T)* >
-<!ELEMENT CTR         - o (#PCDATA) >
-<!ELEMENT P           - o EMPTY >
+<!ELEMENT ART-PART     - - (#PCDATA | NL)* >
+<!ELEMENT CTR          - o (#PCDATA) >
 <!ELEMENT SECTION-TEXT - - ANY >
-<!ELEMENT SOURCE-NOTE  - - ANY >
+<!ELEMENT SOURCE-NOTE  - - (T) >
 <!ELEMENT CATCH-LINE   - - ANY >
+
+<!ELEMENT P            - o EMPTY >
+<!ELEMENT ANNO-TEXT    - o EMPTY >
+<!ELEMENT N            - o EMPTY >
+<!ELEMENT NL           - o EMPTY >
