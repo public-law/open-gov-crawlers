@@ -1,0 +1,22 @@
+<!ELEMENT CRS         o o ((BLEED, TITLE-NUM, TITLE-TEXT, TITLE-ANAL), (TITLE-DIV | EDITORS-NOTE | XREF-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ART-ANAL)*) >
+<!ELEMENT BLEED       - - (B, CTR) >
+<!ELEMENT ARTICLE-TEXT - - (RHRTC) >
+<!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
+<!ELEMENT ART-ANAL     - - (AL, I)+ >
+<!ELEMENT B           - - (#PCDATA | N)* >
+<!ELEMENT T           - o (#PCDATA | B | M | N)* >
+<!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
+<!ELEMENT I           - o (#PCDATA) >
+<!ELEMENT AL          - o (#PCDATA) >
+<!ELEMENT N           - o (#PCDATA) >
+<!ELEMENT DT          - o (#PCDATA) >
+<!ELEMENT T-DIV        - o (#PCDATA) >
+<!ELEMENT TITLE-NUM    - - (#PCDATA) >
+<!ELEMENT TITLE-TEXT   - - (#PCDATA) >
+<!ELEMENT TITLE-DIV    - - (#PCDATA) >
+<!ELEMENT ARTICLE-NUM  - - (#PCDATA) >
+<!ELEMENT RHRTC       - - (#PCDATA) >
+<!ELEMENT EDITORS-NOTE - - (#PCDATA | T)* >
+<!ELEMENT XREF-NOTE    - - (#PCDATA | T)* >
+<!ELEMENT CTR         - o (#PCDATA) >
+<!ELEMENT P           - o EMPTY >
