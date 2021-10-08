@@ -17,3 +17,4 @@ class Title:
 class Division:
     name: str
     source_url: str
+    articles: list

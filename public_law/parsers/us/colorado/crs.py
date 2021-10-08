@@ -23,5 +23,6 @@ def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
     raw_division_names = dom.xpath("//t_div/text()").getall()
 
     return [
-        Division(name=titlecase(n), source_url=source_url) for n in raw_division_names
+        Division(name=titlecase(n), source_url=source_url, articles=[])
+        for n in raw_division_names
     ]
