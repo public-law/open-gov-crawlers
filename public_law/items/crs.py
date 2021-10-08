@@ -17,4 +17,3 @@ class Title:
 class Division:
     name: str
     source_url: str
-    editors_note: str = ""
