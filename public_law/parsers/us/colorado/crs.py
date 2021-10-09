@@ -5,8 +5,8 @@ from public_law.items.crs import Division, Title
 
 
 def parse_title(dom: Selector) -> Title:
-    raw_name = dom.xpath("//TITLE-TEXT/text()").get()
-    raw_number = dom.xpath("//B/text()").get().split(" ")[1]
+    raw_name = dom.xpath("//title-text/text()").get()
+    raw_number = dom.xpath("//b/text()").get().split(" ")[1]
 
     url_number = raw_number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-{url_number}.pdf"
