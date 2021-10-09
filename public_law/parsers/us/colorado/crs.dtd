@@ -6,10 +6,11 @@
 <!ELEMENT SOURCE-NOTE  - o (T | EDITORS-NOTE)* >
 <!ELEMENT ART-ANAL     - - (AL | I | ART-PART)+ >
 <!ELEMENT B            - - (#PCDATA | N | NL | IT | T)* >
-<!ELEMENT T            - o (#PCDATA | B | M | N)* >
+<!ELEMENT T            - o (#PCDATA | B | BL-1 | IT | M | N | U)* >
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
 <!ELEMENT ANNO-TOC     - o (#PCDATA | I | T)* >
 <!ELEMENT I            - o (#PCDATA) >
+<!ELEMENT BL-1         - o (#PCDATA) >
 <!ELEMENT AL           - o (#PCDATA) >
 <!ELEMENT M            - o (#PCDATA) >
 <!ELEMENT DT           - o (#PCDATA) >
@@ -25,11 +26,13 @@
 <!ELEMENT ARTICLE-PART - - (#PCDATA | NL)* >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
 <!ELEMENT CTRK         - - (#PCDATA | B | NL)* >
+<!ELEMENT CTRKB        - - (#PCDATA | NL)* >
 <!ELEMENT RHFTO        - - (#PCDATA) >
 <!ELEMENT EDITORS-NOTE - - (#PCDATA | T | P)* >
 <!ELEMENT XREF-NOTE    - - (#PCDATA | T | B | P)* >
 <!ELEMENT ART-PART     - - (#PCDATA | NL)* >
 <!ELEMENT CTR          - o (#PCDATA) >
+<!ELEMENT U            - - (#PCDATA | M)* >
 <!ELEMENT SECTION-TEXT - - ANY >
 <!ELEMENT CATCH-LINE   - - ANY >
 
