@@ -10,6 +10,17 @@ from typing import Final
 
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
+ENTITIES: Final = {
+    "&amp;": "&#38;",
+    "&sect;": "&#167;",
+    "&ntilde;": "&#241;",
+    "&percnt;": "&#37;",
+    "&commat;": "&#64;",
+    "&mdash;": "&#8212;",
+    "&Uuml;": "&#220;",
+    "&deg;": "&#176;",
+}
+
 
 def fix_unencoded_text(line: str) -> str:
     return (
@@ -20,21 +31,18 @@ def fix_unencoded_text(line: str) -> str:
 
 
 def cleanup(line: str) -> str:
-    return (
-        line.replace("_", "-")
-        .replace("&amp;", "&#38;")
-        .replace("&sect;", "&#167;")
-        .replace("&ntilde;", "&#241;")
-        .replace("&percnt;", "&#37;")
-        .replace("&commat;", "&#64;")
-        .replace("&mdash;", "&#8212;")
-        .replace("&Uuml;", "&#220;")
-        .replace("&deg;", "&#176;")
-    )
+    return line.replace("_", "-")
+
+
+def replace_entities(line: str) -> str:
+    for key, value in ENTITIES.items():
+        line = line.replace(key, value)
+
+    return line
 
 
 def fix_and_cleanup(line: str) -> str:
-    return cleanup(fix_unencoded_text(line))
+    return replace_entities(cleanup(fix_unencoded_text(line)))
 
 
 TXT_FILE: Final = sys.argv[1]
