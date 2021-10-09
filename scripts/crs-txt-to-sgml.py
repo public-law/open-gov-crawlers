@@ -21,6 +21,7 @@ ENTITIES: Final = {
     "mdash": 8212,
     "Uuml": 220,
     "deg": 176,
+    "sup2": 178,
 }
 
 
