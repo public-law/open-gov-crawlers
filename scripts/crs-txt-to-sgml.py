@@ -12,7 +12,9 @@ PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 ENTITIES: Final = {
     "amp": 38,
+    "cir": 8226,
     "commat": 64,
+    "hyphen": 45,
     "deg": 176,
     "lsquo": 8216,
     "mdash": 8212,
@@ -28,7 +30,7 @@ ENTITIES: Final = {
 
 def fix_unencoded_text(line: str) -> str:
     return (
-        line.replace("RC&RE", "RC&amp;RE")
+        line.replace("&RE", "&amp;RE")
         .replace("M&S", "M&amp;S")
         .replace("&A ", "&amp;A ")
         .replace(chr(21), "")
