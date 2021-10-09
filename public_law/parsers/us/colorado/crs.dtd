@@ -33,15 +33,25 @@
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
 <!ELEMENT RHFTO        - - (#PCDATA) >
 <!ELEMENT SECTION-TEXT - o (#PCDATA | B | BL | BL-1 | CATCH-LINE | CTR | CTRK | CTRKB | DL | IP-5-5-5 | IP-10-10-10 | IT | J | M | N | P | RT | S | S1 | S2 | SUB | T | U)* >
-<!ELEMENT S            - - (TBL.6-7-105X1) >
+<!ELEMENT S            - - ANY >
 <!ELEMENT SUB          - - (#PCDATA) >
 <!ELEMENT T            - o (#PCDATA | B | BL-1 | IT | J | M | N | SUB | U)* >
 <!ELEMENT TBL.6-7-105X1 - o EMPTY >
+<!ELEMENT TBL.10-3-201  - o EMPTY >
+<!ELEMENT TBL.10-3-209  - o EMPTY >
+<!ELEMENT TBL.10-3-803.5XA - o EMPTY >
+<!ELEMENT TBL.10-3-803.5XB - o EMPTY >
+<!ELEMENT TBL.10-3-803.5XC - o EMPTY >
+<!ELEMENT TBL.10-3-803.5XD - o EMPTY >
+<!ELEMENT TBL.10-7-309.5XA - o EMPTY >
+<!ELEMENT TBL.10-7-309.5XB - o EMPTY >
+<!ELEMENT TBL.10-7-309.5XC - o EMPTY >
+<!ELEMENT TBL.10-7-309.5XD - o EMPTY >
 <!ELEMENT TITLE-DIV    - - (#PCDATA | NL)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
 <!ELEMENT TITLE-TEXT   - - (#PCDATA) >
 <!ELEMENT TITLE-PART   - - (#PCDATA) >
-<!ELEMENT U            - - (#PCDATA | BL | IT | M)* >
+<!ELEMENT U            - - (#PCDATA | BL | IT | M | T)* >
 <!ELEMENT XREF-NOTE    - - (#PCDATA | T | B | P)* >
 
 <!ELEMENT P            - o EMPTY >
