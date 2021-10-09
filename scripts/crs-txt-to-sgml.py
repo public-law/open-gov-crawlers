@@ -11,16 +11,16 @@ from typing import Final
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 ENTITIES: Final = {
-    "&amp;": "&#38;",
-    "&sect;": "&#167;",
-    "&lsquo;": "&#8216;",
-    "&rsquo;": "&#8217;",
-    "&ntilde;": "&#241;",
-    "&percnt;": "&#37;",
-    "&commat;": "&#64;",
-    "&mdash;": "&#8212;",
-    "&Uuml;": "&#220;",
-    "&deg;": "&#176;",
+    "amp": 38,
+    "sect": 167,
+    "lsquo": 8216,
+    "rsquo": 8217,
+    "ntilde": 241,
+    "percnt": 37,
+    "commat": 64,
+    "mdash": 8212,
+    "Uuml": 220,
+    "deg": 176,
 }
 
 
@@ -39,7 +39,7 @@ def cleanup(line: str) -> str:
 
 def replace_entities(line: str) -> str:
     for key, value in ENTITIES.items():
-        line = line.replace(key, value)
+        line = line.replace(f"&{key};", f"&#{value};")
 
     return line
 
