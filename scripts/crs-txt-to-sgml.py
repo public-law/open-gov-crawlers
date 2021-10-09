@@ -12,16 +12,17 @@ PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 ENTITIES: Final = {
     "amp": 38,
-    "sect": 167,
+    "commat": 64,
+    "deg": 176,
     "lsquo": 8216,
-    "rsquo": 8217,
+    "mdash": 8212,
     "ntilde": 241,
     "percnt": 37,
-    "commat": 64,
-    "mdash": 8212,
-    "Uuml": 220,
-    "deg": 176,
+    "reg": 174,
+    "rsquo": 8217,
+    "sect": 167,
     "sup2": 178,
+    "Uuml": 220,
 }
 
 
