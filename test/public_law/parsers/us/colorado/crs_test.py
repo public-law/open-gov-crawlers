@@ -4,15 +4,15 @@ from public_law.parsers.us.colorado.crs import parse_title
 
 
 def fixture(filename: str) -> str:
-    return open(f"test/fixtures/{filename}", encoding="utf8").read()
+    return open(f"./test/fixtures/{filename}", encoding="utf8").read()
 
 
 # A Title with no Divisions.
-TITLE_4 = Selector(text=fixture("crs/title04.txt"))
+TITLE_4 = Selector(text=fixture("crs/title04.xml"))
 PARSED_TITLE_4 = parse_title(TITLE_4)
 
 # A Title which uses Divisions.
-TITLE_16 = Selector(text=fixture("crs/title16.txt"))
+TITLE_16 = Selector(text=fixture("crs/title16.xml"))
 PARSED_TITLE_16 = parse_title(TITLE_16)
 
 
