@@ -11,17 +11,17 @@
 <!ELEMENT ANNO-TOC     - o (#PCDATA | I | T)* >
 <!ELEMENT I            - o (#PCDATA) >
 <!ELEMENT BL-1         - o (#PCDATA) >
-<!ELEMENT AL           - o (#PCDATA) >
+<!ELEMENT AL           - o (#PCDATA | I | N)* >
 <!ELEMENT M            - o (#PCDATA) >
 <!ELEMENT DT           - o (#PCDATA) >
-<!ELEMENT T-DIV        - o (#PCDATA) >
+<!ELEMENT T-DIV        - o (#PCDATA | NL)* >
 <!ELEMENT COMMENT-HEAD - - (#PCDATA) >
 <!ELEMENT IT           - - (#PCDATA | N)* >
 <!ELEMENT AN-DIV       - - (#PCDATA | M | N | NL)* >
 <!ELEMENT AN-SUB       - - (#PCDATA | M | N | NL)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
 <!ELEMENT TITLE-TEXT   - - (#PCDATA) >
-<!ELEMENT TITLE-DIV    - - (#PCDATA) >
+<!ELEMENT TITLE-DIV    - - (#PCDATA | NL)* >
 <!ELEMENT ARTICLE-NUM  - - (#PCDATA) >
 <!ELEMENT ARTICLE-PART - - (#PCDATA | NL)* >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
