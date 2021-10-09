@@ -32,7 +32,7 @@
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
 <!ELEMENT RHFTO        - - (#PCDATA) >
-<!ELEMENT SECTION-TEXT - o (#PCDATA | B | BL | BL-1 | CATCH-LINE | CTR | CTRK | CTRKB | DL | IP-5-5-5 | IP-10-10-10 | IT | J | M | N | P | RT | S | S1 | S2 | SUB | T | U)* >
+<!ELEMENT SECTION-TEXT - o (#PCDATA | B | BL | BL-1 | CATCH-LINE | CTR | CTRK | CTRKB | DL | IP-5-5-5 | IP-10-10-10 | I | IT | J | M | N | P | RT | S | S1 | S2 | SUB | T | U)* >
 <!ELEMENT S            - - ANY >
 <!ELEMENT SUB          - - (#PCDATA) >
 <!ELEMENT T            - o (#PCDATA | B | BL-1 | IT | J | M | N | SUB | U)* >
