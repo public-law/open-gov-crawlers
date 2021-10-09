@@ -13,6 +13,8 @@ PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 ENTITIES: Final = {
     "&amp;": "&#38;",
     "&sect;": "&#167;",
+    "&lsquo;": "&#8216;",
+    "&rsquo;": "&#8217;",
     "&ntilde;": "&#241;",
     "&percnt;": "&#37;",
     "&commat;": "&#64;",
