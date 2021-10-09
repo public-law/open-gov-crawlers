@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CRS><BLEED><B>TITLE 16</B><CTR>CRIMINAL PROCEEDINGS</CTR></BLEED><TITLE-NUM>TITLE 16</TITLE-NUM><TITLE-TEXT>CRIMINAL PROCEEDINGS</TITLE-TEXT><TITLE-ANAL><T-DIV>CODE OF CRIMINAL PROCEDURE</T-DIV><TA-LIST>Art.<DT>1.</DT><I>General Provisions, 16-1-101 to 16-1-110.</I></TA-LIST><TA-LIST>Art.<DT>2.</DT><I>County Court Provisions, 16-2-101 to 16-2-201.</I></TA-LIST><TA-LIST>Art.<DT>2.3.</DT><I>Civil Infraction Procedures, 16-2.3-101.</I></TA-LIST><TA-LIST>Art.<DT>2.5.</DT><I>Peace Officers, 16-2.5-101 to 16-2.5-502.</I></TA-LIST><TA-LIST>Art.<DT>2.7.</DT><I>Missing Person Reports - Unidentified Human Remains,
 16-2.7-101 to 16-2.7-104.</I></TA-LIST><TA-LIST>Art.<DT>3.</DT><I>Arrest - Searches and Seizures, 16-3-101 to 16-3-601.</I></TA-LIST><TA-LIST>Art.<DT>4.</DT><I>Release from Custody Pending Final Adjudication, 16-4-101
 to
@@ -34448,12 +34448,12 @@ amending subsection (2)(b), see section 1 of chapter 318, Session Laws of Colora
 <CATCH-LINE><RHFTO>16-15.8-101</RHFTO> to 16-15.8-104.
 (Repealed)</CATCH-LINE></SECTION-TEXT><SOURCE-NOTE><T><B>Source:</B>
 <B>L.<N></N>2014:</B> Entire article repealed, (SB
-14-002), ch. 241, p. 889, § 1, effective August 6.</T></SOURCE-NOTE><EDITORS-NOTE><T><B>Editor's note:</B>
+14-002), ch. 241, p. 889, § 1, effective August 6.</T><EDITORS-NOTE><T><B>Editor's note:</B>
 (1)<M>This article was added in 2007. For amendments to this article prior to its repeal
 in 2014, consult the 2013 Colorado Revised Statutes and the Colorado statutory research
 explanatory note beginning on page vii in the front of this volume.</M></T><P></P>
 <T>(2)<M>For current provisions concerning the safe2tell program, see part 6 of article
-31 of title 24.</M></T></EDITORS-NOTE><TITLE-DIV>SENTENCING AND IMPRISONMENT</TITLE-DIV><ARTICLE-NUM>ARTICLE 16</ARTICLE-NUM><ARTICLE-TEXT><RHRTC>Criminal Sentencing Act of 1967</RHRTC></ARTICLE-TEXT><ART-ANAL><AL>16-16-101.</AL><I>Short title.</I><AL>16-16-102.</AL><I>Definitions.</I><AL>16-16-103.</AL><I>Place of confinement - extension of limits.</I></ART-ANAL><SECTION-TEXT><P></P>
+31 of title 24.</M></T></EDITORS-NOTE></SOURCE-NOTE><TITLE-DIV>SENTENCING AND IMPRISONMENT</TITLE-DIV><ARTICLE-NUM>ARTICLE 16</ARTICLE-NUM><ARTICLE-TEXT><RHRTC>Criminal Sentencing Act of 1967</RHRTC></ARTICLE-TEXT><ART-ANAL><AL>16-16-101.</AL><I>Short title.</I><AL>16-16-102.</AL><I>Definitions.</I><AL>16-16-103.</AL><I>Place of confinement - extension of limits.</I></ART-ANAL><SECTION-TEXT><P></P>
 <CATCH-LINE><RHFTO>16-16-101</RHFTO>.<M>Short title.</M></CATCH-LINE>
 This article shall be known and may be cited as the "Criminal Sentencing
 Act of 1967".</SECTION-TEXT><SOURCE-NOTE><T><B>Source:</B>
@@ -40006,7 +40006,7 @@ welfare, the division of youth services, or the victim, as defined in section 24
 <T>(c)<M>A person may request from the CBI a list of persons on the sex offender
 registry. The list must not include persons who are on the sex offender registry solely for
 having been adjudicated or received dispositions as juveniles.</M></T><P N="(6)(d)"></P>
-<T>(d)<M>(Deleted by amendment, L. 2005, p. 611, 1, effective May 27, 2005.)</M></T><P N="(6)(e)"></P>
+<T>(d)<M>(Deleted by amendment, L. 2005, p. 611,  1, effective May 27, 2005.)</M></T><P N="(6)(e)"></P>
 <T>(e)<M>Any person requesting information pursuant to subsection (6)(c) of this
 section shall show proper identification.</M></T><P N="(6)(f)"></P>
 <T>(f)<M>If information is released pursuant to this subsection (6), it must, at a
