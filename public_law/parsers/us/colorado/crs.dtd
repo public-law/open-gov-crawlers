@@ -1,17 +1,19 @@
 <!ELEMENT CRS          o o ((BLEED | TITLE-NUM | TITLE-TEXT | XREF-NOTE | TITLE-ANAL | TITLE-DIV | EDITORS-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ARTICLE-PART | ART-ANAL | SECTION-TEXT | SOURCE-NOTE | COMMENT-HEAD | COMMENT-TEXT| ANNO-NOTE)*) >
+<!ELEMENT AL           - o (#PCDATA | I | N)* >
+<!ELEMENT AN-DIV       - - (#PCDATA | M | N | NL)* >
+<!ELEMENT AN-SUB       - - (#PCDATA | B | T | M | N | NL)* >
 <!ELEMENT ANNO-NOTE    - - (#PCDATA | ANNO-TEXT | ANNO-TOC | AN-DIV | AN-SUB | B | T | P | S1)+ >
 <!ELEMENT ANNO-TOC     - o (#PCDATA | I | T)* >
-<!ELEMENT BLEED        - - (B, CTR) >
+<!ELEMENT ART-ANAL     - - (AL | I | ART-PART)+ >
 <!ELEMENT ARTICLE-TEXT - - (RHRTC) >
+<!ELEMENT B            - - (#PCDATA | IT | M | N | NL  | P | T)* >
+<!ELEMENT BLEED        - - (B, CTR) >
 <!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
 <!ELEMENT SOURCE-NOTE  - o (T | EDITORS-NOTE)* >
-<!ELEMENT ART-ANAL     - - (AL | I | ART-PART)+ >
-<!ELEMENT B            - - (#PCDATA | N | NL | IT | T)* >
 <!ELEMENT T            - o (#PCDATA | B | BL-1 | IT | M | N | U)* >
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
 <!ELEMENT I            - o (#PCDATA) >
 <!ELEMENT BL-1         - o (#PCDATA) >
-<!ELEMENT AL           - o (#PCDATA | I | N)* >
 <!ELEMENT M            - o (#PCDATA) >
 <!ELEMENT TD           - o (#PCDATA) >
 <!ELEMENT DT           - o (#PCDATA) >
@@ -20,8 +22,6 @@
 <!ELEMENT COMMENT-HEAD - - (#PCDATA | B)* >
 <!ELEMENT COMMENT-TEXT - - (#PCDATA | P | T)* >
 <!ELEMENT IT           - - (#PCDATA | N)* >
-<!ELEMENT AN-DIV       - - (#PCDATA | M | N | NL)* >
-<!ELEMENT AN-SUB       - - (#PCDATA | M | N | NL)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
 <!ELEMENT TITLE-TEXT   - - (#PCDATA) >
 <!ELEMENT TITLE-DIV    - - (#PCDATA | NL)* >
@@ -36,7 +36,7 @@
 <!ELEMENT ART-PART     - - (#PCDATA | NL)* >
 <!ELEMENT CTR          - o (#PCDATA) >
 <!ELEMENT U            - - (#PCDATA | M)* >
-<!ELEMENT SECTION-TEXT - - ANY >
+<!ELEMENT SECTION-TEXT - o (#PCDATA | B | BL | BL-1 | CATCH-LINE | CTRK | CTRKB | IP-5-5-5 | IP-10-10-10 | IT | M | N | P | RT | S1 | T | U)* >
 <!ELEMENT CATCH-LINE   - - ANY >
 
 <!ELEMENT P            - o EMPTY >
