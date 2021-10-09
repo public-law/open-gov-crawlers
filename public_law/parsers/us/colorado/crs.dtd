@@ -20,7 +20,7 @@
 <!ELEMENT CTRKB        - - (#PCDATA | NL | U)* >
 <!ELEMENT DL           - o EMPTY >
 <!ELEMENT DT           - o (#PCDATA) >
-<!ELEMENT EDITORS-NOTE - - (#PCDATA | T | P)* >
+<!ELEMENT EDITORS-NOTE - o (#PCDATA | T | B | P)* >
 <!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
 <!ELEMENT SOURCE-NOTE  - o (T | EDITORS-NOTE)* >
 <!ELEMENT I            - o (#PCDATA) >
