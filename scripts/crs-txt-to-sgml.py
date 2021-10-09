@@ -50,6 +50,4 @@ with open(SGML_FILE, mode="w", encoding="utf8") as f:
     f.writelines(cleaned_up)
 
 # 4. Convert the SGML to XML.
-err_code = os.system(OSX_CMD)
-if err_code != 0:
-    sys.exit(err_code)
+os.system(OSX_CMD)

@@ -1,5 +1,6 @@
 <!ELEMENT CRS          o o ((BLEED | TITLE-NUM | TITLE-TEXT | XREF-NOTE | TITLE-ANAL | TITLE-DIV | EDITORS-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ARTICLE-PART | ART-ANAL | SECTION-TEXT | SOURCE-NOTE | COMMENT-HEAD | COMMENT-TEXT| ANNO-NOTE)*) >
-<!ELEMENT ANNO-NOTE    - - (#PCDATA | ANNO-TEXT | ANNO-TOC | AN-DIV | AN-SUB | B | T | P)+ >
+<!ELEMENT ANNO-NOTE    - - (#PCDATA | ANNO-TEXT | ANNO-TOC | AN-DIV | AN-SUB | B | T | P | S1)+ >
+<!ELEMENT ANNO-TOC     - o (#PCDATA | I | T)* >
 <!ELEMENT BLEED        - - (B, CTR) >
 <!ELEMENT ARTICLE-TEXT - - (RHRTC) >
 <!ELEMENT TITLE-ANAL   - - (T-DIV | TA-LIST)* >
@@ -8,12 +9,12 @@
 <!ELEMENT B            - - (#PCDATA | N | NL | IT | T)* >
 <!ELEMENT T            - o (#PCDATA | B | BL-1 | IT | M | N | U)* >
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
-<!ELEMENT ANNO-TOC     - o (#PCDATA | I | T)* >
 <!ELEMENT I            - o (#PCDATA) >
 <!ELEMENT BL-1         - o (#PCDATA) >
 <!ELEMENT AL           - o (#PCDATA | I | N)* >
 <!ELEMENT M            - o (#PCDATA) >
 <!ELEMENT DT           - o (#PCDATA) >
+<!ELEMENT DL           - o EMPTY >
 <!ELEMENT T-DIV        - o (#PCDATA | NL)* >
 <!ELEMENT COMMENT-HEAD - - (#PCDATA | B)* >
 <!ELEMENT COMMENT-TEXT - - (#PCDATA | P | T)* >
