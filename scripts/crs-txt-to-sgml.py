@@ -11,6 +11,7 @@ from typing import Final
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 ENTITIES: Final = {
+    "alpha": 945,
     "amp": 38,
     "cir": 8226,
     "commat": 64,
@@ -23,6 +24,7 @@ ENTITIES: Final = {
     "reg": 174,
     "rsquo": 8217,
     "sect": 167,
+    "sup1": 165,
     "sup2": 178,
     "Uuml": 220,
 }
@@ -34,6 +36,7 @@ def fix_unencoded_text(line: str) -> str:
         .replace("M&S", "M&amp;S")
         .replace("&A ", "&amp;A ")
         .replace(chr(21), "")
+        .replace(chr(12), "")
     )
 
 
