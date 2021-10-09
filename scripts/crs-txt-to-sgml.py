@@ -11,6 +11,10 @@ from typing import Final
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 
+def fix_unencoded_text(line: str) -> str:
+    return line.replace("RC&RE", "RC&amp;RE")
+
+
 def cleanup(line: str) -> str:
     return (
         line.replace("_", "-")
@@ -19,6 +23,10 @@ def cleanup(line: str) -> str:
         .replace("&ntilde;", "&#241;")
         .replace("&percnt;", "&#37;")
     )
+
+
+def fix_and_cleanup(line: str) -> str:
+    return cleanup(fix_unencoded_text(line))
 
 
 TXT_FILE: Final = sys.argv[1]
@@ -32,7 +40,7 @@ print(f"Converting\n  {TXT_FILE=} to\n  {XML_FILE=}...")
 
 # 1. Clean up the text.
 with open(TXT_FILE, encoding="utf8") as f:
-    cleaned_up = [cleanup(line) for line in f.readlines()]
+    cleaned_up = [fix_and_cleanup(line) for line in f.readlines()]
 
 # 2. Add the DOCTYPE declaration.
 cleaned_up.insert(0, PROLOG)
