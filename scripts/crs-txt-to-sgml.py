@@ -26,6 +26,7 @@ def fix_unencoded_text(line: str) -> str:
     return (
         line.replace("RC&RE", "RC&amp;RE")
         .replace("M&S", "M&amp;S")
+        .replace("&A ", "&amp;A ")
         .replace(chr(21), "")
     )
 
