@@ -29,6 +29,7 @@ def cleanup(line: str) -> str:
         .replace("&commat;", "&#64;")
         .replace("&mdash;", "&#8212;")
         .replace("&Uuml;", "&#220;")
+        .replace("&deg;", "&#176;")
     )
 
 
