@@ -13,6 +13,7 @@
 <!ELEMENT BL-1         - o (#PCDATA) >
 <!ELEMENT AL           - o (#PCDATA | I | N)* >
 <!ELEMENT M            - o (#PCDATA) >
+<!ELEMENT TD           - o (#PCDATA) >
 <!ELEMENT DT           - o (#PCDATA) >
 <!ELEMENT DL           - o EMPTY >
 <!ELEMENT T-DIV        - o (#PCDATA | NL)* >

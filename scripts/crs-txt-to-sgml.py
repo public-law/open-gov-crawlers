@@ -12,7 +12,11 @@ PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 
 def fix_unencoded_text(line: str) -> str:
-    return line.replace("RC&RE", "RC&amp;RE").replace(chr(21), "")
+    return (
+        line.replace("RC&RE", "RC&amp;RE")
+        .replace("M&S", "M&amp;S")
+        .replace(chr(21), "")
+    )
 
 
 def cleanup(line: str) -> str:
@@ -22,6 +26,9 @@ def cleanup(line: str) -> str:
         .replace("&sect;", "&#167;")
         .replace("&ntilde;", "&#241;")
         .replace("&percnt;", "&#37;")
+        .replace("&commat;", "&#64;")
+        .replace("&mdash;", "&#8212;")
+        .replace("&Uuml;", "&#220;")
     )
 
 
