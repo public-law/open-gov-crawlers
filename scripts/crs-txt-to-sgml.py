@@ -17,6 +17,7 @@ def cleanup(line: str) -> str:
         .replace("&amp;", "&#38;")
         .replace("&sect;", "&#167;")
         .replace("&ntilde;", "&#241;")
+        .replace("&percnt;", "&#37;")
     )
 
 
