@@ -11,6 +11,7 @@ from typing import Final
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 
 ENTITIES: Final = {
+    "agrave": 224,
     "alpha": 945,
     "amp": 38,
     "bull": 8226,
@@ -25,8 +26,10 @@ ENTITIES: Final = {
     "reg": 174,
     "rsquo": 8217,
     "sect": 167,
+    "square": 9744,
     "sup1": 165,
     "sup2": 178,
+    "trade": 8482,
     "Uuml": 220,
 }
 
