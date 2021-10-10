@@ -33,11 +33,11 @@
 <!ELEMENT TA-LIST      - o (#PCDATA, DT, I) >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
 <!ELEMENT RHFTO        - - (#PCDATA) >
-<!ELEMENT SECTION-TEXT - o (#PCDATA | AN-SUB | ANNO-TEXT| B | BL | BL-1 | CATCH-LINE | CTR | CTRK | CTRKB | DL | IP-5-5-5 | IP-10-10-10 | I | IT | J | M | N | P | RT | S | S1 | S2 | SUB | SUP | T | U)* >
+<!ELEMENT SECTION-TEXT - o (#PCDATA | AN-SUB | ANNO-TEXT| B | BL | BL-1 | CATCH-LINE | CTR | CTRK | CTRKB | DL | IP-5-5-5 | IP-10-10-10 | I | IT | J | M | N | NL | P | RT | S | S1 | S2 | SUB | SUP | T | TD | U)* >
 <!ELEMENT S            - - ANY >
 <!ELEMENT SUB          - - (#PCDATA) >
 <!ELEMENT SUP          - - (#PCDATA) >
-<!ELEMENT T            - o (#PCDATA | AN-SUB | ANNO-TEXT| B | BL-1 | IT | J | M | N | NL | S1 | SUB | SUP | U)* >
+<!ELEMENT T            - o (#PCDATA | AN-SUB | ANNO-TEXT| B | BL-1 | IT | J | M | N | NL | S1 | SUB | SUP | TD | U)* >
 <!ELEMENT TBL.6-7-105X1 - o EMPTY >
 <!ELEMENT TBL.10-3-201  - o EMPTY >
 <!ELEMENT TBL.10-3-209  - o EMPTY >

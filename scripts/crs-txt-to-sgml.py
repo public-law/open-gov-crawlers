@@ -13,6 +13,7 @@ PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
 ENTITIES: Final = {
     "alpha": 945,
     "amp": 38,
+    "bull": 8226,
     "cir": 8226,
     "commat": 64,
     "deg": 176,
@@ -62,7 +63,7 @@ OSX_CMD: Final = (
     f"osx --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} > {XML_FILE}"
 )
 
-print(f"Converting\n  {TXT_FILE=} to\n  {XML_FILE=}...")
+# print(f"Converting\n  {TXT_FILE=} to\n  {XML_FILE=}...")
 
 # 1. Clean up the text.
 with open(TXT_FILE, encoding="utf8") as f:
