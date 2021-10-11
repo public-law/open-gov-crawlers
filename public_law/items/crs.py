@@ -9,6 +9,7 @@ from dataclasses import dataclass
 class Article:
     name: str
     number: str
+    source_url: str
 
 
 @dataclass(frozen=True)
@@ -22,5 +23,5 @@ class Division:
 class Title:
     name: str
     number: str
-    divisions: list[Division]
     source_url: str
+    divisions: list[Division]

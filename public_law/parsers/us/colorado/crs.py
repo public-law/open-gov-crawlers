@@ -1,7 +1,7 @@
 from scrapy.selector.unified import Selector
 from titlecase import titlecase
 
-from public_law.items.crs import Division, Title
+from public_law.items.crs import Article, Division, Title
 
 
 def parse_title(dom: Selector) -> Title:
@@ -24,6 +24,25 @@ def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
     raw_division_names = dom.xpath("//t-div/text()").getall()
 
     return [
-        Division(name=titlecase(n), source_url=source_url, articles=[])
-        for n in raw_division_names
+        Division(
+            name=titlecase(name),
+            source_url=source_url,
+            articles=_parse_articles(name, dom, source_url),
+        )
+        for name in raw_division_names
     ]
+
+
+def _parse_articles(
+    division_name: str, dom: Selector, source_url: str
+) -> list[Article]:
+    """Return the articles within the given Division."""
+
+    # Algorithm:
+    #
+    # 1. Get all the child elements of TITLE-ANAL.
+    # 2. Find the T-DIV with the Division name.
+    # 3. `takewhile` all the following TA-LIST elements
+    #    and stop if another T-DIV is reached.
+
+    return []
