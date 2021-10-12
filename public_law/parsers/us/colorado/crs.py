@@ -36,7 +36,7 @@ def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
 def _parse_articles(
     division_name: str, dom: Selector, source_url: str
 ) -> list[Article]:
-    """Return the articles within the given Division."""
+    """Return the articles within the given Division. Raise an error if the Division can't be found."""
 
     # Algorithm:
     #
