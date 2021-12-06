@@ -7,6 +7,8 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Article:
+    """A CRS Article."""
+
     name: str
     number: str
     source_url: str
@@ -14,6 +16,8 @@ class Article:
 
 @dataclass(frozen=True)
 class Division:
+    """A CRS Division."""
+
     name: str
     source_url: str
     articles: list[Article]
@@ -21,6 +25,8 @@ class Division:
 
 @dataclass(frozen=True)
 class Title:
+    """A CRS Title."""
+
     name: str
     number: str
     source_url: str
