@@ -68,9 +68,9 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.8.5
+### Python 3.10
 
-I'll upgrade that soon; I like to be at the newest version. I'm personally using
+I'm personally using
 [pyenv](https://github.com/pyenv/pyenv) to install Python, but
 [asdf](https://asdf-vm.com/#/) is a good option too.
 
