@@ -8,7 +8,7 @@ set -e
 # other than the project's root directory. 
 #
 
-ID=35924c75e956deb8a730e0a97ac727c2668f664faea35bdf7e4fb0dd4c06c331
+ID=d97c8df8fdffaae60cb062700f708034c1a6bbd8b7eb87bcb92b8ed1c1d593da
 
 
 env CC_TEST_REPORTER_ID=$ID bin/cc-test-reporter-darwin format-coverage --input-type coverage.py coverage/coverage.xml
