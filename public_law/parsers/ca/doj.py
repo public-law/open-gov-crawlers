@@ -25,8 +25,8 @@ class GlossaryEntry(NamedTuple):
 class GlossarySourceParseResult(NamedTuple):
     """All the info about a glossary source"""
 
-    name: str
     source_url: str
+    name: str
     author: str
     pub_date: str
     scrape_date: str
@@ -64,8 +64,8 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
         )
 
     return GlossarySourceParseResult(
-        name=name,
         source_url=html.url,
+        name=name,
         author="Department of Justice Canada",
         pub_date=pub_date,
         scrape_date=todays_date(),
