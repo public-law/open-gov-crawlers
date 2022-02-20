@@ -129,6 +129,7 @@ dmypy.json
 .vscode
 
 # Temp. output
+coverage/
 .pytype/
 out/
 .idea/

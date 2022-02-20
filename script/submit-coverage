@@ -1,4 +1,8 @@
 #!/bin/bash
 set -e
 
-env CC_TEST_REPORTER_ID=35924c75e956deb8a730e0a97ac727c2668f664faea35bdf7e4fb0dd4c06c331 bin/cc-test-reporter-darwin after-build
+# env CC_TEST_REPORTER_ID=35924c75e956deb8a730e0a97ac727c2668f664faea35bdf7e4fb0dd4c06c331 bin/cc-test-reporter-darwin after-build --coverage-input-type coverage.py
+
+
+env CC_TEST_REPORTER_ID=35924c75e956deb8a730e0a97ac727c2668f664faea35bdf7e4fb0dd4c06c331 bin/cc-test-reporter-darwin format-coverage --input-type coverage.py tmp/coverage.xml
+env CC_TEST_REPORTER_ID=35924c75e956deb8a730e0a97ac727c2668f664faea35bdf7e4fb0dd4c06c331 bin/cc-test-reporter-darwin upload-coverage
