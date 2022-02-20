@@ -58,7 +58,7 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
                     prop.xpath("normalize-space(descendant::text())").get()
                 ),
                 definition=NonemptyString(
-                    prop.xpath("normalize-space(./following-sibling::dd/text())").get()
+                    prop.xpath("string(normalize-space(./following-sibling::dd))").get()
                 ),
             )
         )
