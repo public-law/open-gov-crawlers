@@ -1,3 +1,4 @@
+
 requirements.txt
 
 # Byte-compiled / optimized / DLL files
@@ -128,6 +129,8 @@ dmypy.json
 .vscode
 
 # Temp. output
+coverage/
 .pytype/
 out/
 .idea/
+tmp/
