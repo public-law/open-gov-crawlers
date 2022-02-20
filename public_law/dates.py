@@ -6,7 +6,7 @@ import pytz
 
 class SimpleTimezone(Protocol):
     def localize(self, dt: datetime) -> date:
-        ...
+        ...  # pragma: no cover
 
 
 def todays_date() -> str:
