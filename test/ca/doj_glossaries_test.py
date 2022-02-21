@@ -67,6 +67,11 @@ class TestParseGlossary:
 
     def test_parses_emphasized_text(self):
         definition_with_em = self.p11_result.entries[0].definition
-        expected_definition = "Legal term previously used in the <em>Divorce Act</em> to refer to the time a parent or other person spends with a child, usually not the parent with whom the child primarily lives."
+        expected_definition = (
+            "Legal term previously used in the <em>Divorce Act</em> to "
+            "refer to the time a parent or other person spends with a "
+            "child, usually not the parent with whom the child primarily "
+            "lives."
+        )
 
         assert definition_with_em == expected_definition
