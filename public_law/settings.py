@@ -9,11 +9,15 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+#
+#     https://spidermon.readthedocs.io/
 
 LOG_LEVEL = "INFO"
 
 SPIDERMON_ENABLED = True
 SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
+SPIDERMON_TELEGRAM_SENDER_TOKEN = "<TELEGRAM_SENDER_TOKEN>"
+SPIDERMON_TELEGRAM_RECIPIENTS = ["chatid", "groupid", "@channelname"]
 
 BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]

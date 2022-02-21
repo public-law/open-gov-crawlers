@@ -1,4 +1,7 @@
 from spidermon import Monitor, MonitorSuite, monitors
+from spidermon.contrib.actions.telegram.notifiers import (
+    SendTelegramMessageSpiderFinished,
+)
 
 
 @monitors.name("Item count")
@@ -19,3 +22,5 @@ class SpiderCloseMonitorSuite(MonitorSuite):
     monitors = [
         ItemCountMonitor,
     ]
+
+    monitors_failed_actions = [SendTelegramMessageSpiderFinished]
