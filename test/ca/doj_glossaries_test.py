@@ -57,7 +57,7 @@ class TestParseGlossary:
         )
 
     def test_gets_the_name_when_it_contains_an_anchor(self):
-        assert parsed_glossary_glos() == ""
+        assert parsed_glossary_glos().name == ""
 
     def test_gets_the_url(self):
         assert (
