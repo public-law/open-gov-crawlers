@@ -19,7 +19,6 @@ SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite"
 SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
 
-
 BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]
 NEWSPIDER_MODULE = "public_law.spiders"
