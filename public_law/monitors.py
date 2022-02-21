@@ -9,7 +9,7 @@ class ItemCountMonitor(Monitor):
     @monitors.name("Minimum number of items")
     def test_minimum_number_of_items(self):
         item_extracted = getattr(self.data.stats, "item_scraped_count", 0)
-        minimum_threshold = 9
+        minimum_threshold = 5
 
         self.assertTrue(
             item_extracted >= minimum_threshold,
