@@ -25,8 +25,8 @@ class GlossaryEntry(NamedTuple):
 class GlossarySourceParseResult(NamedTuple):
     """All the info about a glossary source"""
 
-    name: str
     source_url: str
+    name: str
     author: str
     pub_date: str
     scrape_date: str
@@ -52,20 +52,26 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     for prop in first_dl_list.xpath("dt"):
         assert isinstance(prop, Selector)
 
+        # Get the inner text and preserve inner HTML.
+        definition = (
+            prop.xpath("./following-sibling::dd")
+            .get()
+            .replace("<dd>", "")
+            .replace("</dd>", "")
+            .replace("  ", " ")
+        )
+        phrase = prop.xpath("normalize-space(descendant::text())").get()
+
         entries.append(
             GlossaryEntry(
-                phrase=NonemptyString(
-                    prop.xpath("normalize-space(descendant::text())").get()
-                ),
-                definition=NonemptyString(
-                    prop.xpath("normalize-space(./following-sibling::dd/text())").get()
-                ),
+                phrase=NonemptyString(phrase),
+                definition=NonemptyString(definition),
             )
         )
 
     return GlossarySourceParseResult(
-        name=name,
         source_url=html.url,
+        name=name,
         author="Department of Justice Canada",
         pub_date=pub_date,
         scrape_date=todays_date(),

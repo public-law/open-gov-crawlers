@@ -6,9 +6,23 @@ from public_law.dates import todays_date
 def parsed_glossary() -> GlossarySourceParseResult:
     filename = "legal-aid-glossary.html"
 
-    with open(f"test/fixtures/{filename}") as f:
+    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url="https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
+            body=f.read(),
+            encoding="UTF-8",
+        )
+
+    parsed = parse_glossary(html)
+    return parsed
+
+
+def parsed_glossary_p11() -> GlossarySourceParseResult:
+    filename = "p11.html"
+
+    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
+        html = HtmlResponse(
+            url="https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
             body=f.read(),
             encoding="UTF-8",
         )
@@ -20,6 +34,7 @@ def parsed_glossary() -> GlossarySourceParseResult:
 class TestParseGlossary:
     def setup(self):
         self.result = parsed_glossary()
+        self.p11_result = parsed_glossary_p11()
 
     def test_gets_the_name(self):
         assert (
@@ -49,3 +64,14 @@ class TestParseGlossary:
         term = self.result.entries[2]
         assert term.phrase == "Adjournment"
         assert term.definition == "postponement of a court hearing to another date."
+
+    def test_parses_emphasized_text(self):
+        definition_with_em = self.p11_result.entries[0].definition
+        expected_definition = (
+            "Legal term previously used in the <em>Divorce Act</em> to "
+            "refer to the time a parent or other person spends with a "
+            "child, usually not the parent with whom the child primarily "
+            "lives."
+        )
+
+        assert definition_with_em == expected_definition
