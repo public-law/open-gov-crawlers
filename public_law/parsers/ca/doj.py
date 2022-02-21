@@ -82,5 +82,5 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
     result = node.css(css).get()
     if result is None:
-        raise ParseException(f"Could not parse the {expected}")
+        raise ParseException(f'Could not parse the {expected} using "{css}"')
     return normalize_whitespace(result)
