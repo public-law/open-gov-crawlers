@@ -36,7 +36,16 @@ class GlossarySourceParseResult(NamedTuple):
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     main: SelectorList = html.css("main")
 
-    name = first(main, "h1::text", "name") + "; " + first(main, "h2::text", "name")
+    name_part_1 = first(main, "h1::text", "name")
+
+    if len(main.css("h2")) == 0:
+        name_part_2 = ""
+    elif len(main.css("h2::text")) == 0:
+        name_part_2 = "; " + first(main, "h2>a::text", "name")
+    else:
+        name_part_2 = "; " + first(main, "h2::text", "name")
+    name = name_part_1 + name_part_2
+
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: List[GlossaryEntry] = []
@@ -82,5 +91,5 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
     result = node.css(css).get()
     if result is None:
-        raise ParseException(f"Could not parse the {expected}")
+        raise ParseException(f'Could not parse the {expected} using "{css}"')
     return normalize_whitespace(result)
