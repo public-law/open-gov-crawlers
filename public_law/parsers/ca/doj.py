@@ -88,8 +88,7 @@ def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
         name_part_2 = "; " + first(main, "h2>a::text", "name")
     else:
         name_part_2 = "; " + first(main, "h2::text", "name")
-    name = name_part_1 + name_part_2
-    return name
+    return name_part_1 + name_part_2
 
 
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
