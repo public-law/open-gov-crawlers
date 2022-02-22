@@ -82,10 +82,10 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
     name = first(main, "h1::text", "name")
 
-    if len(main.css("h2")) > 0:
-        name += "; " + main.xpath("string(./h2)").get()
+    if len(main.css("h2")) == 0:
+        return name
 
-    return name
+    return name + "; " + main.xpath("string(./h2)").get()
 
 
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
