@@ -3,60 +3,39 @@ from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
 from public_law.dates import todays_date
 
 
-def parsed_glossary() -> GlossarySourceParseResult:
-    filename = "legal-aid-glossary.html"
-
+def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
     with open(f"test/fixtures/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
-            url="https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
+            url=url,
             body=f.read(),
             encoding="UTF-8",
         )
 
     parsed = parse_glossary(html)
     return parsed
+
+
+def parsed_glossary() -> GlossarySourceParseResult:
+    return parsed_fixture(
+        "legal-aid-glossary.html",
+        "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
+    )
 
 
 def parsed_glossary_p11() -> GlossarySourceParseResult:
-    filename = "p11.html"
-
-    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url="https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    parsed = parse_glossary(html)
-    return parsed
+    return parsed_fixture(
+        "p11.html", "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html"
+    )
 
 
 def parsed_glossary_glos() -> GlossarySourceParseResult:
-    filename = "glos.html"
-
-    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url="https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    parsed = parse_glossary(html)
-    return parsed
+    return parsed_fixture(
+        "glos.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html"
+    )
 
 
 def parsed_glossary_index() -> GlossarySourceParseResult:
-    filename = "index.html"
-
-    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url="https://laws-lois.justice.gc.ca/eng/glossary/",
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    parsed = parse_glossary(html)
-    return parsed
+    return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
 
 
 class TestParseGlossary:
