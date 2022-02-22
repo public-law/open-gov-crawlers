@@ -22,7 +22,7 @@ class OregonRegs(Spider):
     start_urls = [oar_url("ruleSearch.action")]
 
     def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
-        super(OregonRegs, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
