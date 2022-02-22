@@ -11,8 +11,7 @@ def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
             encoding="UTF-8",
         )
 
-    parsed = parse_glossary(html)
-    return parsed
+    return parse_glossary(html)
 
 
 def parsed_glossary() -> GlossarySourceParseResult:
