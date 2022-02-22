@@ -84,10 +84,8 @@ def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
 
     if len(main.css("h2")) == 0:
         name_part_2 = ""
-    elif len(main.css("h2::text")) == 0:
-        name_part_2 = "; " + first(main, "h2>a::text", "name")
     else:
-        name_part_2 = "; " + first(main, "h2::text", "name")
+        name_part_2 = "; " + main.xpath("string(./h2)").get()
 
     return name_part_1 + name_part_2
 
