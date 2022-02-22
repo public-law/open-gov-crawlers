@@ -45,6 +45,20 @@ def parsed_glossary_glos() -> GlossarySourceParseResult:
     return parsed
 
 
+def parsed_glossary_index() -> GlossarySourceParseResult:
+    filename = "index.html"
+
+    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
+        html = HtmlResponse(
+            url="https://laws-lois.justice.gc.ca/eng/glossary/",
+            body=f.read(),
+            encoding="UTF-8",
+        )
+
+    parsed = parse_glossary(html)
+    return parsed
+
+
 class TestParseGlossary:
     def setup(self):
         self.result = parsed_glossary()
@@ -61,6 +75,9 @@ class TestParseGlossary:
             parsed_glossary_glos().name
             == "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
         )
+
+    def test_gets_the_name_when_there_is_just_an_h1(self):
+        assert parsed_glossary_index().name == "Glossary of technical terms"
 
     def test_gets_the_url(self):
         assert (
