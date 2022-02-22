@@ -36,16 +36,7 @@ class GlossarySourceParseResult(NamedTuple):
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     main: SelectorList = html.css("main")
 
-    name_part_1 = first(main, "h1::text", "name")
-
-    if len(main.css("h2")) == 0:
-        name_part_2 = ""
-    elif len(main.css("h2::text")) == 0:
-        name_part_2 = "; " + first(main, "h2>a::text", "name")
-    else:
-        name_part_2 = "; " + first(main, "h2::text", "name")
-    name = name_part_1 + name_part_2
-
+    name = parse_name(main)
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: List[GlossaryEntry] = []
@@ -86,6 +77,19 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
         scrape_date=todays_date(),
         entries=entries,
     )
+
+
+def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
+    name_part_1 = first(main, "h1::text", "name")
+
+    if len(main.css("h2")) == 0:
+        name_part_2 = ""
+    elif len(main.css("h2::text")) == 0:
+        name_part_2 = "; " + first(main, "h2>a::text", "name")
+    else:
+        name_part_2 = "; " + first(main, "h2::text", "name")
+    name = name_part_1 + name_part_2
+    return name
 
 
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
