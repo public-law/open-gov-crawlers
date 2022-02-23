@@ -119,11 +119,12 @@ AUTOTHROTTLE_DEBUG = False
 
 #
 # In development mode only, set the sensitive and environment-
-# dependent configuration values via env  variables. On development
-# machines, set `SCRAPY_DEVELOPMENT_MODE` to make this work. This
-# isn't necessary, however, to develop and run the spiders.
+# dependent configuration values via env variables. `SHUB_JOBKEY`
+# is set as an env var on Scrapy Cloud.
+# See https://shub.readthedocs.io/en/stable/custom-images-contract.html#shub-jobkey
+# These configs aren't necessary, however, to develop and run the spiders.
 #
-if "SCRAPY_DEVELOPMENT_MODE" in os.environ:
+if "SHUB_JOBKEY" not in os.environ:
     SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
     SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
     CRAWLERA_ENABLED = True
