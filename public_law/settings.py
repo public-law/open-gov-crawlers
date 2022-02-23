@@ -12,7 +12,6 @@ import os
 #
 #     https://spidermon.readthedocs.io/
 
-LOG_LEVEL = "WARN"
 
 SPIDERMON_ENABLED = True
 SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
@@ -80,7 +79,6 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy_crawlera.CrawleraMiddleware": 610,
 }
 
-CRAWLERA_ENABLED = True
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -120,14 +118,15 @@ AUTOTHROTTLE_DEBUG = False
 
 
 #
-# In development mode only, set the sensitive configuration values
-# via environment variables. On development machines, set
-# `SCRAPY_DEVELOPMENT_MODE` to make this work. These aren't necessary,
-# however, to develop and run the spiders.
+# In development mode only, set the sensitive and environment-
+# dependent configuration values via env  variables. On development
+# machines, set `SCRAPY_DEVELOPMENT_MODE` to make this work. This
+# isn't necessary, however, to develop and run the spiders.
 #
 if "SCRAPY_DEVELOPMENT_MODE" in os.environ:
     SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
     SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
+    CRAWLERA_ENABLED = True
     CRAWLERA_APIKEY = os.environ["CRAWLERA_APIKEY"]
     CRAWLERA_USER = os.environ["CRAWLERA_APIKEY"]
     LOG_LEVEL = os.environ["SCRAPY_LOG_LEVEL"]
