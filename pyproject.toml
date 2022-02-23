@@ -11,7 +11,7 @@ titlecase = "^0.12.0"
 pytz = "^2019.3"
 scrapy-crawlera = "^1.7.0"
 msgpack-python = "^0.5.6"
-toolz = "^0.10.0"
+toolz = "0.*"
 spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 
 [tool.poetry.dev-dependencies]
