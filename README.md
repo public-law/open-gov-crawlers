@@ -108,3 +108,4 @@ watchmedo shell-command --command='clear ; pytest' --patterns="*.py" --recursive
 ### Dependencies; helpful links
 
 * [The Zyte runtime environments](https://github.com/scrapinghub/scrapinghub-stack-scrapy)
+* [SHUB Configuration](https://shub.readthedocs.io/en/stable/configuration.html)
