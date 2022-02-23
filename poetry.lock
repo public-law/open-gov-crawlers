@@ -1371,11 +1371,15 @@ python-versions = "*"
 
 [[package]]
 name = "titlecase"
-version = "0.12.0"
+version = "2.3"
 description = "Python Port of John Gruber's titlecase.pl"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
+
+[package.extras]
+regex = ["regex (>=2020.4.4)"]
+tests = ["nose (>=1.0)"]
 
 [[package]]
 name = "toml"
@@ -1558,7 +1562,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "=3.10.2"
-content-hash = "ceba70536999f5d8452004bc3327f55094c347ee17c36571b6957231f41f0b96"
+content-hash = "a2cbab08c94c89bac0f7e0dd5bf0fa06cb2c87e00aa896a249ac0add942e99c7"
 
 [metadata.files]
 aiohttp = [
@@ -2600,8 +2604,8 @@ text-unidecode = [
     {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
 ]
 titlecase = [
-    {file = "titlecase-0.12.0-py3-none-any.whl", hash = "sha256:95d643a0c08097c02933aced707adfe1c275c335019e8e514dea782a465c5b84"},
-    {file = "titlecase-0.12.0.tar.gz", hash = "sha256:84de7a97fb702c400e5ba11c6b30849944b39db12e20fbf4515a23c7538a0611"},
+    {file = "titlecase-2.3-py2.py3-none-any.whl", hash = "sha256:037be1a542634d5582735c949f3b247bfc878a4f21c76957ae42167a398c9dce"},
+    {file = "titlecase-2.3.tar.gz", hash = "sha256:9a1595ed9b88f3ce4362a7602ee63cf074e10ac80d1256b32ea1ec5ffa265fa0"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
