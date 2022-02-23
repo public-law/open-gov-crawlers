@@ -104,3 +104,7 @@ I use this to monitor and retest automatically as I work:
 ```bash
 watchmedo shell-command --command='clear ; pytest' --patterns="*.py" --recursive .
 ```
+
+### Dependencies; helpful links
+
+* [The Zyte runtime environments](https://github.com/scrapinghub/scrapinghub-stack-scrapy)
