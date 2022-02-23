@@ -12,12 +12,9 @@ import os
 #
 #     https://spidermon.readthedocs.io/
 
-LOG_LEVEL = "INFO"
 
 SPIDERMON_ENABLED = True
 SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
-SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
 
 BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]
@@ -31,7 +28,7 @@ FEED_FORMAT = "jsonlines"
 # FEED_URI = "stdout:"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = "Public.Law Parser (https://www.public.law/contact-us)"
+# USER_AGENT = "..."
 ROBOTSTXT_OBEY = True
 
 
@@ -82,13 +79,6 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy_crawlera.CrawleraMiddleware": 610,
 }
 
-CRAWLERA_ENABLED = True
-
-# This breaks on Scraping Hub although it works locally. Commenting it out
-# for now.
-VAR = "CRAWLERA_APIKEY"
-if VAR in os.environ:
-    CRAWLERA_APIKEY = os.environ[VAR]
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -125,3 +115,19 @@ AUTOTHROTTLE_DEBUG = False
 # HTTPCACHE_DIR = "httpcache"
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 # HTTPCACHE_POLICY = "scrapy.extensions.httpcache.DummyPolicy"
+
+
+#
+# In development mode only, set the sensitive and environment-
+# dependent configuration values via env  variables. On development
+# machines, set `SCRAPY_DEVELOPMENT_MODE` to make this work. This
+# isn't necessary, however, to develop and run the spiders.
+#
+if "SCRAPY_DEVELOPMENT_MODE" in os.environ:
+    SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+    SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
+    CRAWLERA_ENABLED = True
+    CRAWLERA_APIKEY = os.environ["CRAWLERA_APIKEY"]
+    CRAWLERA_USER = os.environ["CRAWLERA_APIKEY"]
+    LOG_LEVEL = os.environ["SCRAPY_LOG_LEVEL"]
+    USER_AGENT = os.environ["SCRAPY_USER_AGENT"]
