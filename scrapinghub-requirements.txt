@@ -1,4 +1,4 @@
-msgpack-python=0.5.6
+msgpack-python==0.5.6
 pytz==2021.3
 titlecase==2.3
 typing-extensions==3.7.4.3
