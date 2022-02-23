@@ -70,7 +70,7 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.10
+### Python 3.9
 
 I'm personally using
 [pyenv](https://github.com/pyenv/pyenv) to install Python, but
