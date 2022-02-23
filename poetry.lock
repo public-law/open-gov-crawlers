@@ -66,6 +66,20 @@ lazy-object-proxy = ">=1.4.0"
 wrapt = ">=1.11,<1.14"
 
 [[package]]
+name = "asttokens"
+version = "2.0.5"
+description = "Annotate AST trees with source code positions"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[package.extras]
+test = ["astroid", "pytest"]
+
+[[package]]
 name = "async-timeout"
 version = "4.0.2"
 description = "Timeout context manager for asyncio programs"
@@ -150,14 +164,14 @@ python-versions = "*"
 
 [[package]]
 name = "boto3"
-version = "1.21.5"
+version = "1.21.6"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.6"
 
 [package.dependencies]
-botocore = ">=1.24.5,<1.25.0"
+botocore = ">=1.24.6,<1.25.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.5.0,<0.6.0"
 
@@ -166,7 +180,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.24.5"
+version = "1.24.6"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -320,6 +334,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "executing"
+version = "0.8.2"
+description = "Get the currently executing AST node of a frame, and other information"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "flake8"
 version = "2.3.0"
 description = "the modular source code checker: pep8, pyflakes and co"
@@ -419,15 +441,16 @@ python-versions = "*"
 
 [[package]]
 name = "ipython"
-version = "7.31.1"
+version = "8.0.1"
 description = "IPython: Productive Interactive Computing"
 category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 
 [package.dependencies]
 appnope = {version = "*", markers = "sys_platform == \"darwin\""}
 backcall = "*"
+black = "*"
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
 decorator = "*"
 jedi = ">=0.16"
@@ -436,10 +459,11 @@ pexpect = {version = ">4.3", markers = "sys_platform != \"win32\""}
 pickleshare = "*"
 prompt-toolkit = ">=2.0.0,<3.0.0 || >3.0.0,<3.0.1 || >3.0.1,<3.1.0"
 pygments = "*"
-traitlets = ">=4.2"
+stack-data = "*"
+traitlets = ">=5"
 
 [package.extras]
-all = ["Sphinx (>=1.3)", "ipykernel", "ipyparallel", "ipywidgets", "nbconvert", "nbformat", "nose (>=0.10.1)", "notebook", "numpy (>=1.17)", "pygments", "qtconsole", "requests", "testpath"]
+all = ["Sphinx (>=1.3)", "curio", "ipykernel", "ipyparallel", "ipywidgets", "matplotlib (!=3.2.0)", "nbconvert", "nbformat", "notebook", "numpy (>=1.19)", "pandas", "pygments", "pytest", "pytest-asyncio", "qtconsole", "testpath", "trio"]
 doc = ["Sphinx (>=1.3)"]
 kernel = ["ipykernel"]
 nbconvert = ["nbconvert"]
@@ -447,7 +471,8 @@ nbformat = ["nbformat"]
 notebook = ["notebook", "ipywidgets"]
 parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
-test = ["nose (>=0.10.1)", "requests", "testpath", "pygments", "nbformat", "ipykernel", "numpy (>=1.17)"]
+test = ["pytest", "pytest-asyncio", "testpath", "pygments"]
+test_extra = ["pytest", "testpath", "curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.19)", "pandas", "pygments", "trio"]
 
 [[package]]
 name = "isort"
@@ -838,6 +863,17 @@ description = "Run a subprocess in a pseudo terminal"
 category = "dev"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "pure-eval"
+version = "0.2.2"
+description = "Safely evaluate AST nodes without side effects"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.extras]
+tests = ["pytest"]
 
 [[package]]
 name = "py"
@@ -1354,6 +1390,22 @@ tests = ["pytest (>=2.7.0)", "pytest-cov", "pytest-mock", "jinja2", "lxml", "pre
 validation = ["schematics"]
 
 [[package]]
+name = "stack-data"
+version = "0.2.0"
+description = "Extract data from python stack frames and tracebacks for informative displays"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+asttokens = "*"
+executing = "*"
+pure-eval = "*"
+
+[package.extras]
+tests = ["pytest", "typeguard", "pygments", "littleutils", "cython"]
+
+[[package]]
 name = "strict-rfc3339"
 version = "0.7"
 description = "Strict, simple, lightweight RFC3339 functions"
@@ -1562,7 +1614,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "=3.10.2"
-content-hash = "7973d16f18eca88c63b67bb205bc75b5d05ebb3c213b548b2d8aef2694216629"
+content-hash = "03543af33c68d3f0875d6522a80f36fb928435cb76ff8a27f8f44fe7d1ed5800"
 
 [metadata.files]
 aiohttp = [
@@ -1659,6 +1711,10 @@ astroid = [
     {file = "astroid-2.9.3-py3-none-any.whl", hash = "sha256:506daabe5edffb7e696ad82483ad0228245a9742ed7d2d8c9cdb31537decf9f6"},
     {file = "astroid-2.9.3.tar.gz", hash = "sha256:1efdf4e867d4d8ba4a9f6cf9ce07cd182c4c41de77f23814feb27ca93ca9d877"},
 ]
+asttokens = [
+    {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},
+    {file = "asttokens-2.0.5.tar.gz", hash = "sha256:9a54c114f02c7a9480d56550932546a3f1fe71d8a02f1bc7ccd0ee3ee35cf4d5"},
+]
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
@@ -1687,12 +1743,12 @@ boto = [
     {file = "boto-2.49.0.tar.gz", hash = "sha256:ea0d3b40a2d852767be77ca343b58a9e3a4b00d9db440efb8da74b4e58025e5a"},
 ]
 boto3 = [
-    {file = "boto3-1.21.5-py3-none-any.whl", hash = "sha256:c650c591e4d28689e1c9e673ad4ee4f9c6183f1e13c7a770c666305a12ae12a5"},
-    {file = "boto3-1.21.5.tar.gz", hash = "sha256:a07b466458a537a548ea8ce7032cfe3818d7d57e7087562ca44848aa369e9df7"},
+    {file = "boto3-1.21.6-py3-none-any.whl", hash = "sha256:0e8d4d814f94031947035a4c2bb2c23832d5de941a6a492fb85794a02bafc44d"},
+    {file = "boto3-1.21.6.tar.gz", hash = "sha256:95d9b5b6fe3383fbf8f33d58f62258d3b3ea138d4369017031339b60fd5b8887"},
 ]
 botocore = [
-    {file = "botocore-1.24.5-py3-none-any.whl", hash = "sha256:9a15c25c7647adf1187b2a9c4b1426aca93851b969724c5e302a3b2e976904f1"},
-    {file = "botocore-1.24.5.tar.gz", hash = "sha256:10445743cb7a812ec34b0bca8366a830647d1d05c1bbbe4167d0ae872f45219d"},
+    {file = "botocore-1.24.6-py3-none-any.whl", hash = "sha256:69aaa5a78ac7371f573e463be51fb962213c42fab08ef82380e84b9a87386949"},
+    {file = "botocore-1.24.6.tar.gz", hash = "sha256:359b9ea3870a1f8264113cb0b1216baa94bf1e8cee5d5d8af63a2e7ca6e7b33c"},
 ]
 cachetools = [
     {file = "cachetools-5.0.0-py3-none-any.whl", hash = "sha256:8fecd4203a38af17928be7b90689d8083603073622229ca7077b72d8e5a976e4"},
@@ -1854,6 +1910,10 @@ dodgy = [
     {file = "dodgy-0.2.1-py3-none-any.whl", hash = "sha256:51f54c0fd886fa3854387f354b19f429d38c04f984f38bc572558b703c0542a6"},
     {file = "dodgy-0.2.1.tar.gz", hash = "sha256:28323cbfc9352139fdd3d316fa17f325cc0e9ac74438cbba51d70f9b48f86c3a"},
 ]
+executing = [
+    {file = "executing-0.8.2-py2.py3-none-any.whl", hash = "sha256:32fc6077b103bd19e6494a72682d66d5763cf20a106d5aa7c5ccbea4e47b0df7"},
+    {file = "executing-0.8.2.tar.gz", hash = "sha256:c23bf42e9a7b9b212f185b1b2c3c91feb895963378887bb10e64a2e612ec0023"},
+]
 flake8 = [
     {file = "flake8-2.3.0-py2.py3-none-any.whl", hash = "sha256:c99cc9716d6655d9c8bcb1e77632b8615bf0abd282d7abd9f5c2148cad7fc669"},
     {file = "flake8-2.3.0.tar.gz", hash = "sha256:5ee1a43ccd0716d6061521eec6937c983efa027793013e572712c4da55c7c83e"},
@@ -1952,8 +2012,8 @@ iniconfig = [
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
 ]
 ipython = [
-    {file = "ipython-7.31.1-py3-none-any.whl", hash = "sha256:55df3e0bd0f94e715abd968bedd89d4e8a7bce4bf498fb123fed4f5398fea874"},
-    {file = "ipython-7.31.1.tar.gz", hash = "sha256:b5548ec5329a4bcf054a5deed5099b0f9622eb9ea51aaa7104d215fece201d8c"},
+    {file = "ipython-8.0.1-py3-none-any.whl", hash = "sha256:c503a0dd6ccac9c8c260b211f2dd4479c042b49636b097cc9a0d55fe62dff64c"},
+    {file = "ipython-8.0.1.tar.gz", hash = "sha256:ab564d4521ea8ceaac26c3a2c6e5ddbca15c8848fd5a5cc325f960da88d42974"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},
@@ -2293,6 +2353,10 @@ ptyprocess = [
     {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
     {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
 ]
+pure-eval = [
+    {file = "pure_eval-0.2.2-py3-none-any.whl", hash = "sha256:01eaab343580944bc56080ebe0a674b39ec44a945e6d09ba7db3cb8cec289350"},
+    {file = "pure_eval-0.2.2.tar.gz", hash = "sha256:2b45320af6dfaa1750f543d714b6d1c520a1688dec6fd24d339063ce0aaa9ac3"},
+]
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
@@ -2595,6 +2659,10 @@ snowballstemmer = [
 spidermon = [
     {file = "spidermon-1.16.2-py2.py3-none-any.whl", hash = "sha256:4a4139a2dc789dc45502e3a587cea1f524fc5654293871988bca40aa68926002"},
     {file = "spidermon-1.16.2.tar.gz", hash = "sha256:4561f70e066f69c522470f0484ef4b8e82eb5888e76cbfa1c2261aae034aed8a"},
+]
+stack-data = [
+    {file = "stack_data-0.2.0-py3-none-any.whl", hash = "sha256:999762f9c3132308789affa03e9271bbbe947bf78311851f4d485d8402ed858e"},
+    {file = "stack_data-0.2.0.tar.gz", hash = "sha256:45692d41bd633a9503a5195552df22b583caf16f0b27c4e58c98d88c8b648e12"},
 ]
 strict-rfc3339 = [
     {file = "strict-rfc3339-0.7.tar.gz", hash = "sha256:5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277"},
