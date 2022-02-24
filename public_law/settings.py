@@ -21,12 +21,6 @@ SPIDER_MODULES = ["public_law.spiders"]
 NEWSPIDER_MODULE = "public_law.spiders"
 
 
-# Output the JSON tree as one simple JSON object.
-FEED_FORMAT = "jsonlines"
-
-# Causes a crash on Scraping Hub
-# FEED_URI = "stdout:"
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "..."
 ROBOTSTXT_OBEY = True
