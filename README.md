@@ -18,7 +18,7 @@
 The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure:
 
 ```bash
-$ scrapy crawl secure.sos.state.or.us
+$ scrapy crawl oregon_regs
 ```
 
 This produces the output:
