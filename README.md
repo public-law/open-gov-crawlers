@@ -19,7 +19,7 @@ The spiders retrieve the HTML pages and output well formed JSON which represents
 First, we can see which spiders are available:
 
 ```bash
-scrapy list
+$ scrapy list
 
 canada_doj_glossaries
 georgia_ag_opinions
@@ -29,7 +29,7 @@ oregon_regs
 Then we can run one of the spiders:
 
 ```bash
-scrapy crawl oregon_regs
+$ scrapy crawl oregon_regs
 ```
 
 This produces the output:
