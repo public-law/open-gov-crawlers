@@ -15,10 +15,21 @@
 
 
 ## Example: Oregon Administrative Rules Parser
-The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure:
+The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure.
+First, we can see which spiders are available:
 
 ```bash
-$ scrapy crawl oregon_regs
+scrapy list
+
+canada_doj_glossaries
+georgia_ag_opinions
+oregon_regs
+```
+
+Then we can run one of the spiders:
+
+```bash
+scrapy crawl oregon_regs
 ```
 
 This produces the output:
