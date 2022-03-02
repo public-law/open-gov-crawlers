@@ -6,7 +6,7 @@ authors = ["Robb Shecter <robb@public.law>"]
 
 [tool.poetry.dependencies]
 python = "=3.9.10"
-scrapy = "^2.1"
+scrapy = "^2.6"
 titlecase = "*"
 pytz = "*"
 scrapy-crawlera = "^1.7.0"
