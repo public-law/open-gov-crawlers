@@ -77,6 +77,8 @@ This produces the output:
 ```
 (etc.)
 
+[The Wiki](https://github.com/public-law/open-gov-crawlers/wiki) explains the JSON format in detail.
+
 
 Development Environment Notes
 -----------------------------
