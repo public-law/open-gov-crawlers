@@ -13,6 +13,7 @@ scrapy-crawlera = "^1.7.0"
 msgpack-python = "*"
 toolz = "0.*"
 spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
+tika = "^1.24"
 
 [tool.poetry.dev-dependencies]
 mypy = ">= 0.761"
