@@ -2,6 +2,10 @@ from functools import cache
 from tika import parser
 
 
+def modified_at(pdf_url: str) -> str:
+    return metadata(pdf_url)["dcterms:modified"]
+
+
 def title(pdf_url: str) -> str:
     return metadata(pdf_url)["dc:title"]
 
