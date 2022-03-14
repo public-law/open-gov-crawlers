@@ -10,6 +10,7 @@ from public_law.parsers.int.rome_statute import (
     title,
 )
 
+ENGLISH_URL = "https://www.icc-cpi.int/Publications/Rome-Statute.pdf"
 FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
 
 
@@ -42,5 +43,8 @@ class TestModifiedAt:
 
 
 class TestLanguage:
-    def test_works_correctly(self):
+    def test_detects_french(self):
         assert language(FRENCH_URL) == "fr"
+
+    def test_detects_english(self):
+        assert language(ENGLISH_URL) == "en"

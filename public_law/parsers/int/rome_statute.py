@@ -5,6 +5,8 @@ from tika import parser
 def language(pdf_url: str) -> str:
     if title(pdf_url).startswith("Statut "):
         return "fr"
+    elif title(pdf_url) == "Rome Statute of the International Criminal Court":
+        return "en"
     else:
         raise Exception("Unknown language")
 
