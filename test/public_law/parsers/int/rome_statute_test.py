@@ -1,11 +1,16 @@
 import pytest
 from urllib import error
-from typing import Final
 
 
-from public_law.parsers.int.rome_statute import tika_pdf, metadata, modified_at, title
+from public_law.parsers.int.rome_statute import (
+    language,
+    metadata,
+    modified_at,
+    tika_pdf,
+    title,
+)
 
-FRENCH_URL: Final[str] = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
+FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
 
 
 class TestRomeStatute:
@@ -34,3 +39,8 @@ class TestTitle:
 class TestModifiedAt:
     def test_works_correctly(self):
         assert modified_at(FRENCH_URL) == "2021-11-02T15:46:45Z"
+
+
+class TestLanguage:
+    def test_works_correctly(self):
+        assert language(FRENCH_URL) == "fr"
