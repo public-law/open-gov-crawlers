@@ -9,4 +9,7 @@ class TestRomeStatute:
             "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
         )
 
-        assert set(french_xml.keys()) == ["metadata", "content", "status"]
+        assert set(french_xml.keys()) == {"metadata", "content", "status"}
+
+    # def test_raises_error_when_pdf_not_found(self):
+    #     pass
