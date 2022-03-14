@@ -13,7 +13,7 @@ from public_law.parsers.int.rome_statute import (
 FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
 
 
-class TestRomeStatute:
+class TestTikaPdf:
     def test_can_use_the_tika_api(self):
         french_xml = tika_pdf(FRENCH_URL)
 
