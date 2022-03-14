@@ -1,14 +1,18 @@
 from functools import cache
 from tika import parser
 
+LANGUAGE_MAP = {
+    "Rome Statute of the International Criminal Court": "en",
+    "Statut de Rome de la Cour pénale internationale": "fr",
+}
+
 
 def language(pdf_url: str) -> str:
-    if title(pdf_url).startswith("Statut "):
-        return "fr"
-    elif title(pdf_url) == "Rome Statute of the International Criminal Court":
-        return "en"
-    else:
+    pdf_title = title(pdf_url)
+    if pdf_title not in LANGUAGE_MAP:
         raise Exception("Unknown language")
+
+    return LANGUAGE_MAP[pdf_title]
 
 
 def modified_at(pdf_url: str) -> str:
