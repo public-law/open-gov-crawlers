@@ -1,5 +1,5 @@
 from tika import parser
 
 
-def pdf_to_xml(url: str) -> dict:
+def tika_pdf(url: str) -> dict:
     return parser.from_file(url, xmlContent=True)
