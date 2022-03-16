@@ -1,0 +1,192 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection:
+      - close
+      Host:
+      - www.icc-cpi.int
+      User-Agent:
+      - Python-urllib/3.9
+    method: GET
+    uri: https://www.icc-cpi.int/Publications/abcdefg.pdf
+  response:
+    body:
+      string: '<html>
+
+        <head>
+
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta
+        name="SharePointError" content=""/>
+
+        <meta name="Description" content=""/>
+
+        <meta name="Keywords" content=""/>
+
+        <meta name="Robots" content="NOINDEX"/>
+
+        <script type="text/javascript">
+
+        <!--
+
+        window.location.replace("https:\u002f\u002fwww.icc-cpi.int\u002fPages\u002fPageNotFoundError.aspx?requestUrl=https:\u002f\u002fwww.icc-cpi.int\u002fPublications\u002fabcdefg.pdf")
+
+        -->
+
+        </script>
+
+        </head>
+
+        <body>
+
+        <!------------------------------------------------------------------------->
+
+        File Not Found
+
+        <!------------------------------------------------------------------------->
+
+        </body>
+
+        </html>'
+    headers:
+      CF-Cache-Status:
+      - BYPASS
+      CF-RAY:
+      - 6eccdf04da109eef-DFW
+      Cache-Control:
+      - private,max-age=0
+      Connection:
+      - close
+      Content-Type:
+      - text/html
+      Date:
+      - Wed, 16 Mar 2022 10:40:31 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Expires:
+      - Tue, 01 Mar 2022 10:40:40 GMT
+      Public-Extension:
+      - http://schemas.microsoft.com/repl-2
+      SPIisLatency:
+      - '0'
+      SPRequestDuration:
+      - '9'
+      SPRequestGuid:
+      - d9472aa0-50aa-e0ce-82c7-23fc378cd7c7
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-FRAME-OPTIONS:
+      - SAMEORIGIN
+      X-MS-InvokeApp:
+      - 1; RequireReadOnly
+      X-Powered-By:
+      - ASP.NET
+      X-SharePointHealthScore:
+      - '0'
+      request-id:
+      - d9472aa0-50aa-e0ce-82c7-23fc378cd7c7
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Connection:
+      - close
+      Host:
+      - www.icc-cpi.int
+      User-Agent:
+      - Python-urllib/3.9
+    method: GET
+    uri: https://www.icc-cpi.int/Publications/abcdefg.pdf
+  response:
+    body:
+      string: '<html>
+
+        <head>
+
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /><meta
+        name="SharePointError" content=""/>
+
+        <meta name="Description" content=""/>
+
+        <meta name="Keywords" content=""/>
+
+        <meta name="Robots" content="NOINDEX"/>
+
+        <script type="text/javascript">
+
+        <!--
+
+        window.location.replace("https:\u002f\u002fwww.icc-cpi.int\u002fPages\u002fPageNotFoundError.aspx?requestUrl=https:\u002f\u002fwww.icc-cpi.int\u002fPublications\u002fabcdefg.pdf")
+
+        -->
+
+        </script>
+
+        </head>
+
+        <body>
+
+        <!------------------------------------------------------------------------->
+
+        File Not Found
+
+        <!------------------------------------------------------------------------->
+
+        </body>
+
+        </html>'
+    headers:
+      CF-Cache-Status:
+      - BYPASS
+      CF-RAY:
+      - 6eccdf065e5a9eb6-DFW
+      Cache-Control:
+      - private,max-age=0
+      Connection:
+      - close
+      Content-Type:
+      - text/html
+      Date:
+      - Wed, 16 Mar 2022 10:40:31 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Expires:
+      - Tue, 01 Mar 2022 10:40:40 GMT
+      Public-Extension:
+      - http://schemas.microsoft.com/repl-2
+      SPIisLatency:
+      - '2'
+      SPRequestDuration:
+      - '38'
+      SPRequestGuid:
+      - d9472aa0-a0b5-e0ce-687d-db5781e20639
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-FRAME-OPTIONS:
+      - SAMEORIGIN
+      X-MS-InvokeApp:
+      - 1; RequireReadOnly
+      X-Powered-By:
+      - ASP.NET
+      X-SharePointHealthScore:
+      - '0'
+      request-id:
+      - d9472aa0-a0b5-e0ce-687d-db5781e20639
+    status:
+      code: 404
+      message: Not Found
+version: 1
