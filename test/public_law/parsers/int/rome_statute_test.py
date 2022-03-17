@@ -60,10 +60,16 @@ class TestLanguage:
 
 class TestParts:
     @vcr.use_cassette()  # type: ignore
-    def test_gets_the_name_right(self):
+    def test_gets_the_name_right_1(self):
         first_name = parts(ENGLISH_URL)[0].name
 
         assert first_name == "Establishment of the Court"
+
+    @vcr.use_cassette()  # type: ignore
+    def test_gets_the_name_right_2(self):
+        last_name = parts(ENGLISH_URL).pop().name
+
+        assert last_name == "Final Clauses"
 
     @vcr.use_cassette()  # type: ignore
     def test_gets_the_correct_number_of_parts(self):
