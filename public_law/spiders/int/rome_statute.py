@@ -3,7 +3,7 @@ from scrapy import Spider
 from scrapy.http import Response
 from typing import Any, Dict
 
-from public_law.parsers.int.rome_statute import title
+from public_law.parsers.int.rome_statute import parts, title
 
 
 class RomeStatute(Spider):
@@ -17,7 +17,7 @@ class RomeStatute(Spider):
 
         for pdf_url in start_page_urls(response):
             if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
-                yield {"title": title(pdf_url)}
+                yield {"title": title(pdf_url), "parts": parts(pdf_url)}
 
 
 #
