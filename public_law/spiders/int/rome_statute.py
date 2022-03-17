@@ -16,7 +16,8 @@ class RomeStatute(Spider):
         """Framework callback which begins the parsing."""
 
         for pdf_url in start_page_urls(response):
-            yield {"title": title(pdf_url)}
+            if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
+                yield {"title": title(pdf_url)}
 
 
 #

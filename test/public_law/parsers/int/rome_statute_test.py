@@ -6,6 +6,7 @@ from public_law.parsers.int.rome_statute import (
     language,
     metadata,
     modified_at,
+    parts,
     tika_pdf,
     title,
 )
@@ -55,3 +56,11 @@ class TestLanguage:
     @vcr.use_cassette()  # type: ignore
     def test_detects_english(self):
         assert language(ENGLISH_URL) == "en"
+
+
+class TestParts:
+    @vcr.use_cassette()  # type: ignore
+    def test_gets_the_name_right(self):
+        first_name = parts(ENGLISH_URL)[0].name
+
+        assert first_name == "Establishment of the Court"
