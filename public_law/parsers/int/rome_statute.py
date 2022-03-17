@@ -5,7 +5,7 @@ from tika import parser
 from bs4 import BeautifulSoup
 from titlecase import titlecase
 
-from public_law.text import NonemptyString
+from public_law.text import NonemptyString, normalize_whitespace
 
 
 LANGUAGE_MAP = {
@@ -35,7 +35,12 @@ def parts(pdf_url: str) -> list[Part]:
     just_the_names = [re.sub(r"PART \d+\. +", "", n) for n in part_paragraphs]
     just_the_names = [re.sub(r" \d+$", "", n) for n in just_the_names]
 
-    parts = [Part(name=NonemptyString(titlecase(n))) for n in just_the_names]
+    parts = [
+        Part(name=NonemptyString(normalize_whitespace(titlecase(n))))
+        for n in just_the_names
+    ]
+    # parts = list(set(parts))
+    parts = list(dict.fromkeys(parts).keys())
 
     return parts
 
