@@ -1,6 +1,6 @@
 import re
 from scrapy import Spider
-from scrapy.http import Response, HtmlResponse
+from scrapy.http import Response
 from typing import Any, Dict
 
 from public_law.parsers.int.rome_statute import title
@@ -12,13 +12,11 @@ class RomeStatute(Spider):
         "https://www.icc-cpi.int/resource-library#coreICCtexts",
     ]
 
-    def parse(self, response: Response, **kwargs: Dict[str, Any]):
+    def parse(self, response: Response):
         """Framework callback which begins the parsing."""
-        assert isinstance(response, HtmlResponse)
 
-        pdf_urls = start_page_urls(response)
-
-        # yield parse_glossary(response)._asdict()
+        for pdf_url in start_page_urls(response):
+            yield {"title": title(pdf_url)}
 
 
 #

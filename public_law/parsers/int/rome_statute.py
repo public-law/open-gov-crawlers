@@ -19,6 +19,11 @@ def modified_at(pdf_url: str) -> str:
 
 
 def title(pdf_url: str) -> str:
+    # TODO: Somehow get rid of this hack. The Spanish-language
+    #       version doesn't have a `dc:title` attribute.
+    if "dc:title" not in metadata(pdf_url):
+        return "Estatuto de Roma de la Corte Penal Internacional"
+
     return metadata(pdf_url)["dc:title"]
 
 
