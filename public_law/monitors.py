@@ -13,10 +13,10 @@ class ItemCountMonitor(Monitor):
     def test_minimum_number_of_items(self):
         item_scraped_count = getattr(self.data.stats, "item_scraped_count", 0)
 
-        # self.assertGreaterEqual(
-        #     item_scraped_count,
-        #     self.minimum_threshold,
-        # )
+        self.assertGreaterEqual(
+            item_scraped_count,
+            self.minimum_threshold,
+        )
 
 
 class SpiderCloseMonitorSuite(MonitorSuite):
