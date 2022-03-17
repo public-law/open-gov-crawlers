@@ -14,6 +14,7 @@ msgpack-python = "*"
 toolz = "0.*"
 spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 tika = "^1.24"
+beautifulsoup4 = "^4.10.0"
 
 [tool.poetry.dev-dependencies]
 mypy = ">= 0.761"

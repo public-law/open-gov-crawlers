@@ -1,5 +1,8 @@
 from functools import cache
+from typing import NamedTuple
 from tika import parser
+
+from public_law.text import NonemptyString
 
 
 LANGUAGE_MAP = {
@@ -10,7 +13,16 @@ LANGUAGE_MAP = {
 }
 
 
-def parts(pdf_url: str):
+class Part(NamedTuple):
+    """Represents one term and its definition in a particular Glossary"""
+
+    name: NonemptyString
+
+    def __repr__(self) -> str:
+        return self._asdict().__repr__()
+
+
+def parts(pdf_url: str) -> list[Part]:
     return []
 
 
