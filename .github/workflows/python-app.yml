@@ -29,5 +29,5 @@ jobs:
        env:
          TIKA_CLIENT_ONLY: ${{ secrets.TIKA_CLIENT_ONLY }}
          TIKA_SERVER_ENDPOINT: ${{ secrets.TIKA_SERVER_ENDPOINT }}
-      run: |
-        poetry run pytest
+       run: |
+         poetry run pytest
