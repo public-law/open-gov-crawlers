@@ -10,8 +10,8 @@ LANGUAGE_MAP = {
 }
 
 
-def parts():
-    pass
+def parts(pdf_url: str):
+    return []
 
 
 def language(pdf_url: str) -> str:
