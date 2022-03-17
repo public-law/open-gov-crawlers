@@ -76,3 +76,9 @@ class TestParts:
         number_returned = len(parts(ENGLISH_URL))
 
         assert number_returned == 13
+
+    @vcr.use_cassette()  # type: ignore
+    def test_gets_the_number_right_1(self):
+        last_number = parts(ENGLISH_URL).pop().number
+
+        assert last_number == 13
