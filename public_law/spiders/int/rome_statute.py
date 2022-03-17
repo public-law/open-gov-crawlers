@@ -15,9 +15,19 @@ class RomeStatute(Spider):
     def parse(self, response: Response):
         """Framework callback which begins the parsing."""
 
+        # TODO: Implement both a tree output and flat output?
+        #       And allow the user to choose the output type via
+        #       an option to Scrapy.
+
+        # for pdf_url in start_page_urls(response):
+        #     if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
+        #         yield {"title": title(pdf_url), "parts": parts(pdf_url)}
+
         for pdf_url in start_page_urls(response):
             if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
-                yield {"title": title(pdf_url), "parts": parts(pdf_url)}
+                yield {"title": title(pdf_url)}
+                for part in parts(pdf_url):
+                    yield {"part": part._asdict()}
 
 
 #
