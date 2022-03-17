@@ -64,3 +64,9 @@ class TestParts:
         first_name = parts(ENGLISH_URL)[0].name
 
         assert first_name == "Establishment of the Court"
+
+    @vcr.use_cassette()  # type: ignore
+    def test_gets_the_correct_number_of_parts(self):
+        number_returned = len(parts(ENGLISH_URL))
+
+        assert number_returned == 13
