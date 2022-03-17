@@ -1,7 +1,9 @@
 from functools import cache
+import re
 from typing import NamedTuple
 from tika import parser
 from bs4 import BeautifulSoup
+from titlecase import titlecase
 
 from public_law.text import NonemptyString
 
@@ -30,7 +32,10 @@ def parts(pdf_url: str) -> list[Part]:
         for p in soup.find_all("p")
         if p.get_text().startswith("PART")
     ]
-    parts = [Part(name=n) for n in part_paragraphs]
+    just_the_names = [re.sub(r"PART \d+\. +", "", n) for n in part_paragraphs]
+    just_the_names = [re.sub(r" \d+$", "", n) for n in just_the_names]
+
+    parts = [Part(name=NonemptyString(titlecase(n))) for n in just_the_names]
 
     return parts
 
