@@ -17,9 +17,10 @@ LANGUAGE_MAP = {
 
 
 class Part(NamedTuple):
-    """Represents one term and its definition in a particular Glossary"""
+    """Represents a 'Part' in the text of the Rome Statute."""
 
     name: NonemptyString
+    number: int
 
     def __repr__(self) -> str:
         return self._asdict().__repr__()
@@ -36,7 +37,7 @@ def parts(pdf_url: str) -> list[Part]:
     just_the_names = [re.sub(r" \d+$", "", n) for n in just_the_names]
 
     parts = [
-        Part(name=NonemptyString(normalize_whitespace(titlecase(n))))
+        Part(number=0, name=NonemptyString(normalize_whitespace(titlecase(n))))
         for n in just_the_names
     ]
     # parts = list(set(parts))
