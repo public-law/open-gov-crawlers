@@ -5,29 +5,28 @@ name: Test Suite
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install
-    - name: Test with pytest
-       env:
-         TIKA_CLIENT_ONLY: ${{ secrets.TIKA_CLIENT_ONLY }}
-         TIKA_SERVER_ENDPOINT: ${{ secrets.TIKA_SERVER_ENDPOINT }}
-       run: |
-         poetry run pytest
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+      - name: Test with pytest
+        env:
+          TIKA_CLIENT_ONLY: ${{ secrets.TIKA_CLIENT_ONLY }}
+          TIKA_SERVER_ENDPOINT: ${{ secrets.TIKA_SERVER_ENDPOINT }}
+        run: |
+          poetry run pytest
