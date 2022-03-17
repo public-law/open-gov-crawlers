@@ -1,6 +1,7 @@
 from functools import cache
 from typing import NamedTuple
 from tika import parser
+from bs4 import BeautifulSoup
 
 from public_law.text import NonemptyString
 
@@ -23,7 +24,15 @@ class Part(NamedTuple):
 
 
 def parts(pdf_url: str) -> list[Part]:
-    return []
+    soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
+    part_paragraphs = [
+        p.get_text().strip().replace("\n", " ")
+        for p in soup.find_all("p")
+        if p.get_text().startswith("PART")
+    ]
+    parts = [Part(name=n) for n in part_paragraphs]
+
+    return parts
 
 
 def language(pdf_url: str) -> str:
