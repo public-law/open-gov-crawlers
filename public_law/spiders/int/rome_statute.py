@@ -19,15 +19,22 @@ class RomeStatute(Spider):
         #       And allow the user to choose the output type via
         #       an option to Scrapy.
 
-        # for pdf_url in start_page_urls(response):
-        #     if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
+        #       Tree output:
         #         yield {"title": title(pdf_url), "parts": parts(pdf_url)}
 
-        for pdf_url in start_page_urls(response):
-            if "Rome-Statute.pdf" in pdf_url:  # Only parse the English version
-                yield {"title": title(pdf_url)}
-                for part in parts(pdf_url):
+        for url in start_page_urls(response):
+            if "Rome-Statute.pdf" in url:  # Only parse the English version
+                yield {"title": title(url)}
+                for part in parts(url):
                     yield {"part": part._asdict()}
+
+    # TODO: This doesn't work. How does one use `yield` in
+    #       Python, like here, in a function or method?
+    def parse_to_flat_json(self, url: str):
+        """Parses the given PDF into a flat list of small JSON chunks."""
+        yield {"title": title(url)}
+        for part in parts(url):
+            yield {"part": part._asdict()}
 
 
 #
