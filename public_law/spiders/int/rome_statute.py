@@ -1,6 +1,6 @@
 import re
 from scrapy import Spider
-from scrapy.http import Response
+from scrapy.http import Response  # type: ignore
 from typing import Any, Dict
 
 from public_law.parsers.int.rome_statute import parts, title

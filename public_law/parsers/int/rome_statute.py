@@ -17,7 +17,8 @@ LANGUAGE_MAP = {
 
 
 class Part(NamedTuple):
-    """Represents a 'Part' in the text of the Rome Statute."""
+    """Represents a 'Part' in the text of the Rome Statute.
+    It's basically like a chapter."""
 
     name: NonemptyString
     number: int
@@ -33,16 +34,21 @@ def parts(pdf_url: str) -> list[Part]:
         for p in soup.find_all("p")
         if p.get_text().startswith("PART")
     ]
-    just_the_names = [re.sub(r"PART \d+\. +", "", n) for n in part_paragraphs]
-    just_the_names = [re.sub(r" \d+$", "", n) for n in just_the_names]
 
-    parts = [
-        Part(number=0, name=NonemptyString(normalize_whitespace(titlecase(n))))
-        for n in just_the_names
-    ]
-    # parts = list(set(parts))
+    parts = []
+    for paragaph in part_paragraphs:
+        if matches := re.match(r"^PART (\d+)\. +([^\d]+)", paragaph):
+            number = matches.group(1)
+            name = matches.group(2)
+
+            parts.append(
+                Part(
+                    number=int(number),
+                    name=NonemptyString(normalize_whitespace(titlecase(name))),
+                )
+            )
+
     parts = list(dict.fromkeys(parts).keys())
-
     return parts
 
 
