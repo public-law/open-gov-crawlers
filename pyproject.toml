@@ -28,6 +28,7 @@ ipython = "*"
 argh = "^0.26.2"
 coverage = "^6.3.1"
 vcrpy = "^4.1.1"
+ipykernel = "^6.9.2"
 
 [build-system]
 requires = ["poetry>=0.12"]
