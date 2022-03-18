@@ -48,6 +48,8 @@ def parts(pdf_url: str) -> list[Part]:
                     name=NonemptyString(normalize_whitespace(titlecase(name))),
                 )
             )
+        else:
+            raise Exception(f"The paragraph didn't match the Part regex: " + paragaph)
 
     parts = list(dict.fromkeys(parts).keys())
     return parts
