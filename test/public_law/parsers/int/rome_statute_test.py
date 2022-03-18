@@ -82,3 +82,11 @@ class TestParts:
         last_number = parts(ENGLISH_URL).pop().number
 
         assert last_number == 13
+
+
+class TestArticles:
+    @vcr.use_cassette()  # type: ignore
+    def test_gets_the_name_1(self):
+        first_name = articles(ENGLISH_URL)[0].name
+
+        assert first_name == "The Court"
