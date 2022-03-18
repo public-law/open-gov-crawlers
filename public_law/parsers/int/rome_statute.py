@@ -28,9 +28,10 @@ class Part(NamedTuple):
 
 
 def parts(pdf_url: str) -> list[Part]:
+    """Parse all the Parts from the Rome Statute PDF."""
     soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
     part_paragraphs = [
-        p.get_text().strip().replace("\n", " ")
+        normalize_whitespace(p.get_text())
         for p in soup.find_all("p")
         if p.get_text().startswith("PART")
     ]
