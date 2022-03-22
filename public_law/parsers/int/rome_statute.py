@@ -38,7 +38,7 @@ class Article(NamedTuple):
 
 
 def articles(html: str) -> list[Article]:
-    """Given the html string, return a list of Articles."""
+    """Given the html document, return a list of Articles."""
 
     # TODO: finish this function, making the tests pass.
     return []
