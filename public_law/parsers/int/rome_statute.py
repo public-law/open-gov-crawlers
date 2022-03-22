@@ -18,13 +18,30 @@ LANGUAGE_MAP = {
 
 class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
-    It's basically like a chapter."""
+    It's basically like a chapter. A Part has many Articles."""
 
     name: NonemptyString
     number: int
 
     def __repr__(self) -> str:
         return self._asdict().__repr__()
+
+
+class Article(NamedTuple):
+    """An 'Article' in the Rome Statute; an actual readable
+    section of the statute. An Article belongs to one Part."""
+
+    name: NonemptyString
+    number: int  # Is this correct? Or does it need to be a str?
+    text: str
+    part_number: int
+
+
+def articles(html: str) -> list[Article]:
+    """Given the html string, return a list of Articles."""
+
+    # TODO: finish this function, making the tests pass.
+    pass
 
 
 def parts(pdf_url: str) -> list[Part]:

@@ -3,6 +3,7 @@ from urllib import error
 import vcr
 
 from public_law.parsers.int.rome_statute import (
+    articles,
     language,
     metadata,
     modified_at,
@@ -13,6 +14,9 @@ from public_law.parsers.int.rome_statute import (
 
 ENGLISH_URL = "https://www.icc-cpi.int/Publications/Rome-Statute.pdf"
 FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
+
+with open("test/fixtures/Rome-Statute.html", "r") as f:
+    ENGLISH_HTML = f.read()
 
 
 class TestTikaPdf:
@@ -84,9 +88,25 @@ class TestParts:
         assert last_number == 13
 
 
-class TestArticles:
-    @vcr.use_cassette()  # type: ignore
-    def test_gets_the_name_1(self):
-        first_name = articles(ENGLISH_URL)[0].name
+#
+# Tests for finishing parsing of Rome Statute (English)
+#
+# Remove the @pytest.mark.skip() lines to enable the tests.
+# They can be used as a todo list by enabling them one by one.
+#
 
-        assert first_name == "The Court"
+
+class TestArticles:
+    """Test the articles() function."""
+
+    @pytest.mark.skip()
+    def test_gets_the_first_name(self):
+        first_article = articles(ENGLISH_HTML)[0]
+
+        assert first_article.name == "The Court"
+
+    @pytest.mark.skip()
+    def test_gets_the_last_name(self):
+        last_article = articles(ENGLISH_HTML).pop()
+
+        assert last_article.name == "..."
