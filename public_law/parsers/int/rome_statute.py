@@ -32,7 +32,7 @@ class Article(NamedTuple):
     section of the statute. An Article belongs to one Part."""
 
     name: NonemptyString
-    number: int  # Is this correct? Or does it need to be a str?
+    number: str  # Is string because of numbers like "8 bis".
     text: str
     part_number: int
 
@@ -41,7 +41,7 @@ def articles(html: str) -> list[Article]:
     """Given the html string, return a list of Articles."""
 
     # TODO: finish this function, making the tests pass.
-    pass
+    return []
 
 
 def parts(pdf_url: str) -> list[Part]:

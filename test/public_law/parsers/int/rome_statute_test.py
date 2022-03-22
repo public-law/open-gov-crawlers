@@ -100,13 +100,62 @@ class TestArticles:
     """Test the articles() function."""
 
     @pytest.mark.skip()
+    def test_returns_the_correct_amount_of_items(self):
+        count = len(articles(ENGLISH_HTML))
+        assert count == 131
+
+    @pytest.mark.skip()
+    def test_gets_correct_number_a(self):
+        first_article = articles(ENGLISH_HTML)[0]
+        assert first_article.number == "1"
+
+    @pytest.mark.skip()
+    def test_gets_correct_number_b(self):
+        last_article = articles(ENGLISH_HTML).pop()
+        assert last_article.number == "128"
+
+    @pytest.mark.skip()
+    def test_correctly_parses_a_complex_number(self):
+        article_8_bis = articles(ENGLISH_HTML)[8]
+        assert article_8_bis.number == "8 bis"
+
+    @pytest.mark.skip()
+    def test_gets_correct_part_number_a(self):
+        first_article = articles(ENGLISH_HTML)[0]
+        assert first_article.part_number == 1
+
+    @pytest.mark.skip()
+    def test_gets_correct_part_number_b(self):
+        last_article = articles(ENGLISH_HTML).pop()
+        assert last_article.part_number == 13
+
+    @pytest.mark.skip()
     def test_gets_the_first_name(self):
         first_article = articles(ENGLISH_HTML)[0]
-
         assert first_article.name == "The Court"
 
     @pytest.mark.skip()
     def test_gets_the_last_name(self):
         last_article = articles(ENGLISH_HTML).pop()
+        assert last_article.name == "Authentic Texts"
 
-        assert last_article.name == "..."
+    @pytest.mark.skip()
+    def test_handles_a_long_name(self):
+        article_19 = articles(ENGLISH_HTML)[21]
+        assert (
+            article_19.name
+            == "Challenges to the jurisdiction of the Court or the admissibility of the case"
+        )
+
+    @pytest.mark.skip()
+    def test_unnamed_articles_should_have_empty_name_string(self):
+        article_10 = articles(ENGLISH_HTML)[12]
+        assert article_10.name == ""
+
+    @pytest.mark.skip()
+    def test_gets_simple_text(self):
+        ...
+
+    @pytest.mark.skip()
+    def test_gets_complex_text(self):
+        ...
