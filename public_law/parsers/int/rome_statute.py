@@ -31,7 +31,7 @@ class Article(NamedTuple):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
-    name: NonemptyString
+    name: str
     number: str  # Is string because of numbers like "8 bis".
     text: str
     part_number: int
