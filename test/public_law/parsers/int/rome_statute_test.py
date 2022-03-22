@@ -168,7 +168,8 @@ class TestArticles:
         article_19 = articles(ENGLISH_HTML)[21]
         assert (
             article_19.name
-            == "Challenges to the jurisdiction of the Court or the admissibility of the case"
+            == """Challenges to the jurisdiction of the Court or the \
+            admissibility of the case"""
         )
 
     @pytest.mark.skip()
@@ -187,25 +188,26 @@ class TestArticles:
     @pytest.mark.skip()
     def test_gets_simple_text(self):
         article_2_text = articles(ENGLISH_HTML)[1].text
-        expected_text = """The Court shall be brought into relationship with the \
-        United Nations through an agreement to be approved by \
-        the Assembly of States Parties to this Statute and \
-        thereafter concluded by the President of the Court on \
-        its behalf."""
+        expected_text = """The Court shall be brought into relationship with \
+        the United Nations through an agreement to be approved by the \
+        Assembly of States Parties to this Statute and thereafter concluded \
+        by the President of the Court on its behalf."""
 
         assert article_2_text == expected_text
 
     @pytest.mark.skip()
     def test_gets_complex_text(self):
         """In this example, there are just two lines/paragraphs. Each
-        begins with the outline number and has normalized internal whitespace."""
+        begins with the outline number and has normalized internal
+        whitespace."""
 
         article_4_text = articles(ENGLISH_HTML)[3].text
-        expected_text = """1. The Court shall have international legal personality. \
-        It shall also have such legal capacity as may be necessary for the exercise \
-        of its functions and the fulfilment of its purposes.
-        2. The Court may exercise its functions and powers, as provided in this \
-        Statute, on the territory of any State Party and, by special agreement, on \
-        the territory of any other State."""
+        expected_text = """1. The Court shall have international legal \
+        personality. It shall also have such legal capacity as may be \
+        necessary for the exercise of its functions and the fulfilment of \
+        its purposes.
+        2. The Court may exercise its functions and powers, as provided in \
+        this Statute, on the territory of any State Party and, by special \
+        agreement, on the territory of any other State."""
 
         assert article_4_text == expected_text
