@@ -14,7 +14,9 @@ import os
 
 
 SPIDERMON_ENABLED = True
-SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
+
+# TODO: Re-enable after fixing to be aware of different spiders.
+# SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
 
 BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]
