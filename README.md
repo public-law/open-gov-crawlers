@@ -7,7 +7,7 @@
 
 | Publication |   |   |   |
 | - | - | - | - |
-| International / Rome Statute | parser | spider | tests |
+| International / Rome Statute (English) | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/int/rome_statute.py) | [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/int/rome_statute.py) | [tests](https://github.com/public-law/open-gov-crawlers/blob/master/test/public_law/parsers/int/rome_statute_test.py) |
 | Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py) |
 | U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/ga_parsers_test.py) |
 | U.S.A. / Oregon Regulations | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/oar_parsers_test.py) |
