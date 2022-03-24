@@ -1,6 +1,5 @@
 import pytest
 from urllib import error
-import vcr
 
 from public_law.parsers.int.rome_statute import (
     articles,
