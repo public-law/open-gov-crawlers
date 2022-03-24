@@ -61,6 +61,12 @@ def articles(pdf_url: str) -> list[Article]:
         articles_raw = rx_articles.split(part)
         for article in articles_raw:
             number = ""
+
+            # Remove annotation links
+            annotation = r'<div\sclass="annotation">'
+            sub = f"^{annotation}.*\n?"
+            article = re.sub(sub, "", article, flags=re.MULTILINE,)
+
             # Remove tags.
             soup = BeautifulSoup(article, features="lxml")
             article = soup.get_text().split("\n", 2)
@@ -74,7 +80,9 @@ def articles(pdf_url: str) -> list[Article]:
             rx_extra_lines = re.compile(r"\n\n\n*")
             text = rx_extra_lines.sub("\n\n", text)
             text = text.split("\n\n")
-            text = "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
+            text = "\n".join(
+                [normalize_whitespace(t.replace("\n", "")) for t in text]
+            )
 
             # Remove the title of each page.
             rx_page_title = re.compile(
@@ -93,8 +101,19 @@ def articles(pdf_url: str) -> list[Article]:
                 else:
                     number = str(current_article_num)
 
-                # Possibly fix the name and text due to irregular HTML.
-                name, text = maybe_fix(name, text)
+                # Parse articles annotations
+                footnote = number_raw.replace(str(number), "")
+                if footnote:
+                    # Get the name of annotated articles
+                    name_text = text.split("\n", 1)
+                    if len(name_text) > 1 and not name:
+                        name = name_text[0].strip()
+                        text = name_text[1].strip()
+                    # Remove the annotations from the text.
+                    footnotes = [int(x) for x in footnote.split()]
+                    for footnote in footnotes:
+                        sub = f"^{footnote}\s.*\n?"
+                        text = re.sub(sub, "", text, flags=re.MULTILINE,)
 
                 # Build Article
                 articles.append(
@@ -156,7 +175,9 @@ def parts(pdf_url: str) -> list[Part]:
                 )
             )
         else:
-            raise Exception(f"The paragraph didn't match the Part regex: " + paragaph)
+            raise Exception(
+                f"The paragraph didn't match the Part regex: " + paragaph
+            )
 
     parts = list(dict.fromkeys(parts).keys())
     return parts
