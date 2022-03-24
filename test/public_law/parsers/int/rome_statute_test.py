@@ -196,7 +196,8 @@ class TestArticles:
         assert article_12_text == expected_text
 
     #
-    # Tests for bugs in the parser
+    # Tests for a parser bug: some articles' name isn't picked up.
+    # Instead, it's parsed as the start of the text.
     #
 
     def test_article_5_has_correct_name(self):
