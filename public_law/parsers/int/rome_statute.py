@@ -126,6 +126,7 @@ def maybe_fix(name: str, text: str) -> tuple[str, str]:
     if text.find(".") < text.find("\n"):
         return INPUT_PARAMS
 
+    # See: https://regex101.com/r/6f0BJS/1
     matches = re.fullmatch(r"^([^\n]+)\n(.+)$", text, re.DOTALL)
     if matches is None:
         raise Exception(f"Couldn't parse name from:\n{repr(text)}")
