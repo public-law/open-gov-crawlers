@@ -20,26 +20,24 @@ class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    name: NonemptyString
     number: int
-
-    def __repr__(self) -> str:
-        return self._asdict().__repr__()
+    name: NonemptyString
 
 
 class Article(NamedTuple):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
-    name: str
     number: str  # Is string because of numbers like "8 bis".
-    text: str
     part_number: int
+    name: str
+    text: str
 
 
-def articles(html: str) -> list[Article]:
+def articles(pdf_url: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
+    html = tika_pdf(pdf_url)["content"]
     articles = []
 
     # Get only the part that contains the relevant content
@@ -76,9 +74,7 @@ def articles(html: str) -> list[Article]:
             rx_extra_lines = re.compile(r"\n\n\n*")
             text = rx_extra_lines.sub("\n\n", text)
             text = text.split("\n\n")
-            text = "\n".join(
-                [normalize_whitespace(t.replace("\n", "")) for t in text]
-            )
+            text = "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
 
             # Remove the title of each page.
             rx_page_title = re.compile(

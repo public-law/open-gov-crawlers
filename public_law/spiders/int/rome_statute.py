@@ -9,7 +9,7 @@ from public_law.parsers.int.rome_statute import articles, parts, tika_pdf, title
 class RomeStatute(Spider):
     name = "rome_statute"
     start_urls = [
-        "https://www.icc-cpi.int/resource-library#coreICCtexts",
+        "https://www.icc-cpi.int/resource-library",
     ]
 
     def parse(self, response: Response):
@@ -25,8 +25,12 @@ class RomeStatute(Spider):
         for url in start_page_urls(response):
             if "Rome-Statute.pdf" in url:  # Only parse the English version
                 yield {"title": title(url)}
+
                 for part in parts(url):
                     yield {"part": part._asdict()}
+
+                for article in articles(url):
+                    yield {"article": article._asdict()}
 
     # TODO: This doesn't work. How does one use `yield` in
     #       Python, like here, in a function or method?
