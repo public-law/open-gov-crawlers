@@ -116,7 +116,7 @@ def maybe_fix(name: str, text: str) -> tuple[str, str]:
 
     INPUT_PARAMS = (name, text)
 
-    # Skip unless Name is blank.
+    # Skip unless name is blank.
     if name != "":
         return INPUT_PARAMS
 
@@ -126,7 +126,11 @@ def maybe_fix(name: str, text: str) -> tuple[str, str]:
     if text.find(".") < text.find("\n"):
         return INPUT_PARAMS
 
-    return (name, text)
+    matches = re.fullmatch(r"^([^\n]+)\n(.+)$", text, re.DOTALL)
+    if matches is None:
+        raise Exception(f"Couldn't parse name from:\n{repr(text)}")
+
+    return (matches.group(1), matches.group(2))
 
 
 def parts(pdf_url: str) -> list[Part]:

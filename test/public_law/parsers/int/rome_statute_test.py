@@ -240,7 +240,7 @@ class TestArticles:
 
     def test_article_9_has_correct_name(self):
         article_9 = articles(ENGLISH_URL)[9]
-        assert article_9.name == "Elements of crimes"
+        assert article_9.name == "Elements of Crimes"
 
     def test_article_9_does_not_repeat_the_name(self):
         article_9 = articles(ENGLISH_URL)[9]
