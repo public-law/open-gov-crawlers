@@ -114,15 +114,17 @@ def maybe_fix(name: str, text: str) -> tuple[str, str]:
     This function examines a name/text pair where the name is
     blank to see if it is one of these odd cases."""
 
+    INPUT_PARAMS = (name, text)
+
     # Skip unless Name is blank.
     if name != "":
-        return (name, text)
+        return INPUT_PARAMS
 
     # Skip unless text has a newline before a '.'.
     if "\n" not in text:
-        return (name, text)
+        return INPUT_PARAMS
     if text.find(".") < text.find("\n"):
-        return (name, text)
+        return INPUT_PARAMS
 
     return (name, text)
 
