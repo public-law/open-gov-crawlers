@@ -199,6 +199,28 @@ class TestArticles:
     # Tests for a parser bug: some articles' name isn't picked up.
     # Instead, it's parsed as the start of the text.
     #
+    # The pattern is, articles that are parsing correctly have HTML
+    # like this:
+    #
+    # <p>Article 4
+    # Legal status and powers of the Court
+    # </p>
+    #
+    # Those that miss the name have HTML like this:
+    #
+    # <p>Article 51
+    # </p>
+    # <p>Crimes within the jurisdiction of the Court
+    # </p>
+    #
+    # LOOK OUT: Two articles (10 and 124) are unnamed, and
+    # have HTML that's similar to the broken case, e.g.:
+    #
+    # <p>Article 10
+    # </p>
+    # <p>Nothing in this Part shall be interpreted as limiting or prejudicing in any way existing or
+    # developing rules of international law for purposes other than this Statute.
+    # </p>
 
     def test_article_5_has_correct_name(self):
         article_5 = articles(ENGLISH_URL)[4]
