@@ -211,8 +211,8 @@ class TestArticles:
 
     @pytest.mark.skip()
     def test_handles_nested_outline(self):
-        """This shows an originally-nested outline returned by articles() in
-        the flattened form as found in the HTML."""
+        """This shows each paragraph from the HTML
+        returned in the same, flattened form."""
 
         article_12_text = articles(ENGLISH_HTML)[12].text  # It's the 13th Article.
         expected_text = (
