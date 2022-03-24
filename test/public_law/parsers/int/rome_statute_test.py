@@ -203,6 +203,14 @@ class TestArticles:
         article_5 = articles(ENGLISH_URL)[4]
         assert article_5.name == "Crimes within the jurisdiction of the Court"
 
-    def test_article_5_has_does_not_repeat_the_name(self):
+    def test_article_5_does_not_repeat_the_name(self):
         article_5 = articles(ENGLISH_URL)[4]
         assert article_5.text.startswith("The jurisdiction of the Court shall be")
+
+    def test_article_8_has_correct_name(self):
+        article_8 = articles(ENGLISH_URL)[7]
+        assert article_8.name == "War crimes"
+
+    def test_article_8_does_not_repeat_the_name(self):
+        article_8 = articles(ENGLISH_URL)[7]
+        assert article_8.text.startswith("1. The Court shall have jurisdiction")
