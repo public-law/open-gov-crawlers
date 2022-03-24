@@ -3,13 +3,13 @@ from scrapy import Spider
 from scrapy.http import Response  # type: ignore
 from typing import Any, Dict
 
-from public_law.parsers.int.rome_statute import parts, title
+from public_law.parsers.int.rome_statute import articles, parts, tika_pdf, title
 
 
 class RomeStatute(Spider):
     name = "rome_statute"
     start_urls = [
-        "https://www.icc-cpi.int/resource-library#coreICCtexts",
+        "https://www.icc-cpi.int/resource-library",
     ]
 
     def parse(self, response: Response):
@@ -25,16 +25,24 @@ class RomeStatute(Spider):
         for url in start_page_urls(response):
             if "Rome-Statute.pdf" in url:  # Only parse the English version
                 yield {"title": title(url)}
+
                 for part in parts(url):
                     yield {"part": part._asdict()}
+
+                for article in articles(url):
+                    yield {"article": article._asdict()}
 
     # TODO: This doesn't work. How does one use `yield` in
     #       Python, like here, in a function or method?
     def parse_to_flat_json(self, url: str):
         """Parses the given PDF into a flat list of small JSON chunks."""
         yield {"title": title(url)}
+
         for part in parts(url):
             yield {"part": part._asdict()}
+
+        for article in articles(tika_pdf(url)["content"]):
+            yield {"article": article._asdict()}
 
 
 #

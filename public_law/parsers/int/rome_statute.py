@@ -20,26 +20,24 @@ class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    name: NonemptyString
     number: int
-
-    def __repr__(self) -> str:
-        return self._asdict().__repr__()
+    name: NonemptyString
 
 
 class Article(NamedTuple):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
-    name: str
     number: str  # Is string because of numbers like "8 bis".
-    text: str
     part_number: int
+    name: str
+    text: str
 
 
-def articles(html: str) -> list[Article]:
+def articles(pdf_url: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
+    html = tika_pdf(pdf_url)["content"]
     articles = []
 
     # Get only the part that contains the relevant content
@@ -76,9 +74,7 @@ def articles(html: str) -> list[Article]:
             rx_extra_lines = re.compile(r"\n\n\n*")
             text = rx_extra_lines.sub("\n\n", text)
             text = text.split("\n\n")
-            text = "\n".join(
-                [normalize_whitespace(t.replace("\n", "")) for t in text]
-            )
+            text = "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
 
             # Remove the title of each page.
             rx_page_title = re.compile(
@@ -97,6 +93,9 @@ def articles(html: str) -> list[Article]:
                 else:
                     number = str(current_article_num)
 
+                # Possibly fix the name and text due to irregular HTML.
+                name, text = maybe_fix(name, text)
+
                 # Build Article
                 articles.append(
                     Article(
@@ -107,6 +106,32 @@ def articles(html: str) -> list[Article]:
                     )
                 )
     return articles
+
+
+def maybe_fix(name: str, text: str) -> tuple[str, str]:
+    """Some Articles have a slightly different HTML structure
+    which makes it harder to pick out the name from the text.
+    This function examines a name/text pair where the name is
+    blank to see if it is one of these odd cases."""
+
+    INPUT_PARAMS = (name, text)
+
+    # Skip unless name is blank.
+    if name != "":
+        return INPUT_PARAMS
+
+    # Skip unless text has a newline before a '.'.
+    if "\n" not in text:
+        return INPUT_PARAMS
+    if text.find(".") < text.find("\n"):
+        return INPUT_PARAMS
+
+    # See: https://regex101.com/r/6f0BJS/1
+    matches = re.fullmatch(r"^([^\n]+)\n(.+)$", text, re.DOTALL)
+    if matches is None:
+        raise Exception(f"Couldn't parse name from:\n{repr(text)}")
+
+    return (matches.group(1), matches.group(2))
 
 
 def parts(pdf_url: str) -> list[Part]:

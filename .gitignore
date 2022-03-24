@@ -1,4 +1,3 @@
-
 requirements.txt
 
 # Byte-compiled / optimized / DLL files
@@ -130,5 +129,5 @@ coverage/
 .pytype/
 out/
 .idea/
-tmp/
 .DS_Store
+tmp/
