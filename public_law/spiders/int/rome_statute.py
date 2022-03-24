@@ -32,18 +32,6 @@ class RomeStatute(Spider):
                 for article in articles(url):
                     yield {"article": article._asdict()}
 
-    # TODO: This doesn't work. How does one use `yield` in
-    #       Python, like here, in a function or method?
-    def parse_to_flat_json(self, url: str):
-        """Parses the given PDF into a flat list of small JSON chunks."""
-        yield {"title": title(url)}
-
-        for part in parts(url):
-            yield {"part": part._asdict()}
-
-        for article in articles(tika_pdf(url)["content"]):
-            yield {"article": article._asdict()}
-
 
 #
 # Pure helper functions
