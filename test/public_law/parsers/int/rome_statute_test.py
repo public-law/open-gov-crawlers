@@ -182,7 +182,10 @@ class TestArticles:
     #
     # Article text is expected to be flattened outlines. In other
     # words, it's up to front-end apps to display the paragraphs
-    # in indented form.
+    # in indented form. The reason for doing this, is we've already
+    # lost the nesting information in the PDF-to-HTML conversion
+    # by Tika. So this parser is only responsible for conveying the
+    # flattened form found in the HTML input.
     #
 
     @pytest.mark.skip()
