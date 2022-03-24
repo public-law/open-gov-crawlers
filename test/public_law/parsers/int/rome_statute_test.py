@@ -211,3 +211,13 @@ class TestArticles:
         agreement, on the territory of any other State."""
 
         assert article_4_text == expected_text
+
+    @pytest.mark.skip()
+    def test_handles_nested_outline(self):
+        """This shows an originally-nested outline returned but articles() in
+        the flattened form as found in the HTML."""
+
+        article_12_text = articles(ENGLISH_HTML)[12].text  # It's the 13th Article.
+        expected_text = "1. A State which becomes a Party to this Statute thereby accepts the jurisdiction of the Court with respect to the crimes referred to in article 5.\n2. In the case of article 13, paragraph (a) or (c), the Court may exercise its jurisdiction if one or more of the following States are Parties to this Statute or have accepted the jurisdiction of the Court in accordance with paragraph 3:\n(a) The State on the territory of which the conduct in question occurred or, if the crime was committed on board a vessel or aircraft, the State of registration of that vessel or aircraft;\n(b) The State of which the person accused of the crime is a national.\n3. If the acceptance of a State which is not a Party to this Statute is required under paragraph 2, that State may, by declaration lodged with the Registrar, accept the exercise of jurisdiction by the Court with respect to the crime in question. The accepting State shall cooperate with the Court without any delay or exception in accordance with Part 9."
+
+        assert article_12_text == expected_text
