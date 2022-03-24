@@ -196,7 +196,7 @@ class TestArticles:
         assert article_12_text == expected_text
 
     #
-    # Check for bugs in the parser
+    # Tests for bugs in the parser
     #
 
     def test_article_5_has_correct_name(self):
@@ -214,3 +214,11 @@ class TestArticles:
     def test_article_8_does_not_repeat_the_name(self):
         article_8 = articles(ENGLISH_URL)[7]
         assert article_8.text.startswith("1. The Court shall have jurisdiction")
+
+    def test_article_9_has_correct_name(self):
+        article_9 = articles(ENGLISH_URL)[9]
+        assert article_9.name == "Elements of crimes"
+
+    def test_article_9_does_not_repeat_the_name(self):
+        article_9 = articles(ENGLISH_URL)[9]
+        assert article_9.text.startswith("1. Elements of Crimes shall assist")
