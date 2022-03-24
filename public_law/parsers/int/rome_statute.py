@@ -40,8 +40,73 @@ class Article(NamedTuple):
 def articles(html: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
-    # TODO: finish this function, making the tests pass.
-    return []
+    articles = []
+
+    # Get only the part that contains the relevant content
+    articles_middle = html.split("<p>Have agreed as follows:</p>")[1]
+    articles_middle = articles_middle.split("<li>art.9</li>")[0]
+
+    # Split by parts
+    rx_parts = re.compile(r"<p>PART\s[0-9]+")
+    parts = rx_parts.split(articles_middle)
+    current_article_num = 0
+
+    for idx, part in enumerate(parts[1:]):
+        part_number = idx + 1
+
+        # Remove page numbers.
+        rx_page_number = re.compile(r'<div\sclass="page">.*\n<p>[0-9]+')
+        part = rx_page_number.sub("", part)
+
+        # Extract each article.
+        rx_articles = re.compile(r"(?=<p>Article\s[0-9]+\s.*\n)")
+        articles_raw = rx_articles.split(part)
+        for article in articles_raw:
+            number = ""
+            # Remove tags.
+            soup = BeautifulSoup(article, features="lxml")
+            article = soup.get_text().split("\n", 2)
+
+            # Extract number, name and text from each article.
+            number_raw = article[0].split(" ", 1)[1].strip()
+            name = normalize_whitespace(article[1]).strip()
+            text = article[2].strip()
+
+            # Remove all extra/unwanted newlines.
+            rx_extra_lines = re.compile(r"\n\n\n*")
+            text = rx_extra_lines.sub("\n\n", text)
+            text = text.split("\n\n")
+            text = "\n".join(
+                [normalize_whitespace(t.replace("\n", "")) for t in text]
+            )
+
+            # Remove the title of each page.
+            rx_page_title = re.compile(
+                r"Rome\sStatute\sof\sthe\sInternational\sCriminal\sCourt"
+            )
+            text = rx_page_title.sub("", text).strip()
+
+            # Get number.
+            if number_raw:
+                if str(number_raw).startswith(str(current_article_num + 1)):
+                    current_article_num += 1
+                if "bis" in number_raw:
+                    number = str(current_article_num) + " bis"
+                elif "ter" in number_raw:
+                    number = str(current_article_num) + " ter"
+                else:
+                    number = str(current_article_num)
+
+                # Build Article
+                articles.append(
+                    Article(
+                        name=str(name),
+                        number=str(number),
+                        text=str(text),
+                        part_number=int(part_number),
+                    )
+                )
+    return articles
 
 
 def parts(pdf_url: str) -> list[Part]:

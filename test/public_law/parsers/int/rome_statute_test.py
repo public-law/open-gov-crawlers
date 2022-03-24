@@ -38,7 +38,10 @@ class TestMetadata:
 
 class TestTitle:
     def test_works_correctly(self):
-        assert title(FRENCH_URL) == "Statut de Rome de la Cour pénale internationale"
+        assert (
+            title(FRENCH_URL)
+            == "Statut de Rome de la Cour pénale internationale"
+        )
 
 
 class TestModifiedAt:
@@ -94,7 +97,7 @@ class TestParts:
 class TestArticles:
     """Test the articles() function."""
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_returns_the_correct_amount_of_items(self):
         count = len(articles(ENGLISH_HTML))
         assert count == 131
@@ -103,22 +106,22 @@ class TestArticles:
     # .number attribute
     #
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_correct_number_a(self):
         first_article = articles(ENGLISH_HTML)[0]
         assert first_article.number == "1"
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_correct_number_b(self):
         last_article = articles(ENGLISH_HTML).pop()
         assert last_article.number == "128"
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_correctly_parses_a_complex_number(self):
         article_8_bis = articles(ENGLISH_HTML)[8]
         assert article_8_bis.number == "8 bis"
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_handles_numbers_with_supertext(self):
         article_5 = articles(ENGLISH_HTML)[4]
         assert article_5.number == "5"
@@ -127,12 +130,12 @@ class TestArticles:
     # .part_number attribute
     #
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_correct_part_number_a(self):
         first_article = articles(ENGLISH_HTML)[0]
         assert first_article.part_number == 1
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_correct_part_number_b(self):
         last_article = articles(ENGLISH_HTML).pop()
         assert last_article.part_number == 13
@@ -141,28 +144,27 @@ class TestArticles:
     # .name attribute
     #
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_the_first_name(self):
         first_article = articles(ENGLISH_HTML)[0]
         assert first_article.name == "The Court"
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_the_last_name(self):
         last_article = articles(ENGLISH_HTML).pop()
-        assert last_article.name == "Authentic Texts"
+        assert last_article.name == "Authentic texts"
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_handles_a_long_name(self):
         article_19 = articles(ENGLISH_HTML)[21]
         assert (
             article_19.name
-            == """Challenges to the jurisdiction of the Court or the \
-            admissibility of the case"""
+            == """Challenges to the jurisdiction of the Court or the admissibility of a case"""
         )
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_unnamed_articles_should_have_empty_name_string(self):
-        article_10 = articles(ENGLISH_HTML)[12]
+        article_10 = articles(ENGLISH_HTML)[10]
         assert article_10.name == ""
 
     #
@@ -176,14 +178,14 @@ class TestArticles:
     # flattened form found in the HTML input.
     #
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_simple_text(self):
         article_2_text = articles(ENGLISH_HTML)[1].text
         expected_text = "The Court shall be brought into relationship with the United Nations through an agreement to be approved by the Assembly of States Parties to this Statute and thereafter concluded by the President of the Court on its behalf."
 
         assert article_2_text == expected_text
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_gets_complex_text(self):
         """In this example, there are just two lines/paragraphs. Each
         begins with the outline number and has normalized internal
@@ -197,12 +199,14 @@ class TestArticles:
 
         assert article_4_text == expected_text
 
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
     def test_handles_nested_outline(self):
         """This shows each paragraph from the HTML
         returned in the same, flattened form."""
 
-        article_12_text = articles(ENGLISH_HTML)[12].text  # It's the 13th Article.
+        article_12_text = articles(ENGLISH_HTML)[
+            12
+        ].text  # It's the 13th Article.
         expected_text = (
             "1. A State which becomes a Party to this Statute thereby accepts the jurisdiction of the Court with respect to the crimes referred to in article 5.\n"
             "2. In the case of article 13, paragraph (a) or (c), the Court may exercise its jurisdiction if one or more of the following States are Parties to this Statute or have accepted the jurisdiction of the Court in accordance with paragraph 3:\n"
