@@ -93,6 +93,9 @@ def articles(pdf_url: str) -> list[Article]:
                 else:
                     number = str(current_article_num)
 
+                # Possibly fix the name and text due to irregular HTML.
+                name, text = maybe_fix(name, text)
+
                 # Build Article
                 articles.append(
                     Article(
@@ -103,6 +106,18 @@ def articles(pdf_url: str) -> list[Article]:
                     )
                 )
     return articles
+
+
+def maybe_fix(name: str, text: str) -> tuple[str, str]:
+    """Some Articles have a slightly different HTML structure
+    which makes it harder to pick out the name from the text.
+    This function examines a name/text pair where the name is
+    blank to see if it is one of these odd cases."""
+
+    if name != "":
+        return (name, text)
+
+    return (name, text)
 
 
 def parts(pdf_url: str) -> list[Part]:
