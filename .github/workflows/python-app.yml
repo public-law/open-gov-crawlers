@@ -25,8 +25,5 @@ jobs:
           pip install poetry
           poetry install
       - name: Test with pytest
-        env:
-          TIKA_CLIENT_ONLY: ${{ secrets.TIKA_CLIENT_ONLY }}
-          TIKA_SERVER_ENDPOINT: ${{ secrets.TIKA_SERVER_ENDPOINT }}
         run: |
           poetry run pytest
