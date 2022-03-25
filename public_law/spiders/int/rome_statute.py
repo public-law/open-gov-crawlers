@@ -3,7 +3,7 @@ from scrapy import Spider
 from scrapy.http import Response  # type: ignore
 from typing import Any, Dict
 
-from public_law.parsers.int.rome_statute import articles, parts, tika_pdf, title
+from public_law.parsers.int.rome_statute import articles, parts, title
 
 
 class RomeStatute(Spider):
@@ -12,7 +12,7 @@ class RomeStatute(Spider):
         "https://www.icc-cpi.int/resource-library",
     ]
 
-    def parse(self, response: Response):
+    def parse(self, response: Response, **_kwargs: Dict[str, Any]):
         """Framework callback which begins the parsing."""
 
         # TODO: Implement both a tree output and flat output?

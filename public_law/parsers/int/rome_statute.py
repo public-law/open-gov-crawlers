@@ -65,7 +65,12 @@ def articles(pdf_url: str) -> list[Article]:
             # Remove annotation links
             annotation = r'<div\sclass="annotation">'
             sub = f"^{annotation}.*\n?"
-            article = re.sub(sub, "", article, flags=re.MULTILINE,)
+            article = re.sub(
+                sub,
+                "",
+                article,
+                flags=re.MULTILINE,
+            )
 
             # Remove tags.
             soup = BeautifulSoup(article, features="lxml")
@@ -80,9 +85,7 @@ def articles(pdf_url: str) -> list[Article]:
             rx_extra_lines = re.compile(r"\n\n\n*")
             text = rx_extra_lines.sub("\n\n", text)
             text = text.split("\n\n")
-            text = "\n".join(
-                [normalize_whitespace(t.replace("\n", "")) for t in text]
-            )
+            text = "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
 
             # Remove the title of each page.
             rx_page_title = re.compile(
@@ -113,7 +116,12 @@ def articles(pdf_url: str) -> list[Article]:
                     footnotes = [int(x) for x in footnote.split()]
                     for footnote in footnotes:
                         sub = f"^{footnote}\s.*\n?"
-                        text = re.sub(sub, "", text, flags=re.MULTILINE,)
+                        text = re.sub(
+                            sub,
+                            "",
+                            text,
+                            flags=re.MULTILINE,
+                        )
 
                 # Build Article
                 articles.append(
@@ -125,32 +133,6 @@ def articles(pdf_url: str) -> list[Article]:
                     )
                 )
     return articles
-
-
-def maybe_fix(name: str, text: str) -> tuple[str, str]:
-    """Some Articles have a slightly different HTML structure
-    which makes it harder to pick out the name from the text.
-    This function examines a name/text pair where the name is
-    blank to see if it is one of these odd cases."""
-
-    INPUT_PARAMS = (name, text)
-
-    # Skip unless name is blank.
-    if name != "":
-        return INPUT_PARAMS
-
-    # Skip unless text has a newline before a '.'.
-    if "\n" not in text:
-        return INPUT_PARAMS
-    if text.find(".") < text.find("\n"):
-        return INPUT_PARAMS
-
-    # See: https://regex101.com/r/6f0BJS/1
-    matches = re.fullmatch(r"^([^\n]+)\n(.+)$", text, re.DOTALL)
-    if matches is None:
-        raise Exception(f"Couldn't parse name from:\n{repr(text)}")
-
-    return (matches.group(1), matches.group(2))
 
 
 def parts(pdf_url: str) -> list[Part]:
@@ -175,9 +157,7 @@ def parts(pdf_url: str) -> list[Part]:
                 )
             )
         else:
-            raise Exception(
-                f"The paragraph didn't match the Part regex: " + paragaph
-            )
+            raise Exception(f"The paragraph didn't match the Part regex: {paragaph}")
 
     parts = list(dict.fromkeys(parts).keys())
     return parts

@@ -29,7 +29,7 @@ class OarSpiderMiddleware:
         # Should return None or raise an exception.
         return None
 
-    def process_spider_output(self, response: Response, result, spider: Spider):
+    def process_spider_output(self, _response: Response, result, _spider: Spider):
         # Called with the results returned from the Spider, after
         # it has processed the response.
 
@@ -55,7 +55,7 @@ class OarSpiderMiddleware:
             yield r
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
+        spider.logger.info(f"Spider opened: {spider.name}")
 
 
 class OarDownloaderMiddleware:
@@ -102,4 +102,4 @@ class OarDownloaderMiddleware:
         pass
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
+        spider.logger.info(f"Spider opened: {spider.name}")
