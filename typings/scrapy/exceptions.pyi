@@ -33,8 +33,19 @@ class DontCloseSpider(Exception):
 
 class CloseSpider(Exception):
     """Raise this from callbacks to request the spider to be closed"""
-    def __init__(self, reason=...):
-        self.reason = ...
+    def __init__(self, reason=...) -> None:
+        ...
+    
+
+
+class StopDownload(Exception):
+    """
+    Stop the download of the body for a given response.
+    The 'fail' boolean parameter indicates whether or not the resulting partial response
+    should be handled by the request errback. Note that 'fail' is a keyword-only argument.
+    """
+    def __init__(self, *, fail=...) -> None:
+        ...
     
 
 
@@ -50,8 +61,8 @@ class NotSupported(Exception):
 
 class UsageError(Exception):
     """To indicate a command-line usage error"""
-    def __init__(self, *a, **kw):
-        self.print_help = ...
+    def __init__(self, *a, **kw) -> None:
+        ...
     
 
 

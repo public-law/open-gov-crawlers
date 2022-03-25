@@ -28,7 +28,7 @@ class XMLFeedSpider(Spider):
         processing required before returning the results to the framework core,
         for example setting the item GUIDs. It receives a list of results and
         the response which originated that results. It must return a list of
-        results (Items or Requests).
+        results (items or requests).
         """
         ...
     
@@ -40,25 +40,16 @@ class XMLFeedSpider(Spider):
         ...
     
     def parse_node(self, response, selector):
-        """This method must be overriden with your custom spider functionality"""
+        """This method must be overridden with your custom spider functionality"""
         ...
     
-    def parse_nodes(self, response, nodes):
+    def parse_nodes(self, response, nodes): # -> Generator[Any | Unknown | dict[Unknown, Unknown] | Item | str | bytes, None, None]:
         """This method is called for the nodes matching the provided tag name
         (itertag). Receives the response and an Selector for each node.
         Overriding this method is mandatory. Otherwise, you spider won't work.
-        This method must return either a BaseItem, a Request, or a list
+        This method must return either an item, a request, or a list
         containing any of them.
         """
-        ...
-    
-    def parse(self, response):
-        ...
-    
-    def _iternodes(self, response):
-        ...
-    
-    def _register_namespaces(self, selector):
         ...
     
 
@@ -83,18 +74,15 @@ class CSVFeedSpider(Spider):
         ...
     
     def parse_row(self, response, row):
-        """This method must be overriden with your custom spider functionality"""
+        """This method must be overridden with your custom spider functionality"""
         ...
     
-    def parse_rows(self, response):
+    def parse_rows(self, response): # -> Generator[Any | Unknown | dict[Unknown, Unknown] | Item | str | bytes, None, None]:
         """Receives a response and a dict (representing each row) with a key for
         each provided (or detected) header of the CSV file.  This spider also
         gives the opportunity to override adapt_response and
         process_results methods for pre and post-processing purposes.
         """
-        ...
-    
-    def parse(self, response):
         ...
     
 
