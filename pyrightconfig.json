@@ -1,6 +1,6 @@
 {
-  "reportUnknownVariableType": true,
-  "reportUnknownMemberType": true,
-  "reportUnknownArgumentType": true,
-  "reportPrivateUsage": true
+  "reportUnknownVariableType": false,
+  "reportUnknownMemberType": false,
+  "reportUnknownArgumentType": false,
+  "reportPrivateUsage": false
 }

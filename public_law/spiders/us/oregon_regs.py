@@ -3,10 +3,11 @@
 from typing import Any, Dict, List
 
 from scrapy import Spider
-from scrapy import Selector
+from scrapy.selector.unified import Selector
 from scrapy.crawler import Crawler
 import scrapy.exceptions
-from scrapy.http import Request, Response
+from scrapy.http.response import Response
+from scrapy.http.request import Request
 import scrapy.signals
 from titlecase import titlecase
 

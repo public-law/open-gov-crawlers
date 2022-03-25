@@ -1,6 +1,6 @@
 from typing import List, NamedTuple, Union
 
-from scrapy import Selector
+from scrapy.selector.unified import Selector
 from scrapy.http import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
