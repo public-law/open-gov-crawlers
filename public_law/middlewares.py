@@ -7,7 +7,8 @@
 
 from scrapy import Spider, signals
 from scrapy.crawler import Crawler
-from scrapy.http import Response, Request
+from scrapy.http.response import Response
+from scrapy.http.request import Request
 
 
 class OarSpiderMiddleware:
