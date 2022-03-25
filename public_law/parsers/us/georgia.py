@@ -8,7 +8,7 @@ from toolz.functoolz import curry, pipe
 from public_law.text import normalize_whitespace
 
 join = curry(str.join)
-map = curry(map)
+map = curry(map)  # pylint:disable=redefined-builtin
 
 
 class ParseException(Exception):
@@ -41,7 +41,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
     title = first(html, css="h1.page-top__title--opinion::text", expected="title")
     date = first(html, css="time::text", expected="date")
     full_text = pipe(
-        all(html, ".body-content p::text"),
+        get_all(html, ".body-content p::text"),
         map(normalize_whitespace),
         join("\n"),
     )
@@ -67,7 +67,7 @@ def opinion_date_to_iso8601(date: str) -> str:
     return datetime.strptime(date, "%B %d, %Y").isoformat().split("T")[0]
 
 
-def all(node: Union[Response, Selector], css: str) -> List[str]:
+def get_all(node: Union[Response, Selector], css: str) -> List[str]:
     return node.css(css).getall()
 
 
