@@ -1,6 +1,7 @@
 from public_law.parsers.us.georgia import parse_ag_opinion
 from scrapy import Spider
-from scrapy.http import Request, Response
+from scrapy.http.request import Request
+from scrapy.http.response import Response
 from typing import Any, Dict
 
 
