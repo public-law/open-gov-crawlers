@@ -1,8 +1,8 @@
 from datetime import datetime
 import re
 from typing import List, NamedTuple, Union
-from scrapy import Selector
-from scrapy.http import Response
+from scrapy.selector.unified import Selector
+from scrapy.http.response import Response
 from toolz.functoolz import curry, pipe
 
 from public_law.text import normalize_whitespace
