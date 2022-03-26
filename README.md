@@ -5,7 +5,7 @@
 
 # Open-gov spiders written with Python
 
-The parsers are pure Python. The spiders are Scrapy.
+The parsers are mostly pure Python. The spiders are Scrapy.
 
 | Publication |   |   |   |
 | - | - | - | - |
