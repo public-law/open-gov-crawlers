@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from public_law.text import NonemptyString
 from public_law.dates import todays_date
 
 
@@ -24,13 +23,13 @@ class Metadata:
     * [Dublin Core Specifications](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
     """
 
-    dc_creator: NonemptyString
-    dc_identifier: NonemptyString
-    dc_language: NonemptyString
-    dc_source: NonemptyString
-    dc_title: NonemptyString
+    dc_creator: str
+    dc_identifier: str
+    dc_language: str
+    dc_source: str
+    dc_title: str
 
     dc_publisher: str = "Public.Law"
     dc_type: str = "text"
-    dcterms_license: str = "BY"
+    dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_modified: str = todays_date()

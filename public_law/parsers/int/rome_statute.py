@@ -1,11 +1,13 @@
 from functools import cache
 import re
 from typing import NamedTuple
+
 from tika import parser
 from bs4 import BeautifulSoup
 from titlecase import titlecase
 
 from public_law.text import NonemptyString, normalize_whitespace
+from public_law.metadata import Metadata
 
 
 LANGUAGE_MAP = {
@@ -161,6 +163,11 @@ def parts(pdf_url: str) -> list[Part]:
 
     parts = list(dict.fromkeys(parts).keys())
     return parts
+
+
+def new_metadata(pdf_url: str) -> Metadata:
+    pdf_data = metadata(pdf_url)
+    return Metadata(dc_title=pdf_data["dc:title"])
 
 
 def language(pdf_url: str) -> str:
