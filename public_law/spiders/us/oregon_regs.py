@@ -3,10 +3,11 @@
 from typing import Any, Dict, List
 
 from scrapy import Spider
-from scrapy import Selector
+from scrapy.selector.unified import Selector
 from scrapy.crawler import Crawler
 import scrapy.exceptions
-from scrapy.http import Request, Response
+from scrapy.http.response import Response
+from scrapy.http.request import Request
 import scrapy.signals
 from titlecase import titlecase
 
@@ -105,7 +106,7 @@ class OregonRegs(Spider):
         spider: OregonRegs = super(OregonRegs, cls).from_crawler(
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)
+        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
         return spider
 
     def spider_idle(self, spider: Spider):
@@ -119,7 +120,7 @@ class OregonRegs(Spider):
         null_request = Request(
             "https://www.public.law/about-us", callback=self.submit_data
         )
-        self.crawler.engine.schedule(null_request, spider)
+        self.crawler.engine.schedule(null_request, spider)  # type: ignore
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _):

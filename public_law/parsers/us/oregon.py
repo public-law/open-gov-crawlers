@@ -1,7 +1,7 @@
 import re
 
-from scrapy import Selector
-from scrapy.http import Response
+from scrapy.selector.unified import Selector
+from scrapy.http.response import Response
 from typing import Dict, List, Union
 
 from public_law.items import Rule

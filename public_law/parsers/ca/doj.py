@@ -1,7 +1,7 @@
 from typing import List, NamedTuple, Union
 
-from scrapy import Selector
-from scrapy.http import HtmlResponse
+from scrapy.selector.unified import Selector
+from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
 from public_law.text import NonemptyString, normalize_whitespace

@@ -7,7 +7,8 @@
 
 from scrapy import Spider, signals
 from scrapy.crawler import Crawler
-from scrapy.http import Response, Request
+from scrapy.http.response import Response
+from scrapy.http.request import Request
 
 
 class OarSpiderMiddleware:
@@ -19,7 +20,7 @@ class OarSpiderMiddleware:
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
         s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)  # type: ignore
         return s
 
     def process_spider_input(self, _response: Response, _spider: Spider) -> None:
@@ -67,7 +68,7 @@ class OarDownloaderMiddleware:
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
         s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)  # type: ignore
         return s
 
     def process_request(self, _request: Request, _spider: Spider):

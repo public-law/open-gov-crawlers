@@ -6,26 +6,16 @@ from zope.interface import implementer
 from scrapy.interfaces import ISpiderLoader
 
 @implementer(ISpiderLoader)
-class SpiderLoader(object):
+class SpiderLoader:
     """
     SpiderLoader is a class which locates and loads spiders
     in a Scrapy project.
     """
-    def __init__(self, settings):
-        self.spider_modules = ...
-        self.warn_only = ...
-    
-    def _check_name_duplicates(self):
-        ...
-    
-    def _load_spiders(self, module):
-        ...
-    
-    def _load_all_spiders(self):
+    def __init__(self, settings) -> None:
         ...
     
     @classmethod
-    def from_settings(cls, settings):
+    def from_settings(cls, settings): # -> Self@SpiderLoader:
         ...
     
     def load(self, spider_name):
@@ -35,13 +25,13 @@ class SpiderLoader(object):
         """
         ...
     
-    def find_by_request(self, request):
+    def find_by_request(self, request): # -> list[Unknown]:
         """
         Return the list of spider names that can handle the given request.
         """
         ...
     
-    def list(self):
+    def list(self): # -> list[Unknown]:
         """
         Return a list with the names of all spiders available in the project.
         """
