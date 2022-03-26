@@ -3,7 +3,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6b1458d526c7233e6703/test_coverage)](https://codeclimate.com/github/public-law/scrapy-spiders/test_coverage)
 
 
-# Open-gov spiders written with Python/Scrapy
+# Open-gov spiders written with Python
+
+The parsers are pure Python. The spiders are Scrapy.
 
 | Publication |   |   |   |
 | - | - | - | - |
