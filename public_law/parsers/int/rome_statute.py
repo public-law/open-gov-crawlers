@@ -1,14 +1,12 @@
-from functools import cache
 import re
+from functools import cache
 from typing import NamedTuple
 
-from tika import parser
 from bs4 import BeautifulSoup
-from titlecase import titlecase
-
-from public_law.text import NonemptyString, normalize_whitespace
 from public_law.metadata import Metadata
-
+from public_law.text import NonemptyString as NS, normalize_whitespace
+from tika import parser
+from titlecase import titlecase
 
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en",
@@ -23,7 +21,7 @@ class Part(NamedTuple):
     It's basically like a chapter. A Part has many Articles."""
 
     number: int
-    name: NonemptyString
+    name: NS
 
 
 class Article(NamedTuple):
@@ -34,6 +32,20 @@ class Article(NamedTuple):
     part_number: int
     name: str
     text: str
+
+
+def new_metadata(pdf_url: str) -> Metadata:
+    pdf_data = metadata(pdf_url)
+
+    return Metadata(
+        dc_creator=NS(pdf_data["dc:creator"]),
+        dc_identifier=NS(
+            "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
+        ),
+        dc_source=NS(pdf_url),
+        dc_title=NS(pdf_data["dc:title"]),
+        dc_language=NS(language(pdf_url)),
+    )
 
 
 def articles(pdf_url: str) -> list[Article]:
@@ -155,7 +167,7 @@ def parts(pdf_url: str) -> list[Part]:
             parts.append(
                 Part(
                     number=int(number),
-                    name=NonemptyString(normalize_whitespace(titlecase(name))),
+                    name=NS(normalize_whitespace(titlecase(name))),
                 )
             )
         else:
@@ -163,11 +175,6 @@ def parts(pdf_url: str) -> list[Part]:
 
     parts = list(dict.fromkeys(parts).keys())
     return parts
-
-
-def new_metadata(pdf_url: str) -> Metadata:
-    pdf_data = metadata(pdf_url)
-    return Metadata(dc_title=pdf_data["dc:title"])
 
 
 def language(pdf_url: str) -> str:

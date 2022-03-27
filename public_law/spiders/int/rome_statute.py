@@ -1,9 +1,10 @@
 import re
-from scrapy import Spider
-from scrapy.http import Response  # type: ignore
+from dataclasses import asdict
 from typing import Any, Dict
 
-from public_law.parsers.int.rome_statute import articles, parts, title
+from public_law.parsers.int.rome_statute import articles, new_metadata, parts
+from scrapy import Spider
+from scrapy.http import Response  # type: ignore
 
 
 class RomeStatute(Spider):
@@ -24,7 +25,7 @@ class RomeStatute(Spider):
 
         for url in start_page_urls(response):
             if "Rome-Statute.pdf" in url:  # Only parse the English version
-                yield {"title": title(url)}
+                yield {"metadata": asdict(new_metadata(url))}
 
                 for part in parts(url):
                     yield {"part": part._asdict()}
