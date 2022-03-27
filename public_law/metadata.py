@@ -40,9 +40,9 @@ class Metadata:
         """Return a dict containing the metadata with proper DublinCore
         naming syntax."""
 
-        raw_dict = asdict(self)
         new_dict = {}
-        for old_key in raw_dict.keys():
-            new_dict[old_key.replace("_", ":")] = raw_dict[old_key]
+        for old_key, value in asdict(self).items():
+            new_key = old_key.replace("_", ":")
+            new_dict[new_key] = value
 
         return new_dict
