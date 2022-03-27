@@ -25,7 +25,7 @@ class RomeStatute(Spider):
 
         for url in start_page_urls(response):
             if "Rome-Statute.pdf" in url:  # Only parse the English version
-                yield {"metadata": asdict(new_metadata(url))}
+                yield {"metadata": new_metadata(url).as_dict()}
 
                 for part in parts(url):
                     yield {"part": part._asdict()}

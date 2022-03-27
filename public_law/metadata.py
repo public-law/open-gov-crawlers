@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+from hmac import new
 
 from public_law.dates import todays_date
 from public_law.text import NonemptyString
@@ -35,3 +36,19 @@ class Metadata:
     dc_type: str = "text"
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_modified: str = todays_date()
+
+    def as_dict(self) -> dict:
+        """Return a dict containing the metadata with proper DublinCore
+        naming syntax."""
+
+        raw_dict = asdict(self)
+        new_dict = {}
+        for old_key in raw_dict.keys():
+            new_dict[old_key.replace("_", ":")] = raw_dict[old_key]
+
+        return new_dict
+
+
+def rename_key(d: dict, old_key: str, new_key: str) -> dict:
+    d[new_key] = d.pop(old_key)
+    return d
