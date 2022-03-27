@@ -4,7 +4,7 @@ from typing import NamedTuple
 
 from bs4 import BeautifulSoup
 from public_law.metadata import Metadata
-from public_law.text import NonemptyString as NS, normalize_whitespace
+from public_law.text import NonemptyString as S, normalize_whitespace
 from tika import parser
 from titlecase import titlecase
 
@@ -21,7 +21,7 @@ class Part(NamedTuple):
     It's basically like a chapter. A Part has many Articles."""
 
     number: int
-    name: NS
+    name: S
 
 
 class Article(NamedTuple):
@@ -38,13 +38,13 @@ def new_metadata(pdf_url: str) -> Metadata:
     pdf_data = metadata(pdf_url)
 
     return Metadata(
-        dc_creator=NS(pdf_data["dc:creator"]),
-        dc_identifier=NS(
+        dc_creator=S(pdf_data["dc:creator"]),
+        dc_identifier=S(
             "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
         ),
-        dc_source=NS(pdf_url),
-        dc_title=NS(pdf_data["dc:title"]),
-        dc_language=NS(language(pdf_url)),
+        dc_source=S(pdf_url),
+        dc_title=S(pdf_data["dc:title"]),
+        dc_language=S(language(pdf_url)),
     )
 
 
@@ -167,7 +167,7 @@ def parts(pdf_url: str) -> list[Part]:
             parts.append(
                 Part(
                     number=int(number),
-                    name=NS(normalize_whitespace(titlecase(name))),
+                    name=S(normalize_whitespace(titlecase(name))),
                 )
             )
         else:
