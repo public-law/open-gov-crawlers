@@ -26,9 +26,9 @@ class Metadata:
     """
 
     dc_title: NonemptyString
+    dc_language: NonemptyString
     dc_source: NonemptyString
     dc_identifier: NonemptyString
-    dc_language: NonemptyString
     dc_creator: NonemptyString
 
     dc_publisher: str = "Public.Law"
