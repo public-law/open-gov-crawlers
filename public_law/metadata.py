@@ -1,5 +1,4 @@
 from dataclasses import dataclass, asdict
-from hmac import new
 
 from public_law.dates import todays_date
 from public_law.text import NonemptyString
@@ -47,8 +46,3 @@ class Metadata:
             new_dict[old_key.replace("_", ":")] = raw_dict[old_key]
 
         return new_dict
-
-
-def rename_key(d: dict, old_key: str, new_key: str) -> dict:
-    d[new_key] = d.pop(old_key)
-    return d
