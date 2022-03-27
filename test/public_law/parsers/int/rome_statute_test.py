@@ -48,7 +48,7 @@ class TestLanguage:
         assert language(FRENCH_URL) == "fr"
 
     def test_detects_english(self):
-        assert language(ENGLISH_URL) == "en"
+        assert language(ENGLISH_URL) == "en-US"
 
 
 class TestParts:

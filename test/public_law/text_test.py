@@ -17,7 +17,7 @@ class TestNonemptyString:
 
     def test_raises_error_if_no_param_given(self):
         with pytest.raises(Exception):
-            NonemptyString()  # pylint: disable=no-value-for-parameter
+            NonemptyString()  # type: ignore  # pylint: disable=no-value-for-parameter
 
     def test_raises_error_if_empty_string_given(self):
         with pytest.raises(ValueError, match="empty"):
