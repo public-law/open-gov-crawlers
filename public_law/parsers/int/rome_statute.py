@@ -9,7 +9,7 @@ from tika import parser
 from titlecase import titlecase
 
 LANGUAGE_MAP = {
-    "Rome Statute of the International Criminal Court": "en",
+    "Rome Statute of the International Criminal Court": "en-US",
     "Statut de Rome de la Cour pénale internationale": "fr",
     "نظام روما األسايس للمحكمة اجلنائية ادلويلة": "ar",
     "Estatuto de Roma de la Corte Penal Internacional": "es",

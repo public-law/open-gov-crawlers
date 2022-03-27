@@ -38,7 +38,8 @@ class Metadata:
 
     def as_dict(self) -> dict:
         """Return a dict containing the metadata with proper DublinCore
-        naming syntax."""
+        naming syntax. Instead of keys such as `dc_title`, they should be
+        in the form, `dc:title`."""
 
         new_dict = {}
         for old_key, value in asdict(self).items():
