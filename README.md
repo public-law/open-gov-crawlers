@@ -1,6 +1,5 @@
 ![Test Suite](https://github.com/public-law/open-gov-crawlers/workflows/Test%20Suite/badge.svg)
-[![Maintainability](https://api.codeclimate.com/v1/badges/6b1458d526c7233e6703/maintainability)](https://codeclimate.com/github/public-law/open-gov-crawlers/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/6b1458d526c7233e6703/test_coverage)](https://codeclimate.com/github/public-law/open-gov-crawlers/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3978810b3733b415a266/maintainability)](https://codeclimate.com/github/public-law/open-gov-crawlers/maintainability)
 
 
 # Open-gov spiders written with Python
