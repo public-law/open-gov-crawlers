@@ -142,7 +142,7 @@ def articles(pdf_url: str) -> list[Article]:
                     Article(
                         name=str(name),
                         number=str(number),
-                        text=str(text),
+                        text=str(text).replace("\n\n", "\n"),
                         part_number=int(part_number),
                     )
                 )

@@ -197,12 +197,12 @@ class TestArticles:
 
     def test_handles_content_across_page_break(self):
         article_19_text = articles(ENGLISH_URL)[21].text.split("\n")[0:2]
-        expected_text = [
+        expected_lines = [
             "1. The Court shall satisfy itself that it has jurisdiction in any case brought before it. The Court may, on its own motion, determine the admissibility of a case in accordance with article 17.",
             "2. Challenges to the admissibility of a case on the grounds referred to in article 17 or challenges to the jurisdiction of the Court may be made by:"
         ]
 
-        assert article_19_text == expected_text
+        assert article_19_text == expected_lines
 
     #
     # Tests for a parser bug: some articles' name isn't picked up.
