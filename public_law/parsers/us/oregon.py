@@ -9,6 +9,7 @@ from public_law.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"
+URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 
 class ParseException(Exception):
@@ -74,6 +75,10 @@ def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], 
     return (body_text, metadata)
 
 
+def _oar_url(number: str) -> str:
+    return URL_PREFIX + f"view.action?ruleNumber={number}"
+
+
 def _meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     """A Rule always has some meta-info. It's three distinct optional sections,
     Authority, Implements, and History. Parse the given text into these three
@@ -124,10 +129,3 @@ def _statute_meta(text: str) -> List[str]:
       output: ['ORS 181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
-
-
-URL_PREFIX = f"https://{DOMAIN}/oard/"
-
-
-def _oar_url(number: str) -> str:
-    return URL_PREFIX + f"view.action?ruleNumber={number}"
