@@ -28,7 +28,7 @@ def parse_division(html: Response) -> List[Rule]:
 
 
 def parse_rule(rule_div: Selector) -> Rule:
-    """A Rule has a number, name, and content."""
+    """A Rule has a number, name, and text content."""
 
     number: str = rule_div.css("strong > a::text").get(" ").strip()
     name: str = rule_div.css("strong::text").get(" ").strip()
@@ -62,9 +62,9 @@ def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
 
 
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
-    """A Rule always has some meta-info. It's three distinct sections,
-    Authority, Implements, and History. Parse the given text into these
-    three sections."""
+    """A Rule always has some meta-info. It's three distinct optional sections,
+    Authority, Implements, and History. Parse the given text into these three
+    sections."""
 
     # Somewhat tricky: The history section uses embedded <br>
     # tags, so we want to leave those in place. Therefore, we want
