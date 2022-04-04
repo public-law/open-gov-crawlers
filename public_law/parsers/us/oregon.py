@@ -15,7 +15,57 @@ class ParseException(Exception):
     pass
 
 
+def parse_division(html: Response) -> List[Rule]:
+    """A 'Division' has an HTML page which lists many Rules."""
+
+    rules = [
+        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+    ]
+    if len(rules) == 0:
+        raise ParseException("Found no Rules in the Division")
+
+    return rules
+
+
+def parse_rule(rule_div: Selector) -> Rule:
+    """A Rule has a number, name, and content."""
+
+    number: str = rule_div.css("strong > a::text").get(" ").strip()
+    name: str = rule_div.css("strong::text").get(" ").strip()
+
+    return _parse_rule_content(rule_div, number, name)
+
+
+def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
+    """Parse the given HTML div for the text, then package it up
+    with the given number and name into a Rule object."""
+
+    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
+    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
+    cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
+    non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
+    content_paragraphs = non_empty_paragraphs[1:-1]
+
+    meta_paragraph = non_empty_paragraphs[-1]
+    metadata = meta_sections(meta_paragraph)
+
+    return Rule(
+        kind="Rule",
+        number=number,
+        name=name,
+        url=oar_url(f"view.action?ruleNumber={number}"),
+        text="\n".join(content_paragraphs),
+        authority=metadata["authority"],
+        implements=metadata["implements"],
+        history=metadata["history"],
+    )
+
+
 def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
+    """A Rule always has some meta-info. It's three distinct sections,
+    Authority, Implements, and History. Parse the given text into these
+    three sections."""
+
     # Somewhat tricky: The history section uses embedded <br>
     # tags, so we want to leave those in place. Therefore, we want
     # to use just the first two <br>'s to split the meta section
@@ -61,45 +111,6 @@ def statute_meta(text: str) -> List[str]:
       output: ['ORS 181A.235', 'ORS 192']
     """
     return [s.strip() for s in SEPARATOR.split(text)]
-
-
-def parse_division(html: Response) -> List[Rule]:
-    rules = [
-        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
-    ]
-    if len(rules) == 0:
-        raise ParseException("Found no Rules in the Division")
-
-    return rules
-
-
-def parse_rule(rule_div: Selector) -> Rule:
-    number: str = rule_div.css("strong > a::text").get(" ").strip()
-    name: str = rule_div.css("strong::text").get(" ").strip()
-
-    return _parse_rule_content(rule_div, number, name)
-
-
-def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
-    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
-    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
-    cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
-    non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
-    content_paragraphs = non_empty_paragraphs[1:-1]
-
-    meta_paragraph = non_empty_paragraphs[-1]
-    metadata = meta_sections(meta_paragraph)
-
-    return Rule(
-        kind="Rule",
-        number=number,
-        name=name,
-        url=oar_url(f"view.action?ruleNumber={number}"),
-        text="\n".join(content_paragraphs),
-        authority=metadata["authority"],
-        implements=metadata["implements"],
-        history=metadata["history"],
-    )
 
 
 URL_PREFIX = f"https://{DOMAIN}/oard/"
