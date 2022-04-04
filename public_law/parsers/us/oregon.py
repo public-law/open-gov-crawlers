@@ -19,7 +19,7 @@ def parse_division(html: Response) -> List[Rule]:
     """A 'Division' has an HTML page which lists many Rules."""
 
     rules = [
-        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+        _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
     ]
     if len(rules) == 0:
         raise ParseException("Found no Rules in the Division")
@@ -27,7 +27,7 @@ def parse_division(html: Response) -> List[Rule]:
     return rules
 
 
-def parse_rule(rule_div: Selector) -> Rule:
+def _parse_rule(rule_div: Selector) -> Rule:
     """A Rule has a number, name, text, and metadata."""
 
     number = _parse_number(rule_div)
@@ -48,6 +48,14 @@ def parse_rule(rule_div: Selector) -> Rule:
     )
 
 
+def _parse_number(rule_div: Selector) -> str:
+    return rule_div.css("strong > a::text").get(" ").strip()
+
+
+def _parse_name(rule_div: Selector) -> str:
+    return rule_div.css("strong::text").get(" ").strip()
+
+
 def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], str]]]:
     """Parse the given HTML div for the text string and metadata dict."""
 
@@ -61,12 +69,12 @@ def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], 
 
     # Parse the metadata
     meta_paragraph = non_empty_paragraphs[-1]
-    metadata = meta_sections(meta_paragraph)
+    metadata = _meta_sections(meta_paragraph)
 
     return (body_text, metadata)
 
 
-def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
+def _meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     """A Rule always has some meta-info. It's three distinct optional sections,
     Authority, Implements, and History. Parse the given text into these three
     sections."""
@@ -101,14 +109,14 @@ def meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
 def _list_meta(section: str) -> List[str]:
     if section == "":
         return []
-    return statute_meta(section.split("</b>")[1].strip())
+    return _statute_meta(section.split("</b>")[1].strip())
 
 
 def _string_meta(section: str) -> str:
     return delete_all(section, ["<p>", "<b>History:</b><br>", "<br> </p>"]).strip()
 
 
-def statute_meta(text: str) -> List[str]:
+def _statute_meta(text: str) -> List[str]:
     """Parse a statute meta line of text.
 
     For example:
@@ -123,11 +131,3 @@ URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 def _oar_url(number: str) -> str:
     return URL_PREFIX + f"view.action?ruleNumber={number}"
-
-
-def _parse_number(rule_div: Selector) -> str:
-    return rule_div.css("strong > a::text").get(" ").strip()
-
-
-def _parse_name(rule_div: Selector) -> str:
-    return rule_div.css("strong::text").get(" ").strip()
