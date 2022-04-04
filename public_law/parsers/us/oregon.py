@@ -34,15 +34,17 @@ def parse_rule(rule_div: Selector) -> Rule:
     name = _parse_name(rule_div)
     text, metadata = _parse_content(rule_div)
 
+    source_url = _oar_url(number)
+
     return Rule(
-        kind="Rule",
         number=number,
         name=name,
-        url=oar_url(f"view.action?ruleNumber={number}"),
         text=text,
         authority=metadata["authority"],
         implements=metadata["implements"],
         history=metadata["history"],
+        url=source_url,
+        kind="Rule",
     )
 
 
@@ -119,8 +121,8 @@ def statute_meta(text: str) -> List[str]:
 URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 
-def oar_url(relative_fragment: str) -> str:
-    return URL_PREFIX + relative_fragment
+def _oar_url(number: str) -> str:
+    return URL_PREFIX + f"view.action?ruleNumber={number}"
 
 
 def _parse_number(rule_div: Selector) -> str:
