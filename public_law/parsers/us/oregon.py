@@ -22,6 +22,7 @@ def parse_division(html: Response) -> List[Rule]:
     rules = [
         _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
     ]
+    
     if len(rules) == 0:
         raise ParseException("Found no Rules in the Division")
 
