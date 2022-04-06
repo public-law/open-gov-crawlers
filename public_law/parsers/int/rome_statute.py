@@ -1,6 +1,6 @@
 import re
 from functools import cache
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 from bs4 import BeautifulSoup
 from public_law.metadata import Metadata
@@ -48,104 +48,135 @@ def new_metadata(pdf_url: str) -> Metadata:
     )
 
 
+def _document_body(text: str, top: str, bottom: str) -> str:
+    """The document body with table of contents etc. removed"""
+    return text.split(top)[1].split(bottom)[0]
+
+
+def _parts(text: str, pattern: str) -> List[str]:
+    """Raw parts."""
+    return re.split(pattern, text)[1:]
+
+
+def _clean_part(part: str) -> str:
+    """Remove page numbers and annotation links from a part."""
+    part = re.sub(r'<div\sclass="page">.*\n<p>[0-9]+', "", part)
+    return _remove_annotation_links(part, r"^<div\sclass='annotation'>.*\n?")
+
+
+def _articles_in_part(part: str) -> List[str]:
+    """Raw Articles in a part."""
+    return re.split(r"(?=<p>Article\s[0-9]+\s.*\n)", _clean_part(part))
+
+
+def _remove_extra_newlines(text: str) -> str:
+    # Remove all extra/unwanted newlines.
+    text = re.sub(r"\n\n\n*", "\n\n", text).split("\n\n")
+    return "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
+
+
+def _remove_annotation_links(text: str, pattern: str) -> str:
+    """Remove hyperlinks from the annotations."""
+    return re.sub(pattern, "", text, flags=re.MULTILINE)
+
+
+def _remove_page_title(text: str, title: str) -> str:
+    """Remove page titles from the document."""
+    return re.sub(title, "", text,).strip()
+
+
+def _current_article_num(number_raw: str, current_article_num: int) -> int:
+    """
+    Keep track of the digits of the article number.
+    This is necesary in order to get the correct article numbers from annotated articles.
+    For example, article 124 has annotation 10, but they two are written together as "12410" in the
+    raw document.
+    """
+    if str(number_raw).startswith(str(current_article_num + 1)):
+        return current_article_num + 1
+    return current_article_num
+
+
+def _article_number(number_raw: str, current_article_num: int) -> str:
+    """Article number"""
+    if number_raw:
+        if "bis" in number_raw:
+            number = str(current_article_num) + " bis"
+        elif "ter" in number_raw:
+            number = str(current_article_num) + " ter"
+        else:
+            number = str(current_article_num)
+        return number
+
+
+def _remove_annotations(article: Article, number: str) -> Article:
+    """Remove annotations from text if they exist."""
+    name = article.name
+    text = article.text
+    annotation = article.number.replace(str(number), "")
+    if annotation:
+        name_text = article.text.split("\n", 1)
+        if len(name_text) > 1 and not article.name:
+            name = name_text[0].strip()
+            text = name_text[1].strip()
+        annotations = [int(x) for x in annotation.split()]
+        for annotation in annotations:
+            text = re.sub(
+                rf"^{annotation}\s.*\n?", "", text, flags=re.MULTILINE
+            )
+    return Article(
+        name=name,
+        number=number,
+        text=text.replace("\n\n", "\n"),
+        part_number=article.part_number,
+    )
+
+
+def _clean_article_text(text: str) -> str:
+    """Article text with page titles and superfluous newlines removed"""
+    return _remove_page_title(
+        _remove_extra_newlines(text),
+        r"Rome\sStatute\sof\sthe\sInternational\sCriminal\sCourt",
+    )
+
+
+def _article(article: str, part_number: int) -> Article:
+    """Split a raw article and return as an Article"""
+
+    soup = BeautifulSoup(article, features="lxml")
+    article = re.split(r"\n", soup.get_text(), 2)
+
+    return Article(
+        name=normalize_whitespace(article[1]).strip(),
+        number=article[0].split(" ", 1)[1].strip(),
+        text=_clean_article_text(article[2].strip()),
+        part_number=part_number,
+    )
+
+
 def articles(pdf_url: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
     html = tika_pdf(pdf_url)["content"]
     articles = []
-
-    # Get only the part that contains the relevant content
-    articles_middle = html.split("<p>Have agreed as follows:</p>")[1]
-    articles_middle = articles_middle.split("<li>art.9</li>")[0]
-
-    # Split by parts
-    rx_parts = re.compile(r"<p>PART\s[0-9]+")
-    parts = rx_parts.split(articles_middle)
     current_article_num = 0
+    document_body = _document_body(
+        html, "<p>Have agreed as follows:</p>", "<li>art.9</li>"
+    )
 
-    for idx, part in enumerate(parts[1:]):
-        part_number = idx + 1
+    for part_number, part in enumerate(
+        _parts(document_body, r"<p>PART\s[0-9]+"), start=1
+    ):
+        for article in _articles_in_part(part):
+            article = _article(article, part_number)
+            if article.number:
 
-        # Remove page numbers.
-        rx_page_number = re.compile(r'<div\sclass="page">.*\n<p>[0-9]+')
-        part = rx_page_number.sub("", part)
-
-        # Extract each article.
-        rx_articles = re.compile(r"(?=<p>Article\s[0-9]+\s.*\n)")
-        articles_raw = rx_articles.split(part)
-        for article in articles_raw:
-            number = ""
-
-            # Remove annotation links
-            annotation = r'<div\sclass="annotation">'
-            sub = f"^{annotation}.*\n?"
-            article = re.sub(
-                sub,
-                "",
-                article,
-                flags=re.MULTILINE,
-            )
-
-            # Remove tags.
-            soup = BeautifulSoup(article, features="lxml")
-            article = soup.get_text().split("\n", 2)
-
-            # Extract number, name and text from each article.
-            number_raw = article[0].split(" ", 1)[1].strip()
-            name = normalize_whitespace(article[1]).strip()
-            text = article[2].strip()
-
-            # Remove all extra/unwanted newlines.
-            rx_extra_lines = re.compile(r"\n\n\n*")
-            text = rx_extra_lines.sub("\n\n", text)
-            text = text.split("\n\n")
-            text = "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
-
-            # Remove the title of each page.
-            rx_page_title = re.compile(
-                r"Rome\sStatute\sof\sthe\sInternational\sCriminal\sCourt"
-            )
-            text = rx_page_title.sub("", text).strip()
-
-            # Get number.
-            if number_raw:
-                if str(number_raw).startswith(str(current_article_num + 1)):
-                    current_article_num += 1
-                if "bis" in number_raw:
-                    number = str(current_article_num) + " bis"
-                elif "ter" in number_raw:
-                    number = str(current_article_num) + " ter"
-                else:
-                    number = str(current_article_num)
-
-                # Parse articles annotations
-                footnote = number_raw.replace(str(number), "")
-                if footnote:
-                    # Get the name of annotated articles
-                    name_text = text.split("\n", 1)
-                    if len(name_text) > 1 and not name:
-                        name = name_text[0].strip()
-                        text = name_text[1].strip()
-                    # Remove the annotations from the text.
-                    footnotes = [int(x) for x in footnote.split()]
-                    for footnote in footnotes:
-                        sub = f"^{footnote}\s.*\n?"
-                        text = re.sub(
-                            sub,
-                            "",
-                            text,
-                            flags=re.MULTILINE,
-                        )
-
-                # Build Article
-                articles.append(
-                    Article(
-                        name=str(name),
-                        number=str(number),
-                        text=str(text).replace("\n\n", "\n"),
-                        part_number=int(part_number),
-                    )
+                current_article_num = _current_article_num(
+                    article.number, current_article_num
                 )
+                number = _article_number(article.number, current_article_num)
+                articles.append(_remove_annotations(article, number))
+
     return articles
 
 
@@ -171,7 +202,9 @@ def parts(pdf_url: str) -> list[Part]:
                 )
             )
         else:
-            raise Exception(f"The paragraph didn't match the Part regex: {paragaph}")
+            raise Exception(
+                f"The paragraph didn't match the Part regex: {paragaph}"
+            )
 
     parts = list(dict.fromkeys(parts).keys())
     return parts
