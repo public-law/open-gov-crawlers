@@ -15,7 +15,7 @@ LANGUAGE_MAP = {
     "Estatuto de Roma de la Corte Penal Internacional": "es",
 }
 
-JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
+JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json" # pylint:disable=line-too-long
 
 class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
