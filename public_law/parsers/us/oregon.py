@@ -16,6 +16,10 @@ class ParseException(Exception):
     pass
 
 
+def oar_url(relative_fragment: str) -> str:
+    return URL_PREFIX + relative_fragment
+
+
 def parse_division(html: Response) -> List[Rule]:
     """A 'Division' has an HTML page which lists many Rules."""
 
@@ -36,7 +40,7 @@ def _parse_rule(rule_div: Selector) -> Rule:
     name = _parse_name(rule_div)
     text, metadata = _parse_content(rule_div)
 
-    source_url = _oar_url(number)
+    source_url = _rule_url(number)
 
     return Rule(
         number=number,
@@ -51,11 +55,11 @@ def _parse_rule(rule_div: Selector) -> Rule:
 
 
 def _parse_number(rule_div: Selector) -> str:
-    return rule_div.css("strong > a::text").get(" ").strip()
+    return rule_div.css("strong > a::text").get(" ").strip() # type: ignore
 
 
 def _parse_name(rule_div: Selector) -> str:
-    return rule_div.css("strong::text").get(" ").strip()
+    return rule_div.css("strong::text").get(" ").strip() # type: ignore
 
 
 def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], str]]]:
@@ -76,7 +80,7 @@ def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], 
     return (body_text, metadata)
 
 
-def _oar_url(number: str) -> str:
+def _rule_url(number: str) -> str:
     return URL_PREFIX + f"view.action?ruleNumber={number}"
 
 

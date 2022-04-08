@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from typing import Any, Dict, List
 
 from scrapy import Spider
