@@ -69,7 +69,7 @@ def _articles_in_part(part: str) -> List[str]:
 
 
 def _remove_extra_newlines(text: str) -> str:
-    # Remove all extra/unwanted newlines.
+    """Remove all extra/unwanted newlines."""
     text = re.sub(r"\n\n\n*", "\n\n", text).split("\n\n")
     return "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
 
