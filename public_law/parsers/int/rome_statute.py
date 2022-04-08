@@ -188,13 +188,13 @@ def parts(pdf_url: str) -> list[Part]:
         if p.get_text().startswith("PART")
     ]
 
-    parts = []
+    part_objects = []
     for paragaph in part_paragraphs:
         if matches := re.match(r"^PART (\d+)\. +([^\d]+)", paragaph):
             number = matches.group(1)
             name = matches.group(2)
 
-            parts.append(
+            part_objects.append(
                 Part(
                     number=int(number),
                     name=S(normalize_whitespace(titlecase(name))),
@@ -205,8 +205,8 @@ def parts(pdf_url: str) -> list[Part]:
                 f"The paragraph didn't match the Part regex: {paragaph}"
             )
 
-    parts = list(dict.fromkeys(parts).keys())
-    return parts
+    part_objects = list(dict.fromkeys(part_objects).keys())
+    return part_objects
 
 
 def language(pdf_url: str) -> str:
