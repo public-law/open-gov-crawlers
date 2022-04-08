@@ -13,7 +13,8 @@ URL_PREFIX = f"https://{DOMAIN}/oard/"
 
 
 class ParseException(Exception):
-    pass
+    """We raise this exception when there's a parsing error. It allows
+    the calling code to handle this kind of error in a particular way."""
 
 
 def oar_url(relative_fragment: str) -> str:
@@ -26,7 +27,7 @@ def parse_division(html: Response) -> List[Rule]:
     rules = [
         _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
     ]
-    
+
     if len(rules) == 0:
         raise ParseException("Found no Rules in the Division")
 

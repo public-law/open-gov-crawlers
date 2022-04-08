@@ -5,7 +5,7 @@ from public_law.text import NonemptyString
 
 
 @dataclass(frozen=True)
-class Metadata:
+class Metadata: # pylint:disable=too-many-instance-attributes
     """Each JSON output file should have a `Metadata` object with the attributes:
 
     - `dc:creator`
@@ -22,7 +22,7 @@ class Metadata:
 
     * [Publishing Metadata](https://www.dublincore.org/resources/userguide/publishing_metadata/)
     * [Creating Metadata](https://www.dublincore.org/resources/userguide/creating_metadata/)
-    * [Dublin Core Specifications](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
+    * [Dublin Core Specs](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
     """
 
     dc_title: NonemptyString

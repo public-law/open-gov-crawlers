@@ -70,9 +70,9 @@ class OregonRegs(Spider):
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
-            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]
+            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1] # type: ignore
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1)
+                str.strip, anchor.xpath("text()").get().split("-", 1)              # type: ignore
             )
             number = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
@@ -104,7 +104,10 @@ class OregonRegs(Spider):
         spider: OregonRegs = super(OregonRegs, cls).from_crawler(
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
+        crawler.signals.connect(  # type: ignore
+            spider.spider_idle,
+            signal=scrapy.signals.spider_idle
+            )  # type: ignore
         return spider
 
     def spider_idle(self, spider: Spider):

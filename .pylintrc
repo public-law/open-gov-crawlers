@@ -9,9 +9,17 @@
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
+
+# Disable type errors that Pyright/Pylance checks:
 disable=unsubscriptable-object,
 	unsupported-membership-test,
 	fixme,
 	wrong-import-order,
 	no-name-in-module,
-	no-member
+	no-member,
+
+	# Features should have descriptive names. So function shouldn't
+	# be necessary most of the time:
+	missing-class-docstring,
+	missing-function-docstring,
+	missing-module-docstring
