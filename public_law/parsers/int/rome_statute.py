@@ -42,7 +42,7 @@ def new_metadata(pdf_url: str) -> Metadata:
         dc_creator=S(pdf_data["dc:creator"]),
         dc_identifier=S(JSON_OUTPUT_URL_EN),
         dc_source=S(pdf_url),
-        dc_title=S(pdf_data["dc:title"]),
+        dc_title=S(title(pdf_url)),
         dc_language=S(language(pdf_url)),
     )
 
