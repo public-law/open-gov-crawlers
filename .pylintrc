@@ -22,4 +22,8 @@ disable=unsubscriptable-object,
 	# be necessary most of the time:
 	missing-class-docstring,
 	missing-function-docstring,
-	missing-module-docstring
+	missing-module-docstring,
+
+	# Scrapy style conflicts:
+	too-few-public-methods,
+	no-self-use

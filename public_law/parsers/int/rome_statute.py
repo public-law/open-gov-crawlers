@@ -15,6 +15,7 @@ LANGUAGE_MAP = {
     "Estatuto de Roma de la Corte Penal Internacional": "es",
 }
 
+JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
 
 class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
@@ -39,9 +40,7 @@ def new_metadata(pdf_url: str) -> Metadata:
 
     return Metadata(
         dc_creator=S(pdf_data["dc:creator"]),
-        dc_identifier=S(
-            "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
-        ),
+        dc_identifier=S(JSON_OUTPUT_URL_EN),
         dc_source=S(pdf_url),
         dc_title=S(pdf_data["dc:title"]),
         dc_language=S(language(pdf_url)),
