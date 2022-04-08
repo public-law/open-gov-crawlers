@@ -166,8 +166,8 @@ def articles(pdf_url: str) -> list[Article]:
     for part_number, part in enumerate(
         _parts(document_body, r"<p>PART\s[0-9]+"), start=1
     ):
-        for article in _articles_in_part(part):
-            article = _article(article, part_number)
+        for raw_article in _articles_in_part(part):
+            article = _article(raw_article, part_number)
             if article.number:
 
                 current_article_num = _current_article_num(
