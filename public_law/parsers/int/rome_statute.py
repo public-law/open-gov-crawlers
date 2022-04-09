@@ -15,7 +15,8 @@ LANGUAGE_MAP = {
     "Estatuto de Roma de la Corte Penal Internacional": "es",
 }
 
-JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json" # pylint:disable=line-too-long
+JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
+
 
 class Part(NamedTuple):
     """Represents a 'Part' in the text of the Rome Statute.
@@ -70,8 +71,10 @@ def _articles_in_part(part: str) -> List[str]:
 
 def _remove_extra_newlines(text: str) -> str:
     """Remove all extra/unwanted newlines."""
-    text = re.sub(r"\n\n\n*", "\n\n", text).split("\n\n")
-    return "\n".join([normalize_whitespace(t.replace("\n", "")) for t in text])
+    raw_text = re.sub(r"\n\n\n*", "\n\n", text).split("\n\n")
+    return "\n".join(
+        [normalize_whitespace(t.replace("\n", "")) for t in raw_text]
+    )
 
 
 def _remove_annotation_links(text: str, pattern: str) -> str:
@@ -79,9 +82,9 @@ def _remove_annotation_links(text: str, pattern: str) -> str:
     return re.sub(pattern, "", text, flags=re.MULTILINE)
 
 
-def _remove_page_title(text: str, title: str) -> str:
+def _remove_page_title(text: str, page_title: str) -> str:
     """Remove page titles from the document."""
-    return re.sub(title, "", text,).strip()
+    return re.sub(page_title, "", text,).strip()
 
 
 def _current_article_num(number_raw: str, current_article_num: int) -> int:
@@ -98,14 +101,13 @@ def _current_article_num(number_raw: str, current_article_num: int) -> int:
 
 def _article_number(number_raw: str, current_article_num: int) -> str:
     """Article number"""
-    if number_raw:
-        if "bis" in number_raw:
-            number = str(current_article_num) + " bis"
-        elif "ter" in number_raw:
-            number = str(current_article_num) + " ter"
-        else:
-            number = str(current_article_num)
-        return number
+    if "bis" in number_raw:
+        number = str(current_article_num) + " bis"
+    elif "ter" in number_raw:
+        number = str(current_article_num) + " ter"
+    else:
+        number = str(current_article_num)
+    return number
 
 
 def _remove_annotations(article: Article, number: str) -> Article:
@@ -143,12 +145,12 @@ def _article(article: str, part_number: int) -> Article:
     """Split a raw article and return as an Article"""
 
     soup = BeautifulSoup(article, features="lxml")
-    article = re.split(r"\n", soup.get_text(), 2)
+    raw_article = re.split(r"\n", soup.get_text(), 2)
 
     return Article(
-        name=normalize_whitespace(article[1]).strip(),
-        number=article[0].split(" ", 1)[1].strip(),
-        text=_clean_article_text(article[2].strip()),
+        name=normalize_whitespace(raw_article[1]).strip(),
+        number=raw_article[0].split(" ", 1)[1].strip(),
+        text=_clean_article_text(raw_article[2].strip()),
         part_number=part_number,
     )
 
@@ -157,7 +159,7 @@ def articles(pdf_url: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
     html = tika_pdf(pdf_url)["content"]
-    articles = []
+    article_objects = []
     current_article_num = 0
     document_body = _document_body(
         html, "<p>Have agreed as follows:</p>", "<li>art.9</li>"
@@ -174,9 +176,9 @@ def articles(pdf_url: str) -> list[Article]:
                     article.number, current_article_num
                 )
                 number = _article_number(article.number, current_article_num)
-                articles.append(_remove_annotations(article, number))
+                article_objects.append(_remove_annotations(article, number))
 
-    return articles
+    return article_objects
 
 
 def parts(pdf_url: str) -> list[Part]:
