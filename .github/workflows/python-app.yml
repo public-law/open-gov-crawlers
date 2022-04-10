@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry env use ${{ matrix.python-version }}
+          poetry env use "3.9"
           poetry install --no-interaction
 
       - name: Test with Pytest
@@ -53,7 +53,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Install poetry
         run: pipx install poetry
 
@@ -65,7 +65,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry env use ${{ matrix.python-version }}
+          poetry env use "3.9"
           poetry install --no-interaction
 
       - name: Type-check with Pyright
