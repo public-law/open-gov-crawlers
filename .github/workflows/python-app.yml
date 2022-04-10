@@ -19,9 +19,7 @@ jobs:
           python-version: "3.9"
           cache: 'poetry'
       - name: Install dependencies
-        run: pipx uninstall poetry
-        run: pip install poetry
-        run: poetry install
+        run: pipx uninstall poetry ; pip install poetry ; poetry install
       - name: Test with Pytest
         run: poetry run pytest
 
