@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
-          cache: 'poetry'
+          # cache: 'poetry'
 
       - name: Install dependencies
         run: |
@@ -36,17 +36,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Install poetry
         run: pipx install poetry
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
-          cache: 'poetry'
+          # cache: 'poetry'
+
       - name: Install dependencies
         run: poetry install
+        
       - name: Lint with Pylint
         run: poetry run pylint public_law/
+
 
   Type-Checking:
     runs-on: ubuntu-latest
@@ -61,7 +66,7 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.9"
-          cache: 'poetry'
+          # cache: 'poetry'
 
       - name: Install dependencies
         run: |
