@@ -1,5 +1,4 @@
 import re
-from dataclasses import asdict
 from typing import Any, Dict
 
 from public_law.parsers.int.rome_statute import articles, new_metadata, parts

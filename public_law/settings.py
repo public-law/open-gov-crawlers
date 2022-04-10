@@ -104,6 +104,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 4
 AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
+# pylint:disable=line-too-long
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
 # Enabled for development:
 # HTTPCACHE_ENABLED = True

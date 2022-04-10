@@ -19,9 +19,12 @@ class OarSpiderMiddleware:
     @classmethod
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)  # type: ignore
-        return s
+        the_class = cls()
+        crawler.signals.connect( # type: ignore
+            the_class.spider_opened,
+            signal=signals.spider_opened
+            )  # type: ignore
+        return the_class
 
     def process_spider_input(self, _response: Response, _spider: Spider) -> None:
         # Called for each response that goes through the spider
@@ -52,8 +55,8 @@ class OarSpiderMiddleware:
         # that it doesn’t have a response associated.
 
         # Must return only requests (not items).
-        for r in start_requests:
-            yield r
+        for req in start_requests:
+            yield req
 
     def spider_opened(self, spider: Spider):
         spider.logger.info(f"Spider opened: {spider.name}")
@@ -67,9 +70,12 @@ class OarDownloaderMiddleware:
     @classmethod
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)  # type: ignore
-        return s
+        the_class = cls()
+        crawler.signals.connect( # type: ignore
+            the_class.spider_opened,
+            signal=signals.spider_opened
+            )  # type: ignore
+        return the_class
 
     def process_request(self, _request: Request, _spider: Spider):
         # Called for each request that goes through the downloader

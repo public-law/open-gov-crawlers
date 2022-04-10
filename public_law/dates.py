@@ -5,7 +5,7 @@ import pytz
 
 
 class SimpleTimezone(Protocol):
-    def localize(self, dt: datetime) -> date:
+    def localize(self, a_date: datetime) -> date:
         ...  # pragma: no cover
 
 
