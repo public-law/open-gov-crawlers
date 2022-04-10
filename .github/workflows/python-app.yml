@@ -28,8 +28,7 @@ jobs:
 
       - name: Test with Pytest
         run: |
-          poetry shell
-          pytest
+          poetry run pytest -v
 
 
   Linting:
