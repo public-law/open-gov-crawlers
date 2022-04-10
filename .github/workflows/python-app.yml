@@ -47,7 +47,9 @@ jobs:
           # cache: 'poetry'
 
       - name: Install dependencies
-        run: poetry install
+        run: |
+          poetry env use "3.9"
+          poetry install --no-interaction
         
       - name: Lint with Pylint
         run: poetry run pylint public_law/
