@@ -27,7 +27,10 @@ jobs:
           poetry install --no-interaction
 
       - name: Test with Pytest
-        run: poetry run pytest
+        run: |
+          poetry env use "3.9"
+          poetry run pytest
+
 
   Linting:
     runs-on: ubuntu-latest
