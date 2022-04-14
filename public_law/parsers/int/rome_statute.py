@@ -48,6 +48,62 @@ def new_metadata(pdf_url: str) -> Metadata:
     )
 
 
+def parts(pdf_url: str) -> list[Part]:
+    """Parse all the Parts from the Rome Statute PDF."""
+    soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
+    part_paragraphs = [
+        normalize_whitespace(p.get_text())
+        for p in soup.find_all("p")
+        if p.get_text().startswith("PART")
+    ]
+
+    part_objects = []
+    for paragaph in part_paragraphs:
+        if matches := re.match(r"^PART (\d+)\. +([^\d]+)", paragaph):
+            number = matches.group(1)
+            name = matches.group(2)
+
+            part_objects.append(
+                Part(
+                    number=int(number),
+                    name=S(normalize_whitespace(titlecase(name))),
+                )
+            )
+        else:
+            raise Exception(
+                f"The paragraph didn't match the Part regex: {paragaph}"
+            )
+
+    part_objects = list(dict.fromkeys(part_objects).keys())
+    return part_objects
+
+
+def articles(pdf_url: str) -> list[Article]:
+    """Given the html document, return a list of Articles."""
+
+    html = tika_pdf(pdf_url)["content"]
+    article_objects = []
+    current_article_num = 0
+    document_body = _document_body(
+        html, "<p>Have agreed as follows:</p>", "<li>art.9</li>"
+    )
+
+    for part_number, part in enumerate(
+        _parts(document_body, r"<p>PART\s[0-9]+"), start=1
+    ):
+        for raw_article in _articles_in_part(part):
+            article = _article(raw_article, part_number)
+            if article.number:
+
+                current_article_num = _current_article_num(
+                    article.number, current_article_num
+                )
+                number = _article_number(article.number, current_article_num)
+                article_objects.append(_remove_annotations(article, number))
+
+    return article_objects
+
+
 def _document_body(text: str, top: str, bottom: str) -> str:
     """The document body with table of contents etc. removed"""
     return text.split(top)[1].split(bottom)[0]
@@ -58,15 +114,29 @@ def _parts(text: str, pattern: str) -> List[str]:
     return re.split(pattern, text)[1:]
 
 
+def _articles_in_part(part: str) -> List[str]:
+    """Raw Articles in a part."""
+    return re.split(r"(?=<p>Article\s[0-9]+\s.*\n)", _clean_part(part))
+
+
+def _article(article: str, part_number: int) -> Article:
+    """Split a raw article and return as an Article"""
+
+    soup = BeautifulSoup(article, features="lxml")
+    raw_article = re.split(r"\n", soup.get_text(), 2)
+
+    return Article(
+        name=normalize_whitespace(raw_article[1]).strip(),
+        number=raw_article[0].split(" ", 1)[1].strip(),
+        text=_clean_article_text(raw_article[2].strip()),
+        part_number=part_number,
+    )
+
+
 def _clean_part(part: str) -> str:
     """Remove page numbers and annotation links from a part."""
     part = re.sub(r'<div\sclass="page">.*\n<p>[0-9]+', "", part)
     return _remove_annotation_links(part, r"^<div\sclass='annotation'>.*\n?")
-
-
-def _articles_in_part(part: str) -> List[str]:
-    """Raw Articles in a part."""
-    return re.split(r"(?=<p>Article\s[0-9]+\s.*\n)", _clean_part(part))
 
 
 def _remove_extra_newlines(text: str) -> str:
@@ -80,11 +150,6 @@ def _remove_extra_newlines(text: str) -> str:
 def _remove_annotation_links(text: str, pattern: str) -> str:
     """Remove hyperlinks from the annotations."""
     return re.sub(pattern, "", text, flags=re.MULTILINE)
-
-
-def _remove_page_title(text: str, page_title: str) -> str:
-    """Remove page titles from the document."""
-    return re.sub(page_title, "", text,).strip()
 
 
 def _current_article_num(number_raw: str, current_article_num: int) -> int:
@@ -141,74 +206,9 @@ def _clean_article_text(text: str) -> str:
     )
 
 
-def _article(article: str, part_number: int) -> Article:
-    """Split a raw article and return as an Article"""
-
-    soup = BeautifulSoup(article, features="lxml")
-    raw_article = re.split(r"\n", soup.get_text(), 2)
-
-    return Article(
-        name=normalize_whitespace(raw_article[1]).strip(),
-        number=raw_article[0].split(" ", 1)[1].strip(),
-        text=_clean_article_text(raw_article[2].strip()),
-        part_number=part_number,
-    )
-
-
-def articles(pdf_url: str) -> list[Article]:
-    """Given the html document, return a list of Articles."""
-
-    html = tika_pdf(pdf_url)["content"]
-    article_objects = []
-    current_article_num = 0
-    document_body = _document_body(
-        html, "<p>Have agreed as follows:</p>", "<li>art.9</li>"
-    )
-
-    for part_number, part in enumerate(
-        _parts(document_body, r"<p>PART\s[0-9]+"), start=1
-    ):
-        for raw_article in _articles_in_part(part):
-            article = _article(raw_article, part_number)
-            if article.number:
-
-                current_article_num = _current_article_num(
-                    article.number, current_article_num
-                )
-                number = _article_number(article.number, current_article_num)
-                article_objects.append(_remove_annotations(article, number))
-
-    return article_objects
-
-
-def parts(pdf_url: str) -> list[Part]:
-    """Parse all the Parts from the Rome Statute PDF."""
-    soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
-    part_paragraphs = [
-        normalize_whitespace(p.get_text())
-        for p in soup.find_all("p")
-        if p.get_text().startswith("PART")
-    ]
-
-    part_objects = []
-    for paragaph in part_paragraphs:
-        if matches := re.match(r"^PART (\d+)\. +([^\d]+)", paragaph):
-            number = matches.group(1)
-            name = matches.group(2)
-
-            part_objects.append(
-                Part(
-                    number=int(number),
-                    name=S(normalize_whitespace(titlecase(name))),
-                )
-            )
-        else:
-            raise Exception(
-                f"The paragraph didn't match the Part regex: {paragaph}"
-            )
-
-    part_objects = list(dict.fromkeys(part_objects).keys())
-    return part_objects
+def _remove_page_title(text: str, page_title: str) -> str:
+    """Remove page titles from the document."""
+    return re.sub(page_title, "", text,).strip()
 
 
 def language(pdf_url: str) -> str:
