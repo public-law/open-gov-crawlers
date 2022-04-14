@@ -30,9 +30,7 @@ pyright = "^1.1.232"
 minversion = "7.1"
 addopts = "-q"
 pythonpath = "."
-testpaths = [
-    "test",
-]
+testpaths = ["test"]
 
 [build-system]
 requires = ["poetry>=0.12"]
