@@ -84,18 +84,18 @@ def footnotes() -> list[Footnote]:
         ),
         Footnote(
             number=8,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('20'),
+            text=S('As amended by resolution RC/Res.6 of 11 June 2010 (inserting the reference to article 8 bis). See depositary notification C.N.651.2010.TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en.')
         ),
         Footnote(
             number=9,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('25'),
+            text=S('As amended by resolution RC/Res.6 of 11 June 2010 (adding paragraph 3 bis). See depositary notification C.N.651.2010. TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en.')
         ),
         Footnote(
             number=10,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('124'),
+            text=S('Article 124 was deleted by resolution ICC-ASP/14/Res.2 of 26 November 2015. See depositary notification C.N.7.2016. treaties XVIII.10 of 15 January 2016C. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-c&chapter=18&clang=_en.')
         ),
     ]
 
