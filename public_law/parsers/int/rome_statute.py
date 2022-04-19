@@ -69,18 +69,18 @@ def footnotes() -> list[Footnote]:
         ),
         Footnote(
             number=5,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('9'),
+            text=S('As amended by resolution RC/Res.6 of 11 June 2010 (inserting the reference to article 8 bis). See depositary notification C.N.651.2010.TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en')
         ),
         Footnote(
             number=6,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('15 bis'),
+            text=S('As amended by resolution RC/Res.6 of 11 June 2010. See depositary notification C.N.651.2010.TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en. As regards the status of declarations lodged with the Registrar under article 15 bis, paragraph 4, of the Rome Statute, please see: https://www.icc-cpi.int/resource-library#')
         ),
         Footnote(
             number=7,
-            article_number=S('1'),
-            text=S('...')
+            article_number=S('15 ter'),
+            text=S('Article 15 ter was inserted by resolution RC/Res.6 of 11 June 2010. See depositary notification C.N.651.2010. TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en.')
         ),
         Footnote(
             number=8,
