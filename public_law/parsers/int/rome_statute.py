@@ -45,6 +45,10 @@ class Footnote(NamedTuple):
     text: S
 
 
+def footnotes(pdf_url: str) -> list[Footnote]:
+    return []
+
+
 def new_metadata(pdf_url: str) -> Metadata:
     pdf_data = metadata(pdf_url)
 

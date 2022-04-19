@@ -3,6 +3,7 @@ from urllib import error
 
 from public_law.parsers.int.rome_statute import (
     articles,
+    footnotes,
     language,
     metadata,
     modified_at,
