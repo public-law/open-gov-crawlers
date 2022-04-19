@@ -45,8 +45,59 @@ class Footnote(NamedTuple):
     text: S
 
 
-def footnotes(pdf_url: str) -> list[Footnote]:
-    return []
+def footnotes() -> list[Footnote]:
+    return [
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+        Footnote(
+            number=1,
+            article_number=S('1'),
+            text=S('...')
+        ),
+    ]
 
 
 def new_metadata(pdf_url: str) -> Metadata:

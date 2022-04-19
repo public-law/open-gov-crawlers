@@ -76,7 +76,7 @@ class TestParts:
 
 class TestFootnotes:
     def test_gets_all_of_them(self):
-        number_returned = len(footnotes(ENGLISH_URL))
+        number_returned = len(footnotes())
 
         assert number_returned == 10
 
