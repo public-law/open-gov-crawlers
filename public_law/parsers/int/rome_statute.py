@@ -49,51 +49,51 @@ def footnotes() -> list[Footnote]:
     return [
         Footnote(
             number=1,
+            article_number=S('5'),
+            text=S('Paragraph 2 of article 5 (“The Court shall exercise jurisdiction over the crime of aggression once a provision is adopted in accordance with articles 121 and 123 defining the crime and setting out the conditions under which the Court shall exercise jurisdiction with respect to this crime. Such a provision shall be consistent with the relevant provisions of the Charter of the United Nations.”) was deleted in accordance with RC/Res.6, annex I, of 11 June 2010.')
+        ),
+        Footnote(
+            number=2,
+            article_number=S('8'),
+            text=S('Paragraphs 2 (e) (xiii) to 2 (e) (xv) were inserted by resolution RC/Res.5 of 11 June 2010. See depositary notification C.N.533.2010.TREATIES-6 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-a&chapter=18&clang=_en')
+        ),
+        Footnote(
+            number=3,
+            article_number=S('8'),
+            text=S('Paragraphs (2) (b) (xxvii) to (xxix) and 2 (e) (xvi) to (xviii) were inserted by resolution ICC-ASP/16/Res.4 of 14 December 2017. For the amendment regarding “weapons which use microbial or other biological agents, or toxins”, see depositary notification C.N.116.2018.TREATIES-XVIII-10 of 8 March 2018; the UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-d&chapter=18&clang=_en. For the amendment regarding “weapons the primary effect of which is to injure by fragments undetectable by x-rays in the human body”, see depositary notification C.N.125.2018.TREATIES-XVIII-10 of 8 March 2018; the UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/PAGES/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-e&chapter=18&clang=_en. For the amendment regarding “blinding laser weapons”, see depositary notification C.N.126.2018.TREATIES-XVIII-10 of 8 March 2018; the UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-f&chapter=18&clang=_en.')
+        ),
+        Footnote(
+            number=4,
+            article_number=S('8 bis'),
+            text=S('Article 8 bis was inserted by resolution RC/Res.6 of 11 June 2010. See depositary notification C.N.651.2010.TREATIES-8 of 29 November 2010. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-b&chapter=18&clang=_en.')
+        ),
+        Footnote(
+            number=5,
             article_number=S('1'),
             text=S('...')
         ),
         Footnote(
-            number=1,
+            number=6,
             article_number=S('1'),
             text=S('...')
         ),
         Footnote(
-            number=1,
+            number=7,
             article_number=S('1'),
             text=S('...')
         ),
         Footnote(
-            number=1,
+            number=8,
             article_number=S('1'),
             text=S('...')
         ),
         Footnote(
-            number=1,
+            number=9,
             article_number=S('1'),
             text=S('...')
         ),
         Footnote(
-            number=1,
-            article_number=S('1'),
-            text=S('...')
-        ),
-        Footnote(
-            number=1,
-            article_number=S('1'),
-            text=S('...')
-        ),
-        Footnote(
-            number=1,
-            article_number=S('1'),
-            text=S('...')
-        ),
-        Footnote(
-            number=1,
-            article_number=S('1'),
-            text=S('...')
-        ),
-        Footnote(
-            number=1,
+            number=10,
             article_number=S('1'),
             text=S('...')
         ),
