@@ -36,6 +36,15 @@ class Article(NamedTuple):
     text: str
 
 
+class Footnote(NamedTuple):
+    """Represents a footnote in the document. Each one belongs
+    to an Article. There are 10 in the English version."""
+
+    number: int
+    article_number: S
+    text: S
+
+
 def new_metadata(pdf_url: str) -> Metadata:
     pdf_data = metadata(pdf_url)
 

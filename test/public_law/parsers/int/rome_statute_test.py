@@ -73,6 +73,13 @@ class TestParts:
         assert last_number == 13
 
 
+class TestFootnotes:
+    def test_gets_all_of_them(self):
+        number_returned = len(footnotes(ENGLISH_URL))
+
+        assert number_returned == 10
+
+
 #
 # Tests for finishing parsing of Rome Statute (English)
 #
