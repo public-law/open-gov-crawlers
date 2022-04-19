@@ -115,12 +115,6 @@ The pytest tests run easily:
 pytest
 ```
 
-I use this to monitor and retest automatically as I work. There might be better ways
-to do this:
-
-```bash
-watchmedo shell-command --command='clear ; pytest' --patterns="*.py" --recursive .
-```
 
 ### Dependencies; helpful links
 
