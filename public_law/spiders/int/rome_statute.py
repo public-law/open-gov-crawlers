@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict
 
-from public_law.parsers.int.rome_statute import articles, new_metadata, parts
+from public_law.parsers.int.rome_statute import articles, footnotes, new_metadata, parts
 from scrapy import Spider
 from scrapy.http import Response  # type: ignore
 
@@ -13,24 +13,22 @@ class RomeStatute(Spider):
     ]
 
     def parse(self, response: Response, **_kwargs: Dict[str, Any]):
-        """Framework callback which begins the parsing."""
-
-        # TODO: Implement both a tree output and flat output?
-        #       And allow the user to choose the output type via
-        #       an option to Scrapy.
-
-        #       Tree output:
-        #         yield {"title": title(pdf_url), "parts": parts(pdf_url)}
+        """Scrapy framework callback which begins the parsing."""
 
         for url in start_page_urls(response):
             if "Rome-Statute.pdf" in url:  # Only parse the English version
-                yield {"metadata": new_metadata(url).as_dict()}
+
+                metadata = new_metadata(url)
+                yield {"metadata": metadata.as_dict()}
 
                 for part in parts(url):
                     yield {"part": part._asdict()}
 
                 for article in articles(url):
                     yield {"article": article._asdict()}
+
+                for footnote in footnotes():
+                    yield {"footnote": footnote._asdict()}
 
 
 #
