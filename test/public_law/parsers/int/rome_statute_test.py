@@ -3,6 +3,7 @@ from urllib import error
 
 from public_law.parsers.int.rome_statute import (
     articles,
+    footnotes,
     language,
     metadata,
     modified_at,
@@ -71,6 +72,13 @@ class TestParts:
         last_number = parts(ENGLISH_URL).pop().number
 
         assert last_number == 13
+
+
+class TestFootnotes:
+    def test_gets_all_of_them(self):
+        number_returned = len(footnotes())
+
+        assert number_returned == 10
 
 
 #
