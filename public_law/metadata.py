@@ -45,4 +45,6 @@ class Metadata: # pylint:disable=too-many-instance-attributes
 
 
 def _make_dc_dict(item_list):
+    """Transform the keys in the items by converting underscores
+    to colons."""
     return {k.replace("_", ":"): v for k, v in item_list}
