@@ -45,7 +45,7 @@ class Footnote(NamedTuple):
     article_number: S
     text: S
 
-
+# pylint:disable=line-too-long
 def footnotes() -> list[Footnote]:
     return [
         Footnote(
@@ -99,7 +99,7 @@ def footnotes() -> list[Footnote]:
             text=S('Article 124 was deleted by resolution ICC-ASP/14/Res.2 of 26 November 2015. See depositary notification C.N.7.2016. treaties XVIII.10 of 15 January 2016C. The UN Treaty Section website detailing the status of the amendment is available at: https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XVIII-10-c&chapter=18&clang=_en.')
         ),
     ]
-
+# pylint:enable=line-too-long
 
 def new_metadata(pdf_url: str) -> Metadata:
     pdf_data = metadata(pdf_url)
