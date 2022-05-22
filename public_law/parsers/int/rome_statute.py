@@ -8,6 +8,7 @@ from public_law.text import NonemptyString as S, normalize_whitespace
 from tika import parser
 from titlecase import titlecase
 
+
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",
     "Statut de Rome de la Cour pénale internationale": "fr",
