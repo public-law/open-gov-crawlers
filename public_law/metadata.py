@@ -36,14 +36,15 @@ class Metadata: # pylint:disable=too-many-instance-attributes
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_modified: str = todays_date()
 
-    def as_dict(self) -> dict:
+    def as_dublin_core_dict(self) -> dict:
         """Return a dict containing the metadata with proper DublinCore
         naming syntax. Instead of keys such as `dc_title`, they should be
         in the form, `dc:title`."""
 
-        new_dict = {}
-        for old_key, value in asdict(self).items():
-            new_key = old_key.replace("_", ":")
-            new_dict[new_key] = value
+        return asdict(self, dict_factory=_make_dc_dict)
 
-        return new_dict
+
+def _make_dc_dict(item_list):
+    """Transform the keys in the items by converting underscores
+    to colons."""
+    return {k.replace("_", ":"): v for k, v in item_list}

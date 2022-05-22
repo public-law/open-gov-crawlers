@@ -8,6 +8,7 @@ from public_law.text import NonemptyString as S, normalize_whitespace
 from tika import parser
 from titlecase import titlecase
 
+
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",
     "Statut de Rome de la Cour pénale internationale": "fr",
@@ -122,8 +123,8 @@ def parts(pdf_url: str) -> list[Part]:
     ]
 
     part_objects = []
-    for paragaph in part_paragraphs:
-        if matches := re.match(r"^PART (\d+)\. +([^\d]+)", paragaph):
+    for paragraph in part_paragraphs:
+        if matches := re.match(r"^PART (\d+)\. +(\D+)", paragraph):
             number = matches.group(1)
             name = matches.group(2)
 
@@ -135,7 +136,7 @@ def parts(pdf_url: str) -> list[Part]:
             )
         else:
             raise Exception(
-                f"The paragraph didn't match the Part regex: {paragaph}"
+                f"The paragraph didn't match the Part regex: {paragraph}"
             )
 
     part_objects = list(dict.fromkeys(part_objects).keys())
@@ -180,7 +181,7 @@ def _parts(text: str, pattern: str) -> List[str]:
 
 def _articles_in_part(part: str) -> List[str]:
     """Raw Articles in a part."""
-    return re.split(r"(?=<p>Article\s[0-9]+\s.*\n)", _clean_part(part))
+    return re.split(r"(?=<p>Article\s\d+\s.*\n)", _clean_part(part))
 
 
 def _article(article: str, part_number: int) -> Article:
@@ -199,13 +200,13 @@ def _article(article: str, part_number: int) -> Article:
 
 def _clean_part(part: str) -> str:
     """Remove page numbers and annotation links from a part."""
-    part = re.sub(r'<div\sclass="page">.*\n<p>[0-9]+', "", part)
+    part = re.sub(r'<div\sclass="page">.*\n<p>\d+', "", part)
     return _remove_annotation_links(part, r"^<div\sclass='annotation'>.*\n?")
 
 
 def _remove_extra_newlines(text: str) -> str:
     """Remove all extra/unwanted newlines."""
-    raw_text = re.sub(r"\n\n\n*", "\n\n", text).split("\n\n")
+    raw_text = re.sub(r"\n\n+", "\n\n", text).split("\n\n")
     return "\n".join(
         [normalize_whitespace(t.replace("\n", "")) for t in raw_text]
     )
@@ -219,8 +220,8 @@ def _remove_annotation_links(text: str, pattern: str) -> str:
 def _current_article_num(number_raw: str, current_article_num: int) -> int:
     """
     Keep track of the digits of the article number.
-    This is necesary in order to get the correct article numbers from annotated articles.
-    For example, article 124 has annotation 10, but they two are written together as "12410" in the
+    This is necessary in order to get the correct article numbers from annotated articles.
+    For example, article 124 has annotation 10, but the two are written together as "12410" in the
     raw document.
     """
     if str(number_raw).startswith(str(current_article_num + 1)):
