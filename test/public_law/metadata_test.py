@@ -12,7 +12,7 @@ class TestMetadata:
             dc_title=S("The Title"),
             dc_language=S("en-US"),
         )
-        generated_dict = metadata.as_dict()
+        generated_dict = metadata.as_dublin_core_dict()
 
         expected_dict = {
             "dc:creator": "The creator",
