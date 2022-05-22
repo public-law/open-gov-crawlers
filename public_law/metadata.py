@@ -36,7 +36,7 @@ class Metadata: # pylint:disable=too-many-instance-attributes
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_modified: str = todays_date()
 
-    def as_dict(self) -> dict:
+    def as_dublin_core_dict(self) -> dict:
         """Return a dict containing the metadata with proper DublinCore
         naming syntax. Instead of keys such as `dc_title`, they should be
         in the form, `dc:title`."""
