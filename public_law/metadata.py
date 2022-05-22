@@ -41,4 +41,8 @@ class Metadata: # pylint:disable=too-many-instance-attributes
         naming syntax. Instead of keys such as `dc_title`, they should be
         in the form, `dc:title`."""
 
-        return {k.replace("_", ":"): v for k, v in asdict(self).items()}
+        return asdict(self, dict_factory=_make_dc_dict)
+
+
+def _make_dc_dict(item_list):
+    return {k.replace("_", ":"): v for k, v in item_list}
