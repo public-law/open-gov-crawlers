@@ -1,6 +1,6 @@
 import re
 from functools import cache
-from typing import NamedTuple, List
+from typing import Any, NamedTuple, List
 
 from bs4 import BeautifulSoup
 from public_law.metadata import Metadata
@@ -146,7 +146,7 @@ def parts(pdf_url: str) -> list[Part]:
         if p.get_text().startswith("PART")
     ]
 
-    part_objects = []
+    part_objects: list[Part] = []
     for paragraph in part_paragraphs:
         if matches := re.match(r"^PART (\d+)\. +(\D+)", paragraph):
             number = matches.group(1)
@@ -169,7 +169,7 @@ def articles(pdf_url: str) -> list[Article]:
     """Given the html document, return a list of Articles."""
 
     html = tika_pdf(pdf_url)["content"]
-    article_objects = []
+    article_objects: list[Article] = []
     current_article_num = 0
     document_body = _document_body(
         html, "<p>Have agreed as follows:</p>", "<li>art.9</li>"
@@ -315,10 +315,10 @@ def title(pdf_url: str) -> str:
     return metadata(pdf_url)["dc:title"]
 
 
-def metadata(pdf_url: str) -> dict:
+def metadata(pdf_url: str) -> dict[str, Any]:
     return tika_pdf(pdf_url)["metadata"]
 
 
 @cache
-def tika_pdf(pdf_url: str) -> dict:
+def tika_pdf(pdf_url: str) -> dict[str, Any]:
     return parser.from_file(pdf_url, xmlContent=True)
