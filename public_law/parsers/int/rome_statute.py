@@ -45,6 +45,7 @@ class Footnote(NamedTuple):
     article_number: S
     text: S
 
+
 # pylint:disable=line-too-long
 def footnotes() -> list[Footnote]:
     return [
@@ -100,6 +101,7 @@ def footnotes() -> list[Footnote]:
         ),
     ]
 # pylint:enable=line-too-long
+
 
 def new_metadata(pdf_url: str) -> Metadata:
     pdf_data = metadata(pdf_url)
