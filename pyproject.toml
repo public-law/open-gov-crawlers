@@ -5,8 +5,8 @@ description = ""
 authors = ["Robb Shecter <robb@public.law>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-scrapy = "^2.1"
+python = "^3.10"
+scrapy = "^2.6.1"
 titlecase = "*"
 pytz = "*"
 scrapy-crawlera = "^1.7.0"
@@ -17,7 +17,6 @@ tika = "^1.24"
 beautifulsoup4 = "^4.10.0"
 
 [tool.poetry.dev-dependencies]
-black = "^20.8b1"
 pytest-watch = "*"
 pytest = "*"
 prospector = "*"
@@ -25,6 +24,8 @@ ipython = "*"
 coverage = "^6.3.1"
 ipykernel = "^6.9.2"
 pyright = "^1.1.232"
+black = "^22.3.0"
+vcrpy = "^4.1.1"
 
 [tool.pytest.ini_options]
 minversion = "7.1"

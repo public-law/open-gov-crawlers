@@ -5,6 +5,7 @@ from public_law.parsers.us.oregon import _meta_sections, parse_division, _statut
 
 from public_law.parsers.us.oregon import *
 
+
 def fixture(filename: str) -> IO[Any]:
     return open(f"test/fixtures/{filename}")
 
