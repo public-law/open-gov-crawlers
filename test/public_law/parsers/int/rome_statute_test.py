@@ -14,7 +14,8 @@ from public_law.parsers.int.rome_statute import (
 )
 
 my_vcr = vcr.VCR(
-    ignore_hosts=["search.maven.org"], path_transformer=vcr.VCR.ensure_suffix(".yaml")
+    ignore_hosts=["repo1.maven.org", "search.maven.org", "maven.org"],
+    path_transformer=vcr.VCR.ensure_suffix(".yaml"),
 )
 
 ENGLISH_URL = "https://www.icc-cpi.int/Publications/Rome-Statute.pdf"
