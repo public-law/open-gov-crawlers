@@ -6,12 +6,12 @@
 
 The parsers are mostly pure Python. The spiders are Scrapy.
 
-| Publication |   |   |   | |
-| - | - | - | - | - |
-| International / Rome Statute (English) | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/int/rome_statute.py) | [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/int/rome_statute.py) | [tests](https://github.com/public-law/open-gov-crawlers/blob/master/test/public_law/parsers/int/rome_statute_test.py) | [JSON output](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json)
-| Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py) | |
-| U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/ga_parsers_test.py) | |
-| U.S.A. / Oregon Regulations | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py) | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/oar_parsers_test.py) | |
+| Publication                                |                                                                                                              |                                                                                                                 |                                                                                                                       |                                                                                                                  |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| International / Rome Statute (English)     | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/int/rome_statute.py) | [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/int/rome_statute.py)    | [tests](https://github.com/public-law/open-gov-crawlers/blob/master/test/public_law/parsers/int/rome_statute_test.py) | [JSON output](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json) |
+| Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py)              | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py)      | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py)                      |                                                                                                                  |
+| U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py)          | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/ga_parsers_test.py)                          |                                                                                                                  |
+| U.S.A. / Oregon Regulations                | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py)           | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py)         | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/oar_parsers_test.py)                         |                                                                                                                  |
 
 > FYI: We're looking for help writing more spiders like these. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
 > of our parsing strategy.
@@ -92,6 +92,8 @@ I'm personally using
 [pyenv](https://github.com/pyenv/pyenv) to install Python, but
 [asdf](https://asdf-vm.com/#/) is a good option too.
 
+I'd like to upgrade to Python 3.10 as soon as Zyte supports it.
+
 
 ### [Poetry](https://python-poetry.org/) for dependency management
 
@@ -114,6 +116,12 @@ The pytest tests run easily:
 ```bash
 pytest
 ```
+
+## Other tools
+
+* Pylint for linting
+* Pylance/Pyright for type-checking
+* Black for formatting
 
 
 ### Dependencies; helpful links
