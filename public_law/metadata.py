@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from typing import Any
 
 from public_law.dates import todays_date
 from public_law.text import NonemptyString
@@ -36,7 +37,7 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_modified: str = todays_date()
 
-    def as_dublin_core_dict(self) -> dict:
+    def as_dublin_core_dict(self) -> dict[str, Any]:
         """Return a dict containing the metadata with proper DublinCore
         naming syntax. Instead of keys such as `dc_title`, they should be
         in the form, `dc:title`."""
@@ -44,7 +45,7 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
         return asdict(self, dict_factory=_make_dc_dict)
 
 
-def _make_dc_dict(item_list):
+def _make_dc_dict(item_list: list[tuple[str, Any]]) -> dict[str, Any]:
     """Transform the keys in the items by converting underscores
     to colons."""
     return {k.replace("_", ":"): v for k, v in item_list}
