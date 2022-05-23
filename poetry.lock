@@ -1674,20 +1674,13 @@ version = "4.1.1"
 description = "Automatically mock your HTTP interactions to simplify and speed up testing"
 category = "dev"
 optional = false
-python-versions = ">=3.7"
-develop = false
+python-versions = ">=3.5"
 
 [package.dependencies]
 PyYAML = "*"
 six = ">=1.5"
 wrapt = "*"
-yarl = "*"
-
-[package.source]
-type = "git"
-url = "git@github.com:kevin1024/vcrpy.git"
-reference = "b1bc5c3a02db0447c28ab9a4cee314aeb6cdf1a7"
-resolved_reference = "b1bc5c3a02db0447c28ab9a4cee314aeb6cdf1a7"
+yarl = {version = "*", markers = "python_version >= \"3.6\""}
 
 [[package]]
 name = "w3lib"
@@ -1763,7 +1756,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "45a91f3d796c01974332caa12f5d2ce933b1775129e217bde7a6c0bec87e76d9"
+content-hash = "49ee187b43945c09a105360d615c0ebebcb2580fdc315393899838de5447e3b7"
 
 [metadata.files]
 aiohttp = [
@@ -2987,7 +2980,10 @@ urllib3 = [
     {file = "urllib3-1.26.9-py2.py3-none-any.whl", hash = "sha256:44ece4d53fb1706f667c9bd1c648f5469a2ec925fcf3a776667042d645472c14"},
     {file = "urllib3-1.26.9.tar.gz", hash = "sha256:aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"},
 ]
-vcrpy = []
+vcrpy = [
+    {file = "vcrpy-4.1.1-py2.py3-none-any.whl", hash = "sha256:12c3fcdae7b88ecf11fc0d3e6d77586549d4575a2ceee18e82eee75c1f626162"},
+    {file = "vcrpy-4.1.1.tar.gz", hash = "sha256:57095bf22fc0a2d99ee9674cdafebed0f3ba763018582450706f7d3a74fff599"},
+]
 w3lib = [
     {file = "w3lib-1.22.0-py2.py3-none-any.whl", hash = "sha256:0161d55537063e00d95a241663ede3395c4c6d7b777972ba2fd58bbab2001e53"},
     {file = "w3lib-1.22.0.tar.gz", hash = "sha256:0ad6d0203157d61149fd45aaed2e24f53902989c32fc1dccc2e2bfba371560df"},
