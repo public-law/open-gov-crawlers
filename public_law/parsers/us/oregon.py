@@ -56,11 +56,11 @@ def _parse_rule(rule_div: Selector) -> Rule:
 
 
 def _parse_number(rule_div: Selector) -> str:
-    return rule_div.css("strong > a::text").get(" ").strip() # type: ignore
+    return rule_div.css("strong > a::text").get(" ").strip()  # type: ignore
 
 
 def _parse_name(rule_div: Selector) -> str:
-    return rule_div.css("strong::text").get(" ").strip() # type: ignore
+    return rule_div.css("strong::text").get(" ").strip()  # type: ignore
 
 
 def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], str]]]:
