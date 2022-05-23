@@ -1,4 +1,5 @@
 import pytest
+import vcr
 from urllib import error
 
 from public_law.parsers.int.rome_statute import (
@@ -17,17 +18,20 @@ FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
 
 
 class TestTikaPdf:
+    @vcr.use_cassette()
     def test_can_use_the_tika_api(self):
         french_xml = tika_pdf(FRENCH_URL)
 
         assert set(french_xml.keys()) == {"metadata", "content", "status"}
 
+    @vcr.use_cassette()
     def test_raises_error_when_pdf_not_found(self):
         with pytest.raises(error.HTTPError):
             tika_pdf("https://www.icc-cpi.int/Publications/abcdefg.pdf")
 
 
 class TestMetadata:
+    @vcr.use_cassette()
     def test_gets_the_title(self):
         title = metadata(FRENCH_URL)["dc:title"]
 
@@ -35,39 +39,47 @@ class TestMetadata:
 
 
 class TestTitle:
+    @vcr.use_cassette()
     def test_works_correctly(self):
         assert title(FRENCH_URL) == "Statut de Rome de la Cour pénale internationale"
 
 
 class TestModifiedAt:
+    @vcr.use_cassette()
     def test_works_correctly(self):
         assert modified_at(FRENCH_URL) == "2021-11-02T15:46:45Z"
 
 
 class TestLanguage:
+    @vcr.use_cassette()
     def test_detects_french(self):
         assert language(FRENCH_URL) == "fr"
 
+    @vcr.use_cassette()
     def test_detects_english(self):
         assert language(ENGLISH_URL) == "en-US"
 
 
 class TestParts:
+    @vcr.use_cassette()
     def test_gets_the_name_right_1(self):
         first_name = parts(ENGLISH_URL)[0].name
 
         assert first_name == "Establishment of the Court"
 
+    @vcr.use_cassette()
     def test_gets_the_name_right_2(self):
         last_name = parts(ENGLISH_URL).pop().name
 
         assert last_name == "Final Clauses"
 
+    @vcr.use_cassette()
     def test_gets_the_correct_number_of_parts(self):
         number_returned = len(parts(ENGLISH_URL))
 
         assert number_returned == 13
 
+    @vcr.use_cassette()
     def test_gets_the_number_right_1(self):
         last_number = parts(ENGLISH_URL).pop().number
 
@@ -99,6 +111,7 @@ class TestFootnotes:
 class TestArticles:
     """Test the articles() function."""
 
+    @vcr.use_cassette()
     def test_returns_the_correct_amount_of_items(self):
         count = len(articles(ENGLISH_URL))
         assert count == 131
@@ -107,18 +120,22 @@ class TestArticles:
     # .number attribute
     #
 
+    @vcr.use_cassette()
     def test_gets_correct_number_a(self):
         first_article = articles(ENGLISH_URL)[0]
         assert first_article.number == "1"
 
+    @vcr.use_cassette()
     def test_gets_correct_number_b(self):
         last_article = articles(ENGLISH_URL).pop()
         assert last_article.number == "128"
 
+    @vcr.use_cassette()
     def test_correctly_parses_a_complex_number(self):
         article_8_bis = articles(ENGLISH_URL)[8]
         assert article_8_bis.number == "8 bis"
 
+    @vcr.use_cassette()
     def test_handles_numbers_with_supertext(self):
         article_5 = articles(ENGLISH_URL)[4]
         assert article_5.number == "5"
@@ -127,10 +144,12 @@ class TestArticles:
     # .part_number attribute
     #
 
+    @vcr.use_cassette()
     def test_gets_correct_part_number_a(self):
         first_article = articles(ENGLISH_URL)[0]
         assert first_article.part_number == 1
 
+    @vcr.use_cassette()
     def test_gets_correct_part_number_b(self):
         last_article = articles(ENGLISH_URL).pop()
         assert last_article.part_number == 13
@@ -139,14 +158,17 @@ class TestArticles:
     # .name attribute
     #
 
+    @vcr.use_cassette()
     def test_gets_the_first_name(self):
         first_article = articles(ENGLISH_URL)[0]
         assert first_article.name == "The Court"
 
+    @vcr.use_cassette()
     def test_gets_the_last_name(self):
         last_article = articles(ENGLISH_URL).pop()
         assert last_article.name == "Authentic texts"
 
+    @vcr.use_cassette()
     def test_handles_a_long_name(self):
         article_19 = articles(ENGLISH_URL)[21]
         assert (
@@ -154,6 +176,7 @@ class TestArticles:
             == """Challenges to the jurisdiction of the Court or the admissibility of a case"""
         )
 
+    @vcr.use_cassette()
     def test_unnamed_articles_should_have_empty_name_string(self):
         article_10 = articles(ENGLISH_URL)[10]
         assert article_10.name == ""
@@ -169,12 +192,14 @@ class TestArticles:
     # flattened form found in the HTML input.
     #
 
+    @vcr.use_cassette()
     def test_gets_simple_text(self):
         article_2_text = articles(ENGLISH_URL)[1].text
         expected_text = "The Court shall be brought into relationship with the United Nations through an agreement to be approved by the Assembly of States Parties to this Statute and thereafter concluded by the President of the Court on its behalf."
 
         assert article_2_text == expected_text
 
+    @vcr.use_cassette()
     def test_gets_complex_text(self):
         """In this example, there are just two lines/paragraphs. Each
         begins with the outline number and has normalized internal
@@ -188,6 +213,7 @@ class TestArticles:
 
         assert article_4_text == expected_text
 
+    @vcr.use_cassette()
     def test_handles_nested_outline(self):
         """This shows each paragraph from the HTML
         returned in the same, flattened form."""
@@ -203,6 +229,7 @@ class TestArticles:
 
         assert article_12_text == expected_text
 
+    @vcr.use_cassette()
     def test_handles_content_across_page_break(self):
         article_19_text = articles(ENGLISH_URL)[21].text.split("\n")[0:2]
         expected_lines = [
@@ -239,26 +266,32 @@ class TestArticles:
     # developing rules of international law for purposes other than this Statute.
     # </p>
 
+    @vcr.use_cassette()
     def test_article_5_has_correct_name(self):
         article_5 = articles(ENGLISH_URL)[4]
         assert article_5.name == "Crimes within the jurisdiction of the Court"
 
+    @vcr.use_cassette()
     def test_article_5_does_not_repeat_the_name(self):
         article_5 = articles(ENGLISH_URL)[4]
         assert article_5.text.startswith("The jurisdiction of the Court shall be")
 
+    @vcr.use_cassette()
     def test_article_8_has_correct_name(self):
         article_8 = articles(ENGLISH_URL)[7]
         assert article_8.name == "War crimes"
 
+    @vcr.use_cassette()
     def test_article_8_does_not_repeat_the_name(self):
         article_8 = articles(ENGLISH_URL)[7]
         assert article_8.text.startswith("1. The Court shall have jurisdiction")
 
+    @vcr.use_cassette()
     def test_article_9_has_correct_name(self):
         article_9 = articles(ENGLISH_URL)[9]
         assert article_9.name == "Elements of Crimes"
 
+    @vcr.use_cassette()
     def test_article_9_does_not_repeat_the_name(self):
         article_9 = articles(ENGLISH_URL)[9]
         assert article_9.text.startswith("1. Elements of Crimes shall assist")
