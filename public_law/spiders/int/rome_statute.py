@@ -16,17 +16,19 @@ class RomeStatute(Spider):
         """Scrapy framework callback which begins the parsing."""
 
         for url in start_page_urls(response):
-            if "Rome-Statute.pdf" in url:  # Only parse the English version
-                yield {"metadata": new_metadata(url).as_dublin_core_dict()}
+            if "Rome-Statute.pdf" not in url:  # Skip non-English versions for now.
+                continue
 
-                for part in parts(url):
-                    yield {"part": part.dict()}
+            yield {"metadata": new_metadata(url).as_dublin_core_dict()}
 
-                for article in articles(url):
-                    yield {"article": article.dict()}
+            for part in parts(url):
+                yield {"part": part.dict()}
 
-                for footnote in footnotes():
-                    yield {"footnote": footnote.dict()}
+            for article in articles(url):
+                yield {"article": article.dict()}
+
+            for footnote in footnotes():
+                yield {"footnote": footnote.dict()}
 
 
 #
