@@ -3,7 +3,7 @@ from functools import cache
 from typing import Any, List
 
 from bs4 import BeautifulSoup
-from pydantic import BaseModel, validator, ValidationError
+from pydantic import BaseModel as PydanticBaseModel, validator
 from tika import parser
 from titlecase import titlecase
 
@@ -20,6 +20,11 @@ LANGUAGE_MAP = {
 JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
 
 
+class BaseModel(PydanticBaseModel):
+    class Config:
+        frozen = True
+
+
 def validate_format(text: str, regex: str) -> str:
     """Validates by testing whether the text matches the given regex."""
 
@@ -30,12 +35,13 @@ def validate_format(text: str, regex: str) -> str:
 
 def validate_inclusion(number: int, r: range) -> int:
     """Validates that the number is in the given range."""
+
     if not number in r:
         raise ValueError(f"{number} isn't in {r}")
     return number
 
 
-class Part(BaseModel, frozen=True):
+class Part(BaseModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
@@ -178,7 +184,7 @@ def parts(pdf_url: str) -> list[Part]:
 
             part_objects.append(
                 Part(
-                    number=int(number),
+                    number=number,
                     name=S(normalize_whitespace(titlecase(name))),
                 )
             )
