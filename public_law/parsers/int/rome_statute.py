@@ -21,7 +21,7 @@ JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergo
 
 
 class FrozenModel(BaseModel):
-    """Make all models frozen."""
+    """Makes the model frozen."""
 
     class Config:
         frozen = True
@@ -49,7 +49,7 @@ class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
-    number: int
+    number: conint(ge=1, le=10)  # type: ignore
     article_number: S
     text: S
 
