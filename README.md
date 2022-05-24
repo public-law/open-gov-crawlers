@@ -86,13 +86,11 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.9
+### Python 3.10
 
 I'm personally using
 [pyenv](https://github.com/pyenv/pyenv) to install Python, but
 [asdf](https://asdf-vm.com/#/) is a good option too.
-
-I'd like to upgrade to Python 3.10 as soon as Zyte supports it.
 
 
 ### [Poetry](https://python-poetry.org/) for dependency management
@@ -119,6 +117,7 @@ pytest
 
 ## Other tools
 
+* Java is required by the Python Tika package.
 * Pylint for linting
 * Pylance/Pyright for type-checking
 * Black for formatting
