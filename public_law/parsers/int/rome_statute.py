@@ -3,7 +3,11 @@ from functools import cache
 from typing import Any, List
 
 from bs4 import BeautifulSoup
-from pydantic import BaseModel as PydanticBaseModel, validator
+from pydantic import (
+    BaseModel as PydanticBaseModel,
+    conint,
+    constr,
+)
 from tika import parser
 from titlecase import titlecase
 
@@ -25,36 +29,12 @@ class BaseModel(PydanticBaseModel):
         frozen = True
 
 
-def validate_format(text: str, regex: str) -> str:
-    """Validates by testing whether the text matches the given regex."""
-
-    if not re.match(regex, text):
-        raise ValueError(f"'{text}' does not match {regex}")
-    return text
-
-
-def validate_inclusion(number: int, r: range) -> int:
-    """Validates that the number is in the given range."""
-
-    if not number in r:
-        raise ValueError(f"{number} isn't in {r}")
-    return number
-
-
 class Part(BaseModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: int
-    name: S
-
-    @validator("name")
-    def must_be_simple_text(cls, v):
-        return validate_format(v, r"^[ a-zA-Z,]+$")
-
-    @validator("number")
-    def must_be_in_reasonable_range(cls, v):
-        return validate_inclusion(v, range(1, 14))
+    number: conint(ge=1, le=13)  # type: ignore
+    name: constr(regex=r"^[ a-zA-Z,]+$")  # type: ignore
 
 
 class Article(BaseModel):
