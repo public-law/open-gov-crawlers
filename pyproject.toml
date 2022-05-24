@@ -15,6 +15,7 @@ toolz = "0.*"
 spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 tika = "^1.24"
 beautifulsoup4 = "^4.10.0"
+pydantic = "*"
 
 [tool.poetry.dev-dependencies]
 pytest-watch = "*"

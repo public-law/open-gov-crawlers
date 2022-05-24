@@ -1,13 +1,14 @@
 import re
 from functools import cache
-from typing import Any, NamedTuple, List
+from typing import Any, List
 
 from bs4 import BeautifulSoup
-from public_law.metadata import Metadata
-from public_law.text import NonemptyString as S, normalize_whitespace
+from pydantic import BaseModel, validator, ValidationError
 from tika import parser
 from titlecase import titlecase
 
+from public_law.metadata import Metadata
+from public_law.text import NonemptyString as S, normalize_whitespace
 
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",
@@ -19,15 +20,38 @@ LANGUAGE_MAP = {
 JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
 
 
-class Part(NamedTuple):
+def validate_format(text: str, regex: str) -> str:
+    """Validates by testing whether the text matches the given regex."""
+
+    if not re.match(regex, text):
+        raise ValueError(f"'{text}' does not match {regex}")
+    return text
+
+
+def validate_inclusion(number: int, r: range) -> int:
+    """Validates that the number is in the given range."""
+    if not number in r:
+        raise ValueError(f"{number} isn't in {r}")
+    return number
+
+
+class Part(BaseModel, frozen=True):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
     number: int
     name: S
 
+    @validator("name")
+    def must_be_simple_text(cls, v):
+        return validate_format(v, r"^[ a-zA-Z,]+$")
 
-class Article(NamedTuple):
+    @validator("number")
+    def must_be_in_reasonable_range(cls, v):
+        return validate_inclusion(v, range(1, 14))
+
+
+class Article(BaseModel):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
@@ -37,7 +61,7 @@ class Article(NamedTuple):
     text: str
 
 
-class Footnote(NamedTuple):
+class Footnote(BaseModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
