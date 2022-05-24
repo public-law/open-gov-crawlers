@@ -1,6 +1,8 @@
 import pytest
 import vcr
 from urllib import error
+import devtools
+from pydantic import ValidationError
 
 from public_law.parsers.int.rome_statute import (
     articles,

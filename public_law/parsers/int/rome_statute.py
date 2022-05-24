@@ -1,13 +1,14 @@
 import re
 from functools import cache
-from typing import Any, NamedTuple, List
+from typing import Any, List
 
 from bs4 import BeautifulSoup
-from public_law.metadata import Metadata
-from public_law.text import NonemptyString as S, normalize_whitespace
+from pydantic import BaseModel, conint, constr
 from tika import parser
 from titlecase import titlecase
 
+from public_law.metadata import Metadata
+from public_law.text import NonemptyString as S, normalize_whitespace
 
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",
@@ -19,25 +20,32 @@ LANGUAGE_MAP = {
 JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
 
 
-class Part(NamedTuple):
+class FrozenModel(BaseModel):
+    """Make all models frozen."""
+
+    class Config:
+        frozen = True
+
+
+class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: int
-    name: S
+    number: conint(ge=1, le=13)  # type: ignore
+    name: constr(regex=r"^[ a-zA-Z,]+$")  # type: ignore
 
 
-class Article(NamedTuple):
+class Article(FrozenModel):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: int
-    name: str
+    part_number: conint(ge=1, le=13)  # type: ignore
+    name: constr(regex=r"^[ a-zA-Z0-9,:\-\(\)]*$")  # type: ignore
     text: str
 
 
-class Footnote(NamedTuple):
+class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
@@ -154,7 +162,7 @@ def parts(pdf_url: str) -> list[Part]:
 
             part_objects.append(
                 Part(
-                    number=int(number),
+                    number=number,
                     name=S(normalize_whitespace(titlecase(name))),
                 )
             )
@@ -212,8 +220,10 @@ def _article(article: str, part_number: int) -> Article:
     soup = BeautifulSoup(article, features="lxml")
     raw_article = re.split(r"\n", soup.get_text(), 2)
 
+    name = normalize_whitespace(raw_article[1]).strip()
+
     return Article(
-        name=normalize_whitespace(raw_article[1]).strip(),
+        name=name,
         number=raw_article[0].split(" ", 1)[1].strip(),
         text=_clean_article_text(raw_article[2].strip()),
         part_number=part_number,
