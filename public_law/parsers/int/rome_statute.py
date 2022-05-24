@@ -3,11 +3,7 @@ from functools import cache
 from typing import Any, List
 
 from bs4 import BeautifulSoup
-from pydantic import (
-    BaseModel as PydanticBaseModel,
-    conint,
-    constr,
-)
+from pydantic import BaseModel, conint, constr
 from tika import parser
 from titlecase import titlecase
 
@@ -24,12 +20,14 @@ LANGUAGE_MAP = {
 JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
 
 
-class BaseModel(PydanticBaseModel):
+class FrozenModel(BaseModel):
+    """Make all models frozen."""
+
     class Config:
         frozen = True
 
 
-class Part(BaseModel):
+class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
@@ -37,17 +35,17 @@ class Part(BaseModel):
     name: constr(regex=r"^[ a-zA-Z,]+$")  # type: ignore
 
 
-class Article(BaseModel):
+class Article(FrozenModel):
     """An 'Article' in the Rome Statute; an actual readable
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: int
-    name: str
+    part_number: conint(ge=1, le=13)  # type: ignore
+    name: constr(regex=r"^[ a-zA-Z0-9,:\-\(\)]*$")  # type: ignore
     text: str
 
 
-class Footnote(BaseModel):
+class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
@@ -222,8 +220,10 @@ def _article(article: str, part_number: int) -> Article:
     soup = BeautifulSoup(article, features="lxml")
     raw_article = re.split(r"\n", soup.get_text(), 2)
 
+    name = normalize_whitespace(raw_article[1]).strip()
+
     return Article(
-        name=normalize_whitespace(raw_article[1]).strip(),
+        name=name,
         number=raw_article[0].split(" ", 1)[1].strip(),
         text=_clean_article_text(raw_article[2].strip()),
         part_number=part_number,
