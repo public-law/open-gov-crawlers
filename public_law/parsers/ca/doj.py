@@ -96,14 +96,13 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 def parse_name(main: SelectorLike) -> str:
     name = first(main, "h1::text", "name")
 
-    if len(main.css("h2")) == 0:  # pyright: reportUnknownArgumentType=false
+    if (
+        len(main.css(".main-content > h2")) == 0
+    ):  # pyright: reportUnknownArgumentType=false
         return name
 
-    match main.xpath("string(./h2)").get():
-        case str(h2_text):
-            return f"{name}; {h2_text}"
-        case _:
-            raise ParseException("Could not parse name")
+    h2_text = first(main, ".main-content > h2::text", "sub-title")
+    return f"{name}; {h2_text}"
 
 
 def first(node: SelectorLike, css: str, expected: str) -> str:
