@@ -51,7 +51,7 @@ class TestParseGlossary:
     def test_gets_the_name_when_it_contains_an_anchor(self):
         assert (
             parsed_glossary_glos().name
-            == "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
+            == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"  # "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
         )
 
     def test_phrase_does_not_end_with_colon(self):

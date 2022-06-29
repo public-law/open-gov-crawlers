@@ -41,10 +41,8 @@ class GlossarySourceParseResult(NamedTuple):
 
 
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
-    main: SelectorList = html.css("main")
-
-    name = parse_name(main)
-    pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
+    name = parse_name(html)
+    pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: list[GlossaryEntry] = []
     dl_lists: list[Any] = html.css("main dl")
@@ -93,19 +91,11 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     )
 
 
-def parse_name(main: SelectorLike) -> str:
-    name = first(main, "h1::text", "name")
-
-    if (
-        len(main.css(".main-content > h2")) == 0
-    ):  # pyright: reportUnknownArgumentType=false
-        return name
-
-    h2_text = first(main, ".main-content > h2::text", "sub-title")
-    return f"{name}; {h2_text}"
+def parse_name(html: SelectorLike) -> str:
+    return first_match(html, "title::text", "name")
 
 
-def first(node: SelectorLike, css: str, expected: str) -> str:
+def first_match(node: SelectorLike, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
             return normalize_whitespace(result)
