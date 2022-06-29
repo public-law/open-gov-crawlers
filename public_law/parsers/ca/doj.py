@@ -7,7 +7,7 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
-from public_law.text import NonemptyString, normalize_whitespace
+from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
 from public_law.dates import todays_date
 
 
@@ -60,12 +60,14 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
         assert isinstance(prop, Selector)
 
         # Get the inner text and preserve inner HTML.
-        definition: str = (
-            prop.xpath("./following-sibling::dd")
-            .get()
-            .replace("<dd>", "")
-            .replace("</dd>", "")
-            .replace("  ", " ")
+        definition = capitalize_first_char(
+            (
+                prop.xpath("./following-sibling::dd")
+                .get()
+                .replace("<dd>", "")
+                .replace("</dd>", "")
+                .replace("  ", " ")
+            )
         )
         phrase: str = prop.xpath("normalize-space(descendant::text())").get()
 

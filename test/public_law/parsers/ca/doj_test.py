@@ -78,7 +78,7 @@ class TestParseGlossary:
     def test_gets_a_term_case_1(self):
         term = self.result.entries[2]
         assert term.phrase == "Adjournment"
-        assert term.definition == "postponement of a court hearing to another date."
+        assert term.definition == "Postponement of a court hearing to another date."
 
     def test_parses_emphasized_text(self):
         definition_with_em = self.p11_result.entries[0].definition

@@ -23,6 +23,11 @@ def normalize_whitespace(text: str) -> str:
     return " ".join(text.strip().split())
 
 
+def capitalize_first_char(text: str) -> str:
+    """Capitalize the first character of the string"""
+    return text[0].upper() + text[1:]
+
+
 class NonemptyString(str):
     """A string which is guaranteed to have length > 0
 
