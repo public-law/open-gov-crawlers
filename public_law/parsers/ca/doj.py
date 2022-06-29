@@ -1,6 +1,7 @@
 # pyright: reportUnknownMemberType=false
 
 
+import re
 from typing import Any, NamedTuple, TypeAlias
 
 from scrapy.selector.unified import Selector
@@ -69,7 +70,9 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
                 .replace("  ", " ")
             )
         )
-        phrase: str = prop.xpath("normalize-space(descendant::text())").get()
+        phrase = re.sub(
+            r":$", "", prop.xpath("normalize-space(descendant::text())").get()
+        )
 
         entries.append(
             GlossaryEntry(

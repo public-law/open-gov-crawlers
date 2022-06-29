@@ -54,6 +54,9 @@ class TestParseGlossary:
             == "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
         )
 
+    def test_phrase_does_not_end_with_colon(self):
+        assert parsed_glossary_glos().entries[0].phrase == "Alienated Parent"
+
     def test_gets_the_name_when_there_is_just_an_h1(self):
         assert parsed_glossary_index().name == "Glossary of technical terms"
 
