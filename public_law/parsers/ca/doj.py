@@ -1,6 +1,5 @@
 # pyright: reportUnknownMemberType=false
 
-
 import re
 from typing import Any, NamedTuple, TypeAlias
 
@@ -58,19 +57,20 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     for prop in first_dl_list.xpath("dt"):
         assert isinstance(prop, Selector)
 
-        # Get the inner text and preserve inner HTML.
-        definition = capitalize_first_char(
-            (
-                prop.xpath("./following-sibling::dd")
-                .get()
-                .replace("<dd>", "")
-                .replace("</dd>", "")
-                .replace("  ", " ")
-            )
-        )
-        phrase = re.sub(
-            r":$", "", prop.xpath("normalize-space(descendant::text())").get()
-        )
+        match prop.xpath("./following-sibling::dd").get():
+            case str(result):
+                # Get the inner text and preserve inner HTML.
+                definition = capitalize_first_char(
+                    (result.replace("<dd>", "").replace("</dd>", "").replace("  ", " "))
+                )
+            case _:
+                raise ParseException("Could not parse the definition")
+
+        match prop.xpath("normalize-space(descendant::text())").get():
+            case str(result):
+                phrase = re.sub(r":$", "", result)
+            case _:
+                raise ParseException("Could not parse the phrase")
 
         entries.append(
             GlossaryEntry(
