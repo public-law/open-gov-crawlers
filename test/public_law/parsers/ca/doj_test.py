@@ -44,8 +44,7 @@ class TestParseGlossary:
 
     def test_gets_the_name(self):
         assert (
-            self.result.name
-            == "Legal Aid Program Evaluation, Final Report; Glossary of Legal Terms"
+            self.result.name == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
         )
 
     def test_gets_the_name_when_it_contains_an_anchor(self):
