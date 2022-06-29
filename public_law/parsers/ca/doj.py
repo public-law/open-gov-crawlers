@@ -92,8 +92,8 @@ def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
         return name
 
     match main.xpath("string(./h2)").get():
-        case str(h2):
-            return f"{name}; {h2}"
+        case str(h2_text):
+            return f"{name}; {h2_text}"
         case _:
             raise ParseException("Could not parse name")
 
