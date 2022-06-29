@@ -1,7 +1,7 @@
 # pyright: reportUnknownMemberType=false
 
 
-from typing import Any, List, NamedTuple, Union
+from typing import Any, NamedTuple, TypeAlias
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
@@ -9,6 +9,9 @@ from scrapy.selector.unified import SelectorList
 
 from public_law.text import NonemptyString, normalize_whitespace
 from public_law.dates import todays_date
+
+
+SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
 
 class ParseException(Exception):
@@ -33,7 +36,7 @@ class GlossarySourceParseResult(NamedTuple):
     author: str
     pub_date: str
     scrape_date: str
-    entries: List[GlossaryEntry]
+    entries: list[GlossaryEntry]
 
 
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
@@ -42,7 +45,7 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     name = parse_name(main)
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
-    entries: List[GlossaryEntry] = []
+    entries: list[GlossaryEntry] = []
     dl_lists: list[Any] = html.css("main dl")
     if len(dl_lists) == 0:
         raise ParseException("No DL lists found")
@@ -85,7 +88,7 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     )
 
 
-def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
+def parse_name(main: SelectorLike) -> str:
     name = first(main, "h1::text", "name")
 
     if len(main.css("h2")) == 0:  # pyright: reportUnknownArgumentType=false
@@ -98,7 +101,7 @@ def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
             raise ParseException("Could not parse name")
 
 
-def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
+def first(node: SelectorLike, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
             return normalize_whitespace(result)
