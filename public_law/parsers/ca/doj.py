@@ -1,4 +1,7 @@
-from typing import List, NamedTuple, Union
+# pyright: reportUnknownMemberType=false
+
+
+from typing import Any, List, NamedTuple, Union
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
@@ -40,7 +43,7 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: List[GlossaryEntry] = []
-    dl_lists = html.css("main dl")
+    dl_lists: list[Any] = html.css("main dl")
     if len(dl_lists) == 0:
         raise ParseException("No DL lists found")
 
@@ -49,18 +52,19 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     else:
         raise ParseException("Expected a <dl>")
 
+    prop: Any
     for prop in first_dl_list.xpath("dt"):
         assert isinstance(prop, Selector)
 
         # Get the inner text and preserve inner HTML.
-        definition = (
+        definition: str = (
             prop.xpath("./following-sibling::dd")
             .get()
             .replace("<dd>", "")
             .replace("</dd>", "")
             .replace("  ", " ")
         )
-        phrase = prop.xpath("normalize-space(descendant::text())").get()
+        phrase: str = prop.xpath("normalize-space(descendant::text())").get()
 
         entries.append(
             GlossaryEntry(
@@ -69,8 +73,10 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
             )
         )
 
+    url: str = html.url
+
     return GlossarySourceParseResult(
-        source_url=html.url,
+        source_url=url,
         name=name,
         author="Department of Justice Canada",
         pub_date=pub_date,
@@ -82,14 +88,19 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
     name = first(main, "h1::text", "name")
 
-    if len(main.css("h2")) == 0:
+    if len(main.css("h2")) == 0:  # pyright: reportUnknownArgumentType=false
         return name
 
-    return name + "; " + main.xpath("string(./h2)").get()
+    match main.xpath("string(./h2)").get():
+        case str(h2):
+            return f"{name}, {h2}"
+        case _:
+            raise ParseException("Could not parse name")
 
 
 def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
-    result = node.css(css).get()
-    if result is None:
-        raise ParseException(f'Could not parse the {expected} using "{css}"')
-    return normalize_whitespace(result)
+    match node.css(css).get():
+        case str(result):
+            return normalize_whitespace(result)
+        case _:
+            raise ParseException(f'Could not parse the {expected} using "{css}"')
