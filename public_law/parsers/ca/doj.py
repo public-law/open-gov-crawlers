@@ -1,11 +1,17 @@
-from typing import List, NamedTuple, Union
+# pyright: reportUnknownMemberType=false
+
+import re
+from typing import Any, NamedTuple, TypeAlias
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
-from public_law.text import NonemptyString, normalize_whitespace
+from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
 from public_law.dates import todays_date
+
+
+SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
 
 class ParseException(Exception):
@@ -30,17 +36,15 @@ class GlossarySourceParseResult(NamedTuple):
     author: str
     pub_date: str
     scrape_date: str
-    entries: List[GlossaryEntry]
+    entries: list[GlossaryEntry]
 
 
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
-    main: SelectorList = html.css("main")
+    name = parse_name(html)
+    pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
 
-    name = parse_name(main)
-    pub_date = first(html, "dl#wb-dtmd time::text", "Pub. date")
-
-    entries: List[GlossaryEntry] = []
-    dl_lists = html.css("main dl")
+    entries: list[GlossaryEntry] = []
+    dl_lists: list[Any] = html.css("main dl")
     if len(dl_lists) == 0:
         raise ParseException("No DL lists found")
 
@@ -49,18 +53,24 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     else:
         raise ParseException("Expected a <dl>")
 
+    prop: Any
     for prop in first_dl_list.xpath("dt"):
         assert isinstance(prop, Selector)
 
-        # Get the inner text and preserve inner HTML.
-        definition = (
-            prop.xpath("./following-sibling::dd")
-            .get()
-            .replace("<dd>", "")
-            .replace("</dd>", "")
-            .replace("  ", " ")
-        )
-        phrase = prop.xpath("normalize-space(descendant::text())").get()
+        match prop.xpath("./following-sibling::dd").get():
+            case str(result):
+                # Get the inner text and preserve inner HTML.
+                definition = capitalize_first_char(
+                    (result.replace("<dd>", "").replace("</dd>", "").replace("  ", " "))
+                )
+            case _:
+                raise ParseException("Could not parse the definition")
+
+        match prop.xpath("normalize-space(descendant::text())").get():
+            case str(result):
+                phrase = re.sub(r":$", "", result)
+            case _:
+                raise ParseException("Could not parse the phrase")
 
         entries.append(
             GlossaryEntry(
@@ -69,8 +79,10 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
             )
         )
 
+    url: str = html.url
+
     return GlossarySourceParseResult(
-        source_url=html.url,
+        source_url=url,
         name=name,
         author="Department of Justice Canada",
         pub_date=pub_date,
@@ -79,17 +91,13 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     )
 
 
-def parse_name(main: Union[SelectorList, HtmlResponse]) -> str:
-    name = first(main, "h1::text", "name")
-
-    if len(main.css("h2")) == 0:
-        return name
-
-    return name + "; " + main.xpath("string(./h2)").get()
+def parse_name(html: SelectorLike) -> str:
+    return first_match(html, "title::text", "name")
 
 
-def first(node: Union[SelectorList, HtmlResponse], css: str, expected: str) -> str:
-    result = node.css(css).get()
-    if result is None:
-        raise ParseException(f'Could not parse the {expected} using "{css}"')
-    return normalize_whitespace(result)
+def first_match(node: SelectorLike, css: str, expected: str) -> str:
+    match node.css(css).get():
+        case str(result):
+            return normalize_whitespace(result)
+        case _:
+            raise ParseException(f'Could not parse the {expected} using "{css}"')

@@ -1,4 +1,4 @@
-from scrapy.http import HtmlResponse
+from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
 from public_law.dates import todays_date
 
@@ -16,7 +16,7 @@ def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
 
 def parsed_glossary() -> GlossarySourceParseResult:
     return parsed_fixture(
-        "legal-aid-glossary.html",
+        "p7g.html",
         "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
     )
 
@@ -44,18 +44,20 @@ class TestParseGlossary:
 
     def test_gets_the_name(self):
         assert (
-            self.result.name
-            == "Legal Aid Program Evaluation, Final Report; Glossary of Legal Terms"
+            self.result.name == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
         )
 
     def test_gets_the_name_when_it_contains_an_anchor(self):
         assert (
             parsed_glossary_glos().name
-            == "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
+            == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"  # "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
         )
 
+    def test_phrase_does_not_end_with_colon(self):
+        assert parsed_glossary_glos().entries[0].phrase == "Alienated Parent"
+
     def test_gets_the_name_when_there_is_just_an_h1(self):
-        assert parsed_glossary_index().name == "Glossary of technical terms"
+        assert parsed_glossary_index().name == "Glossary"  # Unfortunately.
 
     def test_gets_the_url(self):
         assert (
@@ -67,7 +69,7 @@ class TestParseGlossary:
         assert self.result.author == "Department of Justice Canada"
 
     def test_gets_the_publication_date(self):
-        assert self.result.pub_date == "2015-01-07"
+        assert self.result.pub_date == "2022-05-13"
 
     def test_gets_the_scrape_date(self):
         assert self.result.scrape_date == todays_date()
@@ -78,7 +80,7 @@ class TestParseGlossary:
     def test_gets_a_term_case_1(self):
         term = self.result.entries[2]
         assert term.phrase == "Adjournment"
-        assert term.definition == "postponement of a court hearing to another date."
+        assert term.definition == "Postponement of a court hearing to another date."
 
     def test_parses_emphasized_text(self):
         definition_with_em = self.p11_result.entries[0].definition

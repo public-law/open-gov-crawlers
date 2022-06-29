@@ -86,11 +86,10 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.10
+### Python 3.10.5
 
-I'm personally using
-[pyenv](https://github.com/pyenv/pyenv) to install Python, but
-[asdf](https://asdf-vm.com/#/) is a good option too.
+I'm using [asdf](https://asdf-vm.com/#/) because the Homebrew distribution
+is more up-to-date than pyenv.
 
 
 ### [Poetry](https://python-poetry.org/) for dependency management
