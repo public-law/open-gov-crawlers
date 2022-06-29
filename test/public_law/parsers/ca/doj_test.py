@@ -1,4 +1,4 @@
-from scrapy.http import HtmlResponse
+from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
 from public_law.dates import todays_date
 
