@@ -57,7 +57,7 @@ class TestParseGlossary:
         assert parsed_glossary_glos().entries[0].phrase == "Alienated Parent"
 
     def test_gets_the_name_when_there_is_just_an_h1(self):
-        assert parsed_glossary_index().name == "Glossary of technical terms"
+        assert parsed_glossary_index().name == "Glossary"  # Unfortunately.
 
     def test_gets_the_url(self):
         assert (
