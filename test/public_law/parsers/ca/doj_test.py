@@ -16,7 +16,7 @@ def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
 
 def parsed_glossary() -> GlossarySourceParseResult:
     return parsed_fixture(
-        "legal-aid-glossary.html",
+        "p7g.html",
         "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
     )
 
@@ -70,7 +70,7 @@ class TestParseGlossary:
         assert self.result.author == "Department of Justice Canada"
 
     def test_gets_the_publication_date(self):
-        assert self.result.pub_date == "2015-01-07"
+        assert self.result.pub_date == "2022-05-13"
 
     def test_gets_the_scrape_date(self):
         assert self.result.scrape_date == todays_date()
