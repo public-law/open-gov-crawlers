@@ -30,3 +30,30 @@ class TestMetadata:
         }
 
         assert generated_dict == expected_dict
+
+    def test_creates_expected_dict_2(self):
+        metadata = Metadata(
+            dc_creator=S("The creator"),
+            dc_identifier=S("https://x.y.z"),
+            dc_source=S("https://a.b.c"),
+            dc_title=S("The Title"),
+            dc_language="en",
+            dcterms_modified=today(),
+        )
+        generated_dict = dict(metadata)
+
+        # fmt: off
+        expected_dict = {
+            "dc:creator":       "The creator",
+            "dc:identifier":    "https://x.y.z",
+            "dc:language":      "en",
+            "dc:publisher":     "https://public.law",
+            "dc:source":        "https://a.b.c",
+            "dc:title":         "The Title",
+            "dc:type":          "Dataset",
+            "dcterms:license":  "https://creativecommons.org/licenses/by/4.0/",
+            "dcterms:modified": today(),
+            "accessed":         today(),
+        }
+
+        assert generated_dict == expected_dict

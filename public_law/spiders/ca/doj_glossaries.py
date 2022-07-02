@@ -22,4 +22,4 @@ class DojGlossaries(Spider):
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing."""
 
-        yield parse_glossary(response)
+        yield dict(parse_glossary(response))

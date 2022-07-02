@@ -47,6 +47,18 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
 
         return asdict(self, dict_factory=_make_dc_dict)
 
+    def __iter__(self):
+        return iter(self.as_dublin_core_dict().items())
+
+    def __getitem__(self, k: str) -> Any:
+        return self.as_dublin_core_dict().__getitem__(k)
+
+    def __len__(self):
+        return self.as_dublin_core_dict().__len__()
+
+    def __repr__(self) -> str:
+        return asdict(self).__repr__()
+
 
 def _make_dc_dict(item_list: list[tuple[str, Any]]) -> dict[str, Any]:
     """Transform the keys in the items by converting underscores

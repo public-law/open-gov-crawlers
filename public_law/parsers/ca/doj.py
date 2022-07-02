@@ -20,7 +20,7 @@ class ParseException(Exception):
     pass
 
 
-@dataclass(frozen=True, repr=True)
+@dataclass(frozen=True)
 class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""
 
@@ -28,12 +28,23 @@ class GlossaryEntry:
     definition: NonemptyString
 
 
-@dataclass(frozen=True, repr=True)
+@dataclass(frozen=True)
 class GlossarySourceParseResult:
     """All the info about a glossary source"""
 
     metadata: Metadata
     entries: list[GlossaryEntry]
+
+    def __iter__(self):
+        """Iterate over the entries in this glossary source.
+        This customizes the produced dict to properly process the
+        metadata."""
+
+        new_dict: dict[str, Any] = {
+            "metadata": dict(self.metadata),
+            "entries": self.entries,
+        }
+        return iter(new_dict.items())
 
 
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
