@@ -103,9 +103,9 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     url: str = html.url
 
     metadata = Metadata(
-        dc_source=NonemptyString(url),
-        dc_title=NonemptyString(name),
-        dc_language="en",
+        dcterms_source=NonemptyString(url),
+        dcterms_title=NonemptyString(name),
+        dcterms_language="en",
         dcterms_coverage=NonemptyString("Canada"),
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),

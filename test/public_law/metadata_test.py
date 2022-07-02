@@ -6,9 +6,9 @@ from public_law.dates import today
 class TestMetadata:
     def test_creates_expected_dict_1(self):
         metadata = Metadata(
-            dc_source=S("https://a.b.c"),
-            dc_title=S("The Title"),
-            dc_language="en",
+            dcterms_source=S("https://a.b.c"),
+            dcterms_title=S("The Title"),
+            dcterms_language="en",
             dcterms_modified=today(),
             dcterms_coverage=S('Canada'),
             publiclaw_sourceModified=today(),
@@ -18,15 +18,15 @@ class TestMetadata:
 
         # fmt: off
         expected_dict = {
-            "dc:creator":         "https://public.law",
-            "dc:language":        "en",
-            "dc:source":          "https://a.b.c",
-            "dc:title":           "The Title",
-            "dc:type":            "Dataset",
-            "dcterms:coverage":   "Canada",
-            "dcterms:format":     "application/json",
-            "dcterms:license":    "https://creativecommons.org/licenses/by/4.0/",
-            "dcterms:modified":   today(),
+            "dcterms:creator":          "https://public.law",
+            "dcterms:language":         "en",
+            "dcterms:source":           "https://a.b.c",
+            "dcterms:title":            "The Title",
+            "dcterms:type":             "Dataset",
+            "dcterms:coverage":         "Canada",
+            "dcterms:format":           "application/json",
+            "dcterms:license":          "https://creativecommons.org/licenses/by/4.0/",
+            "dcterms:modified":         today(),
             "publiclaw:sourceModified": today(),
             "publiclaw:sourceCreator":  "Some Canadian Agency",
         }
@@ -35,9 +35,9 @@ class TestMetadata:
 
     def test_creates_expected_dict_2(self):
         metadata = Metadata(
-            dc_source=S("https://a.b.c"),
-            dc_title=S("The Title"),
-            dc_language="en",
+            dcterms_source=S("https://a.b.c"),
+            dcterms_title=S("The Title"),
+            dcterms_language="en",
             dcterms_modified=today(),
             dcterms_coverage=S('Canada'),
             publiclaw_sourceModified=today(),
@@ -47,11 +47,11 @@ class TestMetadata:
 
         # fmt: off
         expected_dict = {
-            "dc:creator":               "https://public.law",
-            "dc:language":              "en",
-            "dc:source":                "https://a.b.c",
-            "dc:title":                 "The Title",
-            "dc:type":                  "Dataset",
+            "dcterms:creator":          "https://public.law",
+            "dcterms:language":         "en",
+            "dcterms:source":           "https://a.b.c",
+            "dcterms:title":            "The Title",
+            "dcterms:type":             "Dataset",
             "dcterms:coverage":         "Canada",
             "dcterms:format":           "application/json",
             "dcterms:license":          "https://creativecommons.org/licenses/by/4.0/",
