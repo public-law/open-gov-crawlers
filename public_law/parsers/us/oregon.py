@@ -24,14 +24,22 @@ def oar_url(relative_fragment: str) -> str:
 def parse_division(html: Response) -> List[Rule]:
     """A 'Division' has an HTML page which lists many Rules."""
 
-    rules = [
+    # rules = [
+    #     _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+    # ]
+
+    # if len(rules) == 0:
+    #     raise ParseException("Found no Rules in the Division")
+
+    # return rules
+
+    match [
         _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
-    ]
-
-    if len(rules) == 0:
-        raise ParseException("Found no Rules in the Division")
-
-    return rules
+    ]:
+        case []:
+            raise ParseException("Found no Rules in the Division")
+        case rules:
+            return rules
 
 
 def _parse_rule(rule_div: Selector) -> Rule:

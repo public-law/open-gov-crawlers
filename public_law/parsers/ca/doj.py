@@ -1,4 +1,5 @@
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
 
 import re
 from typing import Any, NamedTuple, TypeAlias
@@ -44,14 +45,21 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: list[GlossaryEntry] = []
-    dl_lists: list[Any] = html.css("main dl")
-    if len(dl_lists) == 0:
-        raise ParseException("No DL lists found")
 
-    if isinstance(dl_lists[0], Selector):
-        first_dl_list = dl_lists[0]
-    else:
-        raise ParseException("Expected a <dl>")
+    # dl_lists: list[Any] = html.css("main dl")
+    # if len(dl_lists) == 0:
+    #     raise ParseException("No DL lists found")
+
+    # if isinstance(dl_lists[0], Selector):
+    #     first_dl_list = dl_lists[0]
+    # else:
+    #     raise ParseException("Expected a <dl>")
+
+    match html.css("main dl"):
+        case [first, *_] if isinstance(first, Selector):
+            first_dl_list = first
+        case _:
+            raise ParseException("Expected a <dl>")
 
     prop: Any
     for prop in first_dl_list.xpath("dt"):

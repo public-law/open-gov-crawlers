@@ -156,18 +156,19 @@ def parts(pdf_url: str) -> list[Part]:
 
     part_objects: list[Part] = []
     for paragraph in part_paragraphs:
-        if matches := re.match(r"^PART (\d+)\. +(\D+)", paragraph):
-            number = matches.group(1)
-            name = matches.group(2)
 
-            part_objects.append(
-                Part(
-                    number=number,
-                    name=S(normalize_whitespace(titlecase(name))),
+        match re.findall(r"^PART (\d+)\. +(\D+)", paragraph):
+            case [(number, name)]:
+                part_objects.append(
+                    Part(
+                        number=number,
+                        name=S(normalize_whitespace(titlecase(name))),
+                    )
                 )
-            )
-        else:
-            raise Exception(f"The paragraph didn't match the Part regex: {paragraph}")
+            case _:
+                raise Exception(
+                    f"The paragraph didn't match the Part regex: {paragraph}"
+                )
 
     part_objects = list(dict.fromkeys(part_objects).keys())
     return part_objects
