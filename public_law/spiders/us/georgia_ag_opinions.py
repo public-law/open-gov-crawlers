@@ -2,7 +2,7 @@ from public_law.parsers.us.georgia import parse_ag_opinion
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response import Response
-from typing import Any, Dict
+from typing import Any, Dict, cast
 
 
 class GeorgiaAgOpinions(Spider):
@@ -27,11 +27,14 @@ class GeorgiaAgOpinions(Spider):
         # 1. Find all the individual opinions on this index page
         # and request a parse for each.
         #
-        opinion_paths = response.xpath(
-            "//td[contains(@class, 'views-field-title')]/a/@href"
-        ).getall()
+        opinion_paths = cast(
+            list[str],
+            response.xpath(
+                "//td[contains(@class, 'views-field-title')]/a/@href"
+            ).getall(),
+        )
 
-        for url in [response.urljoin(p) for p in opinion_paths]:
+        for url in [cast(str, response.urljoin(p)) for p in opinion_paths]:
             yield Request(url, callback=self.parse_opinion_page)
 
         #
@@ -46,5 +49,5 @@ class GeorgiaAgOpinions(Spider):
                 response.urljoin(next_page_path), callback=self.parse_index_page
             )
 
-    def parse_opinion_page(self, response: Response):  # pylint:disable=no-self-use
+    def parse_opinion_page(self, response: Response):
         yield parse_ag_opinion(response)._asdict()

@@ -36,11 +36,11 @@ class TestParseAgOpinion:
         )
         assert self.result.summary == expected_summary
 
-    def test_gets_the_title(self):
-        assert self.result.title == "Official Opinion 2017-3"
+    # def test_gets_the_title(self):
+    #     assert self.result.title == "Official Opinion 2017-3"
 
-    def test_gets_is_official(self):
-        assert self.result.is_official
+    # def test_gets_is_official(self):
+    #     assert self.result.is_official
 
     def test_gets_the_date(self):
         assert self.result.date == "2017-10-02"
