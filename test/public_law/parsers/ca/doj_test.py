@@ -70,11 +70,11 @@ class TestParseGlossary:
     def test_gets_the_author(self):
         assert self.result.metadata.dc_creator == "Department of Justice Canada"
 
-    def test_gets_the_publication_date(self):
-        assert self.result.metadata.dcterms_modified == date.fromisoformat("2022-05-13")
-
     def test_gets_the_scrape_date(self):
-        assert self.result.metadata.publiclaw_accessed == today()
+        assert self.result.metadata.publiclaw_sourceModified == date(2022, 5, 13)
+
+    def test_gets_the_original_modification_date(self):
+        assert self.result.metadata.dcterms_modified == today()
 
     def test_gets_proper_number_of_entries(self):
         assert len(self.result.entries) == 36

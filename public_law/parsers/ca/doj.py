@@ -107,9 +107,8 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
         dc_title=NonemptyString(name),
         dc_creator=NonemptyString("Department of Justice Canada"),
         dc_language="en",
-        dc_identifier=NonemptyString(url),
         dcterms_coverage=NonemptyString("Canada"),
-        dcterms_modified=date.fromisoformat(pub_date),
+        publiclaw_sourceModified=date.fromisoformat(pub_date),
     )
 
     return GlossarySourceParseResult(
