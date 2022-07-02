@@ -68,7 +68,7 @@ class TestParseGlossary:
         )
 
     def test_gets_the_author(self):
-        assert self.result.metadata.dc_creator == "Department of Justice Canada"
+        assert self.result.metadata.dc_creator == "https://public.law"
 
     def test_gets_the_scrape_date(self):
         assert self.result.metadata.publiclaw_sourceModified == date(2022, 5, 13)

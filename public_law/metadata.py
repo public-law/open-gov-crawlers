@@ -38,6 +38,7 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
     # Jurisdiction.
     dcterms_coverage: NonemptyString
     publiclaw_sourceModified: date
+    publiclaw_sourceCreator: NonemptyString
 
     dc_creator: str = "https://public.law"
     dc_type: str = "Dataset"
