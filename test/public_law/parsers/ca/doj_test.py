@@ -1,6 +1,7 @@
+from datetime import date
 from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
-from public_law.dates import todays_date
+from public_law.dates import today
 
 
 def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
@@ -70,10 +71,10 @@ class TestParseGlossary:
         assert self.result.metadata.dc_creator == "Department of Justice Canada"
 
     def test_gets_the_publication_date(self):
-        assert self.result.metadata.dcterms_modified == "2022-05-13"
+        assert self.result.metadata.dcterms_modified == date.fromisoformat("2022-05-13")
 
     def test_gets_the_scrape_date(self):
-        assert self.result.metadata.scrape_date == todays_date()
+        assert self.result.metadata.accessed == today()
 
     def test_gets_proper_number_of_entries(self):
         assert len(self.result.entries) == 36

@@ -5,7 +5,9 @@ import pytz
 
 
 class SimpleTimezone(Protocol):
-    def localize(self, a_date: datetime) -> date:
+    """Help out the type checker."""
+
+    def localize(self, a_date: datetime) -> datetime:
         ...  # pragma: no cover
 
 
@@ -22,8 +24,10 @@ def today() -> date:
     #       But the Scrapy settings don't seem to be
     #       available in this context.
     #       See https://doc.scrapy.org/en/latest/topics/settings.html.
-    mountain: SimpleTimezone = pytz.timezone("US/Mountain")  # type: ignore
-    return mountain.localize(datetime.now())
+    mountain: SimpleTimezone = pytz.timezone(
+        "US/Mountain"
+    )  # pyright: reportUnknownMemberType=false
+    return mountain.localize(datetime.now()).date()
 
 
 def iso_8601(a_date: date) -> str:
