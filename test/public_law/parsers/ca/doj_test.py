@@ -44,12 +44,13 @@ class TestParseGlossary:
 
     def test_gets_the_name(self):
         assert (
-            self.result.name == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
+            self.result.metadata.dc_title
+            == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
         )
 
     def test_gets_the_name_when_it_contains_an_anchor(self):
         assert (
-            parsed_glossary_glos().name
+            parsed_glossary_glos().metadata.dc_title
             == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"  # "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
         )
 
@@ -57,22 +58,22 @@ class TestParseGlossary:
         assert parsed_glossary_glos().entries[0].phrase == "Alienated Parent"
 
     def test_gets_the_name_when_there_is_just_an_h1(self):
-        assert parsed_glossary_index().name == "Glossary"  # Unfortunately.
+        assert parsed_glossary_index().metadata.dc_title == "Glossary"  # Unfortunately.
 
     def test_gets_the_url(self):
         assert (
-            self.result.source_url
+            self.result.metadata.dc_source
             == "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html"
         )
 
     def test_gets_the_author(self):
-        assert self.result.author == "Department of Justice Canada"
+        assert self.result.metadata.dc_creator == "Department of Justice Canada"
 
     def test_gets_the_publication_date(self):
-        assert self.result.pub_date == "2022-05-13"
+        assert self.result.metadata.dcterms_modified == "2022-05-13"
 
     def test_gets_the_scrape_date(self):
-        assert self.result.scrape_date == todays_date()
+        assert self.result.metadata.scrape_date == todays_date()
 
     def test_gets_proper_number_of_entries(self):
         assert len(self.result.entries) == 36

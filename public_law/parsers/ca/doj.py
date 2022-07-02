@@ -1,5 +1,6 @@
 # pyright: reportUnknownMemberType=false
 
+from datetime import date
 import re
 from typing import Any, NamedTuple, TypeAlias
 
@@ -8,7 +9,7 @@ from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
 from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
-from public_law.dates import todays_date
+from public_law.metadata import Metadata
 
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
@@ -31,11 +32,7 @@ class GlossaryEntry(NamedTuple):
 class GlossarySourceParseResult(NamedTuple):
     """All the info about a glossary source"""
 
-    source_url: str
-    name: str
-    author: str
-    pub_date: str
-    scrape_date: str
+    metadata: Metadata
     entries: list[GlossaryEntry]
 
 
@@ -90,12 +87,17 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 
     url: str = html.url
 
+    metadata = Metadata(
+        dc_source=NonemptyString(url),
+        dc_title=NonemptyString(name),
+        dc_creator=NonemptyString("Department of Justice Canada"),
+        dc_language="en",
+        dc_identifier=NonemptyString(url),
+        dcterms_modified=date.fromisoformat(pub_date),
+    )
+
     return GlossarySourceParseResult(
-        source_url=url,
-        name=name,
-        author="Department of Justice Canada",
-        pub_date=pub_date,
-        scrape_date=todays_date(),
+        metadata=metadata,
         entries=entries,
     )
 
