@@ -38,9 +38,13 @@ class GlossarySourceParseResult:
     def __iter__(self):
         """Iterate over the entries in this glossary source.
         This customizes the produced dict to properly process the
-        metadata."""
+        metadata.
 
-        new_dict: dict[str, Any] = {
+        TODO: Figure out a way to convert this to a dict without the
+        custom __iter__.
+        """
+
+        new_dict = {
             "metadata": dict(self.metadata),
             "entries": self.entries,
         }
