@@ -23,10 +23,10 @@ class TestMetadata:
             "dc:publisher":     "https://public.law",
             "dc:source":        "https://a.b.c",
             "dc:title":         "The Title",
-            "dc:type":          "text",
+            "dc:type":          "Dataset",
             "dcterms:license":  "https://creativecommons.org/licenses/by/4.0/",
             "dcterms:modified": today(),
-            "scrape_date":      today(),
+            "accessed":         today(),
         }
 
         assert generated_dict == expected_dict
