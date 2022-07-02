@@ -1,6 +1,6 @@
 import re
 from functools import cache
-from typing import Any, List
+from typing import Any, List, cast
 
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, conint, constr
@@ -40,9 +40,17 @@ class Article(FrozenModel):
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: conint(ge=1, le=13)  # type: ignore
-    name: constr(regex=r"^[ a-zA-Z0-9,:\-\(\)]*$")  # type: ignore
+    part_number: conint(ge=1, le=13)  # pyright: reportGeneralTypeIssues=false
+    name: constr(
+        regex=r"^[ a-zA-Z0-9,:\-\(\)]*$"
+    )  # pyright: reportGeneralTypeIssues=false
     text: str
+
+    def name(self) -> str:
+        return cast(str, self.name)
+
+    def part_number(self) -> int:
+        return cast(int, self.part_number)
 
 
 class Footnote(FrozenModel):
@@ -278,7 +286,7 @@ def _remove_annotations(article: Article, number: str) -> Article:
     annotation = article.number.replace(str(number), "")
     if annotation:
         name_text = article.text.split("\n", 1)
-        if len(name_text) > 1 and not article.name:
+        if len(name_text) > 1 and len(article.name) == 0:
             name = name_text[0].strip()
             text = name_text[1].strip()
         annotations = [int(x) for x in annotation.split()]
@@ -332,4 +340,4 @@ def metadata(pdf_url: str) -> dict[str, Any]:
 
 @cache
 def tika_pdf(pdf_url: str) -> dict[str, Any]:
-    return parser.from_file(pdf_url, xmlContent=True)
+    return parser.from_file(pdf_url, xmlContent=True)  # type: ignore
