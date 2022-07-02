@@ -1,14 +1,16 @@
 # pyright: reportUnknownMemberType=false
 
+from dataclasses import dataclass
+from datetime import date
 import re
-from typing import Any, NamedTuple, TypeAlias
+from typing import Any, TypeAlias
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
 from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
-from public_law.dates import todays_date
+from public_law.metadata import Metadata
 
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
@@ -18,25 +20,35 @@ class ParseException(Exception):
     pass
 
 
-class GlossaryEntry(NamedTuple):
+@dataclass(frozen=True)
+class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""
 
     phrase: NonemptyString
     definition: NonemptyString
 
-    def __repr__(self) -> str:
-        return self._asdict().__repr__()
 
-
-class GlossarySourceParseResult(NamedTuple):
+@dataclass(frozen=True)
+class GlossarySourceParseResult:
     """All the info about a glossary source"""
 
-    source_url: str
-    name: str
-    author: str
-    pub_date: str
-    scrape_date: str
+    metadata: Metadata
     entries: list[GlossaryEntry]
+
+    def __iter__(self):
+        """Iterate over the entries in this glossary source.
+        This customizes the produced dict to properly process the
+        metadata.
+
+        TODO: Figure out a way to convert this to a dict without the
+        custom __iter__.
+        """
+
+        new_dict = {
+            "metadata": dict(self.metadata),
+            "entries": self.entries,
+        }
+        return iter(new_dict.items())
 
 
 def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
@@ -90,12 +102,17 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 
     url: str = html.url
 
+    metadata = Metadata(
+        dcterms_source=NonemptyString(url),
+        dcterms_title=NonemptyString(name),
+        dcterms_language="en",
+        dcterms_coverage=NonemptyString("Canada"),
+        publiclaw_sourceModified=date.fromisoformat(pub_date),
+        publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
+    )
+
     return GlossarySourceParseResult(
-        source_url=url,
-        name=name,
-        author="Department of Justice Canada",
-        pub_date=pub_date,
-        scrape_date=todays_date(),
+        metadata=metadata,
         entries=entries,
     )
 
