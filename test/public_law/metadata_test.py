@@ -12,21 +12,23 @@ class TestMetadata:
             dc_title=S("The Title"),
             dc_language="en",
             dcterms_modified=today(),
+            dcterms_coverage=S('Canada')
         )
         generated_dict = metadata.as_dublin_core_dict()
 
         # fmt: off
         expected_dict = {
-            "dc:creator":       "The creator",
-            "dc:identifier":    "https://x.y.z",
-            "dc:language":      "en",
-            "dc:publisher":     "https://public.law",
-            "dc:source":        "https://a.b.c",
-            "dc:title":         "The Title",
-            "dc:type":          "Dataset",
-            "dcterms:license":  "https://creativecommons.org/licenses/by/4.0/",
-            "dcterms:modified": today(),
-            "accessed":         today(),
+            "dc:creator":         "The creator",
+            "dc:identifier":      "https://x.y.z",
+            "dc:language":        "en",
+            "dc:publisher":       "https://public.law",
+            "dc:source":          "https://a.b.c",
+            "dc:title":           "The Title",
+            "dc:type":            "Dataset",
+            "dcterms:coverage":   "Canada",
+            "dcterms:license":    "https://creativecommons.org/licenses/by/4.0/",
+            "dcterms:modified":   today(),
+            "publiclaw:accessed": today(),
         }
 
         assert generated_dict == expected_dict
@@ -39,21 +41,23 @@ class TestMetadata:
             dc_title=S("The Title"),
             dc_language="en",
             dcterms_modified=today(),
+            dcterms_coverage=S('Canada')
         )
         generated_dict = dict(metadata)
 
         # fmt: off
         expected_dict = {
-            "dc:creator":       "The creator",
-            "dc:identifier":    "https://x.y.z",
-            "dc:language":      "en",
-            "dc:publisher":     "https://public.law",
-            "dc:source":        "https://a.b.c",
-            "dc:title":         "The Title",
-            "dc:type":          "Dataset",
-            "dcterms:license":  "https://creativecommons.org/licenses/by/4.0/",
-            "dcterms:modified": today(),
-            "accessed":         today(),
+            "dc:creator":         "The creator",
+            "dc:identifier":      "https://x.y.z",
+            "dc:language":        "en",
+            "dc:publisher":       "https://public.law",
+            "dc:source":          "https://a.b.c",
+            "dc:title":           "The Title",
+            "dc:type":            "Dataset",
+            "dcterms:coverage":   "Canada",
+            "dcterms:license":    "https://creativecommons.org/licenses/by/4.0/",
+            "dcterms:modified":   today(),
+            "publiclaw:accessed": today(),
         }
 
         assert generated_dict == expected_dict

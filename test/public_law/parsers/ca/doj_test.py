@@ -74,7 +74,7 @@ class TestParseGlossary:
         assert self.result.metadata.dcterms_modified == date.fromisoformat("2022-05-13")
 
     def test_gets_the_scrape_date(self):
-        assert self.result.metadata.accessed == today()
+        assert self.result.metadata.publiclaw_accessed == today()
 
     def test_gets_proper_number_of_entries(self):
         assert len(self.result.entries) == 36

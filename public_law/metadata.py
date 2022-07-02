@@ -29,16 +29,21 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
     """
 
     dc_title: NonemptyString
-    dc_language: Literal["en"]
+    dc_creator: NonemptyString
     dc_source: NonemptyString
     dc_identifier: NonemptyString
-    dc_creator: NonemptyString
+    dc_language: Literal["en"]
+    dcterms_coverage: NonemptyString
     dcterms_modified: date
 
     dc_publisher: str = "https://public.law"
+
+    # TODO: Fix this, either making it "HTML web page" aligning with the original creator,
+    #       or, keep as Dataset and figure out a way to refer to the original creator.
     dc_type: str = "Dataset"
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
-    accessed: date = today()
+
+    publiclaw_accessed: date = today()
 
     def as_dublin_core_dict(self) -> dict[str, Any]:
         """Return a dict containing the metadata with proper DublinCore
