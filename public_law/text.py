@@ -1,4 +1,21 @@
-from typing import Any, List
+from typing import Any, Callable, List, cast
+import titlecase
+
+
+def title_case(text: str) -> str:
+    str_func: Callable[[str], str] = cast(
+        Callable[[str], str],
+        # pyright: reportUnknownMemberType=false
+        titlecase.titlecase,
+    )
+    return str_func(text)
+
+
+def cast_as_str_func(func: Any) -> Callable[[str], str]:
+    """
+    Cast a function to a function that takes a string and returns a string.
+    """
+    return cast(Callable[[str], str], func)
 
 
 def delete_all(text: str, fragments: List[str]) -> str:
