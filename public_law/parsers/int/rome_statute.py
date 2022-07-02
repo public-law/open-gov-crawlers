@@ -5,7 +5,7 @@ from typing import Any, List
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, conint, constr
 from tika import parser
-from text import title_case
+from titlecase import titlecase
 
 from public_law.metadata import Metadata
 from public_law.text import NonemptyString as S, normalize_whitespace
@@ -162,7 +162,7 @@ def parts(pdf_url: str) -> list[Part]:
                 part_objects.append(
                     Part(
                         number=number,
-                        name=S(normalize_whitespace(title_case(name))),
+                        name=S(normalize_whitespace(titlecase(name))),
                     )
                 )
             case _:

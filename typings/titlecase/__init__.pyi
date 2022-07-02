@@ -13,40 +13,33 @@ Original Perl version by: John Gruber http://daringfireball.net/ 10 May 2008
 Python version by Stuart Colville http://muffinresearch.co.uk
 License: http://www.opensource.org/licenses/mit-license.php
 """
-__all__ = ['titlecase']
-__version__ = '0.12.0'
-SMALL = 'a|an|and|as|at|but|by|en|for|if|in|of|on|or|the|to|v\.?|via|vs\.?'
+__all__ = ["titlecase"]
+__version__ = "0.12.0"
+SMALL = "a|an|and|as|at|but|by|en|for|if|in|of|on|or|the|to|v\.?|via|vs\.?"
 PUNCT = r"""!"#$%&'‘()*+,\-–‒—―./:;?@[\\\]_`{|}~"""
-SMALL_WORDS = re.compile(r'^(%s)$' % SMALL, re.I)
-INLINE_PERIOD = re.compile(r'[a-z][.][a-z]', re.I)
-UC_ELSEWHERE = re.compile(r'[%s]*?[a-zA-Z]+[A-Z]+?' % PUNCT)
+SMALL_WORDS = re.compile(r"^(%s)$" % SMALL, re.I)
+INLINE_PERIOD = re.compile(r"[a-z][.][a-z]", re.I)
+UC_ELSEWHERE = re.compile(r"[%s]*?[a-zA-Z]+[A-Z]+?" % PUNCT)
 CAPFIRST = re.compile(r"^[%s]*?([A-Za-z])" % PUNCT)
-SMALL_FIRST = re.compile(r'^([%s]*)(%s)\b' % (PUNCT, SMALL), re.I)
-SMALL_LAST = re.compile(r'\b(%s)[%s]?$' % (SMALL, PUNCT), re.I)
-SUBPHRASE = re.compile(r'([:.;?!\-–‒—―][ ])(%s)' % SMALL)
+SMALL_FIRST = re.compile(r"^([%s]*)(%s)\b" % (PUNCT, SMALL), re.I)
+SMALL_LAST = re.compile(r"\b(%s)[%s]?$" % (SMALL, PUNCT), re.I)
+SUBPHRASE = re.compile(r"([:.;?!\-–‒—―][ ])(%s)" % SMALL)
 APOS_SECOND = re.compile(r"^[dol]{1}['‘]{1}[a-z]+(?:['s]{2})?$", re.I)
 UC_INITIALS = re.compile(r"^(?:[A-Z]{1}\.{1}|[A-Z]{1}\.{1}[A-Z]{1})+$")
 MAC_MC = re.compile(r"^([Mm]c|MC)(\w.+)")
-class Immutable(object):
-    ...
 
+class Immutable(object): ...
 
-text_type = unicode if sys.version_info < (3, ) else str
-class ImmutableString(text_type, Immutable):
-    ...
+text_type = unicode if sys.version_info < (3,) else str
 
+class ImmutableString(text_type, Immutable): ...
+class ImmutableBytes(bytes, Immutable): ...
 
-class ImmutableBytes(bytes, Immutable):
-    ...
-
-
-def _mark_immutable(text):
-    ...
-
-def set_small_word_list(small=...):
-    ...
-
-def titlecase(text, callback: Optional[Any] = ..., small_first_last: bool = ...):
+def _mark_immutable(text): ...
+def set_small_word_list(small=...): ...
+def titlecase(
+    text: str, callback: Optional[Any] = ..., small_first_last: bool = ...
+) -> str:
     """
     Titlecases input text
 
@@ -60,6 +53,5 @@ def titlecase(text, callback: Optional[Any] = ..., small_first_last: bool = ...)
     ...
 
 def cmd():
-    '''Handler for command line invocation'''
+    """Handler for command line invocation"""
     ...
-
