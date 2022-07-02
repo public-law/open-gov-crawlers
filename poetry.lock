@@ -1155,7 +1155,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyright"
-version = "1.1.248"
+version = "1.1.256"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
@@ -2719,8 +2719,8 @@ pypydispatcher = [
     {file = "PyPyDispatcher-2.1.2.tar.gz", hash = "sha256:b6bec5dfcff9d2535bca2b23c80eae367b1ac250a645106948d315fcfa9130f2"},
 ]
 pyright = [
-    {file = "pyright-1.1.248-py3-none-any.whl", hash = "sha256:385084c1eaea56ee7b727d6f83a35774abe35036e37d527a692a9842af4c754d"},
-    {file = "pyright-1.1.248.tar.gz", hash = "sha256:88c9be21af5e21749d4ca4e6a605800bdc0848312eac9ff7cc584b401d9696d8"},
+    {file = "pyright-1.1.256-py3-none-any.whl", hash = "sha256:30beb7cecbe254aab5b049844c5399d11cd028ea3fba8eb56d50b7c1e0a8e175"},
+    {file = "pyright-1.1.256.tar.gz", hash = "sha256:cc0358cfb500770d2bbe4dfdb9257c45c7490a87eef0ffb8f314e84f92af28e6"},
 ]
 pyrsistent = [
     {file = "pyrsistent-0.18.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:df46c854f490f81210870e509818b729db4488e1f30f2a1ce1698b2295a878d1"},
