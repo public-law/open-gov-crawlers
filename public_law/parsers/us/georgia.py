@@ -81,4 +81,4 @@ def first(node: Union[Response, Selector], css: str, expected: str) -> str:
         case str(result):
             return result
         case _:
-            raise ParseException("Could not parse the result")
+            raise ParseException(f"Could not parse the {expected}")

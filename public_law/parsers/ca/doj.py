@@ -56,9 +56,8 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
 
     match html.css("main dl"):
         case [first, *_] if isinstance(
-            first, Selector
+            first, Selector  # pylint:disable=used-before-assignment
         ):  # pyright: reportUnknownVariableType=false
-
             first_dl_list = first
         case _:
             raise ParseException("Expected a <dl>")

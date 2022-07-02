@@ -26,4 +26,3 @@ disable=unsubscriptable-object,
 
 	# Scrapy style conflicts:
 	too-few-public-methods,
-	no-self-use
