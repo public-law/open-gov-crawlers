@@ -4,7 +4,7 @@ from public_law.dates import today
 
 
 class TestMetadata:
-    def test_creates_expected_dict(self):
+    def test_creates_expected_dict_1(self):
         metadata = Metadata(
             dc_creator=S("The creator"),
             dc_identifier=S("https://x.y.z"),

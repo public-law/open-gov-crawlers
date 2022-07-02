@@ -1,8 +1,9 @@
 # pyright: reportUnknownMemberType=false
 
+from dataclasses import dataclass
 from datetime import date
 import re
-from typing import Any, NamedTuple, TypeAlias
+from typing import Any, TypeAlias
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
@@ -19,17 +20,16 @@ class ParseException(Exception):
     pass
 
 
-class GlossaryEntry(NamedTuple):
+@dataclass(frozen=True, repr=True)
+class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""
 
     phrase: NonemptyString
     definition: NonemptyString
 
-    def __repr__(self) -> str:
-        return self._asdict().__repr__()
 
-
-class GlossarySourceParseResult(NamedTuple):
+@dataclass(frozen=True, repr=True)
+class GlossarySourceParseResult:
     """All the info about a glossary source"""
 
     metadata: Metadata
