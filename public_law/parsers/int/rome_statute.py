@@ -5,7 +5,8 @@ from typing import Any, List
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, conint, constr
 from tika import parser
-from titlecase import titlecase
+from titlecase import titlecase  # pyright: reportUnknownVariableType=false
+
 
 from public_law.metadata import Metadata
 from public_law.text import NonemptyString as S, normalize_whitespace

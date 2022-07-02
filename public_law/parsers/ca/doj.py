@@ -1,5 +1,4 @@
 # pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
 
 import re
 from typing import Any, NamedTuple, TypeAlias
@@ -56,7 +55,10 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
     #     raise ParseException("Expected a <dl>")
 
     match html.css("main dl"):
-        case [first, *_] if isinstance(first, Selector):
+        case [first, *_] if isinstance(
+            first, Selector
+        ):  # pyright: reportUnknownVariableType=false
+
             first_dl_list = first
         case _:
             raise ParseException("Expected a <dl>")
