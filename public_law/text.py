@@ -35,7 +35,7 @@ class Sentence(NonemptyString):
 
     def __new__(cls, content: Any):
         """Create a new Sentence."""
-        match re.match(r"^[A-Z].*\.[\"\)’”]?$", content):
+        match re.match(r"^[A-Z0-9\"].*\.[\"\)’”]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: {content}")
             case _:
@@ -94,7 +94,8 @@ def delete(text: str, fragment: str) -> str:
 
 def normalize_whitespace(text: str) -> str:
     """Remove extra whitespace from around and within the string"""
-    return " ".join(text.strip().split())
+    no_newlines = text.replace("\n", " ")
+    return " ".join(no_newlines.strip().split())
 
 
 def normalize_nonempty(text: str) -> NonemptyString:

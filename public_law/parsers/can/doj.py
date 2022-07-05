@@ -55,13 +55,13 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
         match prop.xpath("normalize-space(descendant::text())").get():
             case str(result):
-                phrase = re.sub(r":$", "", result)
+                phrase = NonemptyString(re.sub(r":$", "", result))
             case _:
                 raise ParseException("Could not parse the phrase")
 
         entries.append(
             GlossaryEntry(
-                phrase=NonemptyString(phrase),
+                phrase=phrase,
                 definition=Sentence(
                     ensure_ends_with_period(normalize_nonempty(definition))
                 ),
