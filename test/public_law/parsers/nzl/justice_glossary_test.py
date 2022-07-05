@@ -25,7 +25,6 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 
 @fixture
-@cache
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         filename="nz.govt.justice-glossary.html",
@@ -64,11 +63,10 @@ def test_phrase(parsed_glossary: GlossaryParseResult):
     assert first(parsed_glossary.entries).phrase == "acquit"
 
 
-@mark.skip(reason="Not implemented yet")
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        nth(parsed_glossary.entries, 2).definition
-        == "A judge in the full-time service of the court. Compare to senior judge."
+        first(parsed_glossary.entries).definition
+        == "To decide officially in court that a person is not guilty."
     )
 
 

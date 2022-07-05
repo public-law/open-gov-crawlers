@@ -4,6 +4,15 @@ from typing import Any, Callable, List, cast
 import titlecase
 
 
+def ensure_ends_with_period(text: str) -> str:
+    """
+    Ensure that the string ends with a period.
+    """
+    if text.endswith("."):
+        return text
+    return text + "."
+
+
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
     return BeautifulSoup(cast(str, html.body), "html.parser")
 
@@ -52,7 +61,7 @@ def capitalize_first_char(text: str) -> str:
 
 
 class NonemptyString(str):
-    """A string which is guaranteed to have length > 0
+    """A str subclass which is guaranteed to have length > 0
 
     Accepts `Any` type instead of `str` so that it will work
     seamlessly with untyped 3rd party libraries like Scrapy.
