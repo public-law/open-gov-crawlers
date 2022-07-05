@@ -6,6 +6,7 @@ authors = ["Robb Shecter <robb@public.law>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+cryptography = "36.0.2"
 scrapy = "^2.6.1"
 titlecase = "*"
 pytz = "*"
