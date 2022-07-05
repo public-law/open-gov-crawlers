@@ -39,14 +39,12 @@ def test_gets_the_url(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_source == "https://www.courts.ie/glossary"
 
 
-@mark.skip
 def test_gets_the_author(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
 
 
-@mark.skip
 def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "irl"
+    assert parsed_glossary.metadata.dcterms_coverage == "IRL"
 
 
 @mark.skip

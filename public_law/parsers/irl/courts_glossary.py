@@ -19,7 +19,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=NS("Glossary"),
             dcterms_language="en",
-            dcterms_coverage=NS("NZL"),
+            dcterms_coverage=NS("IRL"),
             # Info about original source
             dcterms_source=NS(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
