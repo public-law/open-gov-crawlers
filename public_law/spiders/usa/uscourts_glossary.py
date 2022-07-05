@@ -11,6 +11,12 @@ class USCourtsGlossary(Spider):
     start_urls = ["https://www.uscourts.gov/glossary"]
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
-        """Framework callback which begins the parsing."""
+        """Framework callback which begins the parsing.
+
+        @url https://www.uscourts.gov/glossary
+        @returns items 1 1
+        @returns requests 0 0
+        @scrapes metadata entries
+        """
 
         yield dict(parse_glossary(response))
