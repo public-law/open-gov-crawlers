@@ -26,14 +26,14 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def __parse_entries(html: HtmlResponse) -> list[GlossaryEntry]:
+def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry]:
     soup = BeautifulSoup(cast(str, html.body), "html.parser")
     raw_entries = zip(soup("dt"), soup("dd"))
 
-    return [
+    return tuple(
         GlossaryEntry(
-            phrase=NS(phrase.text),
-            definition=NS(defn.text),
+            phrase=NS(phrase.text.strip()),
+            definition=NS(defn.text.strip()),
         )
         for phrase, defn in raw_entries
-    ]
+    )

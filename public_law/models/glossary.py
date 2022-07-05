@@ -21,7 +21,7 @@ class GlossaryParseResult:
     """All the info about a glossary"""
 
     metadata: Metadata
-    entries: list[GlossaryEntry]
+    entries: tuple[GlossaryEntry, ...]
 
     def __iter__(self):
         """Iterate over the entries in this glossary source.
