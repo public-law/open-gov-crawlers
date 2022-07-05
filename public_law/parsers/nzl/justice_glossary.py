@@ -22,6 +22,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+    """TODO: Refactor into a parent class"""
+
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
             phrase=NS(normalize_whitespace(phrase.text)),
