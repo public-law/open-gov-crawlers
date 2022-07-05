@@ -70,9 +70,8 @@ def test_definition(parsed_glossary: GlossaryParseResult):
     )
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(tuple(parsed_glossary.entries)) == 237
+    assert len(tuple(parsed_glossary.entries)) == 154
 
 
 @mark.skip(reason="Not implemented yet")
