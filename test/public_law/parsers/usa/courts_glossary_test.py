@@ -69,16 +69,3 @@ def test_gets_a_term_case_1(parsed_glossary: GlossaryParseResult):
     entry = parsed_glossary.entries[2]
     assert entry.phrase == "Adjournment"
     assert entry.definition == "Postponement of a court hearing to another date."
-
-
-@mark.skip(reason="Not implemented yet")
-def test_parses_emphasized_text(parsed_glossary: GlossaryParseResult):
-    definition_with_em = self.p11_result.entries[0].definition
-    expected_definition = (
-        "Legal term previously used in the <em>Divorce Act</em> to "
-        "refer to the time a parent or other person spends with a "
-        "child, usually not the parent with whom the child primarily "
-        "lives."
-    )
-
-    assert definition_with_em == expected_definition
