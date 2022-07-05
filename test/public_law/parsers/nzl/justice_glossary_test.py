@@ -74,13 +74,11 @@ def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
     assert len(tuple(parsed_glossary.entries)) == 154
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
-    assert last_entry.phrase == "Writ of certiorari"
+    assert last_entry.phrase == "Youth Court"
     assert last_entry.definition == (
-        "An order issued by the U.S. Supreme Court directing "
-        "the lower court to transmit records for a case which "
-        "it will hear on appeal."
+        "The Youth Court has jurisdiction to deal with "
+        "young people charged with criminal offences."
     )
