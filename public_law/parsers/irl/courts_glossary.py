@@ -23,7 +23,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             # Info about original source
             dcterms_source=NS(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=NS("New Zealand Ministry of Justice"),
+            publiclaw_sourceCreator=NS("The Courts Service of Ireland"),
         ),
         entries=__parse_entries(html),
     )

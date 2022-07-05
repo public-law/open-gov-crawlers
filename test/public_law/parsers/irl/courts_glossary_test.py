@@ -47,12 +47,10 @@ def test_gets_coverage(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_coverage == "IRL"
 
 
-@mark.skip
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
 
-@mark.skip
 def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
