@@ -18,10 +18,13 @@ class NonemptyString(str):
 
     def __new__(cls, content: Any):
         """Create a new Nonempty String"""
-        if (not isinstance(content, str)) or len(content) == 0:
-            raise ValueError("Content is empty, cannot create a NonemptyString")
-
-        return super().__new__(cls, content)
+        match (content):
+            case str(content) if len(content) > 0:
+                return super().__new__(cls, content)
+            case _:
+                raise ValueError(
+                    "Content is empty or not a string; cannot create a NonemptyString"
+                )
 
 
 class Sentence(NonemptyString):
