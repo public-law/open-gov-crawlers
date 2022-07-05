@@ -37,7 +37,7 @@ class Sentence(NonemptyString):
 
     def __new__(cls, content: Any):
         """Create a new Sentence."""
-        match re.match(r"^[A-Z0-9\"].*\.[\"\)’”]?$", content):
+        match re.match(r"^[A-Z0-9\"\()].*\.[\"\)’”]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: {content}")
             case _:
@@ -58,6 +58,11 @@ def ensure_ends_with_period(text: str) -> str:
 def remove_end_colon(text: str) -> str:
     """Remove the colon at the end of the string"""
     return text.rstrip(":")
+
+
+def remove_beginning_colon(text: str) -> str:
+    """Remove the colon at the beginning of the string"""
+    return text.lstrip(":")
 
 
 def make_soup(html: HtmlResponse) -> BeautifulSoup:

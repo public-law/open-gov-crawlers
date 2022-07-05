@@ -13,6 +13,7 @@ from ...text import (
     ensure_ends_with_period,
     NonemptyString as NS,
     normalize_nonempty,
+    remove_beginning_colon,
     remove_end_colon,
     Sentence,
 )
@@ -43,7 +44,11 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
             phrase=normalize_nonempty(remove_end_colon(phrase)),
             definition=Sentence(
                 capitalize_first_char(
-                    ensure_ends_with_period(normalize_nonempty((defn)))
+                    normalize_nonempty(
+                        ensure_ends_with_period(
+                            remove_beginning_colon(normalize_nonempty((defn)))
+                        )
+                    )
                 )
             ),
         )
