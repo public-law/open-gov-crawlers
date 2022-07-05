@@ -59,7 +59,6 @@ def test_phrase(parsed_glossary: GlossaryParseResult):
     assert first(parsed_glossary.entries).phrase == "Affidavit"
 
 
-@mark.skip
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
         first(parsed_glossary.entries).definition == "A written statement made on oath."
