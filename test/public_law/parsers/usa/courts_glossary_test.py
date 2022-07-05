@@ -62,12 +62,10 @@ def test_definition(parsed_glossary: GlossaryParseResult):
     )
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
     assert len(parsed_glossary.entries) == 237
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = parsed_glossary.entries[-1]
 
