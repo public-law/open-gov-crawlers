@@ -1,4 +1,4 @@
-from pprint import pprint
+from typing import Any, Iterable
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import NonemptyString as NS, make_soup, normalize_whitespace
@@ -7,7 +7,6 @@ from ...metadata import Metadata
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    # pyright: reportUnknownMemberType=false
     return GlossaryParseResult(
         metadata=Metadata(
             dcterms_title=NS("Glossary"),
@@ -18,20 +17,23 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=NS("New Zealand Ministry of Justice"),
         ),
-        entries=__parse_entries(html),
+        entries=tuple(__parse_entries(html)),
     )
 
 
-def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    soup = make_soup(html)
-    raw_entries = (
-        (phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong")
-    )
-
-    return tuple(
-        GlossaryEntry(
+def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+    for phrase, defn in __raw_entries(html):
+        yield GlossaryEntry(
             phrase=NS(normalize_whitespace(phrase.text)),
             definition=NS(normalize_whitespace(defn.text)),
         )
-        for phrase, defn in raw_entries
-    )
+
+
+def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+    """
+    The core of this parser.
+
+    TODO: Refactor all the glossary parsers to need only this function.
+    """
+    soup = make_soup(html)
+    return ((phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong"))
