@@ -1,3 +1,11 @@
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportGeneralTypeIssues=false
+
 from typing import Any, Dict, List
 
 from scrapy import Spider
@@ -70,9 +78,9 @@ class OregonRegs(Spider):
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
-            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]  # type: ignore
+            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1)  # type: ignore
+                str.strip, anchor.xpath("text()").get().split("-", 1)
             )
             number = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
@@ -104,9 +112,7 @@ class OregonRegs(Spider):
         spider: OregonRegs = super(OregonRegs, cls).from_crawler(
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(  # type: ignore
-            spider.spider_idle, signal=scrapy.signals.spider_idle
-        )  # type: ignore
+        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)
         return spider
 
     def spider_idle(self, spider: Spider):
@@ -120,7 +126,7 @@ class OregonRegs(Spider):
         null_request = Request(
             "https://www.public.law/about-us", callback=self.submit_data
         )
-        self.crawler.engine.schedule(null_request, spider)  # type: ignore
+        self.crawler.engine.schedule(null_request, spider)
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _):

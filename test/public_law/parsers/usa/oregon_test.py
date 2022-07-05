@@ -1,4 +1,6 @@
 # pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportGeneralTypeIssues=false
 
 from scrapy.selector.unified import Selector
 from typing import Any, IO

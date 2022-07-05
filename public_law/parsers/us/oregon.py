@@ -34,7 +34,7 @@ def parse_division(html: Response) -> List[Rule]:
     # return rules
 
     match [
-        _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+        _parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')  # type: ignore
     ]:
         case []:
             raise ParseException("Found no Rules in the Division")
@@ -75,7 +75,7 @@ def _parse_content(rule_div: Selector) -> Tuple[str, Dict[str, Union[List[str], 
     """Parse the given HTML div for the text string and metadata dict."""
 
     # Parse the body text
-    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
+    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()  # type: ignore
     cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
     cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))

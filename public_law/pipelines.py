@@ -5,5 +5,5 @@
 
 
 class OarPipeline:
-    def process_item(self, item, _spider):
-        return item
+    def process_item(self, item, _spider):  # type: ignore
+        return item  # type: ignore

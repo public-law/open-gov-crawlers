@@ -1,8 +1,12 @@
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportGeneralTypeIssues=false
+
 import pytest
 import vcr
 from urllib import error
-import devtools
-from pydantic import ValidationError
 
 from public_law.parsers.int.rome_statute import (
     articles,
@@ -34,7 +38,7 @@ class TestTikaPdf:
     @my_vcr.use_cassette()  # type: ignore
     def test_raises_error_when_pdf_not_found(self):
         with pytest.raises(error.HTTPError):
-            tika_pdf("https://www.icc-cpi.int/Publications/abcdefg.pdf")
+            _ = tika_pdf("https://www.icc-cpi.int/Publications/abcdefg.pdf")
 
 
 class TestMetadata:

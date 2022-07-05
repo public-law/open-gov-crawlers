@@ -1,4 +1,9 @@
-from scrapy.http import HtmlResponse
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportGeneralTypeIssues=false
+
+from scrapy.http.response.html import HtmlResponse
 
 from public_law.parsers.us.georgia import (
     opinion_date_to_iso8601,
