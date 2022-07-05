@@ -25,9 +25,8 @@ def parsed_glossary() -> GlossaryParseResult:
     )
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
+    assert parsed_glossary.metadata.dcterms_title == "Glossary"
 
 
 @mark.skip(reason="Not implemented yet")
