@@ -1,7 +1,8 @@
 from dataclasses import dataclass
+from typing import Iterable
 
 from ..metadata import Metadata
-from ..text import NonemptyString
+from ..text import NonemptyString, Sentence
 
 
 class ParseException(Exception):
@@ -13,7 +14,7 @@ class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""
 
     phrase: NonemptyString
-    definition: NonemptyString
+    definition: Sentence
 
 
 @dataclass(frozen=True)
@@ -21,7 +22,7 @@ class GlossaryParseResult:
     """All the info about a glossary"""
 
     metadata: Metadata
-    entries: tuple[GlossaryEntry, ...]
+    entries: Iterable[GlossaryEntry]
 
     def __iter__(self):
         """Iterate over the entries in this glossary source.
@@ -34,6 +35,6 @@ class GlossaryParseResult:
 
         new_dict = {
             "metadata": dict(self.metadata),
-            "entries": self.entries,
+            "entries": tuple(self.entries),
         }
         return iter(new_dict.items())

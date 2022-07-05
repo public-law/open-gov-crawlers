@@ -26,10 +26,35 @@ jobs:
           poetry env use "3.10"
           poetry install --no-interaction
 
-      - name: Test with Pytest and Scrapy contracts
+      - name: Test with Pytest
         run: |
           poetry run pytest
-          poetry run scrapy check
+
+  ScrapyContractChecks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+          # cache: 'poetry'
+
+      - name: Install dependencies
+        run: |
+          poetry env use "3.10"
+          poetry install --no-interaction
+
+      - name: Test Scrapy contracts
+        run: |
+          poetry run scrapy check irl_courts_glossary
+          poetry run scrapy check nzl_justice_glossary
+          poetry run scrapy check usa_courts_glossary
 
   Linting:
     runs-on: ubuntu-latest

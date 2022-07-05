@@ -19,7 +19,7 @@ from titlecase import titlecase
 
 from public_law import items
 from public_law.items import Chapter, Division
-from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
+from public_law.parsers.usa.oregon import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
 

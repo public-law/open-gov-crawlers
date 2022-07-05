@@ -8,13 +8,19 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
-from public_law.models.glossary import (
+from ...models.glossary import (
     GlossaryEntry,
     GlossaryParseResult,
     ParseException,
 )
-from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
-from public_law.metadata import Metadata
+from ...text import (
+    Sentence,
+    capitalize_first_char,
+    NonemptyString,
+    ensure_ends_with_period,
+    normalize_nonempty,
+)
+from ...metadata import Metadata
 
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
@@ -49,14 +55,16 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
         match prop.xpath("normalize-space(descendant::text())").get():
             case str(result):
-                phrase = re.sub(r":$", "", result)
+                phrase = NonemptyString(re.sub(r":$", "", result))
             case _:
                 raise ParseException("Could not parse the phrase")
 
         entries.append(
             GlossaryEntry(
-                phrase=NonemptyString(phrase),
-                definition=NonemptyString(definition),
+                phrase=phrase,
+                definition=Sentence(
+                    ensure_ends_with_period(normalize_nonempty(definition))
+                ),
             )
         )
 
@@ -66,7 +74,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         dcterms_source=NonemptyString(url),
         dcterms_title=NonemptyString(name),
         dcterms_language="en",
-        dcterms_coverage=NonemptyString("Canada"),
+        dcterms_coverage="CAN",
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
     )
@@ -84,6 +92,6 @@ def parse_name(html: SelectorLike) -> str:
 def first_match(node: SelectorLike, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
-            return normalize_whitespace(result)
+            return normalize_nonempty(result)
         case _:
             raise ParseException(f'Could not parse the {expected} using "{css}"')

@@ -1,6 +1,12 @@
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import NonemptyString as NS, make_soup, normalize_whitespace
+from ...text import (
+    NonemptyString as NS,
+    make_soup,
+    normalize_nonempty,
+    Sentence,
+    ensure_ends_with_period,
+)
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
 
@@ -11,7 +17,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=NS("Glossary of Legal Terms"),
             dcterms_language="en",
-            dcterms_coverage=NS("USA"),
+            dcterms_coverage="USA",
             # Info about original source
             dcterms_source=NS("https://www.uscourts.gov/glossary"),
             publiclaw_sourceModified="unknown",
@@ -27,8 +33,8 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
 
     return tuple(
         GlossaryEntry(
-            phrase=NS(normalize_whitespace(phrase.text)),
-            definition=NS(normalize_whitespace(defn.text)),
+            phrase=normalize_nonempty(phrase.text),
+            definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text))),
         )
         for phrase, defn in raw_entries
     )
