@@ -3,7 +3,7 @@
 
 from scrapy.http.response.html import HtmlResponse
 from pytest import fixture
-from toolz.functoolz import memoize
+from more_itertools import first, last
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult
@@ -22,7 +22,6 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 
 @fixture
-@memoize
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         filename="gov.uscourts-glossary.html", url="https://www.uscourts.gov/glossary"
@@ -56,22 +55,22 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
 
 
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.entries[0].phrase == "Acquittal"
+    assert first(parsed_glossary.entries).phrase == "Acquittal"
 
 
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        parsed_glossary.entries[1].definition
+        first(parsed_glossary.entries).definition
         == "A judge in the full-time service of the court. Compare to senior judge."
     )
 
 
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(parsed_glossary.entries) == 237
+    assert len(tuple(parsed_glossary.entries)) == 237
 
 
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
-    last_entry = parsed_glossary.entries[-1]
+    last_entry = last(parsed_glossary.entries)
 
     assert last_entry.phrase == "Writ of certiorari"
     assert last_entry.definition == (

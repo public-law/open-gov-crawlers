@@ -1,12 +1,11 @@
 # pyright: reportUntypedFunctionDecorator=false
 # pyright: reportOptionalMemberAccess=false
 
-from functools import cache
-from more_itertools import first, last, nth
+from more_itertools import first, last
 
 
 from scrapy.http.response.html import HtmlResponse
-from pytest import fixture, mark
+from pytest import fixture
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult

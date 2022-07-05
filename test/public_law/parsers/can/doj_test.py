@@ -1,7 +1,12 @@
+from typing import cast
+
 from datetime import date
+from more_itertools import first, nth
+
 from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.can.doj import parse_glossary, GlossaryParseResult
 from public_law.dates import today
+from public_law.models.glossary import GlossaryEntry
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
@@ -57,7 +62,7 @@ class TestParseGlossary:
         )
 
     def test_phrase_does_not_end_with_colon(self):
-        assert parsed_glossary_glos().entries[0].phrase == "Alienated Parent"
+        assert first(parsed_glossary_glos().entries).phrase == "Alienated Parent"
 
     def test_gets_the_name_when_there_is_just_an_h1(self):
         assert (
@@ -80,15 +85,16 @@ class TestParseGlossary:
         assert self.result.metadata.dcterms_modified == today()
 
     def test_gets_proper_number_of_entries(self):
-        assert len(self.result.entries) == 36
+        assert len(tuple(self.result.entries)) == 36
 
     def test_gets_a_term_case_1(self):
-        term = self.result.entries[2]
-        assert term.phrase == "Adjournment"
-        assert term.definition == "Postponement of a court hearing to another date."
+        entry = cast(GlossaryEntry, nth(self.result.entries, 2))
+
+        assert entry.phrase == "Adjournment"
+        assert entry.definition == "Postponement of a court hearing to another date."
 
     def test_parses_emphasized_text(self):
-        definition_with_em = self.p11_result.entries[0].definition
+        definition_with_em = first(self.p11_result.entries).definition
         expected_definition = (
             "Legal term previously used in the <em>Divorce Act</em> to "
             "refer to the time a parent or other person spends with a "

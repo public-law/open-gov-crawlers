@@ -26,11 +26,16 @@ class NonemptyString(str):
 
 
 class Sentence(NonemptyString):
-    """A str subclass that begins with a capital letter and ends with a period."""
+    """A str subclass that begins with a capital letter and ends with a period.
+
+    It can actually end in a few ways, due to punction style. E.g.,
+
+        He said, "This is a sentence."
+    """
 
     def __new__(cls, content: Any):
         """Create a new Sentence."""
-        match re.match(r"^[A-Z].*\.$", content):
+        match re.match(r"^[A-Z].*\.[\"\)]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: {content}")
             case _:
@@ -42,8 +47,8 @@ def ensure_ends_with_period(text: str) -> str:
     Ensure that the string ends with a period.
     """
     match (text):
-        case s if s.endswith("."):
-            return s
+        case s if s.endswith(".") or s.endswith('."'):
+            return text
         case s:
             return s + "."
 

@@ -29,7 +29,8 @@ jobs:
       - name: Test with Pytest and Scrapy contracts
         run: |
           poetry run pytest
-          poetry run scrapy check
+          poetry run scrapy check us_courts_glossary
+          poetry run scrapy check nz_justice_glossary
 
   Linting:
     runs-on: ubuntu-latest

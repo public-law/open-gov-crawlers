@@ -35,6 +35,6 @@ class GlossaryParseResult:
 
         new_dict = {
             "metadata": dict(self.metadata),
-            "entries": self.entries,
+            "entries": tuple(self.entries),
         }
         return iter(new_dict.items())
