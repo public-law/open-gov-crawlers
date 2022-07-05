@@ -1,4 +1,6 @@
-from typing import Any, Iterable
+# pyright: reportUnknownMemberType=false
+
+from typing import Any, Iterable, cast
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import (
@@ -19,7 +21,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage=NS("NZL"),
             # Info about original source
-            dcterms_source=NS("https://www.justice.govt.nz/about/glossary/"),
+            dcterms_source=NS(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=NS("New Zealand Ministry of Justice"),
         ),
