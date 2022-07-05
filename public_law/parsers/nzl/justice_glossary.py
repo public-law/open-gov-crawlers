@@ -5,7 +5,7 @@ from ...text import (
     ensure_ends_with_period,
     NonemptyString as NS,
     make_soup,
-    normalize_whitespace,
+    normalize_nonempty,
 )
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
@@ -31,8 +31,8 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
-            phrase=NS(normalize_whitespace(phrase.text)),
-            definition=NS(ensure_ends_with_period(normalize_whitespace(defn.text))),
+            phrase=normalize_nonempty(phrase.text),
+            definition=normalize_nonempty(ensure_ends_with_period(defn.text)),
         )
 
 
