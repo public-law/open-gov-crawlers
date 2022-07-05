@@ -32,16 +32,15 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
     """
 
     dcterms_title: NonemptyString
-
-    # URL of the original gov't document.
-    dcterms_source: NonemptyString
     dcterms_language: Literal["de", "en", "fr"]
-
-    # Jurisdiction.
     dcterms_coverage: NonemptyString
-    publiclaw_sourceModified: date
+
+    # The original gov't document.
+    dcterms_source: NonemptyString
+    publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
 
+    # This JSON dataset.
     dcterms_creator: str = "https://public.law"
     dcterms_type: str = "Dataset"
     dcterms_modified: date = today()

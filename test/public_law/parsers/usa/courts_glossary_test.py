@@ -26,10 +26,7 @@ def parsed_glossary() -> GlossaryParseResult:
 
 
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert (
-        parsed_glossary.metadata.dcterms_title
-        == "Glossary of Legal Terms | United States Courts"
-    )
+    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
 
 
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):
@@ -42,9 +39,12 @@ def test_gets_the_author(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
 
 
-@mark.skip(reason="Not implemented yet")
+def test_gets_coverage(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.dcterms_coverage == "USA"
+
+
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.publiclaw_sourceModified == date(2022, 5, 13)
+    assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
 
 @mark.skip(reason="Not implemented yet")

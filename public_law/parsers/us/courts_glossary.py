@@ -4,7 +4,6 @@
 from typing import cast
 from scrapy.http.response.html import HtmlResponse
 
-from ...dates import today
 from ...text import NonemptyString as NS
 from ...models.glossary import GlossaryParseResult
 from ...metadata import Metadata
@@ -13,17 +12,15 @@ from ...metadata import Metadata
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     # pyright: reportUnknownMemberType=false
-    title = cast(str, html.xpath("//title/text()").get())
-
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS(title),
-            dcterms_source=NS("https://www.uscourts.gov/glossary"),
-            dcterms_creator="https://public.law",
-            publiclaw_sourceModified=today(),
-            dcterms_coverage=NS("TBD"),
+            dcterms_title=NS("Glossary of Legal Terms"),
             dcterms_language="en",
-            publiclaw_sourceCreator=NS("https://www.uscourts.gov"),
+            dcterms_coverage=NS("USA"),
+            # Info about original source
+            dcterms_source=NS("https://www.uscourts.gov/glossary"),
+            publiclaw_sourceModified="unknown",
+            publiclaw_sourceCreator=NS("United States Courts"),
         ),
         entries=[],
     )
