@@ -17,7 +17,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=NS("Glossary of Legal Terms"),
             dcterms_language="en",
-            dcterms_coverage=NS("USA"),
+            dcterms_coverage="USA",
             # Info about original source
             dcterms_source=NS("https://www.uscourts.gov/glossary"),
             publiclaw_sourceModified="unknown",

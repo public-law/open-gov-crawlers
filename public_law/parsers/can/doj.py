@@ -74,7 +74,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         dcterms_source=NonemptyString(url),
         dcterms_title=NonemptyString(name),
         dcterms_language="en",
-        dcterms_coverage=NonemptyString("Canada"),
+        dcterms_coverage="CAN",
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
     )

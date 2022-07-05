@@ -17,7 +17,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=NS("Glossary"),
             dcterms_language="en",
-            dcterms_coverage=NS("NZL"),
+            dcterms_coverage="NZL",
             # Info about original source
             dcterms_source=NS("https://www.justice.govt.nz/about/glossary/"),
             publiclaw_sourceModified="unknown",
