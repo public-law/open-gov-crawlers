@@ -1,5 +1,4 @@
 from scrapy.http.response.html import HtmlResponse
-from typing import cast
 from bs4 import BeautifulSoup
 from typing import Any, Callable, List, cast
 import titlecase

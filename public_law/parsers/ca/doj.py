@@ -8,7 +8,11 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
-from public_law.models.glossary import *
+from public_law.models.glossary import (
+    GlossaryEntry,
+    GlossaryParseResult,
+    ParseException,
+)
 from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
 from public_law.metadata import Metadata
 
@@ -69,7 +73,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=metadata,
-        entries=entries,
+        entries=tuple(entries),
     )
 
 

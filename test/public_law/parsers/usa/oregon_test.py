@@ -1,9 +1,9 @@
-from scrapy.selector import Selector
+# pyright: reportPrivateUsage=false
+
+from scrapy.selector.unified import Selector
 from typing import Any, IO
 
-from public_law.parsers.us.oregon import _meta_sections, parse_division, _statute_meta
-
-from public_law.parsers.us.oregon import *
+from public_law.parsers.us.oregon import _statute_meta, _meta_sections, parse_division
 
 
 def fixture(filename: str) -> IO[Any]:

@@ -39,6 +39,7 @@ def parsed_glossary_index() -> GlossaryParseResult:
 
 
 class TestParseGlossary:
+    # pyright: reportUninitializedInstanceVariable=false
     def setup(self):
         self.result = parsed_glossary()
         self.p11_result = parsed_glossary_p11()

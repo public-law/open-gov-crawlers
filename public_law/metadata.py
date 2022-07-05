@@ -10,16 +10,33 @@ from public_law.text import NonemptyString
 class Metadata:  # pylint:disable=too-many-instance-attributes
     """Each JSON output file should have a `Metadata` object with the attributes:
 
-    - `dcterms:creator`       An entity responsible for making the resource. Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided.
-    - `dcterms:identifier`    An unambiguous reference to the resource within a given context. Recommended practice is to identify the resource by means of a string conforming to an identification system. Examples include International Standard Book Number (ISBN), Digital Object Identifier (DOI), and Uniform Resource Name (URN). Persistent identifiers should be provided as HTTP URIs.
-    - `dcterms:language`      An [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
-    - `dcterms:publisher`     An entity responsible for making the resource available.
-    - `dcterms:source`        The source URL. (A related resource from which the described resource is derived. This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system.)
-    - `dcterms:type`          Literal: "Dataset". (The nature or genre of the resource. Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary.)
-    - `dcterms:title`         A name given to the resource.
-    - `dcterms:format`        The file format, physical medium, or dimensions of the resource. Recommended practice is to use a controlled vocabulary such as the list of Internet Media Types.
-    - `dcterms:license`       "https://creativecommons.org/licenses/by/4.0/"
-    - `dcterms:modified`      The date the resource was last modified. I.e., last accessed date.
+    - `dcterms:creator`     An entity responsible for making the resource. Recommended
+                            practice is to identify the creator with a URI. If this is
+                            not possible or feasible, a literal value that identifies
+                            the creator may be provided.
+    - `dcterms:identifier`  An unambiguous reference to the resource within a given context.
+                            Recommended practice is to identify the resource by means of a
+                            string conforming to an identification system. Examples include
+                            International Standard Book Number (ISBN), Digital Object
+                            Identifier (DOI), and Uniform Resource Name (URN). Persistent
+                            identifiers should be provided as HTTP URIs.
+    - `dcterms:language`    An [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+    - `dcterms:publisher`   An entity responsible for making the resource available.
+    - `dcterms:source`      The source URL. (A related resource from which the described
+                            resource is derived. This property is intended to be used with
+                            non-literal values. The described resource may be derived from
+                            the related resource in whole or in part. Best practice is to
+                            identify the related resource by means of a URI or a string
+                            conforming to a formal identification system.)
+    - `dcterms:type`        Literal: "Dataset". (The nature or genre of the resource.
+                            Recommended practice is to use a controlled vocabulary such as
+                            the DCMI Type Vocabulary.)
+    - `dcterms:title`       A name given to the resource.
+    - `dcterms:format`      The file format, physical medium, or dimensions of the resource.
+                            Recommended practice is to use a controlled vocabulary such as
+                            the list of Internet Media Types.
+    - `dcterms:license`     "https://creativecommons.org/licenses/by/4.0/"
+    - `dcterms:modified`    The date the resource was last modified. I.e., last accessed date.
 
     - `publiclaw:sourceModified` The date the original (gov't) source was last modified.
     - `publiclaw:sourceCreator`  The name of the gov't source.
