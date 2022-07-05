@@ -17,7 +17,7 @@ from ...text import (
     Sentence,
     capitalize_first_char,
     NonemptyString,
-    normalize_whitespace,
+    ensure_ends_with_period,
     normalize_nonempty,
 )
 from ...metadata import Metadata
@@ -62,7 +62,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         entries.append(
             GlossaryEntry(
                 phrase=NonemptyString(phrase),
-                definition=Sentence(normalize_nonempty(definition)),
+                definition=Sentence(
+                    ensure_ends_with_period(normalize_nonempty(definition))
+                ),
             )
         )
 
@@ -90,6 +92,6 @@ def parse_name(html: SelectorLike) -> str:
 def first_match(node: SelectorLike, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
-            return normalize_whitespace(result)
+            return normalize_nonempty(result)
         case _:
             raise ParseException(f'Could not parse the {expected} using "{css}"')

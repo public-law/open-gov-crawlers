@@ -1,6 +1,12 @@
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import NonemptyString as NS, make_soup, normalize_nonempty, Sentence
+from ...text import (
+    NonemptyString as NS,
+    make_soup,
+    normalize_nonempty,
+    Sentence,
+    ensure_ends_with_period,
+)
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
 
@@ -28,7 +34,7 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     return tuple(
         GlossaryEntry(
             phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(normalize_nonempty(defn.text)),
+            definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text))),
         )
         for phrase, defn in raw_entries
     )
