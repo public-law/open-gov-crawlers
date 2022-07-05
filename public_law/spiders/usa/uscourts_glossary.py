@@ -5,8 +5,8 @@ from typing import Any
 from ...parsers.usa.courts_glossary import parse_glossary
 
 
-class USCourtsGlossary(Spider):
-    name = "us_courts_glossary"
+class USACourtsGlossary(Spider):
+    name = "usa_courts_glossary"
 
     start_urls = ["https://www.uscourts.gov/glossary"]
 
