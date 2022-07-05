@@ -15,7 +15,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=NS(html.xpath("//title/text()").get()),
             dcterms_source=NS("https://www.uscourts.gov/glossary"),
-            dcterms_creator="TBD",
+            dcterms_creator="https://public.law",
             publiclaw_sourceModified=today(),
             dcterms_coverage=NS("TBD"),
             dcterms_language="en",
