@@ -55,16 +55,14 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
 
-@mark.skip
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).phrase == "acquit"
+    assert first(parsed_glossary.entries).phrase == "Affidavit"
 
 
 @mark.skip
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        first(parsed_glossary.entries).definition
-        == "To decide officially in court that a person is not guilty."
+        first(parsed_glossary.entries).definition == "A written statement made on oath."
     )
 
 
@@ -77,8 +75,9 @@ def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
-    assert last_entry.phrase == "Youth Court"
+    assert last_entry.phrase == "Supervision order"
     assert last_entry.definition == (
-        "The Youth Court has jurisdiction to deal with "
-        "young people charged with criminal offences."
+        "An order allowing Tusla to monitor a child considered to be at risk. "
+        "The child is not removed from his or her home environment. A supervision "
+        "order is for a fixed period of time not longer than 12 months initially."
     )
