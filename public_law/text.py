@@ -22,9 +22,7 @@ class NonemptyString(str):
             case str(content) if len(content) > 0:
                 return super().__new__(cls, content)
             case _:
-                raise ValueError(
-                    "Content is empty or not a string; cannot create a NonemptyString"
-                )
+                raise ValueError("Content is empty or not a string.")
 
 
 class Sentence(NonemptyString):
@@ -43,9 +41,11 @@ def ensure_ends_with_period(text: str) -> str:
     """
     Ensure that the string ends with a period.
     """
-    if text.endswith("."):
-        return text
-    return text + "."
+    match (text):
+        case s if s.endswith("."):
+            return s
+        case s:
+            return s + "."
 
 
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
