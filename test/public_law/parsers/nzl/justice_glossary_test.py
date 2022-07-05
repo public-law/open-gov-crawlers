@@ -48,12 +48,10 @@ def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
 
-@mark.skip(reason="Not implemented yet")
 def test_phrase(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.entries[0].phrase == "Acquittal"
 
