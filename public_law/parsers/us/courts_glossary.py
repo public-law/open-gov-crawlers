@@ -1,11 +1,6 @@
-# SOURCE_URL = 'https://www.uscourts.gov/glossary'
-# HTML_TITLE = response.xpath('//title/text()').get()
-
-from typing import cast
-from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import NonemptyString as NS, normalize_whitespace
+from ...text import NonemptyString as NS, make_soup, normalize_whitespace
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
 
@@ -27,7 +22,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry]:
-    soup = BeautifulSoup(cast(str, html.body), "html.parser")
+    soup = make_soup(html)
     raw_entries = zip(soup("dt"), soup("dd"))
 
     return tuple(
