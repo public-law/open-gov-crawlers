@@ -36,14 +36,12 @@ def test_gets_the_url(parsed_glossary: GlossaryParseResult):
     )
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_author(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "nzl"
+    assert parsed_glossary.metadata.dcterms_coverage == "NZL"
 
 
 @mark.skip(reason="Not implemented yet")
