@@ -1,6 +1,5 @@
-from datetime import date
 from scrapy.http.response.html import HtmlResponse
-from pytest import fixture, mark
+from pytest import fixture
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult

@@ -5,7 +5,7 @@ from typing import cast
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import NonemptyString as NS
+from ...text import NonemptyString as NS, normalize_whitespace
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
 
@@ -32,8 +32,8 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry]:
 
     return tuple(
         GlossaryEntry(
-            phrase=NS(phrase.text.strip()),
-            definition=NS(defn.text.strip()),
+            phrase=NS(normalize_whitespace(phrase.text)),
+            definition=NS(normalize_whitespace(defn.text)),
         )
         for phrase, defn in raw_entries
     )
