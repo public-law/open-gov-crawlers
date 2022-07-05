@@ -57,7 +57,11 @@ disable=[
     # My style
     "unnecessary-lambda-assignment",
     "multiple-statements",
-    "line-too-long",]
+    "line-too-long",
+
+	# Broken
+	"used-before-assignment",
+	]
 
 [tool.pyright]
 strict = ["*"]
