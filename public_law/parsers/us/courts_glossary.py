@@ -1,7 +1,6 @@
 # SOURCE_URL = 'https://www.uscourts.gov/glossary'
 # HTML_TITLE = response.xpath('//title/text()').get()
 
-from typing import cast
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import NonemptyString as NS
