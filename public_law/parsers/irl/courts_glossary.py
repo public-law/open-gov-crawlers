@@ -13,6 +13,7 @@ from ...text import (
     ensure_ends_with_period,
     NonemptyString as NS,
     normalize_nonempty,
+    remove_end_colon,
     Sentence,
 )
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
@@ -39,7 +40,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
-            phrase=normalize_nonempty(phrase),
+            phrase=normalize_nonempty(remove_end_colon(phrase)),
             definition=Sentence(
                 capitalize_first_char(
                     ensure_ends_with_period(normalize_nonempty((defn)))

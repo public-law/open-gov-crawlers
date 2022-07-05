@@ -55,6 +55,11 @@ def ensure_ends_with_period(text: str) -> str:
             return s + "."
 
 
+def remove_end_colon(text: str) -> str:
+    """Remove the colon at the end of the string"""
+    return text.rstrip(":")
+
+
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
     return BeautifulSoup(cast(str, html.body), "html.parser")
 
