@@ -5,7 +5,7 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.us.georgia import (
+from public_law.parsers.usa.georgia import (
     opinion_date_to_iso8601,
     parse_ag_opinion,
     OpinionParseResult,

@@ -1,6 +1,6 @@
 from datetime import date
 from scrapy.http.response.html import HtmlResponse
-from public_law.parsers.ca.doj import parse_glossary, GlossaryParseResult
+from public_law.parsers.can.doj import parse_glossary, GlossaryParseResult
 from public_law.dates import today
 
 

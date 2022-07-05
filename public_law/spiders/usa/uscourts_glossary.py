@@ -2,7 +2,7 @@ from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from ...parsers.us.courts_glossary import parse_glossary
+from ...parsers.usa.courts_glossary import parse_glossary
 
 
 class USCourtsGlossary(Spider):

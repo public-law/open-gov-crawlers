@@ -1,13 +1,13 @@
 from scrapy.http.response.html import HtmlResponse
-from pytest import fixture
+from pytest import fixture, mark
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult
-from public_law.parsers.usa.courts_glossary import parse_glossary
+from public_law.parsers.nzl.justice_glossary import parse_glossary
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"test/fixtures/usa/{filename}", encoding="utf8") as f:
+    with open(f"test/fixtures/nzl/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
@@ -20,40 +20,50 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 @fixture
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
-        filename="gov.uscourts-glossary.html", url="https://www.uscourts.gov/glossary"
+        filename="nz.govt.justice-glossary.html",
+        url="https://www.justice.govt.nz/about/glossary/",
     )
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):
     assert (
-        parsed_glossary.metadata.dcterms_source == "https://www.uscourts.gov/glossary"
+        parsed_glossary.metadata.dcterms_source
+        == "https://www.justice.govt.nz/about/glossary/"
     )
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_author(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "USA"
+    assert parsed_glossary.metadata.dcterms_coverage == "nzl"
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
 
+@mark.skip(reason="Not implemented yet")
 def test_phrase(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.entries[0].phrase == "Acquittal"
 
 
+@mark.skip(reason="Not implemented yet")
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
         parsed_glossary.entries[1].definition
@@ -61,10 +71,12 @@ def test_definition(parsed_glossary: GlossaryParseResult):
     )
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
     assert len(parsed_glossary.entries) == 237
 
 
+@mark.skip(reason="Not implemented yet")
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = parsed_glossary.entries[-1]
 

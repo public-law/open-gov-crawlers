@@ -2,7 +2,7 @@ from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from public_law.parsers.ca.doj import parse_glossary
+from public_law.parsers.can.doj import parse_glossary
 
 
 class DojGlossaries(Spider):
