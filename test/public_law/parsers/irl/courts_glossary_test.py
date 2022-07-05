@@ -65,9 +65,8 @@ def test_definition(parsed_glossary: GlossaryParseResult):
     )
 
 
-@mark.skip
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(tuple(parsed_glossary.entries)) == 154
+    assert len(tuple(parsed_glossary.entries)) == 43
 
 
 @mark.skip
