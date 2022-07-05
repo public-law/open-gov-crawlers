@@ -1,5 +1,6 @@
 # pyright: reportUntypedFunctionDecorator=false
 # pyright: reportOptionalMemberAccess=false
+# pyright: reportUnusedImport=false
 
 from more_itertools import first, last
 
