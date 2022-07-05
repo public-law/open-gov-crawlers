@@ -50,7 +50,7 @@ class Metadata:  # pylint:disable=too-many-instance-attributes
 
     dcterms_title: NonemptyString
     dcterms_language: Literal["de", "en", "fr"]
-    dcterms_coverage: NonemptyString
+    dcterms_coverage: Literal["CAN", "IRL", "NZL", "USA"]
 
     # The original gov't document.
     dcterms_source: NonemptyString

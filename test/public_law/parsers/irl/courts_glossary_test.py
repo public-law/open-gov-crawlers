@@ -32,7 +32,7 @@ def parsed_glossary() -> GlossaryParseResult:
 
 
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "Glossary"
+    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
 
 
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):

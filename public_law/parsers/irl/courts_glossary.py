@@ -1,12 +1,17 @@
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
 
 from typing import Any, Iterable, cast
+from more_itertools import chunked
+
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import (
+    capitalize_first_char,
     ensure_ends_with_period,
     NonemptyString as NS,
-    make_soup,
     normalize_nonempty,
     Sentence,
 )
@@ -17,9 +22,9 @@ from ...metadata import Metadata
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS("Glossary"),
+            dcterms_title=NS("Glossary of Legal Terms"),
             dcterms_language="en",
-            dcterms_coverage=NS("IRL"),
+            dcterms_coverage="IRL",
             # Info about original source
             dcterms_source=NS(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
@@ -34,8 +39,12 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
-            phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn.text))),
+            phrase=normalize_nonempty(phrase),
+            definition=Sentence(
+                capitalize_first_char(
+                    ensure_ends_with_period(normalize_nonempty((defn)))
+                )
+            ),
         )
 
 
@@ -45,5 +54,6 @@ def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup = make_soup(html)
-    return ((phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong"))
+    return chunked(
+        html.xpath("//p/strong/parent::p/text() | //strong/text()").getall(), 2
+    )
