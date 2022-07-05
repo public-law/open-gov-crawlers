@@ -3,7 +3,7 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.models.glossary import GlossaryParseResult
+from ...models.glossary import GlossaryParseResult
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

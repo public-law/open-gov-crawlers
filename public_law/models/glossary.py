@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from public_law.metadata import Metadata
-from public_law.text import NonemptyString
+from ..metadata import Metadata
+from ..text import NonemptyString
 
 
 class ParseException(Exception):
