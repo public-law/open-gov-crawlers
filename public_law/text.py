@@ -1,3 +1,5 @@
+import re
+
 from scrapy.http.response.html import HtmlResponse
 from bs4 import BeautifulSoup
 from typing import Any, Callable, List, cast
@@ -20,6 +22,18 @@ class NonemptyString(str):
             raise ValueError("Content is empty, cannot create a NonemptyString")
 
         return super().__new__(cls, content)
+
+
+class Sentence(NonemptyString):
+    """A str subclass that begins with a capital letter and ends with a period."""
+
+    def __new__(cls, content: Any):
+        """Create a new Sentence."""
+        match re.match(r"^[A-Z].*\.$", content):
+            case None:
+                raise ValueError(f"Not a proper sentence: {content}")
+            case _:
+                return super().__new__(cls, content)
 
 
 def ensure_ends_with_period(text: str) -> str:

@@ -6,6 +6,7 @@ from ...text import (
     NonemptyString as NS,
     make_soup,
     normalize_nonempty,
+    Sentence,
 )
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
@@ -32,7 +33,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
             phrase=normalize_nonempty(phrase.text),
-            definition=normalize_nonempty(ensure_ends_with_period(defn.text)),
+            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn.text))),
         )
 
 

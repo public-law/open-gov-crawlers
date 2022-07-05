@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from ..metadata import Metadata
-from ..text import NonemptyString
+from ..text import NonemptyString, Sentence
 
 
 class ParseException(Exception):
@@ -14,7 +14,7 @@ class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""
 
     phrase: NonemptyString
-    definition: NonemptyString
+    definition: Sentence
 
 
 @dataclass(frozen=True)
