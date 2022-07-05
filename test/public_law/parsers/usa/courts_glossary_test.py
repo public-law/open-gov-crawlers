@@ -32,7 +32,6 @@ def test_gets_the_name(parsed_glossary: GlossaryParseResult):
     )
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):
     assert (
         parsed_glossary.metadata.dcterms_source == "https://www.uscourts.gov/glossary"
