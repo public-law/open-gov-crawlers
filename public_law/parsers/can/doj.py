@@ -18,6 +18,7 @@ from ...text import (
     capitalize_first_char,
     NonemptyString,
     normalize_whitespace,
+    normalize_nonempty,
 )
 from ...metadata import Metadata
 
@@ -61,7 +62,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         entries.append(
             GlossaryEntry(
                 phrase=NonemptyString(phrase),
-                definition=Sentence(definition),
+                definition=Sentence(normalize_nonempty(definition)),
             )
         )
 

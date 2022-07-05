@@ -35,7 +35,7 @@ class Sentence(NonemptyString):
 
     def __new__(cls, content: Any):
         """Create a new Sentence."""
-        match re.match(r"^[A-Z].*\.[\"\)]?$", content):
+        match re.match(r"^[A-Z].*\.[\"\)’”]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: {content}")
             case _:
