@@ -26,3 +26,10 @@ disable=unsubscriptable-object,
 
 	# Scrapy style conflicts:
 	too-few-public-methods,
+	
+        # Broken - false positives.
+        invalid-name,
+
+        # My style
+        unnecessary-lambda-assignment,
+        multiple-statements

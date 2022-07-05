@@ -32,10 +32,25 @@ devtools = "^0.8.0"
 
 [tool.pytest.ini_options]
 minversion = "7.1"
-addopts = "-q"
 pythonpath = "."
-testpaths = ["test"]
+python_files = ["*_test.py",]
+python_classes = ["Test", "Describe"]
+python_functions = ["test_", "it_", "and_", "but_", "they_"]
+testpaths = ["test",]
+addopts = "-q --no-header --doctest-modules"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.pyright]
+strict = ["*"]
+ignore = ["**/typings"]
+reportUninitializedInstanceVariable = "error"
+reportUnusedCallResult = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportPropertyTypeMismatch = "error"
+reportMissingSuperCall = "error"
+reportImplicitStringConcatenation = "error"
+reportCallInDefaultInitializer = "error"
+
