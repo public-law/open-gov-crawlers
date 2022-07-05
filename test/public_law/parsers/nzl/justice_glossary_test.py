@@ -44,7 +44,6 @@ def test_gets_coverage(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_coverage == "NZL"
 
 
-@mark.skip(reason="Not implemented yet")
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
