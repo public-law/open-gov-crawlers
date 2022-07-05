@@ -69,7 +69,6 @@ def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
     assert len(tuple(parsed_glossary.entries)) == 43
 
 
-@mark.skip
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
