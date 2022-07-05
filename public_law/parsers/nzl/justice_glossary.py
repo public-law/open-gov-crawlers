@@ -1,3 +1,4 @@
+from pprint import pprint
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import NonemptyString as NS, make_soup, normalize_whitespace
@@ -23,7 +24,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
-    raw_entries = zip(soup("dt"), soup("dd"))
+    raw_entries = (
+        (phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong")
+    )
 
     return tuple(
         GlossaryEntry(

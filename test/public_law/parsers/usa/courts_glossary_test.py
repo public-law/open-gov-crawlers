@@ -1,5 +1,9 @@
+# pyright: reportUntypedFunctionDecorator=false
+
+
 from scrapy.http.response.html import HtmlResponse
 from pytest import fixture
+from toolz.functoolz import memoize
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult
@@ -18,6 +22,7 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 
 @fixture
+@memoize
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         filename="gov.uscourts-glossary.html", url="https://www.uscourts.gov/glossary"

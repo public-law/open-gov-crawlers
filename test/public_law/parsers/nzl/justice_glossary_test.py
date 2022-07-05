@@ -1,3 +1,7 @@
+# pyright: reportUntypedFunctionDecorator=false
+
+from functools import cache
+
 from scrapy.http.response.html import HtmlResponse
 from pytest import fixture, mark
 
@@ -18,6 +22,7 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 
 @fixture
+@cache
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         filename="nz.govt.justice-glossary.html",
@@ -53,7 +58,7 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
 
 
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.entries[0].phrase == "Acquittal"
+    assert parsed_glossary.entries[0].phrase == "acquit"
 
 
 @mark.skip(reason="Not implemented yet")

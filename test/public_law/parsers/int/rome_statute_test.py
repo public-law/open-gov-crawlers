@@ -3,6 +3,8 @@
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownMemberType=false
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportUntypedFunctionDecorator=false
+
 
 import pytest
 import vcr
