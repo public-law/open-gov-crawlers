@@ -1,6 +1,7 @@
 # SOURCE_URL = 'https://www.uscourts.gov/glossary'
 # HTML_TITLE = response.xpath('//title/text()').get()
 
+from typing import cast
 from scrapy.http.response.html import HtmlResponse
 
 from ...dates import today
@@ -11,9 +12,12 @@ from ...metadata import Metadata
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
+    # pyright: reportUnknownMemberType=false
+    title = cast(str, html.xpath("//title/text()").get())
+
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS(html.xpath("//title/text()").get()),
+            dcterms_title=NS(title),
             dcterms_source=NS("https://www.uscourts.gov/glossary"),
             dcterms_creator="https://public.law",
             publiclaw_sourceModified=today(),
