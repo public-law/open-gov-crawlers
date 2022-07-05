@@ -1,3 +1,11 @@
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
+
+
 from datetime import datetime
 import re
 from typing import List, NamedTuple, Union

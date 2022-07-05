@@ -1,5 +1,11 @@
+from scrapy.http.response.html import HtmlResponse
+from bs4 import BeautifulSoup
 from typing import Any, Callable, List, cast
 import titlecase
+
+
+def make_soup(html: HtmlResponse) -> BeautifulSoup:
+    return BeautifulSoup(cast(str, html.body), "html.parser")
 
 
 def title_case(text: str) -> str:
@@ -60,4 +66,4 @@ class NonemptyString(str):
         if (not isinstance(content, str)) or len(content) == 0:
             raise ValueError("Content is empty, cannot create a NonemptyString")
 
-        return super().__new__(cls, content)  # type: ignore
+        return super().__new__(cls, content)

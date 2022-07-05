@@ -1,6 +1,5 @@
 # pyright: reportUnknownMemberType=false
 
-from dataclasses import dataclass
 from datetime import date
 import re
 from typing import Any, TypeAlias
@@ -9,6 +8,11 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
+from public_law.models.glossary import (
+    GlossaryEntry,
+    GlossaryParseResult,
+    ParseException,
+)
 from public_law.text import capitalize_first_char, NonemptyString, normalize_whitespace
 from public_law.metadata import Metadata
 
@@ -16,55 +20,11 @@ from public_law.metadata import Metadata
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
 
-class ParseException(Exception):
-    pass
-
-
-@dataclass(frozen=True)
-class GlossaryEntry:
-    """Represents one term and its definition in a particular Glossary"""
-
-    phrase: NonemptyString
-    definition: NonemptyString
-
-
-@dataclass(frozen=True)
-class GlossarySourceParseResult:
-    """All the info about a glossary source"""
-
-    metadata: Metadata
-    entries: list[GlossaryEntry]
-
-    def __iter__(self):
-        """Iterate over the entries in this glossary source.
-        This customizes the produced dict to properly process the
-        metadata.
-
-        TODO: Figure out a way to convert this to a dict without the
-        custom __iter__.
-        """
-
-        new_dict = {
-            "metadata": dict(self.metadata),
-            "entries": self.entries,
-        }
-        return iter(new_dict.items())
-
-
-def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
+def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     name = parse_name(html)
     pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
 
     entries: list[GlossaryEntry] = []
-
-    # dl_lists: list[Any] = html.css("main dl")
-    # if len(dl_lists) == 0:
-    #     raise ParseException("No DL lists found")
-
-    # if isinstance(dl_lists[0], Selector):
-    #     first_dl_list = dl_lists[0]
-    # else:
-    #     raise ParseException("Expected a <dl>")
 
     match html.css("main dl"):
         case [first, *_] if isinstance(
@@ -111,9 +71,9 @@ def parse_glossary(html: HtmlResponse) -> GlossarySourceParseResult:
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
     )
 
-    return GlossarySourceParseResult(
+    return GlossaryParseResult(
         metadata=metadata,
-        entries=entries,
+        entries=tuple(entries),
     )
 
 

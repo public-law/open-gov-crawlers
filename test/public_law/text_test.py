@@ -21,8 +21,8 @@ class TestNonemptyString:
 
     def test_raises_error_if_empty_string_given(self):
         with pytest.raises(ValueError, match="empty"):
-            NonemptyString("")
+            _ = NonemptyString("")
 
     def test_raises_error_if_non_string_type_given(self):
         with pytest.raises(ValueError):
-            NonemptyString(123)
+            _ = NonemptyString(123)

@@ -30,11 +30,55 @@ black = "^22.3.0"
 vcrpy = "^4.1.1"
 devtools = "^0.8.0"
 
+[tool.pylint.main]
+output-format = "colorized"
+py-version = [3,10]
+disable=[
+    "unsubscriptable-object",
+	"unsupported-membership-test",
+	"fixme",
+	"wrong-import-order",
+	"no-name-in-module",
+	"no-member",
+
+	# Features should have descriptive names. So function shouldn't
+	# be necessary most of the time:
+	"missing-class-docstring",
+	"missing-function-docstring",
+	"missing-module-docstring",
+
+	# Scrapy style conflicts:
+	"too-few-public-methods",
+	
+    # Broken - false positives.
+    "invalid-name",
+
+    # My style
+    "unnecessary-lambda-assignment",
+    "multiple-statements",
+    "line-too-long"
+]
+
+[tool.pyright]
+strict = ["*"]
+ignore = ["**/typings"]
+reportUninitializedInstanceVariable = "error"
+reportUnusedCallResult = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportPropertyTypeMismatch = "error"
+reportMissingSuperCall = "error"
+reportImplicitStringConcatenation = "error"
+reportCallInDefaultInitializer = "error"
+
+
 [tool.pytest.ini_options]
 minversion = "7.1"
-addopts = "-q"
 pythonpath = "."
-testpaths = ["test"]
+python_files = ["*_test.py",]
+python_classes = ["Test", "Describe"]
+python_functions = ["test_", "it_", "and_", "but_", "they_"]
+testpaths = ["test",]
+addopts = "-q --no-header --doctest-modules"
 
 [build-system]
 requires = ["poetry>=0.12"]

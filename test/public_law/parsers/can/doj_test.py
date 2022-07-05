@@ -1,10 +1,10 @@
 from datetime import date
 from scrapy.http.response.html import HtmlResponse
-from public_law.parsers.ca.doj import parse_glossary, GlossarySourceParseResult
+from public_law.parsers.ca.doj import parse_glossary, GlossaryParseResult
 from public_law.dates import today
 
 
-def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
+def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
     with open(f"test/fixtures/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
@@ -15,30 +15,31 @@ def parsed_fixture(filename: str, url: str) -> GlossarySourceParseResult:
     return parse_glossary(html)
 
 
-def parsed_glossary() -> GlossarySourceParseResult:
+def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         "p7g.html",
         "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
     )
 
 
-def parsed_glossary_p11() -> GlossarySourceParseResult:
+def parsed_glossary_p11() -> GlossaryParseResult:
     return parsed_fixture(
         "p11.html", "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html"
     )
 
 
-def parsed_glossary_glos() -> GlossarySourceParseResult:
+def parsed_glossary_glos() -> GlossaryParseResult:
     return parsed_fixture(
         "glos.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html"
     )
 
 
-def parsed_glossary_index() -> GlossarySourceParseResult:
+def parsed_glossary_index() -> GlossaryParseResult:
     return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
 
 
 class TestParseGlossary:
+    # pyright: reportUninitializedInstanceVariable=false
     def setup(self):
         self.result = parsed_glossary()
         self.p11_result = parsed_glossary_p11()

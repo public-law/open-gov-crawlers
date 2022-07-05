@@ -26,9 +26,10 @@ jobs:
           poetry env use "3.10"
           poetry install --no-interaction
 
-      - name: Test with Pytest
+      - name: Test with Pytest and Scrapy contracts
         run: |
           poetry run pytest
+          poetry run scrapy check
 
   Linting:
     runs-on: ubuntu-latest

@@ -1,3 +1,11 @@
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
+
+
 from public_law.parsers.us.georgia import parse_ag_opinion
 from scrapy import Spider
 from scrapy.http.request import Request

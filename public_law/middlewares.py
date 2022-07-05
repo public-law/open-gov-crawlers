@@ -1,3 +1,13 @@
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownParameterType=false
+# pyright: reportMissingParameterType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
+
+
 # -*- coding: utf-8 -*-
 
 # Define here the models for your spider middleware
@@ -20,9 +30,7 @@ class OarSpiderMiddleware:
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
         the_class = cls()
-        crawler.signals.connect(  # type: ignore
-            the_class.spider_opened, signal=signals.spider_opened
-        )  # type: ignore
+        crawler.signals.connect(the_class.spider_opened, signal=signals.spider_opened)
         return the_class
 
     def process_spider_input(self, _response: Response, _spider: Spider) -> None:
@@ -70,9 +78,7 @@ class OarDownloaderMiddleware:
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
         the_class = cls()
-        crawler.signals.connect(  # type: ignore
-            the_class.spider_opened, signal=signals.spider_opened
-        )  # type: ignore
+        crawler.signals.connect(the_class.spider_opened, signal=signals.spider_opened)
         return the_class
 
     def process_request(self, _request: Request, _spider: Spider):

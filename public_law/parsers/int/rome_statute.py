@@ -31,8 +31,8 @@ class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: conint(ge=1, le=13)  # type: ignore
-    name: constr(regex=r"^[ a-zA-Z,]+$")  # type: ignore
+    number: conint(ge=1, le=13)
+    name: constr(regex=r"^[ a-zA-Z,]+$")
 
 
 class Article(FrozenModel):
@@ -57,7 +57,7 @@ class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
-    number: conint(ge=1, le=10)  # type: ignore
+    number: conint(ge=1, le=10)
     article_number: S
     text: S
 
@@ -139,13 +139,14 @@ def footnotes() -> list[Footnote]:
 
 
 # pylint:enable=line-too-long
+# pylint:disable=all
+# TODO: Get this working.
 
 
 def new_metadata(pdf_url: str) -> Metadata:
-    pdf_data = metadata(pdf_url)
+    # pdf_data = metadata(pdf_url)
 
     return Metadata(
-        dc_creator=S(pdf_data["dc:creator"]),
         dc_identifier=S(JSON_OUTPUT_URL_EN),
         dc_source=S(pdf_url),
         dc_title=S(title(pdf_url)),
