@@ -43,12 +43,12 @@ def test_gets_the_author(parsed_glossary: GlossaryParseResult):
 
 
 @mark.skip(reason="Not implemented yet")
-def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
+def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == date(2022, 5, 13)
 
 
 @mark.skip(reason="Not implemented yet")
-def test_gets_the_original_modification_date(parsed_glossary: GlossaryParseResult):
+def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
 
@@ -59,7 +59,7 @@ def test_phrase(parsed_glossary: GlossaryParseResult):
 
 @mark.skip(reason="Not implemented yet")
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(parsed_glossary.entries) == 36
+    assert len(parsed_glossary.entries) == 127
 
 
 @mark.skip(reason="Not implemented yet")
