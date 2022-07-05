@@ -59,9 +59,10 @@ def test_phrase(parsed_glossary: GlossaryParseResult):
 
 
 def test_definition(parsed_glossary: GlossaryParseResult):
-    assert (
-        first(parsed_glossary.entries).definition
-        == "A judge in the full-time service of the court. Compare to senior judge."
+    assert first(parsed_glossary.entries).definition == (
+        "A jury verdict that a criminal defendant is not guilty, "
+        "or the finding of a judge that the evidence is insufficient "
+        "to support a conviction."
     )
 
 
