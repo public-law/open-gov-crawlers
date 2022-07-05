@@ -31,6 +31,8 @@ class Sentence(NonemptyString):
     It can actually end in a few ways, due to punction style. E.g.,
 
         He said, "This is a sentence."
+
+    It can also start with a number or open quote.
     """
 
     def __new__(cls, content: Any):
