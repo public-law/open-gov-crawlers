@@ -17,7 +17,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=NS("New Zealand Ministry of Justice"),
         ),
-        entries=tuple(__parse_entries(html)),
+        entries=__parse_entries(html),
     )
 
 

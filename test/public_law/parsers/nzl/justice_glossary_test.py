@@ -1,6 +1,9 @@
 # pyright: reportUntypedFunctionDecorator=false
+# pyright: reportOptionalMemberAccess=false
 
 from functools import cache
+from more_itertools import first, last, nth
+
 
 from scrapy.http.response.html import HtmlResponse
 from pytest import fixture, mark
@@ -58,25 +61,25 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
 
 
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.entries[0].phrase == "acquit"
+    assert first(parsed_glossary.entries).phrase == "acquit"
 
 
 @mark.skip(reason="Not implemented yet")
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        parsed_glossary.entries[1].definition
+        nth(parsed_glossary.entries, 2).definition
         == "A judge in the full-time service of the court. Compare to senior judge."
     )
 
 
 @mark.skip(reason="Not implemented yet")
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(parsed_glossary.entries) == 237
+    assert len(tuple(parsed_glossary.entries)) == 237
 
 
 @mark.skip(reason="Not implemented yet")
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
-    last_entry = parsed_glossary.entries[-1]
+    last_entry = last(parsed_glossary.entries)
 
     assert last_entry.phrase == "Writ of certiorari"
     assert last_entry.definition == (

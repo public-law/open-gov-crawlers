@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Iterable
 
 from ..metadata import Metadata
 from ..text import NonemptyString
@@ -21,7 +22,7 @@ class GlossaryParseResult:
     """All the info about a glossary"""
 
     metadata: Metadata
-    entries: tuple[GlossaryEntry, ...]
+    entries: Iterable[GlossaryEntry]
 
     def __iter__(self):
         """Iterate over the entries in this glossary source.
