@@ -21,7 +21,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry]:
+def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
     raw_entries = zip(soup("dt"), soup("dd"))
 
