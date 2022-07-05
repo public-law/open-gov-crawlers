@@ -28,7 +28,7 @@ def parsed_glossary_uscourts() -> GlossaryParseResult:
 def test_gets_the_name(parsed_glossary_uscourts: GlossaryParseResult):
     assert (
         parsed_glossary_uscourts.metadata.dcterms_title
-        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
+        == "Glossary of Legal Terms | United States Courts"
     )
 
 
