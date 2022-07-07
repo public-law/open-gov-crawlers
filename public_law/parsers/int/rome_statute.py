@@ -17,7 +17,7 @@ LANGUAGE_MAP = {
     "Estatuto de Roma de la Corte Penal Internacional": "es",
 }
 
-JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"  # pylint:disable=line-too-long
+JSON_OUTPUT_URL_EN = "https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json"
 
 
 class FrozenModel(BaseModel):
@@ -62,7 +62,6 @@ class Footnote(FrozenModel):
     text: S
 
 
-# pylint:disable=line-too-long
 def footnotes() -> list[Footnote]:
     return [
         Footnote(
@@ -136,11 +135,6 @@ def footnotes() -> list[Footnote]:
             ),
         ),
     ]
-
-
-# pylint:enable=line-too-long
-# pylint:disable=all
-# TODO: Get this working.
 
 
 def new_metadata(pdf_url: str) -> Metadata:
