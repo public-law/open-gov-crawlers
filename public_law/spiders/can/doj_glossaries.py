@@ -20,6 +20,12 @@ class DojGlossaries(Spider):
     ]
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
-        """Framework callback which begins the parsing."""
+        """Framework callback which begins the parsing.
+
+        @url https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html
+        @returns items 1 1
+        @returns requests 0 0
+        @scrapes metadata entries
+        """
 
         yield dict(parse_glossary(response))

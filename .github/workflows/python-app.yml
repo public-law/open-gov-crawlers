@@ -52,6 +52,7 @@ jobs:
 
       - name: Test Scrapy contracts
         run: |
+          poetry run scrapy check can_doj_glossaries
           poetry run scrapy check irl_courts_glossary
           poetry run scrapy check nzl_justice_glossary
           poetry run scrapy check usa_courts_glossary
