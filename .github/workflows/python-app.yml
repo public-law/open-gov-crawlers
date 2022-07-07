@@ -52,32 +52,10 @@ jobs:
 
       - name: Test Scrapy contracts
         run: |
+          poetry run scrapy check can_doj_glossaries
           poetry run scrapy check irl_courts_glossary
           poetry run scrapy check nzl_justice_glossary
           poetry run scrapy check usa_courts_glossary
-
-  Linting:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.10"
-          # cache: 'poetry'
-
-      - name: Install dependencies
-        run: |
-          poetry env use "3.10"
-          poetry install --no-interaction
-
-      - name: Lint with Pylint
-        run: poetry run pylint public_law/
 
   Type-Checking:
     runs-on: ubuntu-latest

@@ -7,7 +7,7 @@ from public_law.text import NonemptyString
 
 
 @dataclass(frozen=True)
-class Metadata:  # pylint:disable=too-many-instance-attributes
+class Metadata:
     """Each JSON output file should have a `Metadata` object with the attributes:
 
     - `dcterms:creator`     An entity responsible for making the resource. Recommended

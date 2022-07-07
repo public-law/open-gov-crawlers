@@ -205,8 +205,6 @@ class TestArticles:
     # flattened form found in the HTML input.
     #
 
-    # pylint:disable=line-too-long
-
     @my_vcr.use_cassette()
     def test_gets_simple_text(self):
         article_2_text = articles(ENGLISH_URL)[1].text
@@ -253,8 +251,6 @@ class TestArticles:
         ]
 
         assert article_19_text == expected_lines
-
-    # pylint:enable=line-too-long
 
     #
     # Tests for a parser bug: some articles' name isn't picked up.

@@ -1,14 +1,9 @@
-# pyright: reportUninitializedInstanceVariable=false
-# pyright: reportPrivateUsage=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownMemberType=false
 # pyright: reportUnknownArgumentType=false
-# pyright: reportGeneralTypeIssues=false
-
+# pyright: reportUnknownVariableType=false
 
 from datetime import datetime
 import re
-from typing import List, NamedTuple, Union
+from typing import List, NamedTuple, Union, cast
 from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 from toolz.functoolz import curry, pipe
@@ -16,7 +11,7 @@ from toolz.functoolz import curry, pipe
 from public_law.text import normalize_whitespace
 
 join = curry(str.join)
-map = curry(map)  # pylint:disable=redefined-builtin
+map = curry(map)
 
 
 class ParseException(Exception):
@@ -48,10 +43,13 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
     summary = first(html, css=".page-top__subtitle--re p::text", expected="summary")
     title = first(html, css="h1.page-top__title--opinion::text", expected="title")
     date = first(html, css="time::text", expected="date")
-    full_text = pipe(
-        get_all(html, ".body-content p::text"),
-        map(normalize_whitespace),
-        join("\n"),
+    full_text = cast(
+        str,
+        pipe(
+            get_all(html, ".body-content p::text"),
+            map(normalize_whitespace),
+            join("\n"),
+        ),
     )
     citation_set = pipe(
         re.findall(r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text),
@@ -66,7 +64,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         is_official=title.startswith("Official"),
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
-        source_url=html.url,
+        source_url=html.url,  # pyright: reportUnknownMemberType=false
         citations=citation_set,
     )
 

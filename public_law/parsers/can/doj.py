@@ -1,8 +1,9 @@
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
 
 from datetime import date
 import re
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, cast
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
@@ -33,9 +34,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     entries: list[GlossaryEntry] = []
 
     match html.css("main dl"):
-        case [first, *_] if isinstance(
-            first, Selector  # pylint:disable=used-before-assignment
-        ):  # pyright: reportUnknownVariableType=false
+        case [first, *_] if isinstance(first, Selector):
             first_dl_list = first
         case _:
             raise ParseException("Expected a <dl>")
@@ -68,7 +67,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             )
         )
 
-    url: str = html.url
+    url = cast(str, html.url)
 
     metadata = Metadata(
         dcterms_source=NonemptyString(url),
