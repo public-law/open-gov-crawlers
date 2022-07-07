@@ -118,7 +118,6 @@ pytest
 ## Other tools
 
 * Java is required by the Python Tika package.
-* Pylint for linting
 * Pylance/Pyright for type-checking
 * Black for formatting
 
