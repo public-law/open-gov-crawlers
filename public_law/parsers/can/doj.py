@@ -2,7 +2,7 @@
 
 from datetime import date
 import re
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, cast
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
@@ -68,7 +68,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             )
         )
 
-    url: str = html.url
+    url = cast(str, html.url)
 
     metadata = Metadata(
         dcterms_source=NonemptyString(url),

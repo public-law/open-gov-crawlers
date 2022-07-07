@@ -6,7 +6,7 @@ from public_law.parsers.can.doj import parse_glossary
 
 
 class DojGlossaries(Spider):
-    name = "canada_doj_glossaries"
+    name = "can_doj_glossaries"
     start_urls = [
         # "https://laws-lois.justice.gc.ca/eng/glossary/",
         "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
