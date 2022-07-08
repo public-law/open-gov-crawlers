@@ -5,25 +5,24 @@ description = ""
 authors = ["Robb Shecter <robb@public.law>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-cryptography = "36.0.2"
-scrapy = "^2.6.1"
-titlecase = "*"
-pytz = "*"
-scrapy-crawlera = "^1.7.0"
+beautifulsoup4 = "^4.10.0"
+cryptography = "36.0.2"  # 37 isn't compatible with courts.gov.ie.
+more-itertools = "^8.13.0"
 msgpack-python = "*"
 toolz = "0.*"
-lxml = "4.8.0"
+lxml = "^4.9.1"
+pydantic = "*"
+python = "^3.10"
+pytz = "*"
+scrapy = "^2.6.1"
+scrapy-crawlera = "^1.7.0"
 spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 tika = "^1.24"
-beautifulsoup4 = "^4.10.0"
-pydantic = "*"
-more-itertools = "^8.13.0"
+titlecase = "*"
 
 [tool.poetry.dev-dependencies]
 pytest-watch = "*"
 pytest = "*"
-prospector = "*"
 ipython = "*"
 coverage = "^6.3.1"
 ipykernel = "^6.9.2"
