@@ -25,9 +25,13 @@ First, we can see which spiders are available:
 ```bash
 $ scrapy list
 
-canada_doj_glossaries
+can_doj_glossaries
 georgia_ag_opinions
+irl_courts_glossary
+nzl_justice_glossary
 oregon_regs
+rome_statute
+usa_courts_glossary
 ```
 
 Then we can run one of the spiders:
