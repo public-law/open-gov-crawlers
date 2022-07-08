@@ -7,7 +7,7 @@ from scrapy.http.response import Response
 
 
 class RomeStatute(Spider):
-    name = "rome_statute"
+    name = "int_rome_statute"
     start_urls = [
         "https://www.icc-cpi.int/resource-library",
     ]

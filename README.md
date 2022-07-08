@@ -26,25 +26,25 @@ First, we can see which spiders are available:
 $ scrapy list
 
 can_doj_glossaries
-georgia_ag_opinions
+int_rome_statute
 irl_courts_glossary
 nzl_justice_glossary
-oregon_regs
-rome_statute
 usa_courts_glossary
+usa_ga_attorney_general_opinions
+usa_or_regs
 ```
 
 Then we can run one of the spiders:
 
 ```bash
-$ scrapy crawl oregon_regs
+$ scrapy crawl usa_or_regs
 ```
 
 This produces the output:
 
 ```json
 {
-  "date_accessed": "2019-03-21",
+  "date_accessed": "2019-03-21",****
   "chapters": [
     {
       "kind": "Chapter",

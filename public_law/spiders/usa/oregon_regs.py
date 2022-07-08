@@ -24,7 +24,7 @@ from public_law.dates import todays_date
 
 
 class OregonRegs(Spider):
-    name = "oregon_regs"
+    name = "usa_or_regs"
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 

@@ -20,7 +20,7 @@ class GeorgiaAgOpinions(Spider):
     producing one JSON object per opinion (page).
     """
 
-    name = "georgia_ag_opinions"
+    name = "usa_ga_attorney_general_opinions"
     start_urls = [
         "https://law.georgia.gov/opinions/official",
         "https://law.georgia.gov/opinions/unofficial",
