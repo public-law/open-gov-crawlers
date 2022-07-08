@@ -128,5 +128,6 @@ pytest
 
 ### Dependencies; helpful links
 
+* [The Scrapy Playbook](https://thepythonscrapyplaybook.com)
 * [The Zyte runtime environments](https://github.com/scrapinghub/scrapinghub-stack-scrapy/tags)
 * [SHUB Configuration](https://shub.readthedocs.io/en/stable/configuration.html)
