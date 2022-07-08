@@ -33,8 +33,9 @@ devtools = "*"
 
 
 [tool.pyright]
-strict = ["*"]
 ignore = ["**/typings"]
+# As strict as possible: strict mode plus the optional strict checks.
+strict = ["*"]
 reportUninitializedInstanceVariable = "error"
 reportUnusedCallResult = "error"
 reportUnnecessaryTypeIgnoreComment = "error"
