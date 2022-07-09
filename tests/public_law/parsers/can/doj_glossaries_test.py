@@ -4,7 +4,7 @@ from datetime import date
 from more_itertools import first, nth
 
 from scrapy.http.response.html import HtmlResponse
-from public_law.parsers.can.doj import parse_glossary, GlossaryParseResult
+from public_law.parsers.can.doj_glossaries import parse_glossary, GlossaryParseResult
 from public_law.dates import today
 from public_law.models.glossary import GlossaryEntry
 

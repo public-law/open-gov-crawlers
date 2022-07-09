@@ -63,7 +63,7 @@ class SpiderRecord:
 
     @property
     def json_md(self) -> str:
-        return _md_anchor("JSON Output", _data_url(self.json_path))
+        return _md_anchor("json output", _data_url(self.json_path))
 
 
 @dataclass(frozen=True)
@@ -113,6 +113,10 @@ def make_record(module: Any, json_path: str = "") -> SpiderRecord:
         json_path=json_path,
     )
 
+
+#
+# Execution begins here.
+#
 
 from .spiders.can import doj_glossaries
 from .spiders.int import rome_statute

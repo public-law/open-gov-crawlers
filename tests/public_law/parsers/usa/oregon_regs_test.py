@@ -5,7 +5,11 @@
 from scrapy.selector.unified import Selector
 from typing import Any, IO
 
-from public_law.parsers.usa.oregon import _statute_meta, _meta_sections, parse_division
+from public_law.parsers.usa.oregon_regs import (
+    _statute_meta,
+    _meta_sections,
+    parse_division,
+)
 
 
 def fixture(filename: str) -> IO[Any]:
