@@ -105,14 +105,14 @@ def _meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     authority = implements = ""
 
     match (
-        "Other Authority" not in text,
-        "Other Implemented" not in text,
+        "Other Authority" in text,
+        "Other Implemented" in text,
     ):
-        case [True, True]:
+        case [False, False]:
             history = text
-        case [True, False]:
-            implements, history = text.split("<br>", maxsplit=1)
         case [False, True]:
+            implements, history = text.split("<br>", maxsplit=1)
+        case [True, False]:
             authority, history = text.split("<br>", maxsplit=1)
         case _:
             authority, implements, history = text.split("<br>", maxsplit=2)
