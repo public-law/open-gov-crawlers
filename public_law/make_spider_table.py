@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from dataclasses import dataclass
 from types import ModuleType
 from typing import Any, Literal, TypeAlias
@@ -154,7 +152,8 @@ def make_record_without_dataset(module: ModuleType) -> SpiderRecordWithoutDataLi
 
 
 #
-# Execution begins here.
+# At module load-time, we create the table and make it available
+# in the public constant, `TABLE`.
 #
 
 from .spiders.can import doj_glossaries
