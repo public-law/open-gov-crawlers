@@ -109,7 +109,6 @@ class MarkdownTable:
             "|   |   | Source code | Dataset |\n"
             "| - | - | :---------- | :------ |\n"
         )
-
         body = "\n".join(
             [
                 r.as_markdown()
