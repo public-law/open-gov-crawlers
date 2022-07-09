@@ -5,6 +5,7 @@
 
 from typing import Any, Iterable, cast
 from more_itertools import chunked
+from toolz.functoolz import pipe
 
 from scrapy.http.response.html import HtmlResponse
 
@@ -39,18 +40,29 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
+    def cleanup_defn(defn: str) -> Sentence:
+        return pipe(
+            defn,
+            normalize_nonempty,
+            remove_beginning_colon,
+            ensure_ends_with_period,
+            normalize_nonempty,
+            capitalize_first_char,
+            Sentence,
+        )
+
+    def cleanup_phrase(phrase: str) -> NS:
+        return pipe(
+            phrase,
+            remove_end_colon,
+            normalize_nonempty,
+            NS,
+        )
+
     for phrase, defn in __raw_entries(html):
         yield GlossaryEntry(
-            phrase=normalize_nonempty(remove_end_colon(phrase)),
-            definition=Sentence(
-                capitalize_first_char(
-                    normalize_nonempty(
-                        ensure_ends_with_period(
-                            remove_beginning_colon(normalize_nonempty((defn)))
-                        )
-                    )
-                )
-            ),
+            phrase=cleanup_phrase(phrase),
+            definition=cleanup_defn(defn),
         )
 
 
