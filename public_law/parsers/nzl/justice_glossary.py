@@ -3,7 +3,7 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...text import (
     ensure_ends_with_period,
-    NonemptyString as NS,
+    NonemptyString as String,
     make_soup,
     normalize_nonempty,
     Sentence,
@@ -15,13 +15,13 @@ from ...metadata import Metadata
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS("Glossary"),
+            dcterms_title=String("Glossary"),
             dcterms_language="en",
             dcterms_coverage="NZL",
             # Info about original source
-            dcterms_source=NS("https://www.justice.govt.nz/about/glossary/"),
+            dcterms_source=String("https://www.justice.govt.nz/about/glossary/"),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=NS("New Zealand Ministry of Justice"),
+            publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
         ),
         entries=__parse_entries(html),
     )
