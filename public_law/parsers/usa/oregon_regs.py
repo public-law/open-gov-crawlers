@@ -94,9 +94,11 @@ def _rule_url(number: str) -> str:
 
 
 def _meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
-    """A Rule always has some meta-info. It's three distinct optional sections,
+    """
+    A Rule always has some meta-info. It's three distinct optional sections,
     Authority, Implements, and History. Parse the given text into these three
-    sections."""
+    sections.
+    """
 
     # Somewhat tricky: The history section uses embedded <br>
     # tags, so we want to leave those in place. Therefore, we want
