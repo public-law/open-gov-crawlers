@@ -10,6 +10,10 @@ CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/maste
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
 
 
+#
+# By using NonemptyString and this Literal, we don't need to
+# write explicit error checking.
+#
 LinkName: TypeAlias = Literal["parser", "spider", "tests", "json"]
 
 
