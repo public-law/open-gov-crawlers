@@ -50,7 +50,7 @@ class SpiderRecord:
         """
         Return a string representation of this record.
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}), [spider]({self.spider_url()}), [tests]({self.tests_url()}) | {self.json_md()} |"
+        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}) \\| [spider]({self.spider_url()}) \\| [tests]({self.tests_url()}) | {self.json_md()} |"
 
     def parser_url(self) -> str:
         return _code_url(self.parser_path)
@@ -106,9 +106,9 @@ def make_record(module: Any, json_path: str = "") -> SpiderRecord:
     return SpiderRecord(
         jd_verbose_name=module.JD_VERBOSE_NAME,
         publication_name=module.PUBLICATION_NAME,
-        parser_path=f"public_law/parsers/{file_path(georgia_ag_opinions)}",
-        spider_path=f"public_law/spiders/{file_path(georgia_ag_opinions)}",
-        tests_path=f"tests/public_law/parsers/{tests_path(georgia_ag_opinions)}",
+        parser_path=f"public_law/parsers/{file_path(module)}",
+        spider_path=f"public_law/spiders/{file_path(module)}",
+        tests_path=f"tests/public_law/parsers/{tests_path(module)}",
         json_path=json_path,
     )
 
