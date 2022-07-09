@@ -77,9 +77,11 @@ class MarkdownTable:
         """
         Return a string representation of this table.
         """
+        
+        # fmt: off
         heading = (
-            "| Jurisdiction | Publication | Source code | Dataset |\n"
-            "| :----------- | :---------- | :---------- | :------ |\n"
+            "|  |  | Source code | Dataset |\n"
+            "|  |  | :---------- | :------ |\n"
         )
 
         body = "\n".join(
@@ -127,7 +129,6 @@ from .spiders.irl import courts_glossary
 from .spiders.nzl import justice_glossary
 from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 
-# fmt: off
 TABLE = MarkdownTable(
     (
         make_record(courts_glossary,     "Ireland/courts-glossary.json"),
