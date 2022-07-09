@@ -50,7 +50,7 @@ class SpiderRecord:
         """
         Return a string representation of this record.
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}), [spider]({self.spider_url()}), [tests]({self.tests_url()}) | {self.json_md} |"
+        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}), [spider]({self.spider_url()}), [tests]({self.tests_url()}) | {self.json_md()} |"
 
     def parser_url(self) -> str:
         return _code_url(self.parser_path)
@@ -61,7 +61,6 @@ class SpiderRecord:
     def tests_url(self) -> str:
         return _code_url(self.tests_path)
 
-    @property
     def json_md(self) -> str:
         return _md_anchor("json", _data_url(self.json_path))
 
@@ -100,7 +99,7 @@ def file_path(module: Any) -> str:
 
 
 def tests_path(module: Any) -> str:
-    return file_path(module).replace(".py", "test.py")
+    return file_path(module).replace(".py", "_test.py")
 
 
 def make_record(module: Any, json_path: str = "") -> SpiderRecord:
