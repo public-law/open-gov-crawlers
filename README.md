@@ -44,7 +44,7 @@ This produces the output:
 
 ```json
 {
-  "date_accessed": "2019-03-21",****
+  "date_accessed": "2019-03-21",
   "chapters": [
     {
       "kind": "Chapter",
