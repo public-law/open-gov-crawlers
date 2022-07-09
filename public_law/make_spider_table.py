@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from types import ModuleType
-from typing import Literal
+from typing import Literal, TypeAlias
 from .text import NonemptyString as String
 
 import more_itertools
@@ -11,7 +11,8 @@ CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/maste
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
 
 
-LinkName = Literal["parser", "spider", "tests", "json"]
+LinkName: TypeAlias = Literal["parser", "spider", "tests", "json"]
+
 
 def code_url(path: String) -> String:
     return String(f"{CODE_REPO_BASE_URL}/{path}")
