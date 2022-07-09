@@ -2,12 +2,15 @@
 
 from dataclasses import dataclass
 from types import ModuleType
+from typing import Literal
 from .text import NonemptyString as String
 
 import more_itertools
 
 CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/master"
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
+
+LinkName = Literal["parser", "spider", "tests", "json"]
 
 
 def code_url(path: String) -> String:
@@ -18,8 +21,13 @@ def data_url(path: String) -> String:
     return String(f"{DATA_REPO_BASE_URL}/{path}")
 
 
-def md_link(name: String, url: String) -> String:
+def md_link(name: LinkName, url: String) -> String:
     return String(f"[{name}]({url})")
+
+
+def code_link(name: LinkName, path: String) -> String:
+    return md_link(name, code_url(path))
+
 
 
 @dataclass(frozen=True)
@@ -39,23 +47,27 @@ class SpiderRecord:
         """
         Return a string representation of this record.
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}) \\| [spider]({self.spider_url()}) \\| [tests]({self.tests_url()}) | {self.json_md()} |"
+        return f"| {self.jd_verbose_name} | {self.publication_name} | {self.parser_link} \\| {self.spider_link} \\| {self.tests_link} | {self.json_md} |"
 
-    def parser_url(self) -> String:
-        return code_url(self.parser_path)
+    @property
+    def parser_link(self) -> String:
+        return code_link("parser", self.parser_path)
 
-    def spider_url(self) -> String:
-        return code_url(self.spider_path)
+    @property
+    def spider_link(self) -> String:
+        return code_link("spider", self.spider_path)
 
-    def tests_url(self) -> String:
-        return code_url(self.tests_path)
+    @property
+    def tests_link(self) -> String:
+        return code_link("tests", self.tests_path)
 
+    @property
     def json_md(self) -> str:
         match self.json_path:
             case "":
                 return ""
             case path:
-                return md_link(String("json"), data_url(String(path)))
+                return md_link("json", data_url(String(path)))
 
 
 @dataclass(frozen=True)
