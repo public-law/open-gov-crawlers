@@ -28,12 +28,12 @@ class SpiderRecord:
     One row in the markdown table.
     """
 
-    jd_verbose_name: str
-    publication_name: str
+    jd_verbose_name: String
+    publication_name: String
     parser_path: String
     spider_path: String
     tests_path: String
-    json_path: str
+    json_path: str  # Can be an empty string if there is no public dataset yet.
 
     def as_markdown(self) -> str:
         """
@@ -103,8 +103,8 @@ def tests_path(module: ModuleType) -> str:
 
 def make_record(module: ModuleType, json_path: str = "") -> SpiderRecord:
     return SpiderRecord(
-        jd_verbose_name=module.JD_VERBOSE_NAME,
-        publication_name=module.PUBLICATION_NAME,
+        jd_verbose_name=String(module.JD_VERBOSE_NAME),
+        publication_name=String(module.PUBLICATION_NAME),
         parser_path=String(f"public_law/parsers/{file_path(module)}"),
         spider_path=String(f"public_law/spiders/{file_path(module)}"),
         tests_path=String(f"tests/public_law/parsers/{tests_path(module)}"),
