@@ -14,7 +14,7 @@ from public_law.parsers.usa.georgia_ag_opinions import (
 
 def parsed_opinion_fixture() -> OpinionParseResult:
     filename = "opinion-2017-3.html"
-    with open(f"test/fixtures/{filename}") as f:
+    with open(f"tests/fixtures/{filename}") as f:
         html = HtmlResponse(
             url="https://law.georgia.gov/opinions/2017-3",
             body=f.read(),

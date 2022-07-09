@@ -9,7 +9,7 @@ from public_law.parsers.usa.oregon import _statute_meta, _meta_sections, parse_d
 
 
 def fixture(filename: str) -> IO[Any]:
-    return open(f"test/fixtures/{filename}")
+    return open(f"tests/fixtures/{filename}")
 
 
 class TestStatuteMeta:

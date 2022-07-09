@@ -10,7 +10,7 @@ from public_law.models.glossary import GlossaryEntry
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"test/fixtures/{filename}", encoding="utf8") as f:
+    with open(f"tests/fixtures/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
