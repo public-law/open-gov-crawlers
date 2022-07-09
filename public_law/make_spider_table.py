@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from types import ModuleType
+from .text import NonemptyString as String
 
 import more_itertools
 
@@ -9,28 +10,16 @@ CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/maste
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
 
 
-def _code_url(path: str) -> str:
-    match path:
-        case "":
-            return ""
-        case _:
-            return f"{CODE_REPO_BASE_URL}/{path}"
+def code_url(path: String) -> String:
+    return String(f"{CODE_REPO_BASE_URL}/{path}")
 
 
-def _data_url(path: str) -> str:
-    match path:
-        case "":
-            return ""
-        case _:
-            return f"{DATA_REPO_BASE_URL}/{path}"
+def data_url(path: String) -> String:
+    return String(f"{DATA_REPO_BASE_URL}/{path}")
 
 
-def _md_anchor(name: str, url: str) -> str:
-    match url:
-        case "":
-            return ""
-        case _:
-            return f"[{name}]({url})"
+def md_link(name: String, url: String) -> String:
+    return String(f"[{name}]({url})")
 
 
 @dataclass(frozen=True)
@@ -41,9 +30,9 @@ class SpiderRecord:
 
     jd_verbose_name: str
     publication_name: str
-    parser_path: str
-    spider_path: str
-    tests_path: str
+    parser_path: String
+    spider_path: String
+    tests_path: String
     json_path: str
 
     def as_markdown(self) -> str:
@@ -52,17 +41,21 @@ class SpiderRecord:
         """
         return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}) \\| [spider]({self.spider_url()}) \\| [tests]({self.tests_url()}) | {self.json_md()} |"
 
-    def parser_url(self) -> str:
-        return _code_url(self.parser_path)
+    def parser_url(self) -> String:
+        return code_url(self.parser_path)
 
-    def spider_url(self) -> str:
-        return _code_url(self.spider_path)
+    def spider_url(self) -> String:
+        return code_url(self.spider_path)
 
-    def tests_url(self) -> str:
-        return _code_url(self.tests_path)
+    def tests_url(self) -> String:
+        return code_url(self.tests_path)
 
     def json_md(self) -> str:
-        return _md_anchor("json", _data_url(self.json_path))
+        match self.json_path:
+            case "":
+                return ""
+            case path:
+                return md_link(String("json"), data_url(String(path)))
 
 
 @dataclass(frozen=True)
@@ -112,9 +105,9 @@ def make_record(module: ModuleType, json_path: str = "") -> SpiderRecord:
     return SpiderRecord(
         jd_verbose_name=module.JD_VERBOSE_NAME,
         publication_name=module.PUBLICATION_NAME,
-        parser_path=f"public_law/parsers/{file_path(module)}",
-        spider_path=f"public_law/spiders/{file_path(module)}",
-        tests_path=f"tests/public_law/parsers/{tests_path(module)}",
+        parser_path=String(f"public_law/parsers/{file_path(module)}"),
+        spider_path=String(f"public_law/spiders/{file_path(module)}"),
+        tests_path=String(f"tests/public_law/parsers/{tests_path(module)}"),
         json_path=json_path,
     )
 
