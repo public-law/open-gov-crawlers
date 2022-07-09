@@ -55,15 +55,15 @@ class Sentence(NonemptyString):
                 return super().__new__(cls, content)
 
 
-def ensure_ends_with_period(text: str) -> str:
+def ensure_ends_with_period(text: str) -> NonemptyString:
     """
     Ensure that the string ends with a period.
     """
     match (text):
         case s if s.endswith(".") or s.endswith('."'):
-            return text
+            return NonemptyString(text)
         case s:
-            return s + "."
+            return NonemptyString(s + ".")
 
 
 def remove_end_colon(text: str) -> str:
