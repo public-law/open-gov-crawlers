@@ -156,7 +156,8 @@ def make_record_without_dataset(module: ModuleType) -> SpiderRecordWithoutDataLi
 # in the public constant, `TABLE`.
 #
 
-# TODO: Figure out a way to automatically find these spider classes.
+# TODO: Figure out a way to automatically find these spider modules,
+#       or the spider subclass each one contains.
 from .spiders.can import doj_glossaries
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
