@@ -77,11 +77,11 @@ class MarkdownTable:
         """
         Return a string representation of this table.
         """
-        
+
         # fmt: off
         heading = (
-            "|  |  | Source code | Dataset |\n"
-            "|  |  | :---------- | :------ |\n"
+            "|   |   | Source code | Dataset |\n"
+            "| - | - | :---------- | :------ |\n"
         )
 
         body = "\n".join(
