@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from dataclasses import dataclass
-from typing import Any
+from types import ModuleType
 
 import more_itertools
 
@@ -94,15 +94,19 @@ class MarkdownTable:
         return heading + body
 
 
-def file_path(module: Any) -> str:
-    return "/".join(more_itertools.tail(2, module.__file__.split("/")))
+def file_path(module: ModuleType) -> str:
+    match module.__file__:
+        case None:
+            raise ValueError(f"Module {module} has no __file__ attribute")
+        case filename:
+            return "/".join(more_itertools.tail(2, filename.split("/")))
 
 
-def tests_path(module: Any) -> str:
+def tests_path(module: ModuleType) -> str:
     return file_path(module).replace(".py", "_test.py")
 
 
-def make_record(module: Any, json_path: str = "") -> SpiderRecord:
+def make_record(module: ModuleType, json_path: str = "") -> SpiderRecord:
     return SpiderRecord(
         jd_verbose_name=module.JD_VERBOSE_NAME,
         publication_name=module.PUBLICATION_NAME,
@@ -121,7 +125,7 @@ from .spiders.can import doj_glossaries
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
 from .spiders.nzl import justice_glossary
-from .spiders.usa import georgia_ag_opinions, us_courts_glossary, oregon_regs
+from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 
 # fmt: off
 TABLE = MarkdownTable(
