@@ -50,7 +50,7 @@ class SpiderRecord:
         """
         Return a string representation of this record.
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}) | [spider]({self.spider_url()}) | [tests]({self.tests_url()}) | {self.json_md} |"
+        return f"| {self.jd_verbose_name} | {self.publication_name} | [parser]({self.parser_url()}), [spider]({self.spider_url()}), [tests]({self.tests_url()}) | {self.json_md} |"
 
     def parser_url(self) -> str:
         return _code_url(self.parser_path)
@@ -63,7 +63,7 @@ class SpiderRecord:
 
     @property
     def json_md(self) -> str:
-        return _md_anchor("json output", _data_url(self.json_path))
+        return _md_anchor("json", _data_url(self.json_path))
 
 
 @dataclass(frozen=True)
@@ -79,8 +79,8 @@ class MarkdownTable:
         Return a string representation of this table.
         """
         heading = (
-            "| Jurisdiction | Publication | Parser | Spider | Tests | JSON Output |\n"
-            "| ------------ | ----------- | ------ | ------ | ----- | ----------- |\n"
+            "| Jurisdiction | Publication | Source code | Dataset |\n"
+            "| :----------- | :---------- | :---------- | :------ |\n"
         )
 
         body = "\n".join(
