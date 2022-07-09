@@ -10,8 +10,8 @@ import more_itertools
 CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/master"
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
 
-LinkName = Literal["parser", "spider", "tests", "json"]
 
+LinkName = Literal["parser", "spider", "tests", "json"]
 
 def code_url(path: String) -> String:
     return String(f"{CODE_REPO_BASE_URL}/{path}")
@@ -26,6 +26,9 @@ def md_link(name: LinkName, url: String) -> String:
 
 
 def code_link(name: LinkName, path: String) -> String:
+    """
+    Return a markdown-formatted link to the code repository.
+    """
     return md_link(name, code_url(path))
 
 
@@ -45,9 +48,17 @@ class SpiderRecord:
 
     def as_markdown(self) -> str:
         """
-        Return a string representation of this record.
+        Return a markdown-formatted representation of this record.
+
+        E.g.:   "Intergovernmental Rome Statute   [parser] | [spider] | [tests]   [json]"
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | {code_link('parser', self.parser_path)} \\| {code_link('spider', self.spider_path)} \\| {code_link('tests', self.tests_path)} | {self.json_link} |"
+        return (
+            f"| {self.jd_verbose_name} | {self.publication_name} "
+            f"| {code_link('parser', self.parser_path)} \\|"
+            f"  {code_link('spider', self.spider_path)} \\|"
+            f"  {code_link('tests', self.tests_path)} "
+            f"| {self.json_link} |"
+        )
 
 
     @property
