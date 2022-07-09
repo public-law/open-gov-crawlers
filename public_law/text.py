@@ -93,7 +93,7 @@ def title_case(text: str) -> str:
     """
     A type-hinted titlecase().
     """
-    hinted = cast(Callable[[str], str], titlecase.titlecase)
+    hinted = cast_as_str_func(titlecase.titlecase)
 
     return hinted(text)
 
