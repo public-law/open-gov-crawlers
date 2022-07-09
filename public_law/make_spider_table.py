@@ -96,10 +96,10 @@ class MarkdownTable:
 
 def file_path(module: ModuleType) -> str:
     match module.__file__:
+        case str(filename):
+            return "/".join(more_itertools.tail(2, filename.split("/")))
         case None:
             raise ValueError(f"Module {module} has no __file__ attribute")
-        case filename:
-            return "/".join(more_itertools.tail(2, filename.split("/")))
 
 
 def tests_path(module: ModuleType) -> str:
