@@ -2,7 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/3978810b3733b415a266/maintainability)](https://codeclimate.com/github/public-law/open-gov-crawlers/maintainability)
 
 
-# Open-gov spiders written with Python
+# Open-gov spiders written in Python
 
 | Jurisdiction | Publication | Source code | Dataset |
 | :----------- | :---------- | :---------- | :------ |
@@ -45,7 +45,7 @@ This produces the output:
 
 ```json
 {
-  "date_accessed": "2019-03-21",****
+  "date_accessed": "2019-03-21",
   "chapters": [
     {
       "kind": "Chapter",
