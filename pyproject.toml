@@ -43,6 +43,7 @@ reportPropertyTypeMismatch = "error"
 reportMissingSuperCall = "error"
 reportImplicitStringConcatenation = "error"
 reportCallInDefaultInitializer = "error"
+reportUnusedImport = "warning"
 
 
 [tool.pytest.ini_options]
@@ -51,7 +52,6 @@ pythonpath = "."
 python_files = ["*_test.py",]
 python_classes = ["Test", "Describe"]
 python_functions = ["test_", "it_", "and_", "but_", "they_"]
-testpaths = ["test",]
 addopts = "-q --no-header --doctest-modules"
 
 [build-system]

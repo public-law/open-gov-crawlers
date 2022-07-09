@@ -7,7 +7,7 @@ from more_itertools import first, last
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult
-from public_law.parsers.usa.courts_glossary import parse_glossary
+from public_law.parsers.usa.us_courts_glossary import parse_glossary
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:

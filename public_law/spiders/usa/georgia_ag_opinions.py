@@ -6,11 +6,14 @@
 # pyright: reportGeneralTypeIssues=false
 
 
-from public_law.parsers.usa.georgia import parse_ag_opinion
+from ...parsers.usa.georgia_ag_opinions import parse_ag_opinion
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response import Response
 from typing import Any, Dict, cast
+
+JD_VERBOSE_NAME = "USA / Georgia"
+PUBLICATION_NAME = "Attorney General Opinions"
 
 
 class GeorgiaAgOpinions(Spider):
