@@ -1,7 +1,7 @@
 from scrapy.http.response.html import HtmlResponse
 
 from ...text import (
-    NonemptyString as NS,
+    NonemptyString as String,
     make_soup,
     normalize_nonempty,
     Sentence,
@@ -15,13 +15,13 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     # pyright: reportUnknownMemberType=false
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS("Glossary of Legal Terms"),
+            dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="USA",
             # Info about original source
-            dcterms_source=NS("https://www.uscourts.gov/glossary"),
+            dcterms_source=String("https://www.uscourts.gov/glossary"),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=NS("United States Courts"),
+            publiclaw_sourceCreator=String("United States Courts"),
         ),
         entries=__parse_entries(html),
     )

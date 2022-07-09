@@ -12,7 +12,7 @@ from scrapy.http.response.html import HtmlResponse
 from ...text import (
     capitalize_first_char,
     ensure_ends_with_period,
-    NonemptyString as NS,
+    NonemptyString as String,
     normalize_nonempty,
     remove_beginning_colon,
     remove_end_colon,
@@ -25,13 +25,13 @@ from ...metadata import Metadata
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=NS("Glossary of Legal Terms"),
+            dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="IRL",
             # Info about original source
-            dcterms_source=NS(cast(str, html.url)),
+            dcterms_source=String(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=NS("The Courts Service of Ireland"),
+            publiclaw_sourceCreator=String("The Courts Service of Ireland"),
         ),
         entries=__parse_entries(html),
     )
@@ -51,12 +51,12 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
             Sentence,
         )
 
-    def cleanup_phrase(phrase: str) -> NS:
+    def cleanup_phrase(phrase: str) -> String:
         return pipe(
             phrase,
             remove_end_colon,
             normalize_nonempty,
-            NS,
+            String,
         )
 
     for phrase, defn in __raw_entries(html):

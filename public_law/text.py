@@ -1,3 +1,7 @@
+"""
+String functions and types.
+"""
+
 import re
 
 from scrapy.http.response.html import HtmlResponse
@@ -7,7 +11,8 @@ import titlecase
 
 
 class NonemptyString(str):
-    """A str subclass which is guaranteed to have length > 0
+    """
+    A str subclass which is guaranteed to have length > 0
 
     Accepts `Any` type instead of `str` so that it will work
     seamlessly with untyped 3rd party libraries like Scrapy.
@@ -17,16 +22,20 @@ class NonemptyString(str):
     """
 
     def __new__(cls, content: Any):
-        """Create a new Nonempty String"""
+        """
+        Create a new Nonempty String
+        """
         match (content):
             case str(content) if len(content) > 0:
                 return super().__new__(cls, content)
             case _:
-                raise ValueError("Content is empty or not a string.")
+                raise ValueError(f"Content is empty or not a string: {content}")
 
 
 class Sentence(NonemptyString):
-    """A str subclass that begins with a capital letter and ends with a period.
+    """
+    A str subclass that generally begins with a capital letter
+    and ends with a period.
 
     It can actually end in a few ways, due to punction style. E.g.,
 
@@ -36,7 +45,9 @@ class Sentence(NonemptyString):
     """
 
     def __new__(cls, content: Any):
-        """Create a new Sentence."""
+        """
+        Create a new Sentence.
+        """
         match re.match(r"^[A-Z0-9\"\()].*\.[\"\)’”]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: {content}")
@@ -56,25 +67,34 @@ def ensure_ends_with_period(text: str) -> str:
 
 
 def remove_end_colon(text: str) -> str:
-    """Remove the colon at the end of the string"""
+    """
+    Remove a colon at the end of the string, if present.
+    """
     return text.rstrip(":")
 
 
 def remove_beginning_colon(text: str) -> str:
-    """Remove the colon at the beginning of the string"""
+    """
+    Remove the colon at the beginning of the string, if present.
+    """
     return text.lstrip(":")
 
 
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
-    return BeautifulSoup(cast(str, html.body), "html.parser")
+    """
+    Create a BeautifulSoup object from the Response body.
+    """
+    return BeautifulSoup(
+        cast(str, html.body), "html.parser"
+    )  # pyright: reportUnknownMemberType=false
 
 
 def title_case(text: str) -> str:
-    """A type-hinted titlecase()."""
-
+    """
+    A type-hinted titlecase().
+    """
     str_func: Callable[[str], str] = cast(
         Callable[[str], str],
-        # pyright: reportUnknownMemberType=false
         titlecase.titlecase,
     )
     return str_func(text)
@@ -105,16 +125,23 @@ def delete(text: str, fragment: str) -> str:
 
 
 def normalize_whitespace(text: str) -> str:
-    """Remove extra whitespace from around and within the string"""
+    """
+    Remove extra whitespace from around and within the string
+    """
     no_newlines = text.replace("\n", " ")
     return " ".join(no_newlines.strip().split())
 
 
 def normalize_nonempty(text: str) -> NonemptyString:
-    """Remove extra whitespace from around and within the string"""
+    """
+    Remove extra whitespace from around and within the string,
+    combined with instantiation of a NonemptyString.
+    """
     return NonemptyString(normalize_whitespace(text))
 
 
 def capitalize_first_char(text: str) -> str:
-    """Capitalize the first character of the string"""
+    """
+    Capitalize the first character of the string
+    """
     return text[0].upper() + text[1:]
