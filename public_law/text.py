@@ -3,11 +3,11 @@ String functions and types.
 """
 
 import re
+from typing import Any, Callable, cast
 
-from scrapy.http.response.html import HtmlResponse
-from bs4 import BeautifulSoup
-from typing import Any, Callable, List, cast
 import titlecase
+from bs4 import BeautifulSoup
+from scrapy.http.response.html import HtmlResponse
 
 
 class NonemptyString(str):
@@ -105,7 +105,7 @@ def cast_as_str_func(func: Any) -> Callable[[str], str]:
     return cast(Callable[[str], str], func)
 
 
-def delete_all(text: str, fragments: List[str]) -> str:
+def delete_all(text: str, fragments: list[str]) -> str:
     """
     A copy of text with all the fragments removed.
     """
