@@ -127,12 +127,12 @@ from .spiders.usa import georgia_ag_opinions, us_courts_glossary, oregon_regs
 # fmt: off
 TABLE = MarkdownTable(
     (
-        make_record(courts_glossary),
-        make_record(doj_glossaries),
+        make_record(courts_glossary,     "Ireland/courts-glossary.json"),
+        make_record(doj_glossaries,      "Canada/doj-glossaries.json"),
         make_record(georgia_ag_opinions),
-        make_record(justice_glossary),
+        make_record(justice_glossary,    "NewZealand/justice-glossary.json"),
         make_record(oregon_regs),
-        make_record(rome_statute),
+        make_record(rome_statute,        "Intergovernmental/RomeStatute/RomeStatute.json"),
         make_record(us_courts_glossary,  "UnitedStates/us-courts-glossary.json"),
     )
 )
