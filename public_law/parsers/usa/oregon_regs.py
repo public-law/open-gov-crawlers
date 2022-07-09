@@ -104,19 +104,18 @@ def _meta_sections(text: str) -> Dict[str, Union[List[str], str]]:
     # into three parts.
     authority = implements = ""
 
-    if ("Statutory/Other Authority" not in text) and (
-        "Statutes/Other Implemented" not in text
+    match (
+        "Other Authority" not in text,
+        "Other Implemented" not in text,
     ):
-        history = text
-
-    elif "Statutory/Other Authority" not in text:
-        implements, history = text.split("<br>", maxsplit=1)
-
-    elif "Statutes/Other Implemented" not in text:
-        authority, history = text.split("<br>", maxsplit=1)
-
-    else:
-        authority, implements, history = text.split("<br>", maxsplit=2)
+        case [True, True]:
+            history = text
+        case [True, False]:
+            implements, history = text.split("<br>", maxsplit=1)
+        case [False, True]:
+            authority, history = text.split("<br>", maxsplit=1)
+        case _:
+            authority, implements, history = text.split("<br>", maxsplit=2)
 
     return {
         "authority": _list_meta(authority),
