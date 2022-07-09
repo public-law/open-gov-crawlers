@@ -135,6 +135,11 @@ def tests_path(module: ModuleType) -> str:
     return file_path(module).replace(".py", "_test.py")
 
 
+#
+# By using two different types for the markdown rows, and two
+# different factory methods, we don't need any branching statements.
+#
+
 def make_record(module: ModuleType, json_path: String) -> SpiderRecord:
     return SpiderRecord(
         json_path=json_path,
