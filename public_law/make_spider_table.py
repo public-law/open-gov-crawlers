@@ -47,22 +47,11 @@ class SpiderRecord:
         """
         Return a string representation of this record.
         """
-        return f"| {self.jd_verbose_name} | {self.publication_name} | {self.parser_link} \\| {self.spider_link} \\| {self.tests_link} | {self.json_md} |"
+        return f"| {self.jd_verbose_name} | {self.publication_name} | {code_link('parser', self.parser_path)} \\| {code_link('spider', self.spider_path)} \\| {code_link('tests', self.tests_path)} | {self.json_link} |"
+
 
     @property
-    def parser_link(self) -> String:
-        return code_link("parser", self.parser_path)
-
-    @property
-    def spider_link(self) -> String:
-        return code_link("spider", self.spider_path)
-
-    @property
-    def tests_link(self) -> String:
-        return code_link("tests", self.tests_path)
-
-    @property
-    def json_md(self) -> str:
+    def json_link(self) -> str:
         match self.json_path:
             case "":
                 return ""
