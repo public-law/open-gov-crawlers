@@ -2,7 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/3978810b3733b415a266/maintainability)](https://codeclimate.com/github/public-law/open-gov-crawlers/maintainability)
 
 
-# Open-gov spiders written with Python
+# Open-gov spiders written in Python
 
 | Jurisdiction | Publication | Parser | Spider | Tests | JSON Output |
 | ------------ | ----------- | ------ | ------ | ----- | ----------- |
