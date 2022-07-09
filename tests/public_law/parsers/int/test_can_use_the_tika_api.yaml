@@ -7,7 +7,7 @@ interactions:
       Host:
       - www.icc-cpi.int
       User-Agent:
-      - Python-urllib/3.10
+      - Python-urllib/3.9
     method: GET
     uri: https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf
   response:
@@ -229,16 +229,16 @@ interactions:
         \       <meta http-equiv=\"refresh\" content=\"0;url='http://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf'\"
         />\n\n        <title>Redirecting to http://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf</title>\n
         \   </head>\n    <body>\n        Redirecting to <a href=\"http://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf\">http://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf</a>.\n
-        \   <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLYhdeGAhfU1MeFhVQFA==\",\"queueTime\":0,\"applicationTime\":105,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
+        \   <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLYhdeGAhfU1MeFhVQFA==\",\"queueTime\":0,\"applicationTime\":503,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
         defer src=\"https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194\"
         integrity=\"sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==\"
-        data-cf-beacon='{\"rayId\":\"727dc90decc166e3\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2022.6.0\",\"si\":100}'
+        data-cf-beacon='{\"rayId\":\"70fb584f4ccd675b\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2021.12.0\",\"si\":100}'
         crossorigin=\"anonymous\"></script>\n</body>\n</html>"
     headers:
       CF-Cache-Status:
       - BYPASS
       CF-RAY:
-      - 727dc90decc166e3-DFW
+      - 70fb584f4ccd675b-DFW
       Cache-Control:
       - must-revalidate, no-cache, private
       Connection:
@@ -246,7 +246,7 @@ interactions:
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Sat, 09 Jul 2022 02:56:15 GMT
+      - Mon, 23 May 2022 05:20:54 GMT
       Expect-CT:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
@@ -255,8 +255,6 @@ interactions:
       - chunked
       Vary:
       - Accept-Encoding
-      alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
       content-language:
       - en
       expires:
@@ -286,7 +284,7 @@ interactions:
       Host:
       - www.icc-cpi.int
       User-Agent:
-      - Python-urllib/3.10
+      - Python-urllib/3.9
     method: GET
     uri: http://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf
   response:
@@ -294,19 +292,21 @@ interactions:
       string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301
         Moved Permanently</h1></center>\r\n<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194\"
         integrity=\"sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==\"
-        data-cf-beacon='{\"rayId\":\"727dc91368bd93fb\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2022.6.0\",\"si\":100}'
+        data-cf-beacon='{\"rayId\":\"70fb58544af5a9fd\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2021.12.0\",\"si\":100}'
         crossorigin=\"anonymous\"></script>\n</body>\r\n</html>\r\n"
     headers:
+      Age:
+      - '174'
       CF-Cache-Status:
-      - MISS
+      - HIT
       CF-RAY:
-      - 727dc91368bd93fb-DFW
+      - 70fb58544af5a9fd-DFW
       Connection:
       - close
       Content-Type:
       - text/html
       Date:
-      - Sat, 09 Jul 2022 02:56:16 GMT
+      - Mon, 23 May 2022 05:20:54 GMT
       Location:
       - https://www.icc-cpi.int:443/sites/default/files/Publications/Statut-de-Rome.pdf
       Server:
@@ -315,8 +315,6 @@ interactions:
       - chunked
       Vary:
       - Accept-Encoding
-      alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     status:
       code: 301
       message: Moved Permanently
@@ -328,7 +326,7 @@ interactions:
       Host:
       - www.icc-cpi.int:443
       User-Agent:
-      - Python-urllib/3.10
+      - Python-urllib/3.9
     method: GET
     uri: https://www.icc-cpi.int/sites/default/files/Publications/Statut-de-Rome.pdf
   response:
@@ -6951,10 +6949,12 @@ interactions:
     headers:
       Accept-Ranges:
       - bytes
+      Age:
+      - '93620'
       CF-Cache-Status:
-      - MISS
+      - HIT
       CF-RAY:
-      - 727dc915f958aaa3-DFW
+      - 70fb585509a09f1c-DFW
       Cache-Control:
       - max-age=1209600
       Connection:
@@ -6964,19 +6964,17 @@ interactions:
       Content-Type:
       - application/pdf
       Date:
-      - Sat, 09 Jul 2022 02:56:17 GMT
+      - Mon, 23 May 2022 05:20:54 GMT
       Expect-CT:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
       - cloudflare
       Vary:
       - Accept-Encoding
-      alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
       etag:
       - '"5c07f-5db1d397b51d8"'
       expires:
-      - Sat, 23 Jul 2022 02:56:16 GMT
+      - Sun, 05 Jun 2022 03:20:34 GMT
       last-modified:
       - Sat, 26 Mar 2022 11:17:28 GMT
       x-content-type-options:
@@ -13616,7 +13614,7 @@ interactions:
       Content-Length:
       - '376959'
       User-Agent:
-      - python-requests/2.28.1
+      - python-requests/2.27.1
     method: PUT
     uri: http://localhost:9998/rmeta/xml
   response:
@@ -17632,7 +17630,7 @@ interactions:
         126\\nEntr\xE9e en vigueur \\u003c/li\\u003e\\n\\t\\u003cli\\u003eArticle
         127\\nRetrait \\u003c/li\\u003e\\n\\t\\u003cli\\u003eArticle 128\\nTextes
         faisant foi \\u003c/li\\u003e\\n\\u003c/ul\\u003e\\n\\u003c/ul\\u003e\\n\\u003cdiv
-        class\\u003d\\\"acroform\\\"\\u003e\\u003col /\\u003e\\n\\u003c/div\\u003e\\n\\u003c/body\\u003e\\u003c/html\\u003e\",\"X-TIKA:content_handler\":\"ToXMLContentHandler\",\"X-TIKA:embedded_depth\":\"0\",\"X-TIKA:parse_time_millis\":\"1077\",\"access_permission:assemble_document\":\"true\",\"access_permission:can_modify\":\"true\",\"access_permission:can_print\":\"true\",\"access_permission:can_print_degraded\":\"true\",\"access_permission:extract_content\":\"true\",\"access_permission:extract_for_accessibility\":\"true\",\"access_permission:fill_in_form\":\"true\",\"access_permission:modify_annotations\":\"true\",\"created\":\"2021-11-02T13:14:17Z\",\"creator\":\"ICC-CPI\",\"date\":\"2021-11-02T15:46:45Z\",\"dc:creator\":\"ICC-CPI\",\"dc:format\":\"application/pdf;
+        class\\u003d\\\"acroform\\\"\\u003e\\u003col /\\u003e\\n\\u003c/div\\u003e\\n\\u003c/body\\u003e\\u003c/html\\u003e\",\"X-TIKA:content_handler\":\"ToXMLContentHandler\",\"X-TIKA:embedded_depth\":\"0\",\"X-TIKA:parse_time_millis\":\"165\",\"access_permission:assemble_document\":\"true\",\"access_permission:can_modify\":\"true\",\"access_permission:can_print\":\"true\",\"access_permission:can_print_degraded\":\"true\",\"access_permission:extract_content\":\"true\",\"access_permission:extract_for_accessibility\":\"true\",\"access_permission:fill_in_form\":\"true\",\"access_permission:modify_annotations\":\"true\",\"created\":\"2021-11-02T13:14:17Z\",\"creator\":\"ICC-CPI\",\"date\":\"2021-11-02T15:46:45Z\",\"dc:creator\":\"ICC-CPI\",\"dc:format\":\"application/pdf;
         version\\u003d1.6\",\"dc:language\":\"ar-SA\",\"dc:title\":\"Statut de Rome
         de la Cour p\xE9nale internationale\",\"dcterms:created\":\"2021-11-02T13:14:17Z\",\"dcterms:modified\":\"2021-11-02T15:46:45Z\",\"language\":\"ar-SA\",\"meta:author\":\"ICC-CPI\",\"meta:creation-date\":\"2021-11-02T13:14:17Z\",\"meta:save-date\":\"2021-11-02T15:46:45Z\",\"modified\":\"2021-11-02T15:46:45Z\",\"pdf:PDFVersion\":\"1.6\",\"pdf:charsPerPage\":[\"97\",\"1126\",\"298\",\"1933\",\"2150\",\"2127\",\"1244\",\"2197\",\"1518\",\"1956\",\"2837\",\"3531\",\"2731\",\"2728\",\"2706\",\"2843\",\"2399\",\"2441\",\"2052\",\"2581\",\"2919\",\"2513\",\"2845\",\"2952\",\"2996\",\"2536\",\"2096\",\"2661\",\"2502\",\"2840\",\"1538\",\"2088\",\"2542\",\"2978\",\"2476\",\"2715\",\"3081\",\"2728\",\"2548\",\"2530\",\"2402\",\"725\",\"2556\",\"2450\",\"2727\",\"2823\",\"2877\",\"2737\",\"3048\",\"2525\",\"2176\",\"2402\",\"2621\",\"2668\",\"2767\",\"3020\",\"2761\",\"2972\",\"3030\",\"2631\",\"2896\",\"2308\",\"2097\",\"2193\",\"2599\",\"1860\",\"2721\",\"2919\",\"2783\",\"3021\",\"2608\",\"2576\",\"2921\",\"2561\",\"2541\",\"3035\",\"2357\",\"2406\",\"2559\",\"2473\",\"1431\",\"2456\",\"1256\",\"2125\",\"2404\",\"2600\",\"2558\",\"1104\",\"49\"],\"pdf:docinfo:created\":\"2021-11-02T13:14:17Z\",\"pdf:docinfo:creator\":\"ICC-CPI\",\"pdf:docinfo:creator_tool\":\"Adobe
         InDesign 17.0 (Windows)\",\"pdf:docinfo:modified\":\"2021-11-02T15:46:45Z\",\"pdf:docinfo:producer\":\"Adobe
@@ -17645,7 +17643,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 09 Jul 2022 02:56:18 GMT
+      - Mon, 23 May 2022 05:20:54 GMT
       Server:
       - Jetty(9.4.24.v20191120)
       Transfer-Encoding:

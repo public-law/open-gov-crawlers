@@ -2,7 +2,10 @@ from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from public_law.parsers.can.doj import parse_glossary
+from public_law.parsers.can.doj_glossaries import parse_glossary
+
+JD_VERBOSE_NAME = "Canada"
+PUBLICATION_NAME = "Dept. of Justice Legal Glossaries"
 
 
 class DojGlossaries(Spider):

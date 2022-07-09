@@ -2,20 +2,23 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/3978810b3733b415a266/maintainability)](https://codeclimate.com/github/public-law/open-gov-crawlers/maintainability)
 
 
-# Open-gov spiders written with Python
+# Open-gov spiders written in Python
 
-The parsers are mostly pure Python. The spiders are Scrapy.
 
-| Publication                                |                                                                                                              |                                                                                                                 |                                                                                                                       |                                                                                                                  |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Intergovernmental / Rome Statute (English)     | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/int/rome_statute.py) | [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/int/rome_statute.py)    | [tests](https://github.com/public-law/open-gov-crawlers/blob/master/test/public_law/parsers/int/rome_statute_test.py) | [JSON output](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json) |
-| Canada / Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/ca/doj.py)              | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/ca/doj_glossaries.py)      | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/ca/doj_glossaries_test.py) | [JSON output](https://github.com/public-law/datasets/blob/master/Canada/doj-glossaries.json) |                     |                                                                                                                  |
-| U.S.A. / Georgia Attorney General Opinions | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/georgia.py)          | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/georgia_ag_opinions.py) | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/ga_parsers_test.py)                          |                                                                                                                  |
-| U.S.A. / Oregon Regulations                | [parser](https://github.com/public-law/scrapy-spiders/blob/master/public_law/parsers/us/oregon.py)           | [spider](https://github.com/public-law/scrapy-spiders/blob/master/public_law/spiders/us/oregon_regs.py)         | [tests](https://github.com/public-law/scrapy-spiders/blob/master/test/us/oar_parsers_test.py)                         |                                                                                                                  |
-| U.S.A. / US Courts Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/us/courts_glossary.py) | [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/uscourts_glossary.py)| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/test/public_law/parsers/usa/courts_glossary_test.py) | [JSON output](https://github.com/public-law/datasets/blob/master/UnitedStates/courts-glossary.json)   |
+|   |   | Source code | Dataset |
+| - | - | :---------- | :------ |
+| Canada | Dept. of Justice Legal Glossaries | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/can/doj_glossaries.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/can/doj_glossaries.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/can/doj_glossaries_test.py) | [json](https://github.com/public-law/datasets/blob/master/Canada/doj-glossaries.json) |
+| Intergovernmental | Rome Statute | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/int/rome_statute.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/int/rome_statute.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/int/rome_statute_test.py) | [json](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json) |
+| Ireland | Glossary of Legal Terms | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/irl/courts_glossary.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/irl/courts_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/Ireland/courts-glossary.json) |
+| New Zealand | Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/nzl/justice_glossary.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/nzl/justice_glossary.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/nzl/justice_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/NewZealand/justice-glossary.json) |
+| USA | US Courts Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/us_courts_glossary.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/us_courts_glossary.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/us_courts_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/UnitedStates/us-courts-glossary.json) |
+| USA / Georgia | Attorney General Opinions | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/georgia_ag_opinions.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/georgia_ag_opinions.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/georgia_ag_opinions_test.py) |  |
+| USA / Oregon | Oregon Administrative Rules | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/oregon_regs.py) \| [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/oregon_regs.py) \| [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/oregon_regs_test.py) |  |
 
-> FYI: We're looking for help writing more spiders like these. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
-> of our parsing strategy.
+
+
+> FYI: We're looking for paid help writing more spiders like these, especially in languages other than English. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
+> of our parsing strategy. And check out the links, above, for our coding style.
 
 
 ## Example: Oregon Administrative Rules Parser
@@ -25,15 +28,19 @@ First, we can see which spiders are available:
 ```bash
 $ scrapy list
 
-canada_doj_glossaries
-georgia_ag_opinions
-oregon_regs
+can_doj_glossaries
+int_rome_statute
+irl_courts_glossary
+nzl_justice_glossary
+usa_courts_glossary
+usa_ga_attorney_general_opinions
+usa_or_regs
 ```
 
 Then we can run one of the spiders:
 
 ```bash
-$ scrapy crawl oregon_regs
+$ scrapy crawl usa_or_regs
 ```
 
 This produces the output:
@@ -124,5 +131,6 @@ pytest
 
 ### Dependencies; helpful links
 
+* [The Scrapy Playbook](https://thepythonscrapyplaybook.com)
 * [The Zyte runtime environments](https://github.com/scrapinghub/scrapinghub-stack-scrapy/tags)
 * [SHUB Configuration](https://shub.readthedocs.io/en/stable/configuration.html)

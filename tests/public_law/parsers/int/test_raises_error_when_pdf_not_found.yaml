@@ -7,7 +7,7 @@ interactions:
       Host:
       - www.icc-cpi.int
       User-Agent:
-      - Python-urllib/3.10
+      - Python-urllib/3.9
     method: GET
     uri: https://www.icc-cpi.int/Publications/abcdefg.pdf
   response:
@@ -326,12 +326,10 @@ interactions:
         \     </li>\n\n                    \n  <li>\n          <a href=\"/tfv\" class=\"nav-item
         nav-link\" data-drupal-link-system-path=\"node/196725\">Trust Fund for Victims</a>\n
         \     </li>\n\n        </ul>\n  \n      </li>\n\n                    \n  <li
-        class=\"nav-item\">\n          <a href=\"/about/otp\" class=\"nav-item nav-link\"
-        data-drupal-link-system-path=\"node/196679\">Office of the Prosecutor</a>\n
-        \     </li>\n\n                    \n  <li class=\"nav-item dropdown\">\n
-        \         <a href=\"/\" class=\"nav-item nav-link dropdown-toggle\" data-toggle=\"dropdown\"
-        title=\"Expand menu Situations and Cases\" data-drupal-link-system-path=\"&lt;front&gt;\">Situations
-        and Cases</a>\n                  <ul class=\"dropdown-menu\">\n                        \n
+        class=\"nav-item dropdown\">\n          <a href=\"/\" class=\"nav-item nav-link
+        dropdown-toggle\" data-toggle=\"dropdown\" title=\"Expand menu Situations
+        and Cases\" data-drupal-link-system-path=\"&lt;front&gt;\">Situations and
+        Cases</a>\n                  <ul class=\"dropdown-menu\">\n                        \n
         \ <li>\n          <a href=\"/cases\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"cases\">Cases</a>\n
         \     </li>\n\n                    \n  <li>\n          <a href=\"/defendants\"
         class=\"nav-item nav-link\" data-drupal-link-system-path=\"defendants\">Defendants</a>\n
@@ -381,9 +379,12 @@ interactions:
         \     </li>\n\n                    \n  <li>\n          <a href=\"/nigeria\"
         class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/192309\">Nigeria</a>\n
         \     </li>\n\n                    \n  <li>\n          <a href=\"/venezuelaII\"
-        class=\"nav-item nav-link\">Venezuela II</a>\n      </li>\n\n                    \n
-        \ <li>\n          <a href=\"\" class=\"nav-item nav-link\">\u22EF</a>\n      </li>\n\n
-        \       </ul>\n  \n      </li>\n\n        </ul>\n  \n      </li>\n\n                    \n
+        class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/192305\">Venezuela
+        II</a>\n      </li>\n\n                    \n  <li>\n          <a href=\"\"
+        class=\"nav-item nav-link\">\u22EF</a>\n      </li>\n\n        </ul>\n  \n
+        \     </li>\n\n        </ul>\n  \n      </li>\n\n                    \n  <li
+        class=\"nav-item\">\n          <a href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=en_UK\"
+        class=\"nav-item nav-link\">Contact an Investigator</a>\n      </li>\n\n                    \n
         \ <li class=\"nav-item\">\n          <a href=\"/news\" class=\"nav-item nav-link\"
         data-drupal-link-system-path=\"news\">News</a>\n      </li>\n\n                    \n
         \ <li class=\"nav-item dropdown\">\n          <a href=\"/\" class=\"nav-item
@@ -463,6 +464,13 @@ interactions:
         \         <a href=\"/jobs\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/9002\">Vacancies</a>\n
         \     </li>\n\n                    \n  <li class=\"nav-item\">\n          <a
         href=\"/search\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"search\">Search</a>\n
+        \     </li>\n\n                    \n  <li class=\"nav-item\">\n          <a
+        href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=uk_UKR\"
+        class=\"nav-item nav-link\">\u0417\u0432\u2019\u044F\u0437\u0430\u0442\u0438\u0441\u044F
+        \u0437i \u0441\u043B\u0456\u0434\u0447\u0438\u043C</a>\n      </li>\n\n                    \n
+        \ <li class=\"nav-item\">\n          <a href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=ru_RUS\"
+        class=\"nav-item nav-link\">\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F
+        \u0441\u043E \u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u043C</a>\n
         \     </li>\n\n        </ul>\n  \n\n\n\n  </nav>\n\n  </div>\n\n          \n
         \       </div>\n      </div>\n    </nav>\n  \n</header>\n\n<main role=\"main\"
         id=\"main\">\n        <div class=\"container-xll region region-breadcrumb\">\n
@@ -583,16 +591,16 @@ interactions:
         \     </footer>\n\n  </div>\n\n    \n    <script type=\"application/json\"
         data-drupal-selector=\"drupal-settings-json\">{\"path\":{\"baseUrl\":\"\\/\",\"scriptPath\":null,\"pathPrefix\":\"\",\"currentPath\":\"\",\"currentPathIsAdmin\":false,\"isFront\":false,\"currentLanguage\":\"en\"},\"pluralDelimiter\":\"\\u0003\",\"suppressDeprecationErrors\":true,\"ajaxPageState\":{\"libraries\":\"bootstrap4\\/bootstrap4-js-latest,bootstrap4\\/global-styling,classy\\/base,classy\\/messages,core\\/drupal.dialog.ajax,core\\/normalize,google_analytics\\/google_analytics,icccpi\\/global-js,icccpi\\/global-styling,icccpi\\/youtube-popup,status_messages\\/status-messages,system\\/base\",\"theme\":\"icccpi\",\"theme_token\":null},\"ajaxTrustedUrl\":[],\"google_analytics\":{\"trackOutbound\":true,\"trackMailto\":true,\"trackDownload\":true,\"trackDownloadExtensions\":\"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip\",\"trackDomainMode\":1},\"statusMessages\":\"3600000\",\"user\":{\"uid\":0,\"permissionsHash\":\"f14c5d982524a04edac11c16ad584b3237c65b0c4b5a28dde8b5d561f249b091\"}}</script>\n<script
         src=\"/sites/default/files/js/js_zei8m_APFKW5ASeVrMYbP2xL0smeAnpjB7HMy2PvYxo.js\"></script>\n\n
-        \ <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLdgZDXg5fGGoiShBIBVs5RE4SRVJbOnsKVhBFCltbBENrfhJMFQwcTyZYWRVDWFoKXRcCC1lRBwM=\",\"queueTime\":0,\"applicationTime\":250,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
+        \ <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLdgZDXg5fGGoiShBIBVs5RE4SRVJbOnsKVhBFCltbBENrfhJMFQwcTyZYWRVDWFoKXRcCC1lRBwM=\",\"queueTime\":0,\"applicationTime\":1117,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
         defer src=\"https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194\"
         integrity=\"sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==\"
-        data-cf-beacon='{\"rayId\":\"727dc9260d1d93ce\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2022.6.0\",\"si\":100}'
+        data-cf-beacon='{\"rayId\":\"70fb58573c8daa5e\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2021.12.0\",\"si\":100}'
         crossorigin=\"anonymous\"></script>\n</body>\n</html>\n"
     headers:
       CF-Cache-Status:
       - BYPASS
       CF-RAY:
-      - 727dc9260d1d93ce-DFW
+      - 70fb58573c8daa5e-DFW
       Cache-Control:
       - must-revalidate, no-cache, private
       Connection:
@@ -600,7 +608,7 @@ interactions:
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Sat, 09 Jul 2022 02:56:19 GMT
+      - Mon, 23 May 2022 05:20:56 GMT
       Expect-CT:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
@@ -609,8 +617,6 @@ interactions:
       - chunked
       Vary:
       - Accept-Encoding
-      alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
       content-language:
       - en
       expires:
@@ -641,7 +647,7 @@ interactions:
       Host:
       - www.icc-cpi.int
       User-Agent:
-      - Python-urllib/3.10
+      - Python-urllib/3.9
     method: GET
     uri: https://www.icc-cpi.int/Publications/abcdefg.pdf
   response:
@@ -960,12 +966,10 @@ interactions:
         \     </li>\n\n                    \n  <li>\n          <a href=\"/tfv\" class=\"nav-item
         nav-link\" data-drupal-link-system-path=\"node/196725\">Trust Fund for Victims</a>\n
         \     </li>\n\n        </ul>\n  \n      </li>\n\n                    \n  <li
-        class=\"nav-item\">\n          <a href=\"/about/otp\" class=\"nav-item nav-link\"
-        data-drupal-link-system-path=\"node/196679\">Office of the Prosecutor</a>\n
-        \     </li>\n\n                    \n  <li class=\"nav-item dropdown\">\n
-        \         <a href=\"/\" class=\"nav-item nav-link dropdown-toggle\" data-toggle=\"dropdown\"
-        title=\"Expand menu Situations and Cases\" data-drupal-link-system-path=\"&lt;front&gt;\">Situations
-        and Cases</a>\n                  <ul class=\"dropdown-menu\">\n                        \n
+        class=\"nav-item dropdown\">\n          <a href=\"/\" class=\"nav-item nav-link
+        dropdown-toggle\" data-toggle=\"dropdown\" title=\"Expand menu Situations
+        and Cases\" data-drupal-link-system-path=\"&lt;front&gt;\">Situations and
+        Cases</a>\n                  <ul class=\"dropdown-menu\">\n                        \n
         \ <li>\n          <a href=\"/cases\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"cases\">Cases</a>\n
         \     </li>\n\n                    \n  <li>\n          <a href=\"/defendants\"
         class=\"nav-item nav-link\" data-drupal-link-system-path=\"defendants\">Defendants</a>\n
@@ -1015,9 +1019,12 @@ interactions:
         \     </li>\n\n                    \n  <li>\n          <a href=\"/nigeria\"
         class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/192309\">Nigeria</a>\n
         \     </li>\n\n                    \n  <li>\n          <a href=\"/venezuelaII\"
-        class=\"nav-item nav-link\">Venezuela II</a>\n      </li>\n\n                    \n
-        \ <li>\n          <a href=\"\" class=\"nav-item nav-link\">\u22EF</a>\n      </li>\n\n
-        \       </ul>\n  \n      </li>\n\n        </ul>\n  \n      </li>\n\n                    \n
+        class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/192305\">Venezuela
+        II</a>\n      </li>\n\n                    \n  <li>\n          <a href=\"\"
+        class=\"nav-item nav-link\">\u22EF</a>\n      </li>\n\n        </ul>\n  \n
+        \     </li>\n\n        </ul>\n  \n      </li>\n\n                    \n  <li
+        class=\"nav-item\">\n          <a href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=en_UK\"
+        class=\"nav-item nav-link\">Contact an Investigator</a>\n      </li>\n\n                    \n
         \ <li class=\"nav-item\">\n          <a href=\"/news\" class=\"nav-item nav-link\"
         data-drupal-link-system-path=\"news\">News</a>\n      </li>\n\n                    \n
         \ <li class=\"nav-item dropdown\">\n          <a href=\"/\" class=\"nav-item
@@ -1097,6 +1104,13 @@ interactions:
         \         <a href=\"/jobs\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"node/9002\">Vacancies</a>\n
         \     </li>\n\n                    \n  <li class=\"nav-item\">\n          <a
         href=\"/search\" class=\"nav-item nav-link\" data-drupal-link-system-path=\"search\">Search</a>\n
+        \     </li>\n\n                    \n  <li class=\"nav-item\">\n          <a
+        href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=uk_UKR\"
+        class=\"nav-item nav-link\">\u0417\u0432\u2019\u044F\u0437\u0430\u0442\u0438\u0441\u044F
+        \u0437i \u0441\u043B\u0456\u0434\u0447\u0438\u043C</a>\n      </li>\n\n                    \n
+        \ <li class=\"nav-item\">\n          <a href=\"https://otppathway.icc-cpi.int/link/registerapplication?name=otpcontactpathway&amp;lang=ru_RUS\"
+        class=\"nav-item nav-link\">\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F
+        \u0441\u043E \u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u043C</a>\n
         \     </li>\n\n        </ul>\n  \n\n\n\n  </nav>\n\n  </div>\n\n          \n
         \       </div>\n      </div>\n    </nav>\n  \n</header>\n\n<main role=\"main\"
         id=\"main\">\n        <div class=\"container-xll region region-breadcrumb\">\n
@@ -1217,16 +1231,16 @@ interactions:
         \     </footer>\n\n  </div>\n\n    \n    <script type=\"application/json\"
         data-drupal-selector=\"drupal-settings-json\">{\"path\":{\"baseUrl\":\"\\/\",\"scriptPath\":null,\"pathPrefix\":\"\",\"currentPath\":\"\",\"currentPathIsAdmin\":false,\"isFront\":false,\"currentLanguage\":\"en\"},\"pluralDelimiter\":\"\\u0003\",\"suppressDeprecationErrors\":true,\"ajaxPageState\":{\"libraries\":\"bootstrap4\\/bootstrap4-js-latest,bootstrap4\\/global-styling,classy\\/base,classy\\/messages,core\\/drupal.dialog.ajax,core\\/normalize,google_analytics\\/google_analytics,icccpi\\/global-js,icccpi\\/global-styling,icccpi\\/youtube-popup,status_messages\\/status-messages,system\\/base\",\"theme\":\"icccpi\",\"theme_token\":null},\"ajaxTrustedUrl\":[],\"google_analytics\":{\"trackOutbound\":true,\"trackMailto\":true,\"trackDownload\":true,\"trackDownloadExtensions\":\"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip\",\"trackDomainMode\":1},\"statusMessages\":\"3600000\",\"user\":{\"uid\":0,\"permissionsHash\":\"f14c5d982524a04edac11c16ad584b3237c65b0c4b5a28dde8b5d561f249b091\"}}</script>\n<script
         src=\"/sites/default/files/js/js_zei8m_APFKW5ASeVrMYbP2xL0smeAnpjB7HMy2PvYxo.js\"></script>\n\n
-        \ <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLdgZDXg5fGGoiShBIBVs5RE4SRVJbOnsKVhBFCltbBENrfhJMFQwcTyZYWRVDWFoKXRcCC1lRBwM=\",\"queueTime\":0,\"applicationTime\":134,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
+        \ <script type=\"text/javascript\">window.NREUM||(NREUM={});NREUM.info={\"beacon\":\"gov-bam.nr-data.net\",\"licenseKey\":\"NRJS-68bbe62469670006f2d\",\"applicationID\":\"1007178747\",\"transactionName\":\"bwFVMUVWD0JWVRJRClZLdgZDXg5fGGoiShBIBVs5RE4SRVJbOnsKVhBFCltbBENrfhJMFQwcTyZYWRVDWFoKXRcCC1lRBwM=\",\"queueTime\":0,\"applicationTime\":786,\"atts\":\"Q0ZWRw1MHEw=\",\"errorBeacon\":\"gov-bam.nr-data.net\",\"agent\":\"\"}</script><script
         defer src=\"https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194\"
         integrity=\"sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==\"
-        data-cf-beacon='{\"rayId\":\"727dc92fef079eca\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2022.6.0\",\"si\":100}'
+        data-cf-beacon='{\"rayId\":\"70fb585fdee393ce\",\"token\":\"1cc82bd9c4fe428683f679796885071d\",\"version\":\"2021.12.0\",\"si\":100}'
         crossorigin=\"anonymous\"></script>\n</body>\n</html>\n"
     headers:
       CF-Cache-Status:
       - BYPASS
       CF-RAY:
-      - 727dc92fef079eca-DFW
+      - 70fb585fdee393ce-DFW
       Cache-Control:
       - must-revalidate, no-cache, private
       Connection:
@@ -1234,7 +1248,7 @@ interactions:
       Content-Type:
       - text/html; charset=UTF-8
       Date:
-      - Sat, 09 Jul 2022 02:56:20 GMT
+      - Mon, 23 May 2022 05:20:57 GMT
       Expect-CT:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
@@ -1243,8 +1257,6 @@ interactions:
       - chunked
       Vary:
       - Accept-Encoding
-      alt-svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
       content-language:
       - en
       expires:

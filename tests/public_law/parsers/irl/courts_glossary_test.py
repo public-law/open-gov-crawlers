@@ -1,19 +1,20 @@
 # pyright: reportUntypedFunctionDecorator=false
 # pyright: reportOptionalMemberAccess=false
+# pyright: reportUnusedImport=false
 
 from more_itertools import first, last
 
 
 from scrapy.http.response.html import HtmlResponse
-from pytest import fixture
+from pytest import fixture, mark
 
 from public_law.dates import today
 from public_law.models.glossary import GlossaryParseResult
-from public_law.parsers.nzl.justice_glossary import parse_glossary
+from public_law.parsers.irl.courts_glossary import parse_glossary
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"test/fixtures/nzl/{filename}", encoding="utf8") as f:
+    with open(f"tests/fixtures/irl/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
@@ -26,20 +27,17 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 @fixture
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
-        filename="nz.govt.justice-glossary.html",
-        url="https://www.justice.govt.nz/about/glossary/",
+        filename="ie.courts-glossary.html",
+        url="https://www.courts.ie/glossary",
     )
 
 
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "Glossary"
+    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
 
 
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):
-    assert (
-        parsed_glossary.metadata.dcterms_source
-        == "https://www.justice.govt.nz/about/glossary/"
-    )
+    assert parsed_glossary.metadata.dcterms_source == "https://www.courts.ie/glossary"
 
 
 def test_gets_the_author(parsed_glossary: GlossaryParseResult):
@@ -47,7 +45,7 @@ def test_gets_the_author(parsed_glossary: GlossaryParseResult):
 
 
 def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "NZL"
+    assert parsed_glossary.metadata.dcterms_coverage == "IRL"
 
 
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
@@ -59,25 +57,25 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
 
 
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).phrase == "acquit"
+    assert first(parsed_glossary.entries).phrase == "Affidavit"
 
 
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        first(parsed_glossary.entries).definition
-        == "To decide officially in court that a person is not guilty."
+        first(parsed_glossary.entries).definition == "A written statement made on oath."
     )
 
 
 def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(tuple(parsed_glossary.entries)) == 154
+    assert len(tuple(parsed_glossary.entries)) == 43
 
 
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
-    assert last_entry.phrase == "Youth Court"
+    assert last_entry.phrase == "Supervision order"
     assert last_entry.definition == (
-        "The Youth Court has jurisdiction to deal with "
-        "young people charged with criminal offences."
+        "An order allowing Tusla to monitor a child considered to be at risk. "
+        "The child is not removed from his or her home environment. A supervision "
+        "order is for a fixed period of time not longer than 12 months initially."
     )

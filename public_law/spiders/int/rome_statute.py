@@ -6,8 +6,12 @@ from scrapy import Spider
 from scrapy.http.response import Response
 
 
+JD_VERBOSE_NAME = "Intergovernmental"
+PUBLICATION_NAME = "Rome Statute"
+
+
 class RomeStatute(Spider):
-    name = "rome_statute"
+    name = "int_rome_statute"
     start_urls = [
         "https://www.icc-cpi.int/resource-library",
     ]

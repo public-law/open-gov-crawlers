@@ -19,12 +19,16 @@ from titlecase import titlecase
 
 from public_law import items
 from public_law.items import Chapter, Division
-from public_law.parsers.usa.oregon import DOMAIN, oar_url, parse_division
+from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
 
+JD_VERBOSE_NAME = "USA / Oregon"
+PUBLICATION_NAME = "Oregon Administrative Rules"
+
+
 class OregonRegs(Spider):
-    name = "oregon_regs"
+    name = "usa_or_regs"
     allowed_domains = [DOMAIN]
     start_urls = [oar_url("ruleSearch.action")]
 
