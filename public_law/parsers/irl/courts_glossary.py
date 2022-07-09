@@ -4,22 +4,22 @@
 # pyright: reportGeneralTypeIssues=false
 
 from typing import Any, Iterable, cast
+
 from more_itertools import chunked
+from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe
 
-from scrapy.http.response.html import HtmlResponse
-
+from ...metadata import Metadata
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ...text import NonemptyString as String
 from ...text import (
+    Sentence,
     capitalize_first_char,
     ensure_ends_with_period,
-    NonemptyString as String,
     normalize_nonempty,
     remove_beginning_colon,
     remove_end_colon,
-    Sentence,
 )
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...metadata import Metadata
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
