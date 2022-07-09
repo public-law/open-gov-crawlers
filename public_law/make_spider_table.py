@@ -95,36 +95,40 @@ class MarkdownTable:
         return heading + body
 
 
-from .spiders.usa import georgia_ag_opinions
-from .spiders.usa import us_courts_glossary
-
-
 def file_path(module: Any) -> str:
     return "/".join(more_itertools.tail(2, module.__file__.split("/")))
 
 
-def test_path(module: Any) -> str:
+def tests_path(module: Any) -> str:
     return file_path(module).replace(".py", "test.py")
 
 
+def make_record(module: Any, json_path: str = "") -> SpiderRecord:
+    return SpiderRecord(
+        jd_verbose_name=module.JD_VERBOSE_NAME,
+        publication_name=module.PUBLICATION_NAME,
+        parser_path=f"public_law/parsers/{file_path(georgia_ag_opinions)}",
+        spider_path=f"public_law/spiders/{file_path(georgia_ag_opinions)}",
+        tests_path=f"tests/public_law/parsers/{tests_path(georgia_ag_opinions)}",
+        json_path=json_path,
+    )
+
+
+from .spiders.can import doj_glossaries
+from .spiders.int import rome_statute
+from .spiders.irl import courts_glossary
+from .spiders.nzl import justice_glossary
+from .spiders.usa import georgia_ag_opinions, us_courts_glossary, oregon_regs
+
 # fmt: off
 TABLE = MarkdownTable(
-    records=(
-        SpiderRecord(
-            jd_verbose_name =  georgia_ag_opinions.JD_VERBOSE_NAME,
-            publication_name = georgia_ag_opinions.PUBLICATION_NAME,
-            parser_path =      f"public_law/parsers/{file_path(georgia_ag_opinions)}",
-            spider_path =      f"public_law/spiders/{file_path(georgia_ag_opinions)}",
-            tests_path  =      f"tests/public_law/parsers/{test_path(georgia_ag_opinions)}",
-            json_path   =      "",
-        ),
-        SpiderRecord(
-            jd_verbose_name =  us_courts_glossary.JD_VERBOSE_NAME,
-            publication_name = us_courts_glossary.PUBLICATION_NAME,
-            parser_path =      "public_law/parsers/usa/us_courts_glossary.py",
-            spider_path =      "public_law/spiders/usa/us_courts_glossary.py",
-            tests_path  =      "tests/public_law/parsers/usa/us_courts_glossary_test.py",
-            json_path   =      "UnitedStates/us-courts-glossary.json",
-        ),
+    (
+        make_record(courts_glossary),
+        make_record(doj_glossaries),
+        make_record(georgia_ag_opinions),
+        make_record(justice_glossary),
+        make_record(oregon_regs),
+        make_record(rome_statute),
+        make_record(us_courts_glossary,  "UnitedStates/us-courts-glossary.json"),
     )
 )

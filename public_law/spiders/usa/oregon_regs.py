@@ -23,6 +23,10 @@ from public_law.parsers.usa.oregon import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
 
+JD_VERBOSE_NAME = "USA / Oregon"
+PUBLICATION_NAME = "Oregon Administrative Rules"
+
+
 class OregonRegs(Spider):
     name = "usa_or_regs"
     allowed_domains = [DOMAIN]

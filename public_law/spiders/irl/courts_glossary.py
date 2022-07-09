@@ -6,6 +6,8 @@ from typing import Any
 
 from ...parsers.irl.courts_glossary import parse_glossary
 
+JD_VERBOSE_NAME = "Ireland"
+PUBLICATION_NAME = "Glossary of Legal Terms"
 
 class IRLCourtsGlossary(Spider):
     name       = "irl_courts_glossary"

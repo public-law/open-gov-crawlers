@@ -4,7 +4,11 @@ from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
+
 from ...parsers.nzl.justice_glossary import parse_glossary
+
+JD_VERBOSE_NAME = "New Zealand"
+PUBLICATION_NAME = "Glossary"
 
 
 class NZLJusticeGlossary(Spider):

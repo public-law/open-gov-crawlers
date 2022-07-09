@@ -1,3 +1,9 @@
-import public_law.make_spider_table
+#!/usr/bin/env python
 
-print(public_law.make_spider_table.TABLE.as_markdown())
+from public_law.make_spider_table import TABLE
+
+
+#
+# Create the Markdown table of spider info.
+#
+print(TABLE.as_markdown())
