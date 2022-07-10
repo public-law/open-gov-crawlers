@@ -8,7 +8,6 @@ from typing import Any, Callable, cast
 import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import curry, flip
 
 
 class NonemptyString(str):
