@@ -8,6 +8,7 @@ from typing import Any, Callable, cast
 import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
+from toolz.functoolz import curry, flip
 
 
 class NonemptyString(str):
@@ -66,18 +67,12 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
             return NonemptyString(s + ".")
 
 
-def remove_end_colon(text: str) -> str:
-    """
-    Remove a colon at the end of the string, if present.
-    """
-    return text.rstrip(":")
+"""Return a copy of the string with leading characters removed."""
+lstrip: Callable[[str, str], str] = flip(str.lstrip)
 
 
-def remove_beginning_colon(text: str) -> str:
-    """
-    Remove the colon at the beginning of the string, if present.
-    """
-    return text.lstrip(":")
+"""Return a copy of the string with trailing characters removed."""
+rstrip: Callable[[str, str], str] = flip(str.rstrip)
 
 
 def make_soup(html: HtmlResponse) -> BeautifulSoup:

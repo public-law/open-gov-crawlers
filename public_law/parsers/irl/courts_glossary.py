@@ -7,18 +7,16 @@ from typing import Any, Iterable, cast
 
 from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import pipe
+from toolz.functoolz import flip, pipe
 
 from ...metadata import Metadata
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import NonemptyString as String
+from ...text import NonemptyString as String, lstrip, rstrip
 from ...text import (
     Sentence,
     capitalize_first_char,
     ensure_ends_with_period,
     normalize_nonempty,
-    remove_beginning_colon,
-    remove_end_colon,
 )
 
 
@@ -44,7 +42,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         return pipe(
             defn,
             normalize_nonempty,
-            remove_beginning_colon,
+            lstrip(":"),
             ensure_ends_with_period,
             normalize_nonempty,
             capitalize_first_char,
@@ -54,7 +52,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     def cleanup_phrase(phrase: str) -> String:
         return pipe(
             phrase,
-            remove_end_colon,
+            rstrip(":"),
             normalize_nonempty,
             String,
         )
