@@ -67,14 +67,6 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
             return NonemptyString(s + ".")
 
 
-"""Return a copy of the string with leading characters removed."""
-lstrip: Callable[[str, str], str] = flip(str.lstrip)
-
-
-"""Return a copy of the string with trailing characters removed."""
-rstrip: Callable[[str, str], str] = flip(str.rstrip)
-
-
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
     """
     Create a BeautifulSoup object from the Response body.

@@ -7,11 +7,12 @@ from typing import Any, Iterable, cast
 
 from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import flip, pipe
+from toolz.functoolz import pipe
 
+from ...flipped import lstrip, rstrip
 from ...metadata import Metadata
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import NonemptyString as String, lstrip, rstrip
+from ...text import NonemptyString as String
 from ...text import (
     Sentence,
     capitalize_first_char,
