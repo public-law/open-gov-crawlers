@@ -66,20 +66,6 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
             return NonemptyString(s + ".")
 
 
-def remove_end_colon(text: str) -> str:
-    """
-    Remove a colon at the end of the string, if present.
-    """
-    return text.rstrip(":")
-
-
-def remove_beginning_colon(text: str) -> str:
-    """
-    Remove the colon at the beginning of the string, if present.
-    """
-    return text.lstrip(":")
-
-
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
     """
     Create a BeautifulSoup object from the Response body.
