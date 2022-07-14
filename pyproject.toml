@@ -9,16 +9,16 @@ beautifulsoup4 = "^4.10.0"
 cryptography = "36.0.2"  # 37 isn't compatible with courts.gov.ie.
 more-itertools = "^8.13.0"
 msgpack-python = "*"
-toolz = "0.*"
 lxml = "^4.9.1"  # Security vulnerability.
 pydantic = "*"
 python = "^3.10"
 pytz = "*"
 scrapy = "^2.6.1"
 scrapy-crawlera = "*"
-spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
+# spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 tika = "^1.24"
 titlecase = "*"
+toolz = "0.*"
 
 [tool.poetry.dev-dependencies]
 black = "*"
