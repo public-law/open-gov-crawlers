@@ -16,10 +16,10 @@ pytz = "*"
 scrapy = "^2.6.1"
 scrapy-crawlera = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
+textstat = { git = "https://github.com/dogweather/textstat.git", rev = "06661cff4e09a11810656537032e92acd450d8c7" }
 tika = "^1.24"
 titlecase = "*"
 toolz = "0.*"
-textstat = { git = "https://github.com/dogweather/textstat.git", rev = "06661cff4e09a11810656537032e92acd450d8c7" }
 
 [tool.poetry.dev-dependencies]
 black = "*"

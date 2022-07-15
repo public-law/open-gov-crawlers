@@ -29,12 +29,15 @@ class GlossaryParseResult:
 
     @cached_property
     def reading_ease(self):
-        """Return the readability index for this glossary."""
+        """
+        The readability index for this glossary.
+        """
         return analyzer.flesch_reading_ease(self.__all_definition_text())
 
     def __all_definition_text(self) -> NonemptyString:
-        """All the definition text for this glossary."""
-
+        """
+        All the definition text for this glossary.
+        """
         return NonemptyString("  ".join(entry.definition for entry in self.entries))
 
     def __iter__(self):
@@ -45,9 +48,11 @@ class GlossaryParseResult:
         TODO: Figure out a way to convert this to a dict without the
         custom __iter__.
         """
-
         new_dict = {
             "metadata": dict(self.metadata),
             "entries": tuple(self.entries),
         }
         return iter(new_dict.items())
+
+    def __repr__(self) -> str:
+        return f"GlossaryParseResult(reading_ease={self.reading_ease})"
