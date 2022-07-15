@@ -19,6 +19,7 @@ scrapy-crawlera = "*"
 tika = "^1.24"
 titlecase = "*"
 toolz = "0.*"
+textstat = { git = "https://github.com/dogweather/textstat.git", rev = "06661cff4e09a11810656537032e92acd450d8c7" }
 
 [tool.poetry.dev-dependencies]
 black = "*"

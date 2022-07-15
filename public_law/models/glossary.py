@@ -1,5 +1,8 @@
 from dataclasses import dataclass
+from functools import cached_property
 from typing import Iterable
+
+from textstat import analyzer
 
 from ..metadata import Metadata
 from ..text import NonemptyString, Sentence
@@ -23,6 +26,16 @@ class GlossaryParseResult:
 
     metadata: Metadata
     entries: Iterable[GlossaryEntry]
+
+    @cached_property
+    def reading_ease(self):
+        """Return the readability index for this glossary."""
+        return analyzer.flesch_reading_ease(self.__all_definition_text())
+
+    def __all_definition_text(self) -> NonemptyString:
+        """All the definition text for this glossary."""
+
+        return NonemptyString("  ".join(entry.definition for entry in self.entries))
 
     def __iter__(self):
         """Iterate over the entries in this glossary source.
