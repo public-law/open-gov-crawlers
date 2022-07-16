@@ -81,3 +81,7 @@ def test_last_entry(parsed_glossary: GlossaryParseResult):
         "The Youth Court has jurisdiction to deal with "
         "young people charged with criminal offences."
     )
+
+
+def test_reading_ease(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.publiclaw_readingEase == "difficult"
