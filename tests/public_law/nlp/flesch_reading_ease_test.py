@@ -24,3 +24,8 @@ def it_rounds_a_float_correctly():
     """
     score = 69.5
     assert _score_to_difficulty(score) == "Fairly easy"
+
+
+def it_raises_keyerror_for_invalid_scores():
+    with pytest.raises(KeyError):
+        _ = _score_to_difficulty(100)
