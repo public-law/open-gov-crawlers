@@ -2,10 +2,9 @@ from dataclasses import dataclass
 from functools import cached_property
 from typing import Iterable
 
-from textstat import analyzer
-
 from ..metadata import Metadata
 from ..text import NonemptyString, Sentence
+from ..nlp.flesch_reading_ease import reading_difficulty
 
 
 @dataclass(frozen=True)
@@ -28,9 +27,9 @@ class GlossaryParseResult:
         """
         The readability index for this glossary.
         """
-        return analyzer.flesch_reading_ease(self.__all_definition_text())
+        return reading_difficulty(self.__definition_corpus())
 
-    def __all_definition_text(self) -> NonemptyString:
+    def __definition_corpus(self) -> NonemptyString:
         """
         All the definition text for this glossary.
         """
