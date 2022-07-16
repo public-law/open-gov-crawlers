@@ -31,30 +31,30 @@ def parsed_glossary() -> GlossaryParseResult:
     )
 
 
-def test_gets_the_name(parsed_glossary: GlossaryParseResult):
+def test_name(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_title == "Glossary"
 
 
-def test_gets_the_url(parsed_glossary: GlossaryParseResult):
+def test_url(parsed_glossary: GlossaryParseResult):
     assert (
         parsed_glossary.metadata.dcterms_source
         == "https://www.justice.govt.nz/about/glossary/"
     )
 
 
-def test_gets_the_author(parsed_glossary: GlossaryParseResult):
+def test_author(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
 
 
-def test_gets_coverage(parsed_glossary: GlossaryParseResult):
+def test_coverage(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_coverage == "NZL"
 
 
-def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
+def test_source_modified_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
 
 
-def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
+def test_scrape_date(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_modified == today()
 
 
@@ -69,11 +69,11 @@ def test_definition(parsed_glossary: GlossaryParseResult):
     )
 
 
-def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
+def test_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
     assert len(tuple(parsed_glossary.entries)) == 154
 
 
-def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
+def test_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
     assert last_entry.phrase == "Youth Court"
