@@ -24,7 +24,7 @@ def _score_to_difficulty(score: float) -> str:
     """
     Convert a reading score to a difficulty description.
     """
-    int_score = int(score)
+    int_score = round(score)
 
     for range_, difficulty in READING_SCORE_TO_DIFFICULTY.items():
         if int_score in range_:
