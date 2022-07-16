@@ -3,6 +3,7 @@ from datetime import date
 from typing import Any, Literal
 
 from public_law.dates import today
+from public_law.nlp.flesch_reading_ease import Difficulty
 from public_law.text import NonemptyString
 
 
@@ -56,6 +57,8 @@ class Metadata:
     dcterms_source: NonemptyString
     publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
+
+    publiclaw_readingEase: Difficulty | Literal["unknown"] = "unknown"
 
     # This JSON dataset.
     dcterms_creator: str = "https://public.law"
