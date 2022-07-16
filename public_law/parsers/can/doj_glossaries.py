@@ -14,6 +14,7 @@ from ...exceptions import ParseException
 from ...models.glossary import (
     GlossaryEntry,
     GlossaryParseResult,
+    reading_ease,
 )
 from ...text import (
     Sentence,
@@ -69,6 +70,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         )
 
     url = cast(str, html.url)
+    parsed_entries = tuple(entries)
 
     metadata = Metadata(
         dcterms_source=NonemptyString(url),
@@ -77,11 +79,12 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         dcterms_coverage="CAN",
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
+        publiclaw_readingEase=reading_ease(parsed_entries),
     )
 
     return GlossaryParseResult(
         metadata=metadata,
-        entries=tuple(entries),
+        entries=parsed_entries,
     )
 
 

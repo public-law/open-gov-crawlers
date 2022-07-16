@@ -103,3 +103,6 @@ class TestParseGlossary:
         )
 
         assert definition_with_em == expected_definition
+
+    def test_reading_ease(self):
+        assert parsed_glossary().metadata.publiclaw_readingEase == "Difficult"
