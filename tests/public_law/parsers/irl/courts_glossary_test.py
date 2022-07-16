@@ -79,3 +79,7 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
         "The child is not removed from his or her home environment. A supervision "
         "order is for a fixed period of time not longer than 12 months initially."
     )
+
+
+def test_reading_ease(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.publiclaw_readingEase == "Difficult"

@@ -11,7 +11,7 @@ from toolz.functoolz import pipe
 
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
 from ...text import NonemptyString as String
 from ...text import (
     Sentence,
@@ -22,6 +22,8 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+    parsed_entries = tuple(__parse_entries(html))
+
     return GlossaryParseResult(
         metadata=Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
@@ -31,8 +33,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String(cast(str, html.url)),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
+            publiclaw_readingEase=reading_ease(parsed_entries),
         ),
-        entries=__parse_entries(html),
+        entries=parsed_entries,
     )
 
 
