@@ -1,7 +1,20 @@
+from typing import Literal, TypeAlias
 from textstat import analyzer
 
 # Source: https://writingstudio.com/blog/flesch-reading-ease/
-READING_SCORE_TO_DIFFICULTY = {
+
+Difficulty: TypeAlias = Literal[
+    "Very easy",
+    "Easy",
+    "Fairly easy",
+    "Plain English",
+    "Fairly difficult",
+    "Difficult",
+    "Very difficult",
+]
+
+
+READING_SCORE_TO_DIFFICULTY: dict[range, Difficulty] = {
     range(90, 100): "Very easy",
     range(80, 90): "Easy",
     range(70, 80): "Fairly easy",
@@ -12,7 +25,7 @@ READING_SCORE_TO_DIFFICULTY = {
 }
 
 
-def reading_difficulty(text: str) -> str:
+def reading_difficulty(text: str) -> Difficulty:
     """
     Calculate the reading difficulty of the text.
     """
@@ -20,7 +33,7 @@ def reading_difficulty(text: str) -> str:
     return _score_to_difficulty(score)
 
 
-def _score_to_difficulty(score: float) -> str:
+def _score_to_difficulty(score: float) -> Difficulty:
     """
     Convert a reading score to a difficulty description.
     """
