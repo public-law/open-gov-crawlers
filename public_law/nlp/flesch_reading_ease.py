@@ -25,9 +25,11 @@ class RangeDict(dict[range, Difficulty]):
         return its associated value. If not in any interval, raise KeyError.
         """
         int_item = round(item)
+
         for key in self.keys():
             if int_item in key:
                 return super().__getitem__(key)
+
         raise KeyError(item)
 
 
