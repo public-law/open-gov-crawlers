@@ -28,4 +28,4 @@ def it_rounds_a_float_correctly():
 
 def it_raises_keyerror_for_invalid_scores():
     with pytest.raises(KeyError):
-        _ = _score_to_difficulty(100)
+        _ = _score_to_difficulty(200)
