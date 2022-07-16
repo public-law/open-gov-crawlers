@@ -9,7 +9,6 @@ from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_none
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     parsed_entries = __parse_entries(html)
 
-    # pyright: reportUnknownMemberType=false
     return GlossaryParseResult(
         metadata=Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
