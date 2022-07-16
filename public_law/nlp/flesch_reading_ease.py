@@ -21,7 +21,7 @@ class RangeDict(dict[range, Difficulty]):
 
     def __getitem__(self, item: Any) -> Difficulty:
         """
-        Iterate over the intervals. if the argument is in that interval
+        Iterate over the intervals. If the argument is in that interval
         return its associated value. If not in any interval, raise KeyError.
         """
         int_item = round(item)
