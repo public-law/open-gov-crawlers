@@ -8,14 +8,11 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 from toolz.functoolz import curry, pipe
 
-from public_law.text import normalize_whitespace
+from ...text import normalize_whitespace
+from ...exceptions import ParseException
 
 join = curry(str.join)
 map = curry(map)
-
-
-class ParseException(Exception):
-    pass
 
 
 class CitationSet(NamedTuple):

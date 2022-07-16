@@ -8,10 +8,6 @@ from ..metadata import Metadata
 from ..text import NonemptyString, Sentence
 
 
-class ParseException(Exception):
-    pass
-
-
 @dataclass(frozen=True)
 class GlossaryEntry:
     """Represents one term and its definition in a particular Glossary"""

@@ -9,10 +9,11 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import SelectorList
 
+from ...exceptions import ParseException
+
 from ...models.glossary import (
     GlossaryEntry,
     GlossaryParseResult,
-    ParseException,
 )
 from ...text import (
     Sentence,
