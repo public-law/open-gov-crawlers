@@ -79,3 +79,7 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
         "the lower court to transmit records for a case which "
         "it will hear on appeal."
     )
+
+
+def test_reading_ease(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.publiclaw_readingEase == "Fairly difficult"

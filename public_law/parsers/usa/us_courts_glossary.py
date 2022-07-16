@@ -1,17 +1,14 @@
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import (
-    NonemptyString as String,
-    make_soup,
-    normalize_nonempty,
-    Sentence,
-    ensure_ends_with_period,
-)
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...metadata import Metadata
+from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...text import NonemptyString as String
+from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+    parsed_entries = tuple(__parse_entries(html))
+
     # pyright: reportUnknownMemberType=false
     return GlossaryParseResult(
         metadata=Metadata(
@@ -22,8 +19,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String("https://www.uscourts.gov/glossary"),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("United States Courts"),
+            publiclaw_readingEase=reading_ease(parsed_entries),
         ),
-        entries=__parse_entries(html),
+        entries=parsed_entries,
     )
 
 
