@@ -133,18 +133,16 @@ def test_reading_ease(p7g):
     assert p7g.metadata.publiclaw_readingEase == "Difficult"
 
 
+def strings(subject):
+    return [(s.uri, s.rdfs_label) for s in subject]
+
+
 class TestDcTermsSubject:
     def test_subject_p7g(self, p7g: GlossaryParseResult):
-        assert p7g.metadata.dcterms_subject == (
-            Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85075720"),
-                rdfs_label=NonemptyString("Legal aid"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q707748"),
-                rdfs_label=NonemptyString("Legal aid"),
-            ),
-        )
+        assert strings(p7g.metadata.dcterms_subject) == [
+            ("http://id.loc.gov/authorities/subjects/sh85075720", "Legal aid"),
+            ("https://www.wikidata.org/wiki/Q707748", "Legal aid"),
+        ]
 
     def test_subject_p11(self, p11: GlossaryParseResult):
         assert p11.metadata.dcterms_subject == (
