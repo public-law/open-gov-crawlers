@@ -1,7 +1,7 @@
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportGeneralTypeIssues=false
+## pyright: reportUnknownMemberType=false
+## pyright: reportUnknownVariableType=false
+## pyright: reportUnknownArgumentType=false
+## pyright: reportGeneralTypeIssues=false
 
 from typing import Any, Iterable, cast
 
@@ -10,9 +10,9 @@ from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe
 
 from ...flipped import lstrip, rstrip
-from ...metadata import Metadata
+from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import NonemptyString as String
+from ...text import URL, NonemptyString as String
 from ...text import (
     Sentence,
     capitalize_first_char,
@@ -34,6 +34,10 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
             publiclaw_readingEase=reading_ease(parsed_entries),
+            dcterms_subject=Subject(
+                uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+                rdfs_label=String("Courts"),
+            ),
         ),
         entries=parsed_entries,
     )

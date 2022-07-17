@@ -32,6 +32,24 @@ class NonemptyString(str):
                 raise ValueError(f"Content is empty or not a string: {content}")
 
 
+class URI(NonemptyString):
+    """
+    A Uniform Resource Identifier
+
+    See: https://blog.hubspot.com/website/uri-vs-url
+    """
+
+    pass
+
+
+class URL(URI):
+    """
+    A Uniform Resource Locator
+    """
+
+    pass
+
+
 class Sentence(NonemptyString):
     """
     A str subclass that generally begins with a capital letter

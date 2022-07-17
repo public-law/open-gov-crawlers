@@ -4,7 +4,7 @@ from typing import Any, Literal
 
 from public_law.dates import today
 from public_law.nlp.flesch_reading_ease import Difficulty
-from public_law.text import NonemptyString
+from public_law.text import URI, NonemptyString
 
 
 @dataclass(frozen=True)
@@ -16,7 +16,7 @@ class Subject:
     * See: https://www.dublincore.org/resources/userguide/publishing_metadata/#exSub2
     """
 
-    dcterms_subject: NonemptyString
+    uri: URI
     rdfs_label: NonemptyString
 
 
