@@ -15,6 +15,9 @@ from public_law.models.glossary import GlossaryEntry
 from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
 from scrapy.http.response.html import HtmlResponse
 
+from public_law.text import URL, NonemptyString
+from public_law.metadata import Subject
+
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
     with open(f"tests/fixtures/{filename}", encoding="utf8") as f:
@@ -54,11 +57,12 @@ def index() -> GlossaryParseResult:
     return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
 
 
-def test_the_name(p7g):
-    assert (
-        p7g.metadata.dcterms_title
-        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
-    )
+# @pytest.fixture
+# def aa() -> GlossaryParseResult:
+#     return parsed_fixture(
+#         "aa.html",
+#         "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html",
+#     )
 
 
 def test_the_name_when_it_contains_an_anchor(glos):
@@ -74,6 +78,25 @@ def test_phrase_does_not_end_with_colon(glos):
 
 def test_the_name_when_there_is_just_an_h1(index):
     assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
+
+
+def test_parses_emphasized_text(p11):
+    definition_with_em = first(p11.entries).definition
+    expected_definition = (
+        "Legal term previously used in the <em>Divorce Act</em> to "
+        "refer to the time a parent or other person spends with a "
+        "child, usually not the parent with whom the child primarily "
+        "lives."
+    )
+
+    assert definition_with_em == expected_definition
+
+
+def test_the_name(p7g):
+    assert (
+        p7g.metadata.dcterms_title
+        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
+    )
 
 
 def test_the_url(p7g):
@@ -106,17 +129,18 @@ def test_a_term_case_1(p7g):
     assert entry.definition == "Postponement of a court hearing to another date."
 
 
-def test_parses_emphasized_text(p11):
-    definition_with_em = first(p11.entries).definition
-    expected_definition = (
-        "Legal term previously used in the <em>Divorce Act</em> to "
-        "refer to the time a parent or other person spends with a "
-        "child, usually not the parent with whom the child primarily "
-        "lives."
-    )
-
-    assert definition_with_em == expected_definition
-
-
 def test_reading_ease(p7g):
     assert p7g.metadata.publiclaw_readingEase == "Difficult"
+
+
+def test_subject(p7g):
+    assert p7g.metadata.dcterms_subject == (
+        Subject(
+            uri=URL("https://id.loc.gov/authorities/subjects/sh85075720.html"),
+            rdfs_label=NonemptyString("Legal aid"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q707748"),
+            rdfs_label=NonemptyString("Legal aid"),
+        ),
+    )
