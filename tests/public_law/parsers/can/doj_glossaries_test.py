@@ -136,11 +136,11 @@ def test_reading_ease(p7g):
 def test_subject(p7g):
     assert p7g.metadata.dcterms_subject == (
         Subject(
-            uri=URL("https://id.loc.gov/authorities/subjects/sh85075720.html"),
-            rdfs_label=NonemptyString("Legal aid"),
+            uri=URL("https://id.loc.gov/authorities/subjects/sh85034952"),
+            rdfs_label=NonemptyString("Custody of children"),
         ),
         Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q707748"),
-            rdfs_label=NonemptyString("Legal aid"),
+            uri=URL("https://www.wikidata.org/wiki/Q638532"),
+            rdfs_label=NonemptyString("Child custody"),
         ),
     )
