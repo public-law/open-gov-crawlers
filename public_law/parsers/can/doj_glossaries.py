@@ -44,6 +44,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Legal aid"),
         ),
     ),
+    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html": (
+        Subject(
+            uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
+            rdfs_label=NonemptyString("Parental alienation syndrome"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q1334131"),
+            rdfs_label=NonemptyString("Parental alienation syndrome"),
+        ),
+    ),
 }
 
 
