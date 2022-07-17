@@ -34,9 +34,15 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
             publiclaw_readingEase=reading_ease(parsed_entries),
-            dcterms_subject=Subject(
-                uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
-                rdfs_label=String("Courts"),
+            dcterms_subject=(
+                Subject(
+                    uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+                    rdfs_label=String("Courts"),
+                ),
+                Subject(
+                    uri=URL("https://www.wikidata.org/wiki/Q41487"),
+                    rdfs_label=String("Court"),
+                ),
             ),
         ),
         entries=parsed_entries,

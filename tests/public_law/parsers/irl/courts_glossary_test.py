@@ -87,8 +87,14 @@ def test_reading_ease(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_readingEase == "Difficult"
 
 
-def test_subject(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_subject == Subject(
-        uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
-        rdfs_label=NonemptyString("Courts"),
+def test_subjects(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.dcterms_subject == (
+        Subject(
+            uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+            rdfs_label=NonemptyString("Courts"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q41487"),
+            rdfs_label=NonemptyString("Court"),
+        ),
     )

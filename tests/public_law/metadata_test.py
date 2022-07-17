@@ -4,6 +4,7 @@
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
 
+from pprint import PrettyPrinter
 from typing import Any
 from public_law.metadata import Metadata
 from public_law.text import NonemptyString as S
@@ -37,10 +38,10 @@ def simple_output() -> dict[str, Any]:
         "dcterms:format": "application/json",
         "dcterms:license": "https://creativecommons.org/licenses/by/4.0/",
         "dcterms:modified": today(),
-        "dcterms:subject": "unknown",
-        "publiclaw:readingEase": "unknown",
+        "dcterms:subject": tuple(),
         "publiclaw:sourceModified": today(),
         "publiclaw:sourceCreator": "Some Canadian Agency",
+        "publiclaw:readingEase": "unknown",
     }
 
 

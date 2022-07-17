@@ -71,7 +71,7 @@ class Metadata:
     publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
 
-    dcterms_subject: Subject | Literal["unknown"] = "unknown"
+    dcterms_subject: tuple[Subject, ...] = tuple()
     publiclaw_readingEase: Difficulty | Literal["unknown"] = "unknown"
 
     # This JSON dataset.
