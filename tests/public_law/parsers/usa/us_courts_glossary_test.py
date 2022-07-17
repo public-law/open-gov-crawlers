@@ -6,8 +6,10 @@ from pytest import fixture
 from more_itertools import first, last
 
 from public_law.dates import today
+from public_law.metadata import Subject
 from public_law.models.glossary import GlossaryParseResult
 from public_law.parsers.usa.us_courts_glossary import parse_glossary
+from public_law.text import URL, NonemptyString
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
@@ -83,3 +85,16 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
 
 def test_reading_ease(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.publiclaw_readingEase == "Fairly difficult"
+
+
+def test_subjects(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.dcterms_subject == (
+        Subject(
+            uri=URL("https://id.loc.gov/authorities/subjects/sh85033575.html"),
+            rdfs_label=NonemptyString("Courts--United States"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q194907"),
+            rdfs_label=NonemptyString("United States federal courts"),
+        ),
+    )
