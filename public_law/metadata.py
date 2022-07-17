@@ -89,7 +89,7 @@ class Metadata:
         return asdict(self, dict_factory=_make_dc_dict)
 
     def __iter__(self):
-        return iter(self.as_dublin_core_dict().items())
+        return iter(sorted(self.as_dublin_core_dict().items()))
 
     def __getitem__(self, k: str) -> Any:
         return self.as_dublin_core_dict().__getitem__(k)
