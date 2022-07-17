@@ -2,9 +2,9 @@ from typing import Any, Iterable
 
 from scrapy.http.response.html import HtmlResponse
 
-from ...metadata import Metadata
+from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import NonemptyString as String
+from ...text import URL, NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
@@ -21,6 +21,16 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
             publiclaw_readingEase=reading_ease(parsed_entries),
+            dcterms_subject=(
+                Subject(
+                    uri=URL("https://id.loc.gov/authorities/subjects/sh85071120.html"),
+                    rdfs_label=String("Justice, Administration of"),
+                ),
+                Subject(
+                    uri=URL("https://www.wikidata.org/wiki/Q16514399"),
+                    rdfs_label=String("Administration of justice"),
+                ),
+            ),
         ),
         entries=parsed_entries,
     )
