@@ -13,7 +13,7 @@ import os
 #     https://spidermon.readthedocs.io/
 
 
-SPIDERMON_ENABLED = True
+SPIDERMON_ENABLED = False
 
 # TODO: Re-enable after fixing to be aware of different spiders.
 # SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
@@ -82,7 +82,7 @@ DOWNLOADER_MIDDLEWARES = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 # }
 EXTENSIONS = {
-    "spidermon.contrib.scrapy.extensions.Spidermon": 500,
+    # "spidermon.contrib.scrapy.extensions.Spidermon": 500,
 }
 
 

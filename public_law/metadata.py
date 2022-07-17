@@ -3,7 +3,21 @@ from datetime import date
 from typing import Any, Literal
 
 from public_law.dates import today
-from public_law.text import NonemptyString
+from public_law.nlp.flesch_reading_ease import Difficulty
+from public_law.text import URI, NonemptyString
+
+
+@dataclass(frozen=True)
+class Subject:
+    """
+    A Dublin Core subject.
+
+    * See: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/subject
+    * See: https://www.dublincore.org/resources/userguide/publishing_metadata/#exSub2
+    """
+
+    uri: URI
+    rdfs_label: NonemptyString
 
 
 @dataclass(frozen=True)
@@ -57,6 +71,9 @@ class Metadata:
     publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
 
+    dcterms_subject: tuple[Subject, ...] = tuple()
+    publiclaw_readingEase: Difficulty | Literal["unknown"] = "unknown"
+
     # This JSON dataset.
     dcterms_creator: str = "https://public.law"
     dcterms_type: str = "Dataset"
@@ -72,7 +89,7 @@ class Metadata:
         return asdict(self, dict_factory=_make_dc_dict)
 
     def __iter__(self):
-        return iter(self.as_dublin_core_dict().items())
+        return iter(sorted(self.as_dublin_core_dict().items()))
 
     def __getitem__(self, k: str) -> Any:
         return self.as_dublin_core_dict().__getitem__(k)

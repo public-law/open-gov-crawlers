@@ -9,8 +9,10 @@ from scrapy.http.response.html import HtmlResponse
 from pytest import fixture, mark
 
 from public_law.dates import today
+from public_law.metadata import Subject
 from public_law.models.glossary import GlossaryParseResult
 from public_law.parsers.irl.courts_glossary import parse_glossary
+from public_law.text import URL, NonemptyString
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
@@ -78,4 +80,21 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
         "An order allowing Tusla to monitor a child considered to be at risk. "
         "The child is not removed from his or her home environment. A supervision "
         "order is for a fixed period of time not longer than 12 months initially."
+    )
+
+
+def test_reading_ease(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.publiclaw_readingEase == "Difficult"
+
+
+def test_subjects(parsed_glossary: GlossaryParseResult):
+    assert parsed_glossary.metadata.dcterms_subject == (
+        Subject(
+            uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+            rdfs_label=NonemptyString("Courts"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q41487"),
+            rdfs_label=NonemptyString("Court"),
+        ),
     )

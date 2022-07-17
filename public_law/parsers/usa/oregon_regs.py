@@ -3,17 +3,13 @@ import re
 from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
 
+from ...exceptions import ParseException
 from ...items import Rule
 from ...text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"
 URL_PREFIX = f"https://{DOMAIN}/oard/"
-
-
-class ParseException(Exception):
-    """We raise this exception when there's a parsing error. It allows
-    the calling code to handle this kind of error in a particular way."""
 
 
 def oar_url(relative_fragment: str) -> str:

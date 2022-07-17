@@ -1,18 +1,16 @@
 from typing import Any, Iterable
+
 from scrapy.http.response.html import HtmlResponse
 
-from ...text import (
-    ensure_ends_with_period,
-    NonemptyString as String,
-    make_soup,
-    normalize_nonempty,
-    Sentence,
-)
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...metadata import Metadata
+from ...metadata import Metadata, Subject
+from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...text import URL, NonemptyString as String
+from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+    parsed_entries = tuple(__parse_entries(html))
+
     return GlossaryParseResult(
         metadata=Metadata(
             dcterms_title=String("Glossary"),
@@ -22,8 +20,19 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String("https://www.justice.govt.nz/about/glossary/"),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
+            publiclaw_readingEase=reading_ease(parsed_entries),
+            dcterms_subject=(
+                Subject(
+                    uri=URL("https://id.loc.gov/authorities/subjects/sh85071120.html"),
+                    rdfs_label=String("Justice, Administration of"),
+                ),
+                Subject(
+                    uri=URL("https://www.wikidata.org/wiki/Q16514399"),
+                    rdfs_label=String("Administration of justice"),
+                ),
+            ),
         ),
-        entries=__parse_entries(html),
+        entries=parsed_entries,
     )
 
 

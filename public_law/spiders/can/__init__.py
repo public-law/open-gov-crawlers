@@ -1,1 +1,3 @@
-# Nothing here.
+"""
+Spiders for Canadian sources.
+"""
