@@ -768,7 +768,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyright"
-version = "1.1.260"
+version = "1.1.261"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
