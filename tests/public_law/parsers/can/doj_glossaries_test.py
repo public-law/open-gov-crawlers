@@ -169,3 +169,15 @@ class TestDcTermsSubject:
                 rdfs_label=NonemptyString("Parental alienation syndrome"),
             ),
         )
+
+    # def test_subject_index(self, index: GlossaryParseResult):
+    #     assert index.metadata.dcterms_subject == (
+    #         Subject(
+    #             uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
+    #             rdfs_label=NonemptyString("Parental alienation syndrome"),
+    #         ),
+    #         Subject(
+    #             uri=URL("https://www.wikidata.org/wiki/Q1334131"),
+    #             rdfs_label=NonemptyString("Parental alienation syndrome"),
+    #         ),
+    #     )
