@@ -16,7 +16,6 @@ from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glo
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.text import URL, NonemptyString
-from public_law.metadata import Subject
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
@@ -133,38 +132,41 @@ def test_reading_ease(p7g):
     assert p7g.metadata.publiclaw_readingEase == "Difficult"
 
 
-def strings(subject):
-    return [(s.uri, s.rdfs_label) for s in subject]
+def subj_strings(glossary):
+    """
+    Test helper: return the strings in a Glossary's subjects.
+    """
+    return tuple((s.uri, s.rdfs_label) for s in glossary.metadata.dcterms_subject)
 
 
 class TestDcTermsSubject:
-    def test_subject_p7g(self, p7g: GlossaryParseResult):
-        assert strings(p7g.metadata.dcterms_subject) == [
+    def test_subject_p7g(self, p7g):
+        assert subj_strings(p7g) == (
             ("http://id.loc.gov/authorities/subjects/sh85075720", "Legal aid"),
             ("https://www.wikidata.org/wiki/Q707748", "Legal aid"),
-        ]
+        )
 
-    def test_subject_p11(self, p11: GlossaryParseResult):
-        assert p11.metadata.dcterms_subject == (
-            Subject(
-                uri=URL("https://id.loc.gov/authorities/subjects/sh85034952"),
-                rdfs_label=NonemptyString("Custody of children"),
+    def test_subject_p11(self, p11):
+        assert subj_strings(p11) == (
+            (
+                "https://id.loc.gov/authorities/subjects/sh85034952",
+                "Custody of children",
             ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q638532"),
-                rdfs_label=NonemptyString("Child custody"),
+            (
+                "https://www.wikidata.org/wiki/Q638532",
+                "Child custody",
             ),
         )
 
-    def test_subject_glos(self, glos: GlossaryParseResult):
-        assert glos.metadata.dcterms_subject == (
-            Subject(
-                uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
-                rdfs_label=NonemptyString("Parental alienation syndrome"),
+    def test_subject_glos(self, glos):
+        assert subj_strings(glos) == (
+            (
+                "https://id.loc.gov/authorities/subjects/sh98001029",
+                "Parental alienation syndrome",
             ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q1334131"),
-                rdfs_label=NonemptyString("Parental alienation syndrome"),
+            (
+                "https://www.wikidata.org/wiki/Q1334131",
+                "Parental alienation syndrome",
             ),
         )
 
