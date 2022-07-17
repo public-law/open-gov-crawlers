@@ -8,6 +8,19 @@ from public_law.text import NonemptyString
 
 
 @dataclass(frozen=True)
+class Subject:
+    """
+    A Dublin Core subject.
+
+    * See: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/subject
+    * See: https://www.dublincore.org/resources/userguide/publishing_metadata/#exSub2
+    """
+
+    dcterms_subject: NonemptyString
+    rdfs_label: NonemptyString
+
+
+@dataclass(frozen=True)
 class Metadata:
     """Each JSON output file should have a `Metadata` object with the attributes:
 
@@ -58,6 +71,7 @@ class Metadata:
     publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
 
+    dcterms_subject: Subject | Literal["unknown"] = "unknown"
     publiclaw_readingEase: Difficulty | Literal["unknown"] = "unknown"
 
     # This JSON dataset.

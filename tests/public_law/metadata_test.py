@@ -37,6 +37,7 @@ def simple_output() -> dict[str, Any]:
         "dcterms:format": "application/json",
         "dcterms:license": "https://creativecommons.org/licenses/by/4.0/",
         "dcterms:modified": today(),
+        "dcterms:subject": "unknown",
         "publiclaw:readingEase": "unknown",
         "publiclaw:sourceModified": today(),
         "publiclaw:sourceCreator": "Some Canadian Agency",
