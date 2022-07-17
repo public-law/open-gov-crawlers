@@ -15,8 +15,6 @@ from public_law.models.glossary import GlossaryEntry
 from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.text import URL, NonemptyString
-
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
     with open(f"tests/fixtures/{filename}", encoding="utf8") as f:
@@ -169,15 +167,3 @@ class TestDcTermsSubject:
                 "Parental alienation syndrome",
             ),
         )
-
-    # def test_subject_index(self, index: GlossaryParseResult):
-    #     assert index.metadata.dcterms_subject == (
-    #         Subject(
-    #             uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
-    #             rdfs_label=NonemptyString("Parental alienation syndrome"),
-    #         ),
-    #         Subject(
-    #             uri=URL("https://www.wikidata.org/wiki/Q1334131"),
-    #             rdfs_label=NonemptyString("Parental alienation syndrome"),
-    #         ),
-    #     )

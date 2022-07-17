@@ -1,7 +1,7 @@
-## pyright: reportUnknownMemberType=false
-## pyright: reportUnknownVariableType=false
-## pyright: reportUnknownArgumentType=false
-## pyright: reportGeneralTypeIssues=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
 
 from typing import Any, Iterable, cast
 

@@ -4,7 +4,6 @@
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
 
-from pprint import PrettyPrinter
 from typing import Any
 from public_law.metadata import Metadata
 from public_law.text import NonemptyString as S
