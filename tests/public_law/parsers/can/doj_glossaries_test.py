@@ -134,7 +134,7 @@ def test_reading_ease(p7g):
 
 
 class TestDcTermsSubject:
-    def test_subject_p7g(self, p7g):
+    def test_subject_p7g(self, p7g: GlossaryParseResult):
         assert p7g.metadata.dcterms_subject == (
             Subject(
                 uri=URL("http://id.loc.gov/authorities/subjects/sh85075720"),
@@ -146,7 +146,7 @@ class TestDcTermsSubject:
             ),
         )
 
-    def test_subject_p11(self, p11):
+    def test_subject_p11(self, p11: GlossaryParseResult):
         assert p11.metadata.dcterms_subject == (
             Subject(
                 uri=URL("https://id.loc.gov/authorities/subjects/sh85034952"),
@@ -155,5 +155,17 @@ class TestDcTermsSubject:
             Subject(
                 uri=URL("https://www.wikidata.org/wiki/Q638532"),
                 rdfs_label=NonemptyString("Child custody"),
+            ),
+        )
+
+    def test_subject_glos(self, glos: GlossaryParseResult):
+        assert glos.metadata.dcterms_subject == (
+            Subject(
+                uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
+                rdfs_label=NonemptyString("Parental alienation syndrome"),
+            ),
+            Subject(
+                uri=URL("https://www.wikidata.org/wiki/Q1334131"),
+                rdfs_label=NonemptyString("Parental alienation syndrome"),
             ),
         )
