@@ -1,0 +1,7 @@
+{
+    "can_doj_glossaries": "Canada/doj-glossaries.json",
+    "int_rome_statute": "Intergovernmental/RomeStatute/RomeStatute.json",
+    "irl_courts_glossary": "Ireland/courts-glossary.json",
+    "nzl_justice_glossary": "NewZealand/justice-glossary.json",
+    "usa_courts_glossary": "UnitedStates/us-courts-glossary.json"
+}
