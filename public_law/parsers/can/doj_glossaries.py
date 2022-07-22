@@ -97,8 +97,15 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             )
         )
 
-    url = cast(str, html.url)
     parsed_entries = tuple(entries)
+
+    url = cast(str, html.url)
+
+    match SUBJECTS.get(url):
+        case tuple(subjects):
+            dc_subject = subjects
+        case None:
+            raise ValueError(f"No subjects configured for {url}")
 
     metadata = Metadata(
         dcterms_source=NonemptyString(url),
@@ -108,7 +115,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
         publiclaw_readingEase=reading_ease(parsed_entries),
-        dcterms_subject=SUBJECTS.get(url, tuple()),
+        dcterms_subject=dc_subject,
     )
 
     return GlossaryParseResult(
