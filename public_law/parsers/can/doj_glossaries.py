@@ -22,6 +22,19 @@ from ...text import (
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
+# Removed from the spider:
+# start_urls = [
+#     "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
+#     "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
+#     "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/2019/elf-esc/p7.html",
+#     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
+#     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html",
+#     # "https://laws-lois.justice.gc.ca/eng/glossary/",
+#     # "https://www.justice.gc.ca/eng/rp-pr/cp-pm/aud-ver/2011/rc-pmr/01.html",       # Crashes.
+#     # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/child-enfant/guide/glos.html",
+#     # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html",
+# ]
+
 
 SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html": (
@@ -42,6 +55,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
         Subject(
             uri=URL("https://www.wikidata.org/wiki/Q707748"),
             rdfs_label=NonemptyString("Legal aid"),
+        ),
+    ),
+    "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/2019/elf-esc/p7.html": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85077662"),
+            rdfs_label=NonemptyString("Litigation"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q107364261"),
+            rdfs_label=NonemptyString("Litigation"),
         ),
     ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html": (
