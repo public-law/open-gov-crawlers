@@ -67,6 +67,11 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
 }
 
 
+def configured_urls() -> tuple[str]:
+    """All the URLs that have been properly set up with subjects."""
+    return tuple(SUBJECTS.keys())
+
+
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     name = parse_name(html)
     pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
