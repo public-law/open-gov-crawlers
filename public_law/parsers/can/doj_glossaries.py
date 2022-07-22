@@ -54,6 +54,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Parental alienation syndrome"),
         ),
     ),
+    "https://laws-lois.justice.gc.ca/eng/glossary/": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh98001459"),
+            rdfs_label=NonemptyString("Law--Canada"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q181756"),
+            rdfs_label=NonemptyString("Law of Canada"),
+        ),
+    ),
 }
 
 
@@ -98,7 +108,6 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         )
 
     parsed_entries = tuple(entries)
-
     url = cast(str, html.url)
 
     match SUBJECTS.get(url):
@@ -108,7 +117,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             raise ValueError(f"No subjects configured for {url}")
 
     metadata = Metadata(
-        dcterms_source=NonemptyString(url),
+        dcterms_source=URL(url),
         dcterms_title=NonemptyString(name),
         dcterms_language="en",
         dcterms_coverage="CAN",
