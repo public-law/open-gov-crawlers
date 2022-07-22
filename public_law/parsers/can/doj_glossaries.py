@@ -22,13 +22,9 @@ from ...text import (
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
-# Removed from the spider:
-# start_urls = [
-#     # "https://laws-lois.justice.gc.ca/eng/glossary/",
-#     # "https://www.justice.gc.ca/eng/rp-pr/cp-pm/aud-ver/2011/rc-pmr/01.html",       # Crashes.
-#     # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/child-enfant/guide/glos.html",
-#     # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html",
-# ]
+# TODO list from the spider:
+#    https://www.justice.gc.ca/eng/rp-pr/cp-pm/aud-ver/2011/rc-pmr/01.html       # Crashes.
+#    https://www.justice.gc.ca/eng/rp-pr/fl-lf/child-enfant/guide/glos.html
 
 
 SUBJECTS: dict[str, tuple[Subject, Subject]] = {
@@ -73,6 +69,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
         ),
     ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85003572"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q368305"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+    ),
+    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html": (
         Subject(
             uri=URL("http://id.loc.gov/authorities/subjects/sh85003572"),
             rdfs_label=NonemptyString("Alimony"),
