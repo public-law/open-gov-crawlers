@@ -114,7 +114,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         case tuple(subjects):
             dc_subject = subjects
         case None:
-            raise ValueError(f"No subjects configured for {url}")
+            raise ParseException(f"No subjects configured for {url}")
 
     metadata = Metadata(
         dcterms_source=URL(url),
