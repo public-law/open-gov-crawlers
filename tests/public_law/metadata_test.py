@@ -5,8 +5,8 @@
 # pyright: reportMissingParameterType=false
 
 from typing import Any
-from public_law.metadata import Metadata
-from public_law.text import NonemptyString as S
+from public_law.metadata import Metadata, Subject
+from public_law.text import URI, NonemptyString as S
 from public_law.dates import today
 
 import pytest
@@ -20,6 +20,10 @@ def simple_input() -> Metadata:
         dcterms_language="en",
         dcterms_modified=today(),
         dcterms_coverage="CAN",
+        dcterms_subject=(
+            Subject(URI("http://id.loc/1234"), S("taxation")),
+            Subject(URI("http://id.wiki"), S("taxes")),
+        ),
         publiclaw_sourceModified=today(),
         publiclaw_sourceCreator=S("Some Canadian Agency"),
     )
@@ -37,7 +41,13 @@ def simple_output() -> dict[str, Any]:
         "dcterms:format": "application/json",
         "dcterms:license": "https://creativecommons.org/licenses/by/4.0/",
         "dcterms:modified": today(),
-        "dcterms:subject": tuple(),
+        "dcterms:subject": (
+            {
+                "uri": "http://id.loc/1234",
+                "rdfs:label": "taxation",
+            },
+            {"uri": "http://id.wiki", "rdfs:label": "taxes"},
+        ),
         "publiclaw:sourceModified": today(),
         "publiclaw:sourceCreator": "Some Canadian Agency",
         "publiclaw:readingEase": "unknown",

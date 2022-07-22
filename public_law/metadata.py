@@ -65,13 +65,13 @@ class Metadata:
     dcterms_title: NonemptyString
     dcterms_language: Literal["de", "en", "fr"]
     dcterms_coverage: Literal["CAN", "IRL", "NZL", "USA"]
+    dcterms_subject: tuple[Subject, ...]
 
     # The original gov't document.
     dcterms_source: NonemptyString
     publiclaw_sourceModified: date | Literal["unknown"]
     publiclaw_sourceCreator: NonemptyString
 
-    dcterms_subject: tuple[Subject, ...] = tuple()
     publiclaw_readingEase: Difficulty | Literal["unknown"] = "unknown"
 
     # This JSON dataset.

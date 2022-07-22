@@ -22,6 +22,10 @@ from ...text import (
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
+# TODO list from the spider:
+#    https://www.justice.gc.ca/eng/rp-pr/cp-pm/aud-ver/2011/rc-pmr/01.html       # Crashes.
+#    https://www.justice.gc.ca/eng/rp-pr/fl-lf/child-enfant/guide/glos.html
+
 
 SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html": (
@@ -44,6 +48,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Legal aid"),
         ),
     ),
+    "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/2019/elf-esc/p7.html": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85077662"),
+            rdfs_label=NonemptyString("Litigation"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q107364261"),
+            rdfs_label=NonemptyString("Litigation"),
+        ),
+    ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html": (
         Subject(
             uri=URL("https://id.loc.gov/authorities/subjects/sh98001029"),
@@ -54,7 +68,42 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Parental alienation syndrome"),
         ),
     ),
+    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85003572"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q368305"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+    ),
+    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85003572"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q368305"),
+            rdfs_label=NonemptyString("Alimony"),
+        ),
+    ),
+    "https://laws-lois.justice.gc.ca/eng/glossary/": (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh98001459"),
+            rdfs_label=NonemptyString("Law--Canada"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q181756"),
+            rdfs_label=NonemptyString("Law of Canada"),
+        ),
+    ),
 }
+
+
+def configured_urls() -> tuple[str]:
+    """All the URLs that have been properly set up with subjects."""
+    return tuple(SUBJECTS.keys())
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -97,18 +146,24 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             )
         )
 
-    url = cast(str, html.url)
     parsed_entries = tuple(entries)
+    url = cast(str, html.url)
+
+    match SUBJECTS.get(url):
+        case tuple(subjects):
+            dc_subject = subjects
+        case None:
+            raise ParseException(f"No subjects configured for {url}")
 
     metadata = Metadata(
-        dcterms_source=NonemptyString(url),
+        dcterms_source=URL(url),
         dcterms_title=NonemptyString(name),
         dcterms_language="en",
         dcterms_coverage="CAN",
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
         publiclaw_readingEase=reading_ease(parsed_entries),
-        dcterms_subject=SUBJECTS.get(url, tuple()),
+        dcterms_subject=dc_subject,
     )
 
     return GlossaryParseResult(
