@@ -21,4 +21,4 @@ class DojGlossaries(Spider):
         @scrapes metadata entries
         """
 
-        yield dict(parser.parse_glossary(response))
+        yield parser.parse_glossary(response)
