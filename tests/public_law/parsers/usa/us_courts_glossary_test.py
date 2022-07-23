@@ -23,57 +23,55 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
     return parse_glossary(html)
 
 
-@fixture
-def parsed_glossary() -> GlossaryParseResult:
-    return parsed_fixture(
-        filename="gov.uscourts-glossary.html", url="https://www.uscourts.gov/glossary"
-    )
+GLOSSARY_FIXTURE = parsed_fixture(
+    filename="gov.uscourts-glossary.html", url="https://www.uscourts.gov/glossary"
+)
 
 
-def test_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
+def test_the_name():
+    assert GLOSSARY_FIXTURE.metadata.dcterms_title == "Glossary of Legal Terms"
 
 
-def test_the_url(parsed_glossary: GlossaryParseResult):
+def test_the_url():
     assert (
-        parsed_glossary.metadata.dcterms_source == "https://www.uscourts.gov/glossary"
+        GLOSSARY_FIXTURE.metadata.dcterms_source == "https://www.uscourts.gov/glossary"
     )
 
 
-def test_the_author(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
+def test_the_author():
+    assert GLOSSARY_FIXTURE.metadata.dcterms_creator == "https://public.law"
 
 
-def test_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "USA"
+def test_coverage():
+    assert GLOSSARY_FIXTURE.metadata.dcterms_coverage == "USA"
 
 
-def test_the_source_modified_date(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
+def test_the_source_modified_date():
+    assert GLOSSARY_FIXTURE.metadata.publiclaw_sourceModified == "unknown"
 
 
-def test_the_scrape_date(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_modified == today()
+def test_the_scrape_date():
+    assert GLOSSARY_FIXTURE.metadata.dcterms_modified == today()
 
 
-def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).phrase == "Acquittal"
+def test_phrase():
+    assert first(GLOSSARY_FIXTURE.entries).phrase == "Acquittal"
 
 
-def test_definition(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).definition == (
+def test_definition():
+    assert first(GLOSSARY_FIXTURE.entries).definition == (
         "A jury verdict that a criminal defendant is not guilty, "
         "or the finding of a judge that the evidence is insufficient "
         "to support a conviction."
     )
 
 
-def test_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(tuple(parsed_glossary.entries)) == 237
+def test_proper_number_of_entries():
+    assert len(tuple(GLOSSARY_FIXTURE.entries)) == 237
 
 
-def test_the_last_entry(parsed_glossary: GlossaryParseResult):
-    last_entry = last(parsed_glossary.entries)
+def test_the_last_entry():
+    last_entry = last(GLOSSARY_FIXTURE.entries)
 
     assert last_entry.phrase == "Writ of certiorari"
     assert last_entry.definition == (
@@ -83,12 +81,12 @@ def test_the_last_entry(parsed_glossary: GlossaryParseResult):
     )
 
 
-def test_reading_ease(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.publiclaw_readingEase == "Fairly difficult"
+def test_reading_ease():
+    assert GLOSSARY_FIXTURE.metadata.publiclaw_readingEase == "Fairly difficult"
 
 
-def test_subjects(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_subject == (
+def test_subjects():
+    assert GLOSSARY_FIXTURE.metadata.dcterms_subject == (
         Subject(
             uri=URL("https://id.loc.gov/authorities/subjects/sh85033575.html"),
             rdfs_label=NonemptyString("Courts--United States"),
