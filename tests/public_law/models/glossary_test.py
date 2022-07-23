@@ -1,6 +1,3 @@
-from collections.abc import Iterable
-from typing import Mapping
-
 from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
 from scrapy.http.response.html import HtmlResponse
 
