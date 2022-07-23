@@ -1,8 +1,4 @@
-# pyright: reportUntypedFunctionDecorator=false
-
-
 from scrapy.http.response.html import HtmlResponse
-from pytest import fixture
 from more_itertools import first, last
 
 from public_law.dates import today
