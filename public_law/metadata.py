@@ -81,6 +81,9 @@ class Metadata:
     dcterms_license: str = "https://creativecommons.org/licenses/by/4.0/"
     dcterms_format: str = "application/json"
 
+    def asdict(self):
+        return self.as_dublin_core_dict()
+
     def as_dublin_core_dict(self) -> dict[str, Any]:
         """Return a dict containing the metadata with proper DublinCore
         naming syntax. Instead of keys such as `dc_title`, they should be
@@ -88,17 +91,41 @@ class Metadata:
 
         return asdict(self, dict_factory=_make_dc_dict)
 
-    def __iter__(self):
-        return iter(sorted(self.as_dublin_core_dict().items()))
-
-    def __getitem__(self, k: str) -> Any:
-        return self.as_dublin_core_dict().__getitem__(k)
-
     def __len__(self):
-        return self.as_dublin_core_dict().__len__()
+        return self.asdict().__len__()
 
     def __repr__(self) -> str:
         return asdict(self).__repr__()
+
+    def __contains__(self, item: Any) -> bool:
+        return self.asdict().__contains__(item)
+
+    def __getitem__(self, item: Any) -> Any:
+        return self.asdict().__getitem__(item)
+
+    def __eq__(self, __t: Any):
+        return self.asdict().__eq__(__t)
+
+    def __ne__(self, __t: Any):
+        return self.asdict().__ne__(__t)
+
+    def __iter__(self):
+        return self.asdict().__iter__()
+
+    def get(self, item: Any, default: Any = None):
+        return self.asdict().get(item, default)
+
+    def items(self):
+        return self.asdict().items()
+
+    def keys(self):
+        return self.asdict().keys()
+
+    def values(self):
+        return self.asdict().values()
+
+    def copy(self):
+        return self.asdict().copy()
 
 
 def _make_dc_dict(item_list: list[tuple[str, Any]]) -> dict[str, Any]:

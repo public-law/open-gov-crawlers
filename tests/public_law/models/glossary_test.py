@@ -33,5 +33,5 @@ class TestAsDict:
     def test_dict_func_is_equivalent(self):
         assert GLOSSARY_FIXTURE.asdict() == dict(GLOSSARY_FIXTURE)
 
-    def test_has_renamed_key(self):
-        assert "dcterms:subject" in GLOSSARY_FIXTURE.asdict()
+    def test_has_renamed_metadata_key(self):
+        assert "dcterms:subject" in GLOSSARY_FIXTURE.asdict()["metadata"]
