@@ -15,6 +15,9 @@ class GlossaryEntry:
     phrase: NonemptyString
     definition: Sentence
 
+    def asdict(self):
+        return dataclasses.asdict(self)
+
 
 @dataclass(frozen=True)
 class GlossaryParseResult:
@@ -25,7 +28,10 @@ class GlossaryParseResult:
 
     @cache
     def asdict(self):
-        return dataclasses.asdict(self)
+        return {
+            "metadata": self.metadata.asdict(),
+            "entries": [entry.asdict() for entry in self.entries],
+        }
 
     def __contains__(self, item: Any) -> bool:
         return self.asdict().__contains__(item)

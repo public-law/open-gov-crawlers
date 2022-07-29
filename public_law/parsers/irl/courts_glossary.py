@@ -1,18 +1,13 @@
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportGeneralTypeIssues=false
-
 from typing import Any, Iterable, cast
 
 from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import pipe
+from toolz.functoolz import pipe  # type: ignore
 
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import URL, NonemptyString as String
+from ...text import URL, LoCSubject, NonemptyString as String
 from ...text import (
     Sentence,
     capitalize_first_char,
@@ -30,13 +25,13 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="IRL",
             # Info about original source
-            dcterms_source=String(cast(str, html.url)),
+            dcterms_source=String(cast(str, html.url)),  # type: ignore
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
             publiclaw_readingEase=reading_ease(parsed_entries),
             dcterms_subject=(
                 Subject(
-                    uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+                    uri=LoCSubject("sh85033571"),  # type: ignore
                     rdfs_label=String("Courts"),
                 ),
                 Subject(
@@ -56,7 +51,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         return pipe(
             defn,
             normalize_nonempty,
-            lstrip(":"),
+            lstrip(":"),  # type: ignore
             ensure_ends_with_period,
             normalize_nonempty,
             capitalize_first_char,
@@ -66,7 +61,7 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     def cleanup_phrase(phrase: str) -> String:
         return pipe(
             phrase,
-            rstrip(":"),
+            rstrip(":"),  # type: ignore
             normalize_nonempty,
             String,
         )
@@ -85,5 +80,5 @@ def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     TODO: Refactor all the glossary parsers to need only this function.
     """
     return chunked(
-        html.xpath("//p/strong/parent::p/text() | //strong/text()").getall(), 2
+        html.xpath("//p/strong/parent::p/text() | //strong/text()").getall(), 2  # type: ignore
     )
