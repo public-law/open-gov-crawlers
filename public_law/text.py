@@ -50,6 +50,15 @@ class URL(URI):
     pass
 
 
+class LoCSubject(URL):
+    """
+    A Library of Congress subject heading URI.
+    """
+
+    def __new__(cls, id: str):
+        return super().__new__(cls, f"http://id.loc.gov/authorities/subjects/{id}")
+
+
 class Sentence(NonemptyString):
     """
     A str subclass that generally begins with a capital letter

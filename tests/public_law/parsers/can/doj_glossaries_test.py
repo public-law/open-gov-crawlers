@@ -147,7 +147,7 @@ class TestDcTermsSubject:
     def test_subject_p11(self, p11):
         assert subj_strings(p11) == (
             (
-                "https://id.loc.gov/authorities/subjects/sh85034952",
+                "http://id.loc.gov/authorities/subjects/sh85034952",
                 "Custody of children",
             ),
             (
@@ -159,7 +159,7 @@ class TestDcTermsSubject:
     def test_subject_glos(self, glos):
         assert subj_strings(glos) == (
             (
-                "https://id.loc.gov/authorities/subjects/sh98001029",
+                "http://id.loc.gov/authorities/subjects/sh98001029",
                 "Parental alienation syndrome",
             ),
             (
