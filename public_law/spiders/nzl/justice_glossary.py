@@ -23,4 +23,4 @@ class NZLJusticeGlossary(Spider):
         @returns requests 0 0
         @scrapes metadata entries
         """
-        yield dict(parse_glossary(response))
+        yield parse_glossary(response).asdict()
