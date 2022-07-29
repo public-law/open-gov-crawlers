@@ -768,7 +768,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyright"
-version = "1.1.261"
+version = "1.1.264"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
@@ -1229,7 +1229,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "4ce8e972bfa4cad92ca880d7b7936b8db66b990b0761051a201b1a3b0a7c3d9b"
+content-hash = "63907a75219e8195f82dcde4559f49fa26628646080040610e0d495da7c2fcb1"
 
 [metadata.files]
 appnope = [
