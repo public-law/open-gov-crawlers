@@ -4,7 +4,7 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import URL, NonemptyString as String
+from ...text import URL, LoCSubject, NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
@@ -23,7 +23,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_readingEase=reading_ease(parsed_entries),
             dcterms_subject=(
                 Subject(
-                    uri=URL("https://id.loc.gov/authorities/subjects/sh85071120.html"),
+                    uri=LoCSubject("sh85071120"),  # type: ignore
                     rdfs_label=String("Justice, Administration of"),
                 ),
                 Subject(

@@ -90,7 +90,7 @@ def test_reading_ease(parsed_glossary: GlossaryParseResult):
 def test_subjects(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_subject == (
         Subject(
-            uri=URL("https://id.loc.gov/authorities/subjects/sh85033571.html"),
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85033571"),
             rdfs_label=NonemptyString("Courts"),
         ),
         Subject(

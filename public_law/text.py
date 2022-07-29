@@ -56,7 +56,16 @@ class LoCSubject(URL):
     """
 
     def __new__(cls, id: str):
-        return super().__new__(cls, f"http://id.loc.gov/authorities/subjects/{id}")
+        # Accept a fully formed URI.
+        # This is needed by the dataclasses deepcopy process.
+        if re.match(r"^http://id.loc.gov/authorities/subjects/sh[0-9]+$", id):
+            return super().__new__(cls, id)
+
+        # Accept a bare ID.
+        if re.match(r"^sh\d+$", id):
+            return super().__new__(cls, f"http://id.loc.gov/authorities/subjects/{id}")
+
+        raise ValueError(f"Invalid subject ID: {id}")
 
 
 class Sentence(NonemptyString):

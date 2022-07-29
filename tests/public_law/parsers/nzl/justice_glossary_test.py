@@ -83,7 +83,7 @@ def test_reading_ease():
 def test_subjects():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_subject == (
         Subject(
-            uri=URL("https://id.loc.gov/authorities/subjects/sh85071120.html"),
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
             rdfs_label=NonemptyString("Justice, Administration of"),
         ),
         Subject(
