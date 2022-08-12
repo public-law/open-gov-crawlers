@@ -29,6 +29,7 @@ First, we can see which spiders are available:
 ```bash
 $ scrapy list
 
+aus_ip_glossary
 can_doj_glossaries
 int_rome_statute
 irl_courts_glossary
