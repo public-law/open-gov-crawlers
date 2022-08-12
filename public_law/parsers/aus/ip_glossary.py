@@ -31,12 +31,12 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85071120"),  # type: ignore
-                    rdfs_label=String("Justice, Administration of"),
+                    uri=LoCSubject("sh85067167"),  # type: ignore
+                    rdfs_label=String("Intellectual property"),
                 ),
                 Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-                    rdfs_label=String("Administration of justice"),
+                    uri=URL("https://www.wikidata.org/wiki/Q131257"),
+                    rdfs_label=String("Intellectual property"),
                 ),
             ),
         ),

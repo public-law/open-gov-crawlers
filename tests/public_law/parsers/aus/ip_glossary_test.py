@@ -92,14 +92,14 @@ def test_reading_ease():
     assert PARSED_GLOSSARY.metadata.publiclaw_readingEase == "Fairly difficult"
 
 
-# def test_subjects():
-#     assert PARSED_GLOSSARY.metadata.dcterms_subject == (
-#         Subject(
-#             uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
-#             rdfs_label=NonemptyString("Justice, Administration of"),
-#         ),
-#         Subject(
-#             uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-#             rdfs_label=NonemptyString("Administration of justice"),
-#         ),
-#     )
+def test_subjects():
+    assert PARSED_GLOSSARY.metadata.dcterms_subject == (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85067167"),
+            rdfs_label=NonemptyString("Intellectual property"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q131257"),
+            rdfs_label=NonemptyString("Intellectual property"),
+        ),
+    )
