@@ -11,7 +11,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=String("IP Glossary"),
             dcterms_language="en",
-            dcterms_coverage="NZL",
+            dcterms_coverage="AUS",
             # Info about original source
             dcterms_source=String(html.url),  # type: ignore
             publiclaw_sourceModified="unknown",

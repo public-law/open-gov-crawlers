@@ -39,8 +39,8 @@ def test_author():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_creator == "https://public.law"
 
 
-# def test_coverage():
-#     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_coverage == "NZL"
+def test_coverage():
+    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_coverage == "AUS"
 
 
 # def test_source_modified_date():
