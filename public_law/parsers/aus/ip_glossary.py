@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from scrapy.http.response.html import HtmlResponse
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
 from ...text import URL, LoCSubject, NonemptyString as String
@@ -6,11 +6,8 @@ from ...metadata import Metadata, Subject
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = []
-    mod_date_str: str = (
-        html.selector.css("span.date-display-single").xpath("@content").get()
-    )
-    mod_date = datetime.fromisoformat(mod_date_str).date()
+    entries = []
+    mod_date = _mod_date(html)
 
     return GlossaryParseResult(
         metadata=Metadata(
@@ -21,7 +18,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String(html.url),  # type: ignore
             publiclaw_sourceModified=mod_date,
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
-            publiclaw_readingEase=reading_ease(parsed_entries),
+            publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=(
                 Subject(
                     uri=LoCSubject("sh85071120"),  # type: ignore
@@ -33,5 +30,12 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                 ),
             ),
         ),
-        entries=parsed_entries,
+        entries=entries,
     )
+
+
+def _mod_date(html: HtmlResponse) -> date:
+    mod_date_str: str = (
+        html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
+    )
+    return datetime.fromisoformat(mod_date_str).date()
