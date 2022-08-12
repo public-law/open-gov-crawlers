@@ -1,3 +1,4 @@
+from typing import Any, cast
 from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
 from scrapy.http.response.html import HtmlResponse
 
@@ -22,7 +23,8 @@ GLOSSARY_FIXTURE = laws_lois()
 
 class TestAsDict:
     def it_returns_real_data(self):
-        assert GLOSSARY_FIXTURE.asdict()["entries"][0]["phrase"] == "C.R.C."
+        entries = cast(list[dict[str, Any]], GLOSSARY_FIXTURE.asdict()["entries"])
+        assert entries[0]["phrase"] == "C.R.C."
 
     def it_converts_itself_to_a_dict(self):
         assert GLOSSARY_FIXTURE.asdict()
