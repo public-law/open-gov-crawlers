@@ -73,8 +73,8 @@ def test_definition():
     )
 
 
-# def test_proper_number_of_entries():
-#     assert len(tuple(PARSED_GLOSSARY.entries)) == 154
+def test_proper_number_of_entries():
+    assert len(tuple(PARSED_GLOSSARY.entries)) == 53
 
 
 # def test_last_entry():
