@@ -82,7 +82,9 @@ def test_last_entry():
 
     assert last_entry.phrase == "Voluntary request for examination"
     assert last_entry.definition == (
-        "You as the applicant for an IP right (e.g. innovation patent) request the registrar to conduct an examination of your application. This is normally done if you believe that your rights have been infringed."
+        "You as the applicant for an IP right (e.g. innovation patent) "
+        "request the registrar to conduct an examination of your application. "
+        "This is normally done if you believe that your rights have been infringed."
     )
 
 
