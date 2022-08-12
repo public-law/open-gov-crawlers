@@ -8,7 +8,7 @@ from public_law.parsers.aus.ip_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 from scrapy.http.response.html import HtmlResponse
 
-URL = "https://raw.githubusercontent.com/public-law/datasets/master/Australia/ip-glossary.html"
+SOURCE_URL = "https://www.ipaustralia.gov.au/tools-resources/ip-glossary"
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
@@ -24,7 +24,7 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 PARSED_GLOSSARY = parsed_fixture(
     filename="ip-glossary.html",
-    url=URL,
+    url=SOURCE_URL,
 )
 
 
@@ -38,7 +38,7 @@ def test_the_name():
 
 
 def test_url():
-    assert PARSED_GLOSSARY.metadata.dcterms_source == URL
+    assert PARSED_GLOSSARY.metadata.dcterms_source == SOURCE_URL
 
 
 def test_author():

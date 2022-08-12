@@ -23,7 +23,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="AUS",
             # Info about original source
-            dcterms_source=String(html.url),  # type: ignore
+            dcterms_source=String(
+                "https://www.ipaustralia.gov.au/tools-resources/ip-glossary"
+            ),
             publiclaw_sourceModified=mod_date,
             publiclaw_sourceCreator=String("IP Australia"),
             publiclaw_readingEase=reading_ease(entries),
