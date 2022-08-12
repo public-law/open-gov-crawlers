@@ -77,14 +77,13 @@ def test_proper_number_of_entries():
     assert len(tuple(PARSED_GLOSSARY.entries)) == 53
 
 
-# def test_last_entry():
-#     last_entry = last(PARSED_GLOSSARY.entries)
+def test_last_entry():
+    last_entry = last(PARSED_GLOSSARY.entries)
 
-#     assert last_entry.phrase == "Youth Court"
-#     assert last_entry.definition == (
-#         "The Youth Court has jurisdiction to deal with "
-#         "young people charged with criminal offences."
-#     )
+    assert last_entry.phrase == "Voluntary request for examination"
+    assert last_entry.definition == (
+        "You as the applicant for an IP right (e.g. innovation patent) request the registrar to conduct an examination of your application. This is normally done if you believe that your rights have been infringed."
+    )
 
 
 # def test_reading_ease():
