@@ -4,7 +4,7 @@ from typing import Any
 
 from ...parsers.aus.ip_glossary import parse_glossary
 
-JD_VERBOSE_NAME = "AUS"
+JD_VERBOSE_NAME = "Australia"
 PUBLICATION_NAME = "IP Glossary"
 
 
