@@ -35,6 +35,11 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def _mod_date(html: HtmlResponse) -> date:
+    """
+    Parse the modification date from HTML like this:
+
+    <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
+    """
     mod_date_str: str = (
         html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
     )
