@@ -2,12 +2,19 @@ from datetime import date, datetime
 from typing import Iterable
 from scrapy.http.response.html import HtmlResponse
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import URL, LoCSubject, NonemptyString as String
+from ...text import (
+    URL,
+    LoCSubject,
+    NonemptyString as String,
+    make_soup,
+    normalize_nonempty,
+)
 from ...metadata import Metadata, Subject
+from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = _parse_entries(html)
+    entries = __parse_entries(html)
     mod_date = _parse_mod_date(html)
 
     return GlossaryParseResult(
@@ -47,5 +54,14 @@ def _parse_mod_date(html: HtmlResponse) -> date:
     return datetime.fromisoformat(mod_date_str).date()
 
 
-def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    return []
+def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    soup = make_soup(html)
+    raw_entries = zip(soup("dt"), soup("dd"))
+
+    return tuple(
+        GlossaryEntry(
+            phrase=normalize_nonempty(phrase.text),
+            definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text))),
+        )
+        for phrase, defn in raw_entries
+    )
