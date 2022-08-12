@@ -14,7 +14,7 @@ from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_none
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = __parse_entries(html)
+    entries = _parse_entries(html)
     mod_date = _parse_mod_date(html)
 
     return GlossaryParseResult(
@@ -44,7 +44,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
     raw_entries = zip(soup("dt"), soup("dd"))
 
