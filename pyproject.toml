@@ -35,6 +35,7 @@ pyright = "*"
 pytest = "*"
 pytest-watch = "*"
 vcrpy = "*"
+pytest-icdiff = "^0.6"
 
 
 [tool.pyright]

@@ -64,7 +64,7 @@ class Metadata:
 
     dcterms_title: NonemptyString
     dcterms_language: Literal["de", "en", "fr"]
-    dcterms_coverage: Literal["CAN", "IRL", "NZL", "USA"]
+    dcterms_coverage: Literal["AUS", "CAN", "IRL", "NZL", "USA"]
     dcterms_subject: tuple[Subject, ...]
 
     # The original gov't document.

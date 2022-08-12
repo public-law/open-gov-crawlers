@@ -167,6 +167,7 @@ def make_record_without_dataset(module: ModuleType) -> SpiderRecordWithoutDataLi
 
 # TODO: Figure out a way to automatically find these spider modules,
 #       or the spider subclass each one contains.
+from .spiders.aus import ip_glossary
 from .spiders.can import doj_glossaries
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
@@ -175,6 +176,7 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 
 TABLE = MarkdownTable(
     (
+        make_record(ip_glossary,         String("Australia/ip-glossary.json")),
         make_record(courts_glossary,     String("Ireland/courts-glossary.json")),
         make_record(doj_glossaries,      String("Canada/doj-glossaries.json")),
         make_record(justice_glossary,    String("NewZealand/justice-glossary.json")),
