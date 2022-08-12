@@ -13,7 +13,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="NZL",
             # Info about original source
-            dcterms_source=String("https://www.justice.govt.nz/about/glossary/"),
+            dcterms_source=String(html.url),  # type: ignore
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
             publiclaw_readingEase=reading_ease(parsed_entries),

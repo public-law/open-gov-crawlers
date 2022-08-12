@@ -8,7 +8,7 @@ from scrapy.http.response.html import HtmlResponse
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/nzl/{filename}", encoding="utf8") as f:
+    with open(f"tests/fixtures/aus/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
@@ -19,8 +19,8 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 
 
 PARSED_GLOSSARY_FIXTURE = parsed_fixture(
-    filename="nz.govt.justice-glossary.html",
-    url="https://www.justice.govt.nz/about/glossary/",
+    filename="ip-glossary.html",
+    url="https://www.ipaustralia.gov.au/tools-resources/ip-glossary",
 )
 
 
@@ -28,11 +28,11 @@ def test_the_name():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_title == "IP Glossary"
 
 
-# def test_url():
-#     assert (
-#         PARSED_GLOSSARY_FIXTURE.metadata.dcterms_source
-#         == "https://www.justice.govt.nz/about/glossary/"
-#     )
+def test_url():
+    assert (
+        PARSED_GLOSSARY_FIXTURE.metadata.dcterms_source
+        == "https://www.ipaustralia.gov.au/tools-resources/ip-glossary"
+    )
 
 
 # def test_author():
