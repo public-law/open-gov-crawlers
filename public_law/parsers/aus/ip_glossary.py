@@ -1,15 +1,11 @@
 from datetime import date, datetime
-from typing import Iterable
+
 from scrapy.http.response.html import HtmlResponse
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import (
-    URL,
-    LoCSubject,
-    NonemptyString as String,
-    make_soup,
-    normalize_nonempty,
-)
+
 from ...metadata import Metadata, Subject
+from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...text import URL, LoCSubject
+from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
 
