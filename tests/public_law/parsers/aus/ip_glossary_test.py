@@ -35,8 +35,8 @@ def test_url():
     )
 
 
-# def test_author():
-#     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_creator == "https://public.law"
+def test_author():
+    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_creator == "https://public.law"
 
 
 # def test_coverage():
