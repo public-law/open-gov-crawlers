@@ -66,11 +66,11 @@ def test_phrase():
     assert first(PARSED_GLOSSARY.entries).phrase == "Assignee"
 
 
-# def test_definition():
-#     assert (
-#         first(PARSED_GLOSSARY.entries).definition
-#         == "To decide officially in court that a person is not guilty."
-#     )
+def test_definition():
+    assert (
+        first(PARSED_GLOSSARY.entries).definition
+        == "The person/s or corporate body to whom all or limited rights under an IP right are legally transferred."
+    )
 
 
 # def test_proper_number_of_entries():
