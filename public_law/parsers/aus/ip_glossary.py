@@ -44,18 +44,6 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def _parse_mod_date(html: HtmlResponse) -> date:
-    """
-    Parse the modification date from HTML like this:
-
-    <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
-    """
-    mod_date_str: str = (
-        html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
-    )
-    return datetime.fromisoformat(mod_date_str).date()
-
-
 def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
     raw_entries = zip(soup("dt"), soup("dd"))
@@ -67,3 +55,15 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
         )
         for phrase, defn in raw_entries
     )
+
+
+def _parse_mod_date(html: HtmlResponse) -> date:
+    """
+    Parse the modification date from HTML like this:
+
+    <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
+    """
+    mod_date_str: str = (
+        html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
+    )
+    return datetime.fromisoformat(mod_date_str).date()
