@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Iterable
 from scrapy.http.response.html import HtmlResponse
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
 from ...text import URL, LoCSubject, NonemptyString as String
@@ -6,8 +7,8 @@ from ...metadata import Metadata, Subject
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = []
-    mod_date = _mod_date(html)
+    entries = _parse_entries(html)
+    mod_date = _parse_mod_date(html)
 
     return GlossaryParseResult(
         metadata=Metadata(
@@ -17,7 +18,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             # Info about original source
             dcterms_source=String(html.url),  # type: ignore
             publiclaw_sourceModified=mod_date,
-            publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
+            publiclaw_sourceCreator=String("IP Australia"),
             publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=(
                 Subject(
@@ -34,7 +35,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def _mod_date(html: HtmlResponse) -> date:
+def _parse_mod_date(html: HtmlResponse) -> date:
     """
     Parse the modification date from HTML like this:
 
@@ -44,3 +45,7 @@ def _mod_date(html: HtmlResponse) -> date:
         html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
     )
     return datetime.fromisoformat(mod_date_str).date()
+
+
+def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+    return []

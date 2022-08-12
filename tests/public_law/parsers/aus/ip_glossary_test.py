@@ -54,7 +54,6 @@ def test_scrape_date():
 
 
 def test_source_modified_date():
-    # <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
     assert PARSED_GLOSSARY.metadata.publiclaw_sourceModified == date(2021, 3, 26)
 
 
@@ -63,8 +62,8 @@ def test_source_modified_date():
 #
 
 
-# def test_phrase():
-#     assert first(PARSED_GLOSSARY.entries).phrase == "acquit"
+def test_phrase():
+    assert first(PARSED_GLOSSARY.entries).phrase == "Assignee"
 
 
 # def test_definition():
