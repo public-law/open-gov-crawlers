@@ -88,8 +88,8 @@ def test_last_entry():
     )
 
 
-# def test_reading_ease():
-#     assert PARSED_GLOSSARY.metadata.publiclaw_readingEase == "Fairly difficult"
+def test_reading_ease():
+    assert PARSED_GLOSSARY.metadata.publiclaw_readingEase == "Fairly difficult"
 
 
 # def test_subjects():
