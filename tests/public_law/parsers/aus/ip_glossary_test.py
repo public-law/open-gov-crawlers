@@ -24,7 +24,7 @@ PARSED_GLOSSARY_FIXTURE = parsed_fixture(
 )
 
 
-def test_name():
+def test_the_name():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_title == "IP Glossary"
 
 

@@ -90,4 +90,8 @@ def __definition_corpus(entries: Iterable[GlossaryEntry]) -> NonemptyString:
     """
     All the definition text for this glossary.
     """
+    entry_list = list(entries)
+    if not entry_list:
+        return NonemptyString("No entries")
+        
     return NonemptyString("  ".join(entry.definition for entry in entries))
