@@ -9,7 +9,7 @@ PUBLICATION_NAME = "IP Glossary"
 
 
 class USACourtsGlossary(Spider):
-    name = "ip_glossary"
+    name = "aus_ip_glossary"
 
     start_urls = [
         "https://raw.githubusercontent.com/public-law/datasets/master/Australia/ip-glossary.html"
