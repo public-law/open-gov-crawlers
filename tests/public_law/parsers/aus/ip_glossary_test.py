@@ -1,3 +1,4 @@
+from datetime import date
 from more_itertools import first, last
 from public_law.dates import today
 from public_law.metadata import Subject
@@ -24,6 +25,10 @@ PARSED_GLOSSARY_FIXTURE = parsed_fixture(
 )
 
 
+#
+# Tests for metadata.
+#
+
 def test_the_name():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_title == "IP Glossary"
 
@@ -43,12 +48,18 @@ def test_coverage():
     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_coverage == "AUS"
 
 
-# def test_source_modified_date():
-#     assert PARSED_GLOSSARY_FIXTURE.metadata.publiclaw_sourceModified == "unknown"
+def test_source_modified_date():
+    # <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
+    assert PARSED_GLOSSARY_FIXTURE.metadata.publiclaw_sourceModified == date(2021, 3, 26)
 
 
-# def test_scrape_date():
-#     assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_modified == today()
+def test_scrape_date():
+    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_modified == today()
+
+
+#
+# Tests for content.
+#
 
 
 # def test_phrase():
