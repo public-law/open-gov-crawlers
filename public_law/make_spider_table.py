@@ -86,8 +86,13 @@ class SpiderRecord(SpiderRecordWithoutDataLink):
 
         E.g.:   "Intergovernmental Rome Statute   [parser] | [spider] | [tests]   [json]"
         """
+        if self.web_url:
+            pub = f"[{self.publication_name}]({self.web_url})"
+        else:
+            pub = self.publication_name
+
         return (
-            f"| {self.jd_verbose_name} | {self.publication_name} "
+            f"| {self.jd_verbose_name} | {pub} "
             f"| {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
             f"  {code_link('tests', self.tests_path)} "
@@ -184,7 +189,7 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 
 TABLE = MarkdownTable(
     (
-        make_record(ip_glossary,         String("Australia/ip-glossary.json")),
+        make_record(ip_glossary,         String("Australia/ip-glossary.json"), "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
         make_record(courts_glossary,     String("Ireland/courts-glossary.json")),
         make_record(doj_glossaries,      String("Canada/doj-glossaries.json")),
         make_record(justice_glossary,    String("NewZealand/justice-glossary.json")),
