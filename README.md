@@ -4,7 +4,6 @@
 
 # Open-gov spiders written in Python
 
-
 |   |   | Source code | Dataset |
 | - | - | :---------- | :------ |
 | Australia | IP Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/aus/ip_glossary.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/aus/ip_glossary.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/aus/ip_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/Australia/ip-glossary.json) |
@@ -14,8 +13,7 @@
 | New Zealand | Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/nzl/justice_glossary.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/nzl/justice_glossary.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/nzl/justice_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/NewZealand/justice-glossary.json) |
 | USA | US Courts Glossary | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/us_courts_glossary.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/us_courts_glossary.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/us_courts_glossary_test.py) | [json](https://github.com/public-law/datasets/blob/master/UnitedStates/us-courts-glossary.json) |
 | USA / Georgia | Attorney General Opinions | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/georgia_ag_opinions.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/georgia_ag_opinions.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/georgia_ag_opinions_test.py) | |
-| USA / Oregon | Oregon Administrative Rules | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/oregon_regs.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/oregon_regs.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/oregon_regs_test.py) | |
-
+| USA / Oregon | [Oregon Administrative Rules](https://oregon.public.law/rules) | [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/oregon_regs.py) \|  [spider](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/oregon_regs.py) \|  [tests](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/oregon_regs_test.py) | |
 
 
 > FYI: We're looking for paid help writing more spiders like these, especially in languages other than English. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation

@@ -49,6 +49,7 @@ class SpiderRecordWithoutDataLink:
     parser_path: String
     spider_path: String
     tests_path: String
+    web_url: str | None = None
 
     def as_markdown(self) -> str:
         """
@@ -56,8 +57,13 @@ class SpiderRecordWithoutDataLink:
 
         E.g.:   "Intergovernmental Rome Statute   [parser] | [spider] | [tests]"
         """
+        if self.web_url:
+            pub = f"[{self.publication_name}]({self.web_url})"
+        else:
+            pub = self.publication_name
+
         return (
-            f"| {self.jd_verbose_name} | {self.publication_name} "
+            f"| {self.jd_verbose_name} | {pub} "
             f"| {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
             f"  {code_link('tests', self.tests_path)} | |"
@@ -140,7 +146,7 @@ def tests_path(module: ModuleType) -> str:
 # different factory methods, we don't need any branching statements.
 #
 
-def make_record(module: ModuleType, json_path: String) -> SpiderRecord:
+def make_record(module: ModuleType, json_path: String, web_url: str|None = None) -> SpiderRecord:
     return SpiderRecord(
         json_path=json_path,
         jd_verbose_name=String(module.JD_VERBOSE_NAME),
@@ -148,15 +154,17 @@ def make_record(module: ModuleType, json_path: String) -> SpiderRecord:
         parser_path=String(f"public_law/parsers/{file_path(module)}"),
         spider_path=String(f"public_law/spiders/{file_path(module)}"),
         tests_path=String(f"tests/public_law/parsers/{tests_path(module)}"),
+        web_url=web_url,
     )
 
-def make_record_without_dataset(module: ModuleType) -> SpiderRecordWithoutDataLink:
+def make_record_without_dataset(module: ModuleType, web_url: str|None = None) -> SpiderRecordWithoutDataLink:
     return SpiderRecordWithoutDataLink(
         jd_verbose_name=String(module.JD_VERBOSE_NAME),
         publication_name=String(module.PUBLICATION_NAME),
         parser_path=String(f"public_law/parsers/{file_path(module)}"),
         spider_path=String(f"public_law/spiders/{file_path(module)}"),
         tests_path=String(f"tests/public_law/parsers/{tests_path(module)}"),
+        web_url=web_url,
     )
 
 
@@ -183,6 +191,6 @@ TABLE = MarkdownTable(
         make_record(rome_statute,        String("Intergovernmental/RomeStatute/RomeStatute.json")),
         make_record(us_courts_glossary,  String("UnitedStates/us-courts-glossary.json")),
         make_record_without_dataset(georgia_ag_opinions),
-        make_record_without_dataset(oregon_regs),
+        make_record_without_dataset(oregon_regs, "https://oregon.public.law/rules"),
     )
 )
