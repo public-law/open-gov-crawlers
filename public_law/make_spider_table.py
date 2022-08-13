@@ -190,10 +190,10 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 TABLE = MarkdownTable(
     (
         make_record(ip_glossary,         String("Australia/ip-glossary.json"), "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
-        make_record(courts_glossary,     String("Ireland/courts-glossary.json")),
+        make_record(courts_glossary,     String("Ireland/courts-glossary.json"), "https://www.public.law/dictionary/sources/courts.ie__glossary"),
         make_record(doj_glossaries,      String("Canada/doj-glossaries.json")),
         make_record(justice_glossary,    String("NewZealand/justice-glossary.json")),
-        make_record(rome_statute,        String("Intergovernmental/RomeStatute/RomeStatute.json")),
+        make_record(rome_statute,        String("Intergovernmental/RomeStatute/RomeStatute.json"), "https://world.public.law/rome_statute"),
         make_record(us_courts_glossary,  String("UnitedStates/us-courts-glossary.json")),
         make_record_without_dataset(georgia_ag_opinions),
         make_record_without_dataset(oregon_regs, "https://oregon.public.law/rules"),
