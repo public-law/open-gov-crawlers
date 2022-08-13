@@ -1,6 +1,8 @@
 require "json"
 
 #
+# Regenerate:
+#
 # Scrape and save the glossary sources.
 # Requires the executables "poetry", "scrapy", "jq" and "sponge".
 #
