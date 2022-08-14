@@ -181,7 +181,7 @@ def make_record_without_dataset(module: ModuleType, web_url: str|None = None) ->
 # TODO: Figure out a way to automatically find these spider modules,
 #       or the spider subclass each one contains.
 from .spiders.aus import ip_glossary
-from .spiders.can import doj_glossaries
+from .spiders.can import doj_glossaries, parliamentary_glossary
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
 from .spiders.nzl import justice_glossary
@@ -189,12 +189,13 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
 
 TABLE = MarkdownTable(
     (
-        make_record(ip_glossary,         String("Australia/ip-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
-        make_record(courts_glossary,     String("Ireland/courts-glossary.json"),                   "https://www.public.law/dictionary/sources/courts.ie__glossary"),
-        make_record(doj_glossaries,      String("Canada/doj-glossaries.json"),                     "https://www.public.law/dictionary/sources"),
-        make_record(justice_glossary,    String("NewZealand/justice-glossary.json"),               "https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary"),
-        make_record(rome_statute,        String("Intergovernmental/RomeStatute/RomeStatute.json"), "https://world.public.law/rome_statute"),
-        make_record(us_courts_glossary,  String("UnitedStates/us-courts-glossary.json"),           "https://www.public.law/dictionary/sources/uscourts.gov__glossary"),
+        make_record(ip_glossary,            String("Australia/ip-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
+        make_record(courts_glossary,        String("Ireland/courts-glossary.json"),                   "https://www.public.law/dictionary/sources/courts.ie__glossary"),
+        make_record(doj_glossaries,         String("Canada/doj-glossaries.json"),                     "https://www.public.law/dictionary/sources"),
+        make_record(parliamentary_glossary, String("Canada/parliamentary-glossary.json")),
+        make_record(justice_glossary,       String("NewZealand/justice-glossary.json"),               "https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary"),
+        make_record(rome_statute,           String("Intergovernmental/RomeStatute/RomeStatute.json"), "https://world.public.law/rome_statute"),
+        make_record(us_courts_glossary,     String("UnitedStates/us-courts-glossary.json"),           "https://www.public.law/dictionary/sources/uscourts.gov__glossary"),
         make_record_without_dataset(georgia_ag_opinions),
         make_record_without_dataset(oregon_regs, "https://oregon.public.law/rules"),
     )
