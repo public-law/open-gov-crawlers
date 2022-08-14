@@ -13,11 +13,11 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         metadata=Metadata(
             dcterms_title=String("Glossary of Parliamentary Terms for Intermediate Students"),
             dcterms_language="en",
-            dcterms_coverage="USA",
+            dcterms_coverage="CAN",
             # Info about original source
             dcterms_source=html.url,  # type: ignore
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("United States Courts"),
+            publiclaw_sourceCreator=String("Parliament of Canada"),
             publiclaw_readingEase=reading_ease(parsed_entries),
             dcterms_subject=(
                 Subject(
