@@ -51,7 +51,10 @@ class TestTheMetadata:
         assert METADATA.dcterms_creator == "https://public.law"
 
     def test_coverage(_):
-        assert METADATA.dcterms_coverage == "USA"
+        assert METADATA.dcterms_coverage == "CAN"
+
+    def test_creator(_):
+        assert METADATA.publiclaw_sourceCreator == "Parliament of Canada"
 
     def test_the_source_modified_date(_):
         assert METADATA.publiclaw_sourceModified == "unknown"
