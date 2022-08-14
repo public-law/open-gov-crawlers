@@ -11,8 +11,11 @@ from public_law.text import URL, NonemptyString
 from public_law.parsers.can.parliamentary_glossary import parse_glossary
 
 
-def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/can/{filename}", encoding="utf8") as f:
+def parsed_fixture(filename: str, url: URL, jd_slug: str) -> GlossaryParseResult:
+    """
+    Create a GlossaryParseResult using the three required parameters.
+    """
+    with open(f"tests/fixtures/{jd_slug}/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
@@ -26,7 +29,7 @@ GLOSSARY_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 )
 
-GLOSSARY = parsed_fixture(filename="parliamentary-glossary.html", url=GLOSSARY_URL)
+GLOSSARY = parsed_fixture(filename="parliamentary-glossary.html", url=GLOSSARY_URL, jd_slug="can")
 
 METADATA = GLOSSARY.metadata
 
