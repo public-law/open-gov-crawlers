@@ -8,10 +8,11 @@ from public_law.metadata import Subject
 from public_law.models.glossary import GlossaryParseResult
 from public_law.text import URL, NonemptyString
 
+# The System Under Test
 from public_law.parsers.can.parliamentary_glossary import parse_glossary
 
 
-def parsed_fixture(filename: str, url: URL, jd_slug: str) -> GlossaryParseResult:
+def parsed_fixture(filename: str, jd_slug: str, url: URL) -> GlossaryParseResult:
     """
     Create a GlossaryParseResult using the three required parameters.
     """
@@ -29,7 +30,11 @@ GLOSSARY_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 )
 
-GLOSSARY = parsed_fixture(filename="parliamentary-glossary.html", url=GLOSSARY_URL, jd_slug="can")
+GLOSSARY = parsed_fixture(
+    filename="parliamentary-glossary.html",
+    jd_slug="can",
+    url=GLOSSARY_URL
+    )
 
 METADATA = GLOSSARY.metadata
 
