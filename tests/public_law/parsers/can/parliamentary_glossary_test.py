@@ -43,8 +43,8 @@ class TestTheMetadata:
     def test_the_name(_):
         assert METADATA.dcterms_title == 'Glossary of Parliamentary Terms for Intermediate Students'
 
-#     def test_the_url(_):
-#         assert METADATA.dcterms_source == GLOSSARY_URL
+    def test_the_url(_):
+        assert METADATA.dcterms_source == GLOSSARY_URL
 
 #     def test_the_author(_):
 #         assert METADATA.dcterms_creator == "https://public.law"

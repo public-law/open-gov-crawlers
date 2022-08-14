@@ -16,7 +16,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="USA",
             # Info about original source
-            dcterms_source=String("https://www.uscourts.gov/glossary"),
+            dcterms_source=html.url,  # type: ignore
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("United States Courts"),
             publiclaw_readingEase=reading_ease(parsed_entries),
