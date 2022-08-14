@@ -46,11 +46,11 @@ class TestTheMetadata:
     def test_the_url(_):
         assert METADATA.dcterms_source == GLOSSARY_URL
 
-#     def test_the_author(_):
-#         assert METADATA.dcterms_creator == "https://public.law"
+    def test_the_author(_):
+        assert METADATA.dcterms_creator == "https://public.law"
 
-#     def test_coverage(_):
-#         assert METADATA.dcterms_coverage == "USA"
+    def test_coverage(_):
+        assert METADATA.dcterms_coverage == "USA"
 
 #     def test_the_source_modified_date(_):
 #         assert METADATA.publiclaw_sourceModified == "unknown"
