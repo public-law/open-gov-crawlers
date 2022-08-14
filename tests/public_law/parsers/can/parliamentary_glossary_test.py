@@ -86,8 +86,8 @@ class TestTheEntries:
             "been answered within 45 days."
         )
 
-#     def test_proper_number_of_entries(_):
-#         assert len(tuple(GLOSSARY.entries)) == 237
+    def test_proper_number_of_entries(_):
+        assert len(tuple(GLOSSARY.entries)) == 86
 
 #     def test_the_last_entry(_):
 #         last_entry = last(GLOSSARY.entries)
