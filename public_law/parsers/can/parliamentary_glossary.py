@@ -38,11 +38,17 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
 
     # Skip the "Committees" entry.
-    raw_entries = zip([t for t in soup("dt") if t.text != 'Committees'], soup("dd"))
+    terms = [t for t in soup("dt") if t.text != 'Committees']
+
+    # Fix the "Usher..." entry.
+    raw_phrases = [t.text for t in terms]
+    phrases = ["Usher of the Black Rod" if p.startswith("Usher") else p for p in raw_phrases]
+
+    raw_entries = zip(phrases, soup("dd"))
 
     return tuple(
         GlossaryEntry(
-            phrase=String(normalize_whitespace(phrase.text)),
+            phrase=String(normalize_whitespace(phrase)),
             definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text)).strip("> ")),
         )
         for phrase, defn in raw_entries
