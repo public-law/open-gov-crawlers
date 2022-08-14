@@ -1,5 +1,5 @@
 # pyright: reportSelfClsParameterName=false
-
+from devtools import debug  # type: ignore
 from more_itertools import first, last
 from scrapy.http.response.html import HtmlResponse
 
@@ -89,12 +89,13 @@ class TestTheEntries:
     def test_proper_number_of_entries(_):
         assert len(tuple(GLOSSARY.entries)) == 86
 
-#     def test_the_last_entry(_):
-#         last_entry = last(GLOSSARY.entries)
+    def test_the_last_entry(_):
+        last_entry = last(GLOSSARY.entries)
 
-#         assert last_entry.phrase == "Writ of certiorari"
-#         assert last_entry.definition == (
-#             "An order issued by the U.S. Supreme Court directing "
-#             "the lower court to transmit records for a case which "
-#             "it will hear on appeal."
-#         )
+        assert last_entry.phrase == "whip"
+        assert last_entry.definition == (
+            "The Member who is responsible for keeping other "
+            "members of the same party informed about House "
+            "business and ensuring their attendance in the "
+            "Chamber, especially when a vote is anticipated."
+        )

@@ -36,7 +36,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = make_soup(html)
-    raw_entries = zip(soup("dt"), soup("dd"))
+
+    # Skip the "Committees" entry.
+    raw_entries = zip([t for t in soup("dt") if t.text != 'Committees'], soup("dd"))
 
     return tuple(
         GlossaryEntry(
