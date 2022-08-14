@@ -86,7 +86,7 @@ class Sentence(NonemptyString):
         """
         match re.match(r"^[A-Z0-9\"\()].*\.[\"\)’”]?$", content):
             case None:
-                raise ValueError(f"Not a proper sentence: {content}")
+                raise ValueError(f"Not a proper sentence: '{content}'")
             case _:
                 return super().__new__(cls, content)
 

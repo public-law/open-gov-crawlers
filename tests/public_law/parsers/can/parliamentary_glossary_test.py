@@ -59,7 +59,7 @@ class TestTheMetadata:
         assert METADATA.dcterms_modified == today()
 
     def test_reading_ease(_):
-        assert METADATA.publiclaw_readingEase == "Fairly easy"
+        assert METADATA.publiclaw_readingEase == "Fairly difficult"
 
     def test_subjects(_):
         assert METADATA.dcterms_subject == (
@@ -74,9 +74,9 @@ class TestTheMetadata:
         )
 
 
-# class TestTheEntries:
-#     def test_phrase(_):
-#         assert first(GLOSSARY.entries).phrase == "Acquittal"
+class TestTheEntries:
+    def test_phrase(_):
+        assert first(GLOSSARY.entries).phrase == "adjournment proceedings"
 
 #     def test_definition(_):
 #         assert first(GLOSSARY.entries).definition == (
