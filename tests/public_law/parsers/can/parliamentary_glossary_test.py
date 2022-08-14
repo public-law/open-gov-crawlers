@@ -61,17 +61,17 @@ class TestTheMetadata:
     def test_reading_ease(_):
         assert METADATA.publiclaw_readingEase == "Fairly easy"
 
-#     def test_subjects(_):
-#         assert METADATA.dcterms_subject == (
-#             Subject(
-#                 uri=URL("http://id.loc.gov/authorities/subjects/sh85033575"),
-#                 rdfs_label=NonemptyString("Courts--United States"),
-#             ),
-#             Subject(
-#                 uri=URL("https://www.wikidata.org/wiki/Q194907"),
-#                 rdfs_label=NonemptyString("United States federal courts"),
-#             ),
-#         )
+    def test_subjects(_):
+        assert METADATA.dcterms_subject == (
+            Subject(
+                uri=URL("http://id.loc.gov/authorities/subjects/sh85075807"),
+                rdfs_label=NonemptyString("Legislative bodies"),
+            ),
+            Subject(
+                uri=URL("https://www.wikidata.org/wiki/Q35749"),
+                rdfs_label=NonemptyString("Parliament"),
+            ),
+        )
 
 
 # class TestTheEntries:
