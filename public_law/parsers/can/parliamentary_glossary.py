@@ -12,7 +12,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=String("Glossary of Legal Terms"),
+            dcterms_title=String("Glossary of Parliamentary Terms for Intermediate Students"),
             dcterms_language="en",
             dcterms_coverage="USA",
             # Info about original source
