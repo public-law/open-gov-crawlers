@@ -52,11 +52,11 @@ class TestTheMetadata:
     def test_coverage(_):
         assert METADATA.dcterms_coverage == "USA"
 
-#     def test_the_source_modified_date(_):
-#         assert METADATA.publiclaw_sourceModified == "unknown"
+    def test_the_source_modified_date(_):
+        assert METADATA.publiclaw_sourceModified == "unknown"
 
-#     def test_the_scrape_date(_):
-#         assert METADATA.dcterms_modified == today()
+    def test_the_scrape_date(_):
+        assert METADATA.dcterms_modified == today()
 
 #     def test_reading_ease(_):
 #         assert METADATA.publiclaw_readingEase == "Fairly difficult"
