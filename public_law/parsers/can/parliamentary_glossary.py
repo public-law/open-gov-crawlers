@@ -22,12 +22,12 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_readingEase=reading_ease(parsed_entries),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85033575"),  # type: ignore
-                    rdfs_label=String("Courts--United States"),
+                    uri=LoCSubject("sh85075807"),  # type: ignore
+                    rdfs_label=String("Legislative bodies"),
                 ),
                 Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q194907"),
-                    rdfs_label=String("United States federal courts"),
+                    uri=URL("https://www.wikidata.org/wiki/Q35749"),
+                    rdfs_label=String("Parliament"),
                 ),
             ),
         ),
