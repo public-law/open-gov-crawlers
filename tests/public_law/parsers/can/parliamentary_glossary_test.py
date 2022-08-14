@@ -99,3 +99,8 @@ class TestTheEntries:
             "business and ensuring their attendance in the "
             "Chamber, especially when a vote is anticipated."
         )
+
+    def test_the_third_to_the_last_entry(_):
+        entry = GLOSSARY.entries[-3]
+
+        assert entry.phrase == "Usher of the Black Rod"
