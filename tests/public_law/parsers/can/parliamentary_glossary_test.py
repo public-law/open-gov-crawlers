@@ -78,12 +78,13 @@ class TestTheEntries:
     def test_phrase(_):
         assert first(GLOSSARY.entries).phrase == "adjournment proceedings"
 
-#     def test_definition(_):
-#         assert first(GLOSSARY.entries).definition == (
-#             "A jury verdict that a criminal defendant is not guilty, "
-#             "or the finding of a judge that the evidence is insufficient "
-#             "to support a conviction."
-#         )
+    def test_definition(_):
+        assert first(GLOSSARY.entries).definition == (
+            "A 30-minute period before the end of a daily sitting in the "
+            "House of Commons when Members of Parliament can debate matters "
+            "raised in Question Period or written questions that have not "
+            "been answered within 45 days."
+        )
 
 #     def test_proper_number_of_entries(_):
 #         assert len(tuple(GLOSSARY.entries)) == 237
