@@ -171,8 +171,8 @@ def truncate_words(text: str, words_count: int) -> str:
     """
     Truncates a given text after a given number of words (words_count).
     """
-    input_words_count = len(text.split())
-    if input_words_count <= words_count:
+    words = text.split()
+    if len(words) <= words_count:
         return text
-        
-    return text[:words_count] + "..."
+
+    return " ".join(words[:words_count]) + "..."
