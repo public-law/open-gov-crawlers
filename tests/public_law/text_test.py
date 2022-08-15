@@ -1,5 +1,5 @@
 import pytest
-from public_law.text import NonemptyString
+from public_law.text import NonemptyString, truncate_words
 
 
 class TestNonemptyString:
@@ -26,3 +26,26 @@ class TestNonemptyString:
     def test_raises_error_if_non_string_type_given(self):
         with pytest.raises(ValueError):
             _ = NonemptyString(123)
+
+
+class TestTruncateWords:
+    def test_truncates_words_to_length_1(self):
+        assert truncate_words("hello world", 1) == "hello..."
+
+    def test_rails_test_case(self):
+        input = 'Once upon a time in a world far far away'
+        output = "Once upon a time..."
+
+        assert truncate_words(input, 4) == output
+
+    def test_the_current_use_case_1(self):
+        input = 'Glossary of Parliamentary Terms for Intermediate Students'
+        output = "Glossary of Parliamentary Terms for..."
+
+        assert truncate_words(input, 5) == output
+
+    def test_the_current_use_case_2(self):
+        input = 'Dept. of Justice Legal Glossaries'
+        output = input
+
+        assert truncate_words(input, 5) == output

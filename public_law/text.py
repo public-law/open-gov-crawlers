@@ -165,3 +165,14 @@ def capitalize_first_char(text: str) -> str:
     Capitalize the first character of the string
     """
     return text[0].upper() + text[1:]
+
+
+def truncate_words(text: str, words_count: int) -> str:
+    """
+    Truncates a given text after a given number of words (words_count).
+    """
+    input_words_count = len(text.split())
+    if input_words_count <= words_count:
+        return text
+        
+    return text[:words_count] + "..."
