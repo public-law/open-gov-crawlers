@@ -33,7 +33,7 @@ def code_link(name: LinkName, path: String) -> String:
     """
     Return a markdown-formatted link to the code repository.
     """
-    return md_link(name, code_url(path))
+    return String(md_link(f"`{name}`", code_url(path)))
 
 
 
@@ -64,9 +64,9 @@ class SpiderRecordWithoutDataLink:
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
-            f"|<small> {code_link('parser', self.parser_path)} \\|"
+            f"| {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
-            f"  {code_link('tests', self.tests_path)}</small> | |"
+            f"  {code_link('tests', self.tests_path)} | |"
         )
 
 
@@ -93,15 +93,15 @@ class SpiderRecord(SpiderRecordWithoutDataLink):
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
-            f"|<small> {code_link('parser', self.parser_path)} \\|"
+            f"| {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
-            f"  {code_link('tests', self.tests_path)} </small>"
-            f"| <small>{self.json_link}</small> |"
+            f"  {code_link('tests', self.tests_path)} "
+            f"| {self.json_link} |"
         )
 
     @property
     def json_link(self) -> str:
-        return md_link("json", data_url(String(self.json_path)))
+        return code_link("json", data_url(String(self.json_path)))
 
 
 @dataclass(frozen=True)
