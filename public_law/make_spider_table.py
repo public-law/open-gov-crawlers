@@ -64,9 +64,9 @@ class SpiderRecordWithoutDataLink:
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
-            f"| {code_link('parser', self.parser_path)} \\|"
+            f"|<small> {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
-            f"  {code_link('tests', self.tests_path)} | |"
+            f"  {code_link('tests', self.tests_path)}</small> | |"
         )
 
 
@@ -93,10 +93,10 @@ class SpiderRecord(SpiderRecordWithoutDataLink):
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
-            f"| {code_link('parser', self.parser_path)} \\|"
+            f"|<small> {code_link('parser', self.parser_path)} \\|"
             f"  {code_link('spider', self.spider_path)} \\|"
-            f"  {code_link('tests', self.tests_path)} "
-            f"| {self.json_link} |"
+            f"  {code_link('tests', self.tests_path)} </small>"
+            f"| <small>{self.json_link}</small> |"
         )
 
     @property
