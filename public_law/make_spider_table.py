@@ -192,7 +192,7 @@ TABLE = MarkdownTable(
         make_record(ip_glossary,            String("Australia/ip-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
         make_record(courts_glossary,        String("Ireland/courts-glossary.json"),                   "https://www.public.law/dictionary/sources/courts.ie__glossary"),
         make_record(doj_glossaries,         String("Canada/doj-glossaries.json"),                     "https://www.public.law/dictionary/sources"),
-        make_record(parliamentary_glossary, String("Canada/parliamentary-glossary.json")),
+        make_record(parliamentary_glossary, String("Canada/parliamentary-glossary.json"),             "https://www.public.law/dictionary/sources/lop.parl.ca__About_Parliament_Education_glossary-intermediate-students-e"),
         make_record(justice_glossary,       String("NewZealand/justice-glossary.json"),               "https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary"),
         make_record(rome_statute,           String("Intergovernmental/RomeStatute/RomeStatute.json"), "https://world.public.law/rome_statute"),
         make_record(us_courts_glossary,     String("UnitedStates/us-courts-glossary.json"),           "https://www.public.law/dictionary/sources/uscourts.gov__glossary"),
