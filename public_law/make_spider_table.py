@@ -108,7 +108,7 @@ class SpiderRecord(SpiderRecordWithoutDataLink):
 
     @property
     def json_link(self) -> str:
-        return code_link("json", data_url(String(self.json_path)))
+        return md_link("`json`", data_url(String(self.json_path)))
 
 
 @dataclass(frozen=True)
