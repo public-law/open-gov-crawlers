@@ -1,12 +1,11 @@
 # pyright: reportSelfClsParameterName=false
-from typing import cast
 from devtools import debug  # type: ignore
 from more_itertools import first, last, nth
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.dates import today
 from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult, GlossaryEntry
+from public_law.models.glossary import GlossaryParseResult
 from public_law.text import URL, NonemptyString
 
 # The System Under Test
