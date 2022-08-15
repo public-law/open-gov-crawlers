@@ -4,7 +4,7 @@ from typing import Any, Literal, TypeAlias
 
 import more_itertools
 
-from .text import NonemptyString as String
+from .text import NonemptyString as String, truncate_words
 
 CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/master"
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
@@ -58,9 +58,9 @@ class SpiderRecordWithoutDataLink:
         E.g.:   "Intergovernmental Rome Statute   [parser] | [spider] | [tests]"
         """
         if self.web_url:
-            pub = f"[{self.publication_name}]({self.web_url})"
+            pub = f"[{self.truncated_pub_name}]({self.web_url})"
         else:
-            pub = self.publication_name
+            pub = self.truncated_pub_name
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
@@ -68,6 +68,13 @@ class SpiderRecordWithoutDataLink:
             f"  {code_link('spider', self.spider_path)} \\|"
             f"  {code_link('tests', self.tests_path)} | |"
         )
+        
+    @property
+    def truncated_pub_name(self) -> str:
+        """
+        Return a truncated version of the publication name.
+        """
+        return truncate_words(self.publication_name, 5)
 
 
 class SpiderRecord(SpiderRecordWithoutDataLink):
@@ -87,9 +94,9 @@ class SpiderRecord(SpiderRecordWithoutDataLink):
         E.g.:   "Intergovernmental Rome Statute   [parser] | [spider] | [tests]   [json]"
         """
         if self.web_url:
-            pub = f"[{self.publication_name}]({self.web_url})"
+            pub = f"[{self.truncated_pub_name}]({self.web_url})"
         else:
-            pub = self.publication_name
+            pub = self.truncated_pub_name
 
         return (
             f"| {self.jd_verbose_name} | {pub} "
