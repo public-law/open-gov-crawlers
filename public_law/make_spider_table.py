@@ -25,7 +25,7 @@ def data_url(path: String) -> String:
     return String(f"{DATA_REPO_BASE_URL}/{path}")
 
 
-def md_link(name: LinkName, url: String) -> String:
+def md_link(name: str, url: String) -> String:
     return String(f"[{name}]({url})")
 
 
@@ -68,7 +68,7 @@ class SpiderRecordWithoutDataLink:
             f"  {code_link('spider', self.spider_path)} \\|"
             f"  {code_link('tests', self.tests_path)} | |"
         )
-        
+
     @property
     def truncated_pub_name(self) -> str:
         """
