@@ -19,17 +19,7 @@ from ...text import (
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     parsed_entries = tuple(__parse_entries(html))
 
-    return GlossaryParseResult(
-        metadata=Metadata(
-            dcterms_title=String("Glossary of Legal Terms"),
-            dcterms_language="en",
-            dcterms_coverage="IRL",
-            # Info about original source
-            dcterms_source=String(cast(str, html.url)),  # type: ignore
-            publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("The Courts Service of Ireland"),
-            publiclaw_readingEase=reading_ease(parsed_entries),
-            dcterms_subject=(
+    subject = (
                 Subject(
                     uri=LoCSubject("sh85033571"),  # type: ignore
                     rdfs_label=String("Courts"),
@@ -38,10 +28,21 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                     uri=URL("https://www.wikidata.org/wiki/Q41487"),
                     rdfs_label=String("Court"),
                 ),
-            ),
-        ),
-        entries=parsed_entries,
-    )
+            )
+
+    metadata = Metadata(
+            dcterms_title=String("Glossary of Legal Terms"),
+            dcterms_language="en",
+            dcterms_coverage="IRL",
+            # Info about original source
+            dcterms_source=String(cast(str, html.url)),  # type: ignore
+            publiclaw_sourceModified="unknown",
+            publiclaw_sourceCreator=String("The Courts Service of Ireland"),
+            publiclaw_readingEase=reading_ease(parsed_entries),
+            dcterms_subject=subject,
+        )
+
+    return GlossaryParseResult(metadata=metadata, entries=parsed_entries)
 
 
 def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
