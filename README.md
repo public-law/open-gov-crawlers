@@ -19,7 +19,7 @@
 
 
 > FYI: We're looking for paid help writing more spiders like these, especially in languages other than English. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
-> of our parsing strategy. And check out the links, above, for our coding style. The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our current coding style.
+> of our parsing strategy. The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our current coding style.
 
 
 ## Example: Oregon Administrative Rules Parser
