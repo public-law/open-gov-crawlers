@@ -83,10 +83,6 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     )
 
 
-def test_reading_ease(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.publiclaw_readingEase == "Difficult"
-
-
 def test_subjects(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_subject == (
         Subject(

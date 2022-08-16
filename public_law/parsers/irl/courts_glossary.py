@@ -1,4 +1,4 @@
-from typing import Any, Iterable, cast
+from typing import Any, Iterable
 
 from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
@@ -6,7 +6,7 @@ from toolz.functoolz import pipe  # type: ignore
 
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
 from ...text import (
     Sentence,
@@ -17,24 +17,25 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries  = tuple(_parse_entries(html))
-
     subjects = (
                 Subject(LoCSubject("sh85033571"), String("Courts")),  # type: ignore
                 Subject(WikidataTopic("Q41487"),  String("Court")),   # type: ignore
             )
+
+    source_url = URL(html.url) # type: ignore
 
     metadata = Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="IRL",
             # Info about original source
-            dcterms_source=String(cast(str, html.url)),  # type: ignore
+            dcterms_source=source_url,
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
-            publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=subjects,
         )
+
+    entries  = _parse_entries(html)
 
     return GlossaryParseResult(metadata, entries)
 
