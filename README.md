@@ -96,7 +96,7 @@ This produces the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.10.5
+### Python 3.10
 
 I'm using [asdf](https://asdf-vm.com/#/) because the Homebrew distribution
 is more up-to-date than pyenv.
