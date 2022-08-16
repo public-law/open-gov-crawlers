@@ -17,6 +17,10 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+    """
+    The top-level, public function of this module. It performs the
+    complete parse of the HTTP response.
+    """
     metadata = _make_metadata(html)
     entries  = _parse_entries(html)
 
@@ -44,9 +48,12 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 
 
 def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    """TODO: Refactor into a parent class"""
+    """
+    TODO: Refactor into a parent class. Write a way to pass lists of
+    functions for cleaning up the definitions and phrases.
+    """
 
-    def cleanup_defn(defn: str) -> Sentence:
+    def cleanup_definition(defn: str) -> Sentence:
         return pipe(
             defn,
             normalize_nonempty,
@@ -68,7 +75,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     for phrase, defn in _raw_entries(html):
         yield GlossaryEntry(
             phrase=cleanup_phrase(phrase),
-            definition=cleanup_defn(defn),
+            definition=cleanup_definition(defn),
         )
 
 
