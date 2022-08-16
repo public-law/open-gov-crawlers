@@ -17,7 +17,7 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = tuple(__parse_entries(html))
+    parsed_entries = tuple(_parse_entries(html))
 
     subject = (
                 Subject(
@@ -45,7 +45,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     return GlossaryParseResult(metadata=metadata, entries=parsed_entries)
 
 
-def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
     def cleanup_defn(defn: str) -> Sentence:
@@ -67,14 +67,14 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
             String,
         )
 
-    for phrase, defn in __raw_entries(html):
+    for phrase, defn in _raw_entries(html):
         yield GlossaryEntry(
             phrase=cleanup_phrase(phrase),
             definition=cleanup_defn(defn),
         )
 
 
-def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     """
     The core of this parser.
 
