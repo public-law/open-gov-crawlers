@@ -68,6 +68,24 @@ class LoCSubject(URL):
         raise ValueError(f"Invalid subject ID: {id}")
 
 
+class WikidataTopic(URL):
+    """
+    A wikidata subject.
+    """
+
+    def __new__(cls, id: str):
+        # Accept a fully formed URI.
+        # This is needed by the dataclasses deepcopy process.
+        if re.match(r"^https://www.wikidata.org/wiki/Q[0-9]+$", id):
+            return super().__new__(cls, id)
+
+        # Accept a bare ID.
+        if re.match(r"^Q[0-9]+$", id):
+            return super().__new__(cls, f"https://www.wikidata.org/wiki/{id}")
+
+        raise ValueError(f"Invalid subject ID: {id}")
+
+
 class Sentence(NonemptyString):
     """
     A str subclass that generally begins with a capital letter

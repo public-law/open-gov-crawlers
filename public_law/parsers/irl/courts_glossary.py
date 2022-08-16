@@ -1,4 +1,4 @@
-from typing import Any, Iterable, cast
+from typing import Any, Iterable
 
 from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
@@ -6,8 +6,8 @@ from toolz.functoolz import pipe  # type: ignore
 
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import URL, LoCSubject, NonemptyString as String
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
 from ...text import (
     Sentence,
     capitalize_first_char,
@@ -17,37 +17,43 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = tuple(__parse_entries(html))
+    """
+    The top-level, public function of this module. It performs the
+    complete parse of the HTTP response.
+    """
+    metadata = _make_metadata(html)
+    entries  = _parse_entries(html)
 
-    return GlossaryParseResult(
-        metadata=Metadata(
+    return GlossaryParseResult(metadata, entries)
+
+
+def _make_metadata(html: HtmlResponse) -> Metadata:
+    source_url = URL(html.url)  # type: ignore
+
+    subjects = (
+                Subject(LoCSubject("sh85033571"), String("Courts")),  # type: ignore
+                Subject(WikidataTopic("Q41487"),  String("Court")),   # type: ignore
+            )
+    
+    return Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="IRL",
             # Info about original source
-            dcterms_source=String(cast(str, html.url)),  # type: ignore
+            dcterms_source=source_url,
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
-            publiclaw_readingEase=reading_ease(parsed_entries),
-            dcterms_subject=(
-                Subject(
-                    uri=LoCSubject("sh85033571"),  # type: ignore
-                    rdfs_label=String("Courts"),
-                ),
-                Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q41487"),
-                    rdfs_label=String("Court"),
-                ),
-            ),
-        ),
-        entries=parsed_entries,
-    )
+            dcterms_subject=subjects,
+        )
 
 
-def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    """TODO: Refactor into a parent class"""
+def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+    """
+    TODO: Refactor into a parent class. Write a way to pass lists of
+    functions for cleaning up the definitions and phrases.
+    """
 
-    def cleanup_defn(defn: str) -> Sentence:
+    def cleanup_definition(defn: str) -> Sentence:
         return pipe(
             defn,
             normalize_nonempty,
@@ -66,14 +72,14 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
             String,
         )
 
-    for phrase, defn in __raw_entries(html):
+    for phrase, defn in _raw_entries(html):
         yield GlossaryEntry(
             phrase=cleanup_phrase(phrase),
-            definition=cleanup_defn(defn),
+            definition=cleanup_definition(defn),
         )
 
 
-def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     """
     The core of this parser.
 
