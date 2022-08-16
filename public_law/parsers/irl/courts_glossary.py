@@ -17,17 +17,11 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = tuple(_parse_entries(html))
+    entries  = tuple(_parse_entries(html))
 
-    subject = (
-                Subject(
-                    uri=LoCSubject("sh85033571"),  # type: ignore
-                    rdfs_label=String("Courts"),
-                ),
-                Subject(
-                    uri=WikidataTopic("Q41487"),   # type: ignore
-                    rdfs_label=String("Court"),
-                ),
+    subjects = (
+                Subject(LoCSubject("sh85033571"), String("Courts")),  # type: ignore
+                Subject(WikidataTopic("Q41487"),  String("Court")),   # type: ignore
             )
 
     metadata = Metadata(
@@ -39,7 +33,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
             publiclaw_readingEase=reading_ease(entries),
-            dcterms_subject=subject,
+            dcterms_subject=subjects,
         )
 
     return GlossaryParseResult(metadata, entries)
