@@ -7,7 +7,7 @@ from toolz.functoolz import pipe  # type: ignore
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
-from ...text import URL, LoCSubject, NonemptyString as String
+from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
 from ...text import (
     Sentence,
     capitalize_first_char,
@@ -17,7 +17,7 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = tuple(_parse_entries(html))
+    entries = tuple(_parse_entries(html))
 
     subject = (
                 Subject(
@@ -25,7 +25,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                     rdfs_label=String("Courts"),
                 ),
                 Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q41487"),
+                    uri=WikidataTopic("Q41487"),   # type: ignore
                     rdfs_label=String("Court"),
                 ),
             )
@@ -38,11 +38,11 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String(cast(str, html.url)),  # type: ignore
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
-            publiclaw_readingEase=reading_ease(parsed_entries),
+            publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=subject,
         )
 
-    return GlossaryParseResult(metadata=metadata, entries=parsed_entries)
+    return GlossaryParseResult(metadata, entries)
 
 
 def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
