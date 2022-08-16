@@ -17,14 +17,21 @@ from ...text import (
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+    metadata = _make_metadata(html)
+    entries  = _parse_entries(html)
+
+    return GlossaryParseResult(metadata, entries)
+
+
+def _make_metadata(html: HtmlResponse) -> Metadata:
+    source_url = URL(html.url) # type: ignore
+
     subjects = (
                 Subject(LoCSubject("sh85033571"), String("Courts")),  # type: ignore
                 Subject(WikidataTopic("Q41487"),  String("Court")),   # type: ignore
             )
-
-    source_url = URL(html.url) # type: ignore
-
-    metadata = Metadata(
+    
+    return Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="IRL",
@@ -34,10 +41,6 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceCreator=String("The Courts Service of Ireland"),
             dcterms_subject=subjects,
         )
-
-    entries  = _parse_entries(html)
-
-    return GlossaryParseResult(metadata, entries)
 
 
 def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
