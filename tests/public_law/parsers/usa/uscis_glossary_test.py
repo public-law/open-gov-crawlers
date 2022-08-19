@@ -27,7 +27,6 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
     return parse_glossary(html)
 
 
-@fixture
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
         filename="uscis-glossary.html",
@@ -35,50 +34,61 @@ def parsed_glossary() -> GlossaryParseResult:
     )
 
 
-def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "USCIS Glossary"
+GLOSSARY = parsed_glossary()
+METADATA = GLOSSARY.metadata
 
 
-def test_gets_the_url(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_source == "https://www.uscis.gov/tools/glossary"
+#
+# Metadata tests
+#
+
+def test_gets_the_name():
+    assert METADATA.dcterms_title == "USCIS Glossary"
 
 
-def test_gets_the_author(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_creator == "https://public.law"
+def test_gets_the_url():
+    assert METADATA.dcterms_source == "https://www.uscis.gov/tools/glossary"
 
 
-def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "USA"
+def test_gets_the_author():
+    assert METADATA.dcterms_creator == "https://public.law"
 
 
-def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.publiclaw_sourceModified == "unknown"
+def test_gets_coverage():
+    assert METADATA.dcterms_coverage == "USA"
 
 
-def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_modified == today()
+def test_gets_the_source_modified_date():
+    assert METADATA.publiclaw_sourceModified == "unknown"
+
+
+def test_gets_the_scrape_date():
+    assert METADATA.dcterms_modified == today()
+
+#
+# Content tests
+#
+
+@mark.skip
+def test_phrase():
+    assert first(GLOSSARY.entries).phrase == "Alien Registration Number"
 
 
 @mark.skip
-def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).phrase == "Alien Registration Number"
-
-
-@mark.skip
-def test_definition(parsed_glossary: GlossaryParseResult):
+def test_definition():
     assert (
-        first(parsed_glossary.entries).definition == "A unique seven-, eight- or nine-digit number assigned to a noncitizen by the Department of Homeland Security. Also see USCIS Number."
+        first(GLOSSARY.entries).definition == "A unique seven-, eight- or nine-digit number assigned to a noncitizen by the Department of Homeland Security. Also see USCIS Number."
     )
 
 
 @mark.skip
-def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
-    assert len(tuple(parsed_glossary.entries)) == 43
+def test_gets_proper_number_of_entries():
+    assert len(tuple(GLOSSARY.entries)) == 43
 
 
 @mark.skip
-def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
-    last_entry = last(parsed_glossary.entries)
+def test_gets_the_last_entry():
+    last_entry = last(GLOSSARY.entries)
 
     assert last_entry.phrase == "Withdrawal"
     assert last_entry.definition == (
@@ -89,8 +99,8 @@ def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
 
 
 @mark.skip
-def test_subjects(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_subject == (
+def test_subjects():
+    assert METADATA.dcterms_subject == (
         Subject(
             uri=URL("http://id.loc.gov/authorities/subjects/sh85042790"),
             rdfs_label=NonemptyString("Emigration and immigration law"),
