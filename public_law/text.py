@@ -88,6 +88,8 @@ class WikidataTopic(URL):
 
 class Sentence(NonemptyString):
     """
+    Currently NOP.
+    
     A str subclass that generally begins with a capital letter
     and ends with a period.
 
@@ -102,11 +104,7 @@ class Sentence(NonemptyString):
         """
         Create a new Sentence.
         """
-        match re.match(r"^[A-Z0-9\"\()].*\.[\"\)’”]?$", content):
-            case None:
-                raise ValueError(f"Not a proper sentence: '{content}'")
-            case _:
-                return super().__new__(cls, content)
+        return super().__new__(cls, content)
 
 
 def ensure_ends_with_period(text: str) -> NonemptyString:

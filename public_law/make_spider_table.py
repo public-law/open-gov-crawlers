@@ -192,7 +192,7 @@ from .spiders.can import doj_glossaries, parliamentary_glossary
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
 from .spiders.nzl import justice_glossary
-from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary
+from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary, uscis_glossary
 
 TABLE = MarkdownTable(
     (
@@ -203,6 +203,7 @@ TABLE = MarkdownTable(
         make_record(justice_glossary,       String("NewZealand/justice-glossary.json"),               "https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary"),
         make_record(rome_statute,           String("Intergovernmental/RomeStatute/RomeStatute.json"), "https://world.public.law/rome_statute"),
         make_record(us_courts_glossary,     String("UnitedStates/us-courts-glossary.json"),           "https://www.public.law/dictionary/sources/uscourts.gov__glossary"),
+        make_record(uscis_glossary,         String("UnitedStates/uscis-glossary.json"),               "https://www.public.law/dictionary/sources/uscis.gov__tools_glossary"),
         make_record_without_dataset(georgia_ag_opinions),
         make_record_without_dataset(oregon_regs, "https://oregon.public.law/rules"),
     )

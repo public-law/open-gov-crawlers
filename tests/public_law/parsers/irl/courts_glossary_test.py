@@ -4,7 +4,6 @@
 
 from more_itertools import first, last
 
-
 from scrapy.http.response.html import HtmlResponse
 from pytest import fixture, mark
 
