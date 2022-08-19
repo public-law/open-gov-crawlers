@@ -106,12 +106,11 @@ def test_gets_the_last_phrase():
     assert last_entry.phrase == "Withdrawal"
 
 
-@mark.skip
 def test_gets_the_last_definition():
     last_entry = last(GLOSSARY.entries)
 
     assert last_entry.definition == (
-        'This is an arriving noncitizen’s voluntary retraction of an application '
+        '<p>This is an arriving noncitizen’s voluntary retraction of an application '
         'for admission to the United States in lieu of a removal hearing before an '
-        'immigration judge or an expedited removal.'
+        'immigration judge or an expedited removal.</p>'
     )

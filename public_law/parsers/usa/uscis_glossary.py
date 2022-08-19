@@ -22,7 +22,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     complete parse of the HTTP response.
     """
     metadata = _make_metadata(html)
-    entries  = _parse_entries(html)
+    entries  = tuple(_parse_entries(html))
 
     return GlossaryParseResult(metadata, entries)
 
@@ -57,20 +57,17 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         return pipe(
             defn,
             normalize_nonempty,
-            lstrip(":"),  # type: ignore
-            ensure_ends_with_period,
             normalize_nonempty,
             capitalize_first_char,
             Sentence,
-        )
+        ) # type: ignore
 
     def cleanup_phrase(phrase: str) -> String:
         return pipe(
             phrase,
-            rstrip(":"),  # type: ignore
             normalize_nonempty,
             String,
-        )
+        ) # type: ignore
 
     for phrase, defn in _raw_entries(html):
         yield GlossaryEntry(
