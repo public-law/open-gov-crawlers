@@ -4,7 +4,7 @@ from typing import Any
 
 from ...parsers.usa.uscis_glossary import parse_glossary
 
-JD_VERBOSE_NAME = "USA"
+JD_VERBOSE_NAME  = "USA"
 PUBLICATION_NAME = "USCIS Glossary"
 
 

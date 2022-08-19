@@ -54,6 +54,8 @@ def test_gets_the_url():
 def test_gets_the_author():
     assert METADATA.dcterms_creator == "https://public.law"
 
+def test_the_original_creator():
+    assert METADATA.publiclaw_sourceCreator == "U.S. Citizenship and Immigration Services"
 
 def test_gets_coverage():
     assert METADATA.dcterms_coverage == "USA"
