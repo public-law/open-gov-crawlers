@@ -34,7 +34,7 @@ def parsed_glossary() -> GlossaryParseResult:
         url="https://www.uscis.gov/tools/glossary",
     )
 
-@mark.skip
+
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_title == "USCIS Glossary"
 
