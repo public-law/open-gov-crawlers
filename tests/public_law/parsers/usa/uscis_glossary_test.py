@@ -95,9 +95,8 @@ def test_definition():
     )
 
 
-@mark.skip
 def test_gets_proper_number_of_entries():
-    assert len(tuple(GLOSSARY.entries)) == 43
+    assert len(tuple(GLOSSARY.entries)) == 266
 
 
 def test_gets_the_last_phrase():
