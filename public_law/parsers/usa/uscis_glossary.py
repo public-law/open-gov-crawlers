@@ -7,7 +7,7 @@ from toolz.functoolz import pipe  # type: ignore
 from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
+from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic, make_soup
 from ...text import (
     Sentence,
     capitalize_first_char,
@@ -85,6 +85,15 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    return chunked(
-        html.xpath("//div[@class='accordion__header']/text() | //div[@class='accordion__panel']/text()").getall(), 2  # type: ignore
-    )
+
+    soup      = make_soup(html)
+    phrases   = [d.string for d in soup.select('div.accordion__header')]  # type: ignore
+
+    defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]  # type: ignore
+    cleaned_up_definitions = []
+    for div in defn_divs:
+        cleaned_up = "\n".join([str(s) for s in div if str(s) != '\n'])
+        cleaned_up_definitions.append(cleaned_up)  # type: ignore
+
+
+    return zip(phrases, cleaned_up_definitions)

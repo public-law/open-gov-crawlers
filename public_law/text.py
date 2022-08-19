@@ -102,7 +102,7 @@ class Sentence(NonemptyString):
         """
         Create a new Sentence.
         """
-        match re.match(r"^[A-Z0-9\"\()].*\.[\"\)’”]?$", content):
+        match re.match(r"^[A-Z0-9\"\(\)\<].*\.[\"\)’”]?$", content):
             case None:
                 raise ValueError(f"Not a proper sentence: '{content}'")
             case _:
