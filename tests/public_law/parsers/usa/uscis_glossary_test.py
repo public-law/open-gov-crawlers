@@ -65,6 +65,20 @@ def test_gets_the_source_modified_date():
 def test_gets_the_scrape_date():
     assert METADATA.dcterms_modified == today()
 
+
+def test_subjects():
+    assert METADATA.dcterms_subject == (
+        Subject(
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85042790"),
+            rdfs_label=NonemptyString("Emigration and immigration law"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q231147"),
+            rdfs_label=NonemptyString("immigration law"),
+        ),
+    )
+
+
 #
 # Content tests
 #
@@ -95,18 +109,4 @@ def test_gets_the_last_entry():
         'This is an arriving noncitizen’s voluntary retraction of an application '
         'for admission to the United States in lieu of a removal hearing before an '
         'immigration judge or an expedited removal.'
-    )
-
-
-@mark.skip
-def test_subjects():
-    assert METADATA.dcterms_subject == (
-        Subject(
-            uri=URL("http://id.loc.gov/authorities/subjects/sh85042790"),
-            rdfs_label=NonemptyString("Emigration and immigration law"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q231147"),
-            rdfs_label=NonemptyString("immigration law"),
-        ),
     )
