@@ -84,7 +84,6 @@ def test_subjects():
 # Content tests
 #
 
-@mark.skip
 def test_phrase():
     assert first(GLOSSARY.entries).phrase == "Alien Registration Number"
 
