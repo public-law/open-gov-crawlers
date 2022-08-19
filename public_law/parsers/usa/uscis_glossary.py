@@ -38,7 +38,7 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     return Metadata(
             dcterms_title=String("USCIS Glossary"),
             dcterms_language="en",
-            dcterms_coverage="IRL",
+            dcterms_coverage="USA",
             # Info about original source
             dcterms_source=source_url,
             publiclaw_sourceModified="unknown",
