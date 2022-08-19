@@ -10,12 +10,14 @@ from pytest import fixture, mark
 from public_law.dates import today
 from public_law.metadata import Subject
 from public_law.models.glossary import GlossaryParseResult
-from public_law.parsers.irl.courts_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
+
+from public_law.parsers.usa.uscis_glossary import parse_glossary
+
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/irl/{filename}", encoding="utf8") as f:
+    with open(f"tests/fixtures/usa/{filename}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
@@ -28,17 +30,17 @@ def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
 @fixture
 def parsed_glossary() -> GlossaryParseResult:
     return parsed_fixture(
-        filename="ie.courts-glossary.html",
-        url="https://www.courts.ie/glossary",
+        filename="uscis-glossary.html",
+        url="https://www.uscis.gov/tools/glossary",
     )
 
 
 def test_gets_the_name(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_title == "Glossary of Legal Terms"
+    assert parsed_glossary.metadata.dcterms_title == "USCIS Glossary"
 
 
 def test_gets_the_url(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_source == "https://www.courts.ie/glossary"
+    assert parsed_glossary.metadata.dcterms_source == "https://www.uscis.gov/tools/glossary"
 
 
 def test_gets_the_author(parsed_glossary: GlossaryParseResult):
@@ -46,7 +48,7 @@ def test_gets_the_author(parsed_glossary: GlossaryParseResult):
 
 
 def test_gets_coverage(parsed_glossary: GlossaryParseResult):
-    assert parsed_glossary.metadata.dcterms_coverage == "IRL"
+    assert parsed_glossary.metadata.dcterms_coverage == "USA"
 
 
 def test_gets_the_source_modified_date(parsed_glossary: GlossaryParseResult):
@@ -58,12 +60,12 @@ def test_gets_the_scrape_date(parsed_glossary: GlossaryParseResult):
 
 
 def test_phrase(parsed_glossary: GlossaryParseResult):
-    assert first(parsed_glossary.entries).phrase == "Affidavit"
+    assert first(parsed_glossary.entries).phrase == "Alien Registration Number"
 
 
 def test_definition(parsed_glossary: GlossaryParseResult):
     assert (
-        first(parsed_glossary.entries).definition == "A written statement made on oath."
+        first(parsed_glossary.entries).definition == "A unique seven-, eight- or nine-digit number assigned to a noncitizen by the Department of Homeland Security. Also see USCIS Number."
     )
 
 
@@ -74,22 +76,22 @@ def test_gets_proper_number_of_entries(parsed_glossary: GlossaryParseResult):
 def test_gets_the_last_entry(parsed_glossary: GlossaryParseResult):
     last_entry = last(parsed_glossary.entries)
 
-    assert last_entry.phrase == "Supervision order"
+    assert last_entry.phrase == "Withdrawal"
     assert last_entry.definition == (
-        "An order allowing Tusla to monitor a child considered to be at risk. "
-        "The child is not removed from his or her home environment. A supervision "
-        "order is for a fixed period of time not longer than 12 months initially."
+        'This is an arriving noncitizen’s voluntary retraction of an application '
+        'for admission to the United States in lieu of a removal hearing before an '
+        'immigration judge or an expedited removal.'
     )
 
 
 def test_subjects(parsed_glossary: GlossaryParseResult):
     assert parsed_glossary.metadata.dcterms_subject == (
         Subject(
-            uri=URL("http://id.loc.gov/authorities/subjects/sh85033571"),
-            rdfs_label=NonemptyString("Courts"),
+            uri=URL("http://id.loc.gov/authorities/subjects/sh85042790"),
+            rdfs_label=NonemptyString("Emigration and immigration law"),
         ),
         Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q41487"),
-            rdfs_label=NonemptyString("Court"),
+            uri=URL("https://www.wikidata.org/wiki/Q231147"),
+            rdfs_label=NonemptyString("immigration law"),
         ),
     )

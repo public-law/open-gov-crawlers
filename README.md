@@ -18,8 +18,9 @@
 | USA / Oregon | [Oregon Administrative Rules](https://oregon.public.law/rules) | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/oregon_regs.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/oregon_regs.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/oregon_regs_test.py) | |
 
 
-> FYI: We're looking for paid help writing more spiders like these, especially in languages other than English. [See the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
-> of our parsing strategy. The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our current coding style.
+> The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our current coding style.
+> See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
+> of our parsing strategy. 
 
 
 ## Example: Oregon Administrative Rules Parser
