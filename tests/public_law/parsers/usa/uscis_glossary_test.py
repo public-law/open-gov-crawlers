@@ -100,11 +100,16 @@ def test_gets_proper_number_of_entries():
     assert len(tuple(GLOSSARY.entries)) == 43
 
 
-@mark.skip
-def test_gets_the_last_entry():
+def test_gets_the_last_phrase():
     last_entry = last(GLOSSARY.entries)
 
     assert last_entry.phrase == "Withdrawal"
+
+
+@mark.skip
+def test_gets_the_last_definition():
+    last_entry = last(GLOSSARY.entries)
+
     assert last_entry.definition == (
         'This is an arriving noncitizen’s voluntary retraction of an application '
         'for admission to the United States in lieu of a removal hearing before an '

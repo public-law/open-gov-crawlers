@@ -86,5 +86,5 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     TODO: Refactor all the glossary parsers to need only this function.
     """
     return chunked(
-        html.xpath("//p/strong/parent::p/text() | //strong/text()").getall(), 2  # type: ignore
+        html.xpath("//div[@class='accordion__header']/text() | //div[@class='accordion__panel']/text()").getall(), 2  # type: ignore
     )
