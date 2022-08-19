@@ -2,6 +2,7 @@
 # pyright: reportOptionalMemberAccess=false
 # pyright: reportUnusedImport=false
 
+from devtools import debug  # type: ignore
 from more_itertools import first, last
 
 from scrapy.http.response.html import HtmlResponse
@@ -88,10 +89,14 @@ def test_phrase():
     assert first(GLOSSARY.entries).phrase == "Alien Registration Number"
 
 
-@mark.skip
 def test_definition():
     assert (
-        first(GLOSSARY.entries).definition == "A unique seven-, eight- or nine-digit number assigned to a noncitizen by the Department of Homeland Security. Also see USCIS Number."
+        first(GLOSSARY.entries).definition == (
+            '<p>A unique seven-, eight- or nine-digit number assigned to a noncitizen '
+            'by the Department of Homeland Security. Also see '
+            '<a aria-label="Show glossary definition for USCIS Number" data-entity-substitution="canonical" data-entity-type="node" data-lang="en" data-linktype="glossary" data-nid="50674" href="#">USCIS Number</a>.'
+            '</p>'
+        )
     )
 
 
