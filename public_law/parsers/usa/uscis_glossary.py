@@ -1,17 +1,14 @@
 from typing import Any, Iterable
 
-from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from ...flipped import lstrip, rstrip
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic, make_soup
 from ...text import (
     Sentence,
     capitalize_first_char,
-    ensure_ends_with_period,
     normalize_nonempty,
 )
 
@@ -82,9 +79,9 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-
-    soup      = make_soup(html)
-    phrases   = [d.string for d in soup.select('div.accordion__header')]  # type: ignore
+    soup    = make_soup(html)
+    phrases = [d.string for d in soup.select('div.accordion__header')]  # type: ignore
+    phrases = [maybe_fix(p) for p in phrases]
 
     defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]  # type: ignore
     cleaned_up_definitions = []
@@ -92,5 +89,16 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
         cleaned_up = "\n".join([str(s) for s in div if str(s) != '\n'])
         cleaned_up_definitions.append(cleaned_up)  # type: ignore
 
-
     return zip(phrases, cleaned_up_definitions)
+
+
+def maybe_fix(phrase: str|None) -> str|None:
+    """
+    Some phrases have extra whitespace at the beginning.
+    """
+    if phrase is None:
+        return None
+
+    FIXED = "Alien Registration Number"
+
+    return FIXED if FIXED in phrase else phrase
