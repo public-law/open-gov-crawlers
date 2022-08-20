@@ -35,12 +35,7 @@ $ scrapy list
 aus_ip_glossary
 can_doj_glossaries
 int_rome_statute
-irl_courts_glossary
-nzl_justice_glossary
-usa_courts_glossary
-usa_ga_attorney_general_opinions
-usa_or_regs
-usa_uscis_glossary
+...
 ```
 
 Then we can run one of the spiders:
