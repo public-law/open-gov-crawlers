@@ -41,7 +41,7 @@ int_rome_statute
 Then we can run one of the spiders:
 
 ```bash
-$ scrapy crawl usa_or_regs
+$ scrapy crawl --overwrite-output tmp/output.json usa_or_regs
 ```
 
 This produces the output:
