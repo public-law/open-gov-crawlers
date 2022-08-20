@@ -16,13 +16,14 @@ lxml = "^4.9.1"  # Security vulnerability.
 pydantic = "*"
 python = "^3.10"
 pytz = "*"
-scrapy = "^2.6.1"
+scrapy = "^2.6.2"
 scrapy-crawlera = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 textstat = { git = "https://github.com/dogweather/textstat.git", rev = "06661cff4e09a11810656537032e92acd450d8c7" }
 tika = "^1.24"
 titlecase = "*"
 toolz = "0.*"
+devtools = "^0.9.0"
 
 
 [tool.poetry.dev-dependencies]
