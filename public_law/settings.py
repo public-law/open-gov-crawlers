@@ -119,8 +119,8 @@ AUTOTHROTTLE_DEBUG = False
 # machines, set `SCRAPY_DEVELOPMENT_MODE` to make this work. This
 # isn't necessary, however, to develop and run the spiders.
 #
-if "SCRAPY_DEVELOPMENT_MODE" in os.environ:
+if "PUBLAW_SCRAPY_DEVELOPMENT_MODE" in os.environ:
     SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
     SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
-    LOG_LEVEL = os.environ["SCRAPY_LOG_LEVEL"]
-    USER_AGENT = os.environ["SCRAPY_USER_AGENT"]
+    LOG_LEVEL = os.environ["PUBLAW_SCRAPY_LOG_LEVEL"]
+    USER_AGENT = os.environ["PUBLAW_SCRAPY_USER_AGENT"]
