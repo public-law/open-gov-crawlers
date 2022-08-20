@@ -16,10 +16,8 @@ module Export
   GLOSSARY_SPIDERS.each do |spider|
     output_path = DATASETS_DIR.join(DATALINKS[spider])
 
-    puts "Exporting #{spider} to #{output_path}..."
+    puts "Exporting #{spider}\n       to #{output_path}...\n\n"
     `poetry run scrapy crawl --nolog --overwrite-output #{output_path} #{spider}`
-
-    puts "Formatting #{output_path}..."
     `jq . #{output_path} | sponge #{output_path}`
   end
 end
