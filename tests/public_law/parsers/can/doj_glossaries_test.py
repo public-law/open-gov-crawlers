@@ -54,12 +54,11 @@ def index() -> GlossaryParseResult:
     return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
 
 
-# @pytest.fixture
-# def aa() -> GlossaryParseResult:
-#     return parsed_fixture(
-#         "aa.html",
-#         "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html",
-#     )
+@pytest.fixture
+def p18() -> GlossaryParseResult:
+    return parsed_fixture(
+        "can/p18.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html"
+    )
 
 
 def test_the_name_when_it_contains_an_anchor(glos):
@@ -87,6 +86,13 @@ def test_parses_emphasized_text(p11):
     )
 
     assert definition_with_em == expected_definition
+
+
+def test_parse_error_is_fixed(p18: GlossaryParseResult):
+    entry = list(p18.entries)[38]
+
+    assert entry.phrase == "Ranges"
+    assert entry.definition[-20:] == "Guidelines</em>.</p>"
 
 
 def test_the_name(p7g):
