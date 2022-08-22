@@ -112,7 +112,7 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
     Ensure that the string ends with a period.
     """
     match (text):
-        case s if s.endswith(".") or s.endswith('."') or s.endswith('.</p>'):
+        case s if s.endswith(".") or s.endswith('."') or s.endswith('</p>'):
             return NonemptyString(text)
         case s:
             return NonemptyString(s + ".")
