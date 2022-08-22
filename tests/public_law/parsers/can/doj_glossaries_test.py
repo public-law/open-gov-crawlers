@@ -102,6 +102,13 @@ def test_parse_error_is_fixed_2(p18: GlossaryParseResult):
     assert entry.definition[-4:] == "</p>"
 
 
+def test_parse_error_is_fixed_3(p18: GlossaryParseResult):
+    entry = list(p18.entries)[1]
+
+    assert entry.phrase == "Agreement"
+    assert entry.definition[-4:] == "</p>"
+
+
 def test_the_name(p7g):
     assert (
         p7g.metadata.dcterms_title
