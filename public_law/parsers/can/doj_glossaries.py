@@ -69,16 +69,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Parental alienation syndrome"),
         ),
     ),
-    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html": (
-        Subject(
-            uri=LoCSubject("sh85003572"),  # type: ignore
-            rdfs_label=NonemptyString("Alimony"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q368305"),
-            rdfs_label=NonemptyString("Alimony"),
-        ),
-    ),
+    # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html": (
+    #     Subject(
+    #         uri=LoCSubject("sh85003572"),  # type: ignore
+    #         rdfs_label=NonemptyString("Alimony"),
+    #     ),
+    #     Subject(
+    #         uri=URL("https://www.wikidata.org/wiki/Q368305"),
+    #         rdfs_label=NonemptyString("Alimony"),
+    #     ),
+    # ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html": (
         Subject(
             uri=LoCSubject("sh85003572"),  # type: ignore
