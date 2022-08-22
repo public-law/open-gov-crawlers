@@ -123,8 +123,8 @@ def make_soup(html: HtmlResponse) -> BeautifulSoup:
     Create a BeautifulSoup object from the Response body.
     """
     return BeautifulSoup(
-        cast(str, html.body), "html.parser"
-    )  # pyright: reportUnknownMemberType=false
+        cast(str, html.body), "html.parser" # type: ignore
+    )  
 
 
 def title_case(text: str) -> str:
