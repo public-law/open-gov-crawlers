@@ -57,13 +57,15 @@ def index() -> GlossaryParseResult:
 @pytest.fixture
 def p18() -> GlossaryParseResult:
     return parsed_fixture(
-        "can/p18.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html"
+        "can/p18.html",
+        "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html",
     )
 
 
 #
 # Metadata tests
 #
+
 
 class TestDctermsTitle:
     def test_when_it_contains_an_anchor(self, glos):
@@ -76,7 +78,10 @@ class TestDctermsTitle:
         assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
 
     def test_all_caps_title_correctly_formatted(self, p18: GlossaryParseResult):
-        assert p18.metadata.dcterms_title == "Glossary of Terms - Spousal Support Advisory Guidelines July 2008"
+        assert (
+            p18.metadata.dcterms_title
+            == "Glossary of Terms - Spousal Support Advisory Guidelines July 2008"
+        )
 
     def test_the_title(self, p7g):
         assert (
@@ -159,13 +164,6 @@ def test_parse_error_is_fixed_4(p18: GlossaryParseResult):
 
     assert entry.phrase == "Child of the marriage"
     assert entry.definition[-4:] == "</p>"
-
-
-def test_the_name(p7g):
-    assert (
-        p7g.metadata.dcterms_title
-        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
-    )
 
 
 def test_the_url(p7g):
