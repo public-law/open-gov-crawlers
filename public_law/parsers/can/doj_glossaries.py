@@ -174,7 +174,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def parse_name(html: SelectorLike) -> str:
-    return first_match(html, "title::text", "name")
+    return fix_title_case(first_match(html, "title::text", "name"))
 
 
 def first_match(node: SelectorLike, css: str, expected: str) -> str:
@@ -183,3 +183,7 @@ def first_match(node: SelectorLike, css: str, expected: str) -> str:
             return normalize_nonempty(result)
         case _:
             raise ParseException(f'Could not parse the {expected} using "{css}"')
+
+
+def fix_title_case(text: str) -> str:
+    return text.replace('GLOSSARY OF LEGAL TERMS', 'Glossary of Legal Terms')
