@@ -69,7 +69,7 @@ class TestDctermsTitle:
     def test_when_it_contains_an_anchor(self, glos):
         assert (
             glos.metadata.dcterms_title
-            == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
+            == "Glossary - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
         )
 
     def test_when_there_is_just_an_h1(self, index):
