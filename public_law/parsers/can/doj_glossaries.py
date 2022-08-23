@@ -186,4 +186,8 @@ def first_match(node: SelectorLike, css: str, expected: str) -> str:
 
 
 def fix_title_case(text: str) -> str:
-    return text.replace('GLOSSARY OF LEGAL TERMS', 'Glossary of Legal Terms').replace('GLOSSARY OF TERMS', 'Glossary of Terms').replace('GLOSSARY', 'Glossary')
+    return (
+        text.replace("GLOSSARY OF LEGAL TERMS", "Glossary of Legal Terms")
+        .replace("GLOSSARY OF TERMS", "Glossary of Terms")
+        .replace("GLOSSARY", "Glossary")
+    )
