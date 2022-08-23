@@ -79,7 +79,7 @@ class TestTheEntries:
 
     def test_definition(_):
         assert first(GLOSSARY.entries).definition == (
-            "Distinct from forced marriage, an arranged marriage is organised "
+            "Distinct from <strong>forced marriage</strong>, an arranged marriage is organised "
             "by the families of both spouses, but consent is still present, "
             "and the spouses have the right to accept or reject the marriage arrangement."
         )
@@ -97,4 +97,4 @@ class TestTheEntries:
         )
 
     def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 38
+        assert len(tuple(GLOSSARY.entries)) == 37
