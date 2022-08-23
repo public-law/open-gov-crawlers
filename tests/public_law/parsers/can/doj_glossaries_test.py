@@ -61,19 +61,30 @@ def p18() -> GlossaryParseResult:
     )
 
 
-def test_the_name_when_it_contains_an_anchor(glos):
-    assert (
-        glos.metadata.dcterms_title
-        == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"  # "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
-    )
+class TestDctermsTitle:
+    def test_when_it_contains_an_anchor(self, glos):
+        assert (
+            glos.metadata.dcterms_title
+            == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
+        )
+
+    def test_when_there_is_just_an_h1(self, index):
+        assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
+
+    def test_all_caps_title_correctly_formatted(self, p18: GlossaryParseResult):
+        assert p18.metadata.dcterms_title == "Glossary of Terms - Spousal Support Advisory Guidelines July 2008"
+
+    def test_the_title(self, p7g):
+        assert (
+            p7g.metadata.dcterms_title
+            == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
+        )
+
 
 
 def test_phrase_does_not_end_with_colon(glos):
     assert first(glos.entries).phrase == "Alienated Parent"
 
-
-def test_the_name_when_there_is_just_an_h1(index):
-    assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
 
 
 def test_parses_emphasized_text(p11):
@@ -95,11 +106,6 @@ def test_parse_error_is_fixed(p18: GlossaryParseResult):
     assert entry.definition[-20:] == "Guidelines</em>.</p>"
 
 
-def test_the_name(p7g):
-    assert (
-        p7g.metadata.dcterms_title
-        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
-    )
 
 
 def test_the_url(p7g):
