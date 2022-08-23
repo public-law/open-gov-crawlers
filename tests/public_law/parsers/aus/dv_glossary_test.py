@@ -63,12 +63,12 @@ class TestTheMetadata:
     def test_subjects(_):
         assert METADATA.dcterms_subject == (
             Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85075807"),
-                rdfs_label=NonemptyString("Legislative bodies"),
+                uri=URL("http://id.loc.gov/authorities/subjects/sh85047071"),
+                rdfs_label=NonemptyString("Family violence"),
             ),
             Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q35749"),
-                rdfs_label=NonemptyString("Parliament"),
+                uri=URL("https://www.wikidata.org/wiki/Q156537"),
+                rdfs_label=NonemptyString("Domestic violence"),
             ),
         )
 
