@@ -57,23 +57,73 @@ def index() -> GlossaryParseResult:
 @pytest.fixture
 def p18() -> GlossaryParseResult:
     return parsed_fixture(
-        "can/p18.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html"
+        "can/p18.html",
+        "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html",
     )
 
 
-def test_the_name_when_it_contains_an_anchor(glos):
-    assert (
-        glos.metadata.dcterms_title
-        == "GLOSSARY - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"  # "Managing Contact Difficulties: A Child-Centred Approach; GLOSSARY"
-    )
+#
+# Metadata tests
+#
+
+
+class TestDctermsTitle:
+    def test_when_it_contains_an_anchor(self, glos):
+        assert (
+            glos.metadata.dcterms_title
+            == "Glossary - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
+        )
+
+    def test_when_there_is_just_an_h1(self, index):
+        assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
+
+    def test_all_caps_title_correctly_formatted(self, p18: GlossaryParseResult):
+        assert (
+            p18.metadata.dcterms_title
+            == "Glossary of Terms - Spousal Support Advisory Guidelines July 2008"
+        )
+
+    def test_the_title(self, p7g):
+        assert (
+            p7g.metadata.dcterms_title
+            == "Glossary of Legal Terms - Legal Aid Program Evaluation"
+        )
+
+
+class TestDcTermsSubject:
+    def test_subject_p7g(self, p7g):
+        assert subj_strings(p7g) == (
+            ("http://id.loc.gov/authorities/subjects/sh85075720", "Legal aid"),
+            ("https://www.wikidata.org/wiki/Q707748", "Legal aid"),
+        )
+
+    def test_subject_p11(self, p11):
+        assert subj_strings(p11) == (
+            (
+                "http://id.loc.gov/authorities/subjects/sh85034952",
+                "Custody of children",
+            ),
+            (
+                "https://www.wikidata.org/wiki/Q638532",
+                "Child custody",
+            ),
+        )
+
+    def test_subject_glos(self, glos):
+        assert subj_strings(glos) == (
+            (
+                "http://id.loc.gov/authorities/subjects/sh98001029",
+                "Parental alienation syndrome",
+            ),
+            (
+                "https://www.wikidata.org/wiki/Q1334131",
+                "Parental alienation syndrome",
+            ),
+        )
 
 
 def test_phrase_does_not_end_with_colon(glos):
     assert first(glos.entries).phrase == "Alienated Parent"
-
-
-def test_the_name_when_there_is_just_an_h1(index):
-    assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
 
 
 def test_parses_emphasized_text(p11):
@@ -116,13 +166,6 @@ def test_parse_error_is_fixed_4(p18: GlossaryParseResult):
     assert entry.definition[-4:] == "</p>"
 
 
-def test_the_name(p7g):
-    assert (
-        p7g.metadata.dcterms_title
-        == "GLOSSARY OF LEGAL TERMS - Legal Aid Program Evaluation"
-    )
-
-
 def test_the_url(p7g):
     assert (
         p7g.metadata.dcterms_source
@@ -162,35 +205,3 @@ def subj_strings(glossary):
     Test helper: return the strings in a Glossary's subjects.
     """
     return tuple((s.uri, s.rdfs_label) for s in glossary.metadata.dcterms_subject)
-
-
-class TestDcTermsSubject:
-    def test_subject_p7g(self, p7g):
-        assert subj_strings(p7g) == (
-            ("http://id.loc.gov/authorities/subjects/sh85075720", "Legal aid"),
-            ("https://www.wikidata.org/wiki/Q707748", "Legal aid"),
-        )
-
-    def test_subject_p11(self, p11):
-        assert subj_strings(p11) == (
-            (
-                "http://id.loc.gov/authorities/subjects/sh85034952",
-                "Custody of children",
-            ),
-            (
-                "https://www.wikidata.org/wiki/Q638532",
-                "Child custody",
-            ),
-        )
-
-    def test_subject_glos(self, glos):
-        assert subj_strings(glos) == (
-            (
-                "http://id.loc.gov/authorities/subjects/sh98001029",
-                "Parental alienation syndrome",
-            ),
-            (
-                "https://www.wikidata.org/wiki/Q1334131",
-                "Parental alienation syndrome",
-            ),
-        )
