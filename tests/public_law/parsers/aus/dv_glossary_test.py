@@ -84,13 +84,8 @@ class TestTheEntries:
             "and the spouses have the right to accept or reject the marriage arrangement."
         )
 
-    def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 56
-
     def test_the_last_entry_phrase(_):
-        last_entry = last(GLOSSARY.entries)
-
-        assert last_entry.phrase == "vulnerable groups"
+        assert last(GLOSSARY.entries).phrase == "vulnerable groups"
 
     def test_the_last_entry_definition(_):
         last_entry = last(GLOSSARY.entries)
@@ -100,3 +95,6 @@ class TestTheEntries:
             "family, domestic and sexual violence, or that face additional barriers in "
             "coping with and recovering from family, domestic and sexual violence."
         )
+
+    def test_proper_number_of_entries(_):
+        assert len(tuple(GLOSSARY.entries)) == 56
