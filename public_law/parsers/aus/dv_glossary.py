@@ -48,15 +48,20 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         
         yield GlossaryEntry(
             phrase=fixed_phrase,
-            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn.text))),
+            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn))),
         )
 
 
-def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     """
     The core of this parser.
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup = make_soup(html)
-    return ((phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong"))
+    soup = make_soup(response)
+
+    paragraphs = soup.find_all("p")
+    strongs    = filter(lambda s: s is not None, (p.strong for p in paragraphs))
+    strongs    = filter(lambda s: s.string != 'Indigenous', strongs)  # type: ignore
+
+    return ((phrase.string, ''.join(map(str, phrase.next_siblings))) for phrase in strongs)  # type: ignore

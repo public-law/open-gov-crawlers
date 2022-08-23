@@ -97,4 +97,4 @@ class TestTheEntries:
         )
 
     def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 56
+        assert len(tuple(GLOSSARY.entries)) == 38
