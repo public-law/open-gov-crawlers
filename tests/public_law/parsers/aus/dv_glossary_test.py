@@ -30,18 +30,14 @@ GLOSSARY_URL = URL(
     "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
 )
 
-GLOSSARY = parsed_fixture(
-    filename="dv-glossary.html",
-    jd_slug="aus",
-    url=GLOSSARY_URL
-    )
+GLOSSARY = parsed_fixture(filename="dv-glossary.html", jd_slug="aus", url=GLOSSARY_URL)
 
 METADATA = GLOSSARY.metadata
 
 
 class TestTheMetadata:
     def test_the_name(_):
-        assert METADATA.dcterms_title == 'Family, domestic and sexual violence glossary'
+        assert METADATA.dcterms_title == "Family, domestic and sexual violence glossary"
 
     def test_the_url(_):
         assert METADATA.dcterms_source == GLOSSARY_URL
@@ -53,7 +49,10 @@ class TestTheMetadata:
         assert METADATA.dcterms_coverage == "AUS"
 
     def test_creator(_):
-        assert METADATA.publiclaw_sourceCreator == "Australia Institute of Health and Welfare"
+        assert (
+            METADATA.publiclaw_sourceCreator
+            == "Australia Institute of Health and Welfare"
+        )
 
     def test_the_source_modified_date(_):
         assert METADATA.publiclaw_sourceModified == "unknown"
