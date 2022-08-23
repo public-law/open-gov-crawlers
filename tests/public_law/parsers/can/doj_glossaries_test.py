@@ -88,11 +88,32 @@ def test_parses_emphasized_text(p11):
     assert definition_with_em == expected_definition
 
 
-def test_parse_error_is_fixed(p18: GlossaryParseResult):
+def test_parse_error_is_fixed_1(p18: GlossaryParseResult):
     entry = list(p18.entries)[38]
 
     assert entry.phrase == "Ranges"
     assert entry.definition[-20:] == "Guidelines</em>.</p>"
+
+
+def test_parse_error_is_fixed_2(p18: GlossaryParseResult):
+    entry = list(p18.entries)[10]
+
+    assert entry.phrase == "Divorce"
+    assert entry.definition[-4:] == "</p>"
+
+
+def test_parse_error_is_fixed_3(p18: GlossaryParseResult):
+    entry = list(p18.entries)[1]
+
+    assert entry.phrase == "Agreement"
+    assert entry.definition[-4:] == "</p>"
+
+
+def test_parse_error_is_fixed_4(p18: GlossaryParseResult):
+    entry = list(p18.entries)[3]
+
+    assert entry.phrase == "Child of the marriage"
+    assert entry.definition[-4:] == "</p>"
 
 
 def test_the_name(p7g):
