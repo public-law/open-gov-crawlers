@@ -18,7 +18,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="AUS",
             # Info about original source
-            dcterms_source=String("https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"),
+            dcterms_source=String(
+                "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
+            ),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("Australia Institute of Health and Welfare"),
             dcterms_subject=(
@@ -41,15 +43,19 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
     for phrase, defn in __raw_entries(html):
         fixed_phrase: String = pipe(
-            phrase.text,
-            rstrip(':'),  # type: ignore
-            normalize_nonempty
+            phrase, 
+            rstrip(": "), # type: ignore
+            String
+        )  
+
+        fixed_definition: Sentence = pipe(
+            defn, 
+            ensure_ends_with_period, 
+            normalize_nonempty, 
+            Sentence
         )
-        
-        yield GlossaryEntry(
-            phrase=fixed_phrase,
-            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn))),
-        )
+
+        yield GlossaryEntry(fixed_phrase, fixed_definition)
 
 
 def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
@@ -61,7 +67,7 @@ def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     soup = make_soup(response)
 
     paragraphs = soup.find_all("p")
-    strongs    = filter(lambda s: s is not None, (p.strong for p in paragraphs))
-    strongs    = filter(lambda s: s.string != 'Indigenous', strongs)  # type: ignore
+    strongs = filter(lambda s: s is not None, (p.strong for p in paragraphs))
+    strongs = filter(lambda s: s.string != "Indigenous", strongs)  # type: ignore
 
-    return ((phrase.string, ''.join(map(str, phrase.next_siblings))) for phrase in strongs)  # type: ignore
+    return ((phrase.string, "".join(map(str, phrase.next_siblings))) for phrase in strongs)  # type: ignore
