@@ -25,12 +25,12 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceCreator=String("Australia Institute of Health and Welfare"),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85071120"),  # type: ignore
-                    rdfs_label=String("Justice, Administration of"),
+                    uri=LoCSubject("sh85047071"),  # type: ignore
+                    rdfs_label=String("Family violence"),
                 ),
                 Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-                    rdfs_label=String("Administration of justice"),
+                    uri=URL("https://www.wikidata.org/wiki/Q156537"),
+                    rdfs_label=String("Domestic violence"),
                 ),
             ),
         ),
