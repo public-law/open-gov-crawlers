@@ -1,5 +1,6 @@
 {
     "aus_ip_glossary": "Australia/ip-glossary.json",
+    "aus_dv_glossary": "Australia/dv-glossary.json",
     "can_doj_glossaries": "Canada/doj-glossaries.json",
     "can_parliamentary_glossary": "Canada/parliamentary-glossary.json",
     "int_rome_statute": "Intergovernmental/RomeStatute/RomeStatute.json",
