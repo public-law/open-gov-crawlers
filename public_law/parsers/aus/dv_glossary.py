@@ -14,13 +14,13 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=String("Glossary"),
+            dcterms_title=String("Family, domestic and sexual violence glossary"),
             dcterms_language="en",
-            dcterms_coverage="NZL",
+            dcterms_coverage="AUS",
             # Info about original source
-            dcterms_source=String("https://www.justice.govt.nz/about/glossary/"),
+            dcterms_source=String("https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
+            publiclaw_sourceCreator=String("Australia Institute of Health and Welfare"),
             dcterms_subject=(
                 Subject(
                     uri=LoCSubject("sh85071120"),  # type: ignore
