@@ -8,7 +8,7 @@ JD_VERBOSE_NAME = "Australia"
 PUBLICATION_NAME = "Family, domestic and sexual violence glossary"
 
 
-class USACourtsGlossary(Spider):
+class DVGlossary(Spider):
     name = "aus_dv_glossary"
 
     start_urls = [

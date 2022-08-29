@@ -187,7 +187,7 @@ def make_record_without_dataset(module: ModuleType, web_url: str|None = None) ->
 
 # TODO: Figure out a way to automatically find these spider modules,
 #       or the spider subclass each one contains.
-from .spiders.aus import ip_glossary
+from .spiders.aus import dv_glossary, ip_glossary
 from .spiders.can import doj_glossaries, parliamentary_glossary
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
@@ -196,6 +196,7 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary, u
 
 TABLE = MarkdownTable(
     (
+        make_record(dv_glossary,            String("Australia/dv-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_dv-glossary"),
         make_record(ip_glossary,            String("Australia/ip-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
         make_record(courts_glossary,        String("Ireland/courts-glossary.json"),                   "https://www.public.law/dictionary/sources/courts.ie__glossary"),
         make_record(doj_glossaries,         String("Canada/doj-glossaries.json"),                     "https://www.public.law/dictionary/sources"),
