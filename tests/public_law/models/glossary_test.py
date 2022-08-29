@@ -1,24 +1,25 @@
-from typing import Any, cast
+from ast import Call
+from typing import Any, Callable, cast
 from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
 from scrapy.http.response.html import HtmlResponse
 
 
-def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/{filename}", encoding="utf8") as f:
+def parsed_glossary_fixture(
+    path: str, url: str, parse_func: Callable[[HtmlResponse], GlossaryParseResult]
+) -> GlossaryParseResult:
+    with open(f"tests/fixtures/{path}", encoding="utf8") as f:
         html = HtmlResponse(
             url=url,
             body=f.read(),
             encoding="UTF-8",
         )
 
-    return parse_glossary(html)
+    return parse_func(html)
 
 
-def laws_lois() -> GlossaryParseResult:
-    return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
-
-
-GLOSSARY_FIXTURE = laws_lois()
+GLOSSARY_FIXTURE = parsed_glossary_fixture(
+    "index.html", "https://laws-lois.justice.gc.ca/eng/glossary/", parse_glossary
+)
 
 
 class TestAsDict:
