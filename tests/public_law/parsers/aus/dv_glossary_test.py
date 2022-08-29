@@ -1,37 +1,20 @@
 # pyright: reportSelfClsParameterName=false
 from devtools import debug  # type: ignore
-from more_itertools import first, last, nth
-from scrapy.http.response.html import HtmlResponse
+from more_itertools import first, last
 
 from public_law.dates import today
 from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult
+from public_law.models.glossary import glossary_fixture
 from public_law.text import URL, NonemptyString
 
 # The System Under Test
 from public_law.parsers.aus.dv_glossary import parse_glossary
 
 
-def parsed_fixture(filename: str, jd_slug: str, url: URL) -> GlossaryParseResult:
-    """
-    Create a GlossaryParseResult using the three required parameters.
-    """
-    with open(f"tests/fixtures/{jd_slug}/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    return parse_glossary(html)
-
-
 GLOSSARY_URL = URL(
     "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
 )
-
-GLOSSARY = parsed_fixture(filename="dv-glossary.html", jd_slug="aus", url=GLOSSARY_URL)
-
+GLOSSARY = glossary_fixture("aus/dv-glossary.html", GLOSSARY_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 
 

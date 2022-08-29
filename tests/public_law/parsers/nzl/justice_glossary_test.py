@@ -1,93 +1,76 @@
+# pyright: reportSelfClsParameterName=false
+
 from more_itertools import first, last
 from public_law.dates import today
 from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult
+from public_law.models.glossary import glossary_fixture
 from public_law.parsers.nzl.justice_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
-from scrapy.http.response.html import HtmlResponse
 
 
-def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/nzl/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
+ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
+GLOSSARY = glossary_fixture(
+    "nzl/nz.govt.justice-glossary.html",
+    ORIG_URL,
+    parse_glossary,
+)
+METADATA = GLOSSARY.metadata
+ENTRIES = tuple(GLOSSARY.entries)
+
+
+class TestMetadata:
+    def test_name(_):
+        assert METADATA.dcterms_title == "Glossary"
+
+    def test_url(_):
+        assert METADATA.dcterms_source == ORIG_URL
+
+    def test_author(_):
+        assert METADATA.dcterms_creator == "https://public.law"
+
+    def test_coverage(_):
+        assert METADATA.dcterms_coverage == "NZL"
+
+    def test_source_modified_date(_):
+        assert METADATA.publiclaw_sourceModified == "unknown"
+
+    def test_scrape_date(_):
+        assert METADATA.dcterms_modified == today()
+
+    def test_reading_ease(_):
+        assert METADATA.publiclaw_readingEase == "Fairly difficult"
+
+    def test_subjects(_):
+        assert METADATA.dcterms_subject == (
+            Subject(
+                uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
+                rdfs_label=NonemptyString("Justice, Administration of"),
+            ),
+            Subject(
+                uri=URL("https://www.wikidata.org/wiki/Q16514399"),
+                rdfs_label=NonemptyString("Administration of justice"),
+            ),
         )
 
-    return parse_glossary(html)
 
+class TestEntries:
+    def test_phrase(_):
+        assert first(ENTRIES).phrase == "acquit"
 
-PARSED_GLOSSARY_FIXTURE = parsed_fixture(
-    filename="nz.govt.justice-glossary.html",
-    url="https://www.justice.govt.nz/about/glossary/",
-)
+    def test_definition(_):
+        assert (
+            first(ENTRIES).definition
+            == "To decide officially in court that a person is not guilty."
+        )
 
+    def test_proper_number_of_entries(_):
+        assert len(tuple(ENTRIES)) == 154
 
-def test_name():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_title == "Glossary"
+    def test_last_entry(_):
+        last_entry = last(ENTRIES)
 
-
-def test_url():
-    assert (
-        PARSED_GLOSSARY_FIXTURE.metadata.dcterms_source
-        == "https://www.justice.govt.nz/about/glossary/"
-    )
-
-
-def test_author():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_creator == "https://public.law"
-
-
-def test_coverage():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_coverage == "NZL"
-
-
-def test_source_modified_date():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.publiclaw_sourceModified == "unknown"
-
-
-def test_scrape_date():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_modified == today()
-
-
-def test_phrase():
-    assert first(PARSED_GLOSSARY_FIXTURE.entries).phrase == "acquit"
-
-
-def test_definition():
-    assert (
-        first(PARSED_GLOSSARY_FIXTURE.entries).definition
-        == "To decide officially in court that a person is not guilty."
-    )
-
-
-def test_proper_number_of_entries():
-    assert len(tuple(PARSED_GLOSSARY_FIXTURE.entries)) == 154
-
-
-def test_last_entry():
-    last_entry = last(PARSED_GLOSSARY_FIXTURE.entries)
-
-    assert last_entry.phrase == "Youth Court"
-    assert last_entry.definition == (
-        "The Youth Court has jurisdiction to deal with "
-        "young people charged with criminal offences."
-    )
-
-
-def test_reading_ease():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.publiclaw_readingEase == "Fairly difficult"
-
-
-def test_subjects():
-    assert PARSED_GLOSSARY_FIXTURE.metadata.dcterms_subject == (
-        Subject(
-            uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
-            rdfs_label=NonemptyString("Justice, Administration of"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-            rdfs_label=NonemptyString("Administration of justice"),
-        ),
-    )
+        assert last_entry.phrase == "Youth Court"
+        assert last_entry.definition == (
+            "The Youth Court has jurisdiction to deal with "
+            "young people charged with criminal offences."
+        )

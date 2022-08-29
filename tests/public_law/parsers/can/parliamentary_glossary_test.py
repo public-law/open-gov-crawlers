@@ -1,50 +1,33 @@
 # pyright: reportSelfClsParameterName=false
 from devtools import debug  # type: ignore
 from more_itertools import first, last, nth
-from scrapy.http.response.html import HtmlResponse
 
 from public_law.dates import today
 from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult
+from public_law.models.glossary import glossary_fixture
 from public_law.text import URL, NonemptyString
 
 # The System Under Test
 from public_law.parsers.can.parliamentary_glossary import parse_glossary
 
 
-def parsed_fixture(filename: str, jd_slug: str, url: URL) -> GlossaryParseResult:
-    """
-    Create a GlossaryParseResult using the three required parameters.
-    """
-    with open(f"tests/fixtures/{jd_slug}/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    return parse_glossary(html)
-
-
-GLOSSARY_URL = URL(
+ORIG_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 )
-
-GLOSSARY = parsed_fixture(
-    filename="parliamentary-glossary.html",
-    jd_slug="can",
-    url=GLOSSARY_URL
-    )
-
+GLOSSARY = glossary_fixture("can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
+ENTRIES = tuple(GLOSSARY.entries)
 
 
 class TestTheMetadata:
     def test_the_name(_):
-        assert METADATA.dcterms_title == 'Glossary of Parliamentary Terms for Intermediate Students'
+        assert (
+            METADATA.dcterms_title
+            == "Glossary of Parliamentary Terms for Intermediate Students"
+        )
 
     def test_the_url(_):
-        assert METADATA.dcterms_source == GLOSSARY_URL
+        assert METADATA.dcterms_source == ORIG_URL
 
     def test_the_author(_):
         assert METADATA.dcterms_creator == "https://public.law"
@@ -79,10 +62,10 @@ class TestTheMetadata:
 
 class TestTheEntries:
     def test_phrase(_):
-        assert first(GLOSSARY.entries).phrase == "adjournment proceedings"
+        assert first(ENTRIES).phrase == "adjournment proceedings"
 
     def test_definition(_):
-        assert first(GLOSSARY.entries).definition == (
+        assert first(ENTRIES).definition == (
             "A 30-minute period before the end of a daily sitting in the "
             "House of Commons when Members of Parliament can debate matters "
             "raised in Question Period or written questions that have not "
@@ -90,10 +73,10 @@ class TestTheEntries:
         )
 
     def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 86
+        assert len(tuple(ENTRIES)) == 86
 
     def test_the_last_entry(_):
-        last_entry = last(GLOSSARY.entries)
+        last_entry = last(ENTRIES)
 
         assert last_entry.phrase == "whip"
         assert last_entry.definition == (
@@ -104,7 +87,7 @@ class TestTheEntries:
         )
 
     def test_the_third_to_the_last_entry(_):
-        entry = nth(GLOSSARY.entries, 83)
+        entry = nth(ENTRIES, 83)
 
         assert entry
         assert entry.phrase == "Usher of the Black Rod"
