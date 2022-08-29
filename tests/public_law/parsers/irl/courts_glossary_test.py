@@ -9,27 +9,17 @@ from pytest import fixture, mark
 
 from public_law.dates import today
 from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult
+from public_law.models.glossary import GlossaryParseResult, glossary_fixture
 from public_law.parsers.irl.courts_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 
 
-def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/irl/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    return parse_glossary(html)
-
-
 @fixture
 def parsed_glossary() -> GlossaryParseResult:
-    return parsed_fixture(
-        filename="ie.courts-glossary.html",
+    return glossary_fixture(
+        path="irl/ie.courts-glossary.html",
         url="https://www.courts.ie/glossary",
+        parse_func=parse_glossary,
     )
 
 
