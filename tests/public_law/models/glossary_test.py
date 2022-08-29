@@ -1,24 +1,7 @@
-from ast import Call
-from typing import Any, Callable, TypeAlias, cast
-from scrapy.http.response.html import HtmlResponse
+from typing import Any, cast
 
-from public_law.models.glossary import GlossaryParseResult
+from public_law.models.glossary import glossary_fixture
 from public_law.parsers.can import doj_glossaries
-
-ParseFunction: TypeAlias = Callable[[HtmlResponse], GlossaryParseResult]
-
-
-def glossary_fixture(
-    path: str, url: str, parse_func: ParseFunction
-) -> GlossaryParseResult:
-    with open(f"tests/fixtures/{path}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    return parse_func(html)
 
 
 GLOSSARY = glossary_fixture(

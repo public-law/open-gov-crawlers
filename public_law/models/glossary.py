@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 import dataclasses
 from functools import cache
-from typing import Any, Iterable
+from typing import Any, Iterable, Callable, TypeAlias
+from scrapy.http.response.html import HtmlResponse
 
 from ..metadata import Metadata
 from ..text import NonemptyString, Sentence
@@ -79,6 +80,9 @@ class GlossaryParseResult:
         return self.asdict().values()
 
 
+ParseFunction: TypeAlias = Callable[[HtmlResponse], GlossaryParseResult]
+
+
 def reading_ease(entries: Iterable[GlossaryEntry]) -> Difficulty:
     """
     Calculate the readability level of a list of glossary entries.
@@ -93,5 +97,18 @@ def __definition_corpus(entries: Iterable[GlossaryEntry]) -> NonemptyString:
     entry_list = list(entries)
     if not entry_list:
         return NonemptyString("No entries")
-        
+
     return NonemptyString("  ".join(entry.definition for entry in entries))
+
+
+def glossary_fixture(
+    path: str, url: str, parse_func: ParseFunction
+) -> GlossaryParseResult:
+    with open(f"tests/fixtures/{path}", encoding="utf8") as f:
+        html = HtmlResponse(
+            url=url,
+            body=f.read(),
+            encoding="UTF-8",
+        )
+
+    return parse_func(html)
