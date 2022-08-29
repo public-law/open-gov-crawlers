@@ -11,54 +11,56 @@ from typing import cast
 import pytest
 from more_itertools import first, nth
 from public_law.dates import today
-from public_law.models.glossary import GlossaryEntry
-from public_law.parsers.can.doj_glossaries import GlossaryParseResult, parse_glossary
-from scrapy.http.response.html import HtmlResponse
-
-
-def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:
-    with open(f"tests/fixtures/{filename}", encoding="utf8") as f:
-        html = HtmlResponse(
-            url=url,
-            body=f.read(),
-            encoding="UTF-8",
-        )
-
-    return parse_glossary(html)
+from public_law.models.glossary import (
+    GlossaryEntry,
+    GlossaryParseResult,
+    glossary_fixture,
+)
+from public_law.parsers.can.doj_glossaries import parse_glossary
 
 
 @pytest.fixture
 def p7g() -> GlossaryParseResult:
-    return parsed_fixture(
+    return glossary_fixture(
         "p7g.html",
         "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
+        parse_glossary,
     )
 
 
 @pytest.fixture
 def p11() -> GlossaryParseResult:
-    return parsed_fixture(
-        "p11.html", "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html"
+    return glossary_fixture(
+        "p11.html",
+        "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
+        parse_glossary,
     )
 
 
 @pytest.fixture
 def glos() -> GlossaryParseResult:
-    return parsed_fixture(
-        "glos.html", "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html"
+    return glossary_fixture(
+        "glos.html",
+        "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
+        parse_glossary,
     )
 
 
 @pytest.fixture
 def index() -> GlossaryParseResult:
-    return parsed_fixture("index.html", "https://laws-lois.justice.gc.ca/eng/glossary/")
+    return glossary_fixture(
+        "index.html",
+        "https://laws-lois.justice.gc.ca/eng/glossary/",
+        parse_glossary,
+    )
 
 
 @pytest.fixture
 def p18() -> GlossaryParseResult:
-    return parsed_fixture(
+    return glossary_fixture(
         "can/p18.html",
         "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html",
+        parse_glossary,
     )
 
 
