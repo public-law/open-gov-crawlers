@@ -1,3 +1,5 @@
+# pyright: reportSelfClsParameterName=false
+
 from more_itertools import first, last
 
 from public_law.dates import today
@@ -13,41 +15,36 @@ METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 
 
-def test_gets_the_name():
-    assert METADATA.dcterms_title == "Glossary of Legal Terms"
+class TestTheMetadata:
+    def test_gets_the_name(_):
+        assert METADATA.dcterms_title == "Glossary of Legal Terms"
 
+    def test_gets_the_url(_):
+        assert METADATA.dcterms_source == "https://www.courts.ie/glossary"
 
-def test_gets_the_url():
-    assert METADATA.dcterms_source == "https://www.courts.ie/glossary"
+    def test_gets_the_author(_):
+        assert METADATA.dcterms_creator == "https://public.law"
 
+    def test_gets_coverage(_):
+        assert METADATA.dcterms_coverage == "IRL"
 
-def test_gets_the_author():
-    assert METADATA.dcterms_creator == "https://public.law"
+    def test_gets_the_source_modified_date(_):
+        assert METADATA.publiclaw_sourceModified == "unknown"
 
+    def test_gets_the_scrape_date(_):
+        assert METADATA.dcterms_modified == today()
 
-def test_gets_coverage():
-    assert METADATA.dcterms_coverage == "IRL"
-
-
-def test_gets_the_source_modified_date():
-    assert METADATA.publiclaw_sourceModified == "unknown"
-
-
-def test_gets_the_scrape_date():
-    assert METADATA.dcterms_modified == today()
-
-
-def test_subjects():
-    assert METADATA.dcterms_subject == (
-        Subject(
-            uri=URL("http://id.loc.gov/authorities/subjects/sh85033571"),
-            rdfs_label=NonemptyString("Courts"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q41487"),
-            rdfs_label=NonemptyString("Court"),
-        ),
-    )
+    def test_subjects(_):
+        assert METADATA.dcterms_subject == (
+            Subject(
+                uri=URL("http://id.loc.gov/authorities/subjects/sh85033571"),
+                rdfs_label=NonemptyString("Courts"),
+            ),
+            Subject(
+                uri=URL("https://www.wikidata.org/wiki/Q41487"),
+                rdfs_label=NonemptyString("Court"),
+            ),
+        )
 
 
 def test_definition():
