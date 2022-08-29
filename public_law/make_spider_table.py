@@ -196,7 +196,7 @@ from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary, u
 
 TABLE = MarkdownTable(
     (
-        make_record(dv_glossary,            String("Australia/dv-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_dv-glossary"),
+        make_record(dv_glossary,            String("Australia/dv-glossary.json"),                     "https://www.public.law/dictionary/sources/aihw.gov.au__reports-data_behaviours-risk-factors_domestic-violence_glossary"),
         make_record(ip_glossary,            String("Australia/ip-glossary.json"),                     "https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary"),
         make_record(courts_glossary,        String("Ireland/courts-glossary.json"),                   "https://www.public.law/dictionary/sources/courts.ie__glossary"),
         make_record(doj_glossaries,         String("Canada/doj-glossaries.json"),                     "https://www.public.law/dictionary/sources"),
