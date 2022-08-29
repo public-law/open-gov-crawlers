@@ -1,9 +1,3 @@
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownParameterType=false
-# pyright: reportMissingParameterType=false
-
 from typing import Any
 from public_law.metadata import Metadata, Subject
 from public_law.text import URI, NonemptyString as S
@@ -54,13 +48,13 @@ def simple_output() -> dict[str, Any]:
     }
 
 
-def it_creates_a_dict_directly(simple_input, simple_output):
-    generated_dict = simple_input.as_dublin_core_dict()
+def it_creates_a_dict_directly(simple_input, simple_output): # type: ignore
+    generated_dict = simple_input.as_dublin_core_dict() # type: ignore
 
     assert generated_dict == simple_output
 
 
-def it_creates_a_dict_via_core_func(simple_input, simple_output):
-    generated_dict = dict(simple_input)
+def it_creates_a_dict_via_core_func(simple_input, simple_output): # type: ignore
+    generated_dict = dict(simple_input) # type: ignore
 
     assert generated_dict == simple_output
