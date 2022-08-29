@@ -18,45 +18,39 @@ METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 
 
-def test_name():
-    assert METADATA.dcterms_title == "Glossary"
+class TestMetadata:
+    def test_name(_):
+        assert METADATA.dcterms_title == "Glossary"
 
+    def test_url(_):
+        assert METADATA.dcterms_source == ORIG_URL
 
-def test_url():
-    assert METADATA.dcterms_source == ORIG_URL
+    def test_author(_):
+        assert METADATA.dcterms_creator == "https://public.law"
 
+    def test_coverage(_):
+        assert METADATA.dcterms_coverage == "NZL"
 
-def test_author():
-    assert METADATA.dcterms_creator == "https://public.law"
+    def test_source_modified_date(_):
+        assert METADATA.publiclaw_sourceModified == "unknown"
 
+    def test_scrape_date(_):
+        assert METADATA.dcterms_modified == today()
 
-def test_coverage():
-    assert METADATA.dcterms_coverage == "NZL"
+    def test_reading_ease(_):
+        assert METADATA.publiclaw_readingEase == "Fairly difficult"
 
-
-def test_source_modified_date():
-    assert METADATA.publiclaw_sourceModified == "unknown"
-
-
-def test_scrape_date():
-    assert METADATA.dcterms_modified == today()
-
-
-def test_reading_ease():
-    assert METADATA.publiclaw_readingEase == "Fairly difficult"
-
-
-def test_subjects():
-    assert METADATA.dcterms_subject == (
-        Subject(
-            uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
-            rdfs_label=NonemptyString("Justice, Administration of"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-            rdfs_label=NonemptyString("Administration of justice"),
-        ),
-    )
+    def test_subjects(_):
+        assert METADATA.dcterms_subject == (
+            Subject(
+                uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
+                rdfs_label=NonemptyString("Justice, Administration of"),
+            ),
+            Subject(
+                uri=URL("https://www.wikidata.org/wiki/Q16514399"),
+                rdfs_label=NonemptyString("Administration of justice"),
+            ),
+        )
 
 
 class TestEntries:
