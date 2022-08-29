@@ -47,20 +47,19 @@ class TestTheMetadata:
         )
 
 
-def test_definition():
-    assert first(ENTRIES).definition == "A written statement made on oath."
+class TestTheEntries:
+    def test_definition(_):
+        assert first(ENTRIES).definition == "A written statement made on oath."
 
+    def test_gets_proper_number_of_entries(_):
+        assert len(ENTRIES) == 43
 
-def test_gets_proper_number_of_entries():
-    assert len(ENTRIES) == 43
+    def test_gets_the_last_entry(_):
+        last_entry = last(ENTRIES)
 
-
-def test_gets_the_last_entry():
-    last_entry = last(ENTRIES)
-
-    assert last_entry.phrase == "Supervision order"
-    assert last_entry.definition == (
-        "An order allowing Tusla to monitor a child considered to be at risk. "
-        "The child is not removed from his or her home environment. A supervision "
-        "order is for a fixed period of time not longer than 12 months initially."
-    )
+        assert last_entry.phrase == "Supervision order"
+        assert last_entry.definition == (
+            "An order allowing Tusla to monitor a child considered to be at risk. "
+            "The child is not removed from his or her home environment. A supervision "
+            "order is for a fixed period of time not longer than 12 months initially."
+        )
