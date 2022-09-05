@@ -1,11 +1,3 @@
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownMemberType=false
-# pyright: reportUninitializedInstanceVariable=false
-# pyright: reportPrivateUsage=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportGeneralTypeIssues=false
-
 from typing import Any, Dict, List
 
 from scrapy import Spider
@@ -33,7 +25,7 @@ class OregonRegs(Spider):
     start_urls = [oar_url("ruleSearch.action")]
 
     def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)  # type: ignore
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
@@ -56,19 +48,19 @@ class OregonRegs(Spider):
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
-        for option in response.css("#browseForm option"):
-            db_id: Any = option.xpath("@value").get()
+        for option in response.css("#browseForm option"):  # type: ignore
+            db_id: Any = option.xpath("@value").get()  # type: ignore
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))  # type: ignore
             chapter = new_chapter(db_id, number, name)
 
-            new_chapter_index = len(self.oar["chapters"])
-            self.oar["chapters"].append(chapter)
+            new_chapter_index = len(self.oar["chapters"])  # type: ignore
+            self.oar["chapters"].append(chapter)  # type: ignore
 
-            request = Request(chapter["url"], callback=self.parse_chapter_page)
-            request.meta["chapter_index"] = new_chapter_index
+            request = Request(chapter["url"], callback=self.parse_chapter_page)  # type: ignore
+            request.meta["chapter_index"] = new_chapter_index  # type: ignore
             yield request
 
     def parse_chapter_page(self, response: Response):
@@ -77,32 +69,32 @@ class OregonRegs(Spider):
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]
+        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
 
         # Collect the Divisions
         anchor: Selector
-        for anchor in response.css("#accordion > h3 > a"):
-            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]
+        for anchor in response.css("#accordion > h3 > a"):  # type: ignore
+            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]  # type: ignore
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1)
+                str.strip, anchor.xpath("text()").get().split("-", 1)  # type: ignore
             )
             number = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter["divisions"].append(division)
+            chapter["divisions"].append(division)  # type: ignore
 
             # Request a scrape of the Division page
-            request = Request(division["url"], callback=self.parse_division_page)
-            request.meta["division_index"] = len(chapter["divisions"]) - 1
-            request.meta["chapter_index"] = response.meta["chapter_index"]
+            request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
+            request.meta["division_index"] = len(chapter["divisions"]) - 1  # type: ignore
+            request.meta["chapter_index"] = response.meta["chapter_index"]  # type: ignore
             yield request
 
     def parse_division_page(self, response: Response):
-        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]
-        division: Division = chapter["divisions"][response.meta["division_index"]]
+        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
+        division: Division = chapter["divisions"][response.meta["division_index"]]  # type: ignore
 
-        division["rules"].extend(parse_division(response))
+        division["rules"].extend(parse_division(response))  # type: ignore
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -113,10 +105,10 @@ class OregonRegs(Spider):
     @classmethod
     def from_crawler(cls, crawler: Crawler, *args: List[str], **kwargs: Dict[str, Any]):
         """Override to register to receive the idle event"""
-        spider: OregonRegs = super(OregonRegs, cls).from_crawler(
+        spider: OregonRegs = super(OregonRegs, cls).from_crawler(  # type: ignore
             crawler, *args, **kwargs
         )
-        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)
+        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
         return spider
 
     def spider_idle(self, spider: Spider):
@@ -128,9 +120,9 @@ class OregonRegs(Spider):
         # submit data _without_ also triggering a scrape. So I provide a URL
         # to a simple site that we're going to ignore.
         null_request = Request(
-            "https://www.public.law/about-us", callback=self.submit_data
+            "https://www.public.law/about-us", callback=self.submit_data  # type: ignore
         )
-        self.crawler.engine.schedule(null_request, spider)
+        self.crawler.engine.schedule(null_request, spider)  # type: ignore
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _):
