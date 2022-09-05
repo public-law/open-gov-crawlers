@@ -39,16 +39,19 @@ pytest-icdiff = "^0.6"
 
 
 [tool.pyright]
+pythonVersion = "3.10"
+include = ["public_law", "tests"]
 ignore = ["**/typings"]
+
 # As strict as possible: strict mode plus the optional strict checks.
-strict = ["*"]
-reportUninitializedInstanceVariable = "error"
-reportUnusedCallResult = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportPropertyTypeMismatch = "error"
-reportMissingSuperCall = "error"
-reportImplicitStringConcatenation = "error"
+typeCheckingMode = "strict"
 reportCallInDefaultInitializer = "error"
+reportImplicitStringConcatenation = "error"
+reportMissingSuperCall = "error"
+reportPropertyTypeMismatch = "error"
+reportUninitializedInstanceVariable = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportUnusedCallResult = "error"
 reportUnusedImport = "warning"
 
 

@@ -22,7 +22,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                 "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
             ),
             publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("Australia Institute of Health and Welfare"),
+            publiclaw_sourceCreator=String(
+                "Australian Institute of Health and Welfare"
+            ),
             dcterms_subject=(
                 Subject(
                     uri=LoCSubject("sh85047071"),  # type: ignore
@@ -42,17 +44,10 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
     for phrase, defn in __raw_entries(html):
-        fixed_phrase: String = pipe(
-            phrase, 
-            rstrip(": "), # type: ignore
-            String
-        )  
+        fixed_phrase: String = pipe(phrase, rstrip(": "), String)  # type: ignore
 
         fixed_definition: Sentence = pipe(
-            defn, 
-            ensure_ends_with_period, 
-            normalize_nonempty, 
-            Sentence
+            defn, ensure_ends_with_period, normalize_nonempty, Sentence
         )
 
         yield GlossaryEntry(fixed_phrase, fixed_definition)

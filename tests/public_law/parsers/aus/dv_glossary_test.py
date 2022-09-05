@@ -34,7 +34,7 @@ class TestTheMetadata:
     def test_creator(_):
         assert (
             METADATA.publiclaw_sourceCreator
-            == "Australia Institute of Health and Welfare"
+            == "Australian Institute of Health and Welfare"
         )
 
     def test_the_source_modified_date(_):
