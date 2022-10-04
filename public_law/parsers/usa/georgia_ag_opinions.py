@@ -74,7 +74,7 @@ def get_all(node: Union[Response, Selector], css: str) -> List[str]:
     return node.css(css).getall()
 
 
-def first(node: Union[Response, Selector], css: str, expected: str) -> str:
+def first(node: Response | Selector, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
             return result
