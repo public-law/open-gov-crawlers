@@ -75,11 +75,6 @@ def get_all(node: Union[Response, Selector], css: str) -> List[str]:
 
 
 def first(node: Union[Response, Selector], css: str, expected: str) -> str:
-    # result = str(node.css(css).get())
-    # if result is None:
-    #     raise ParseException(f"Could not parse the {expected}")
-    # return normalize_whitespace(result)
-
     match node.css(css).get():
         case str(result):
             return result
