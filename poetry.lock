@@ -139,14 +139,6 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 idna = ">=2.5"
 
 [[package]]
-name = "icdiff"
-version = "2.0.5"
-description = "improved colored diff"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -272,14 +264,6 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
-name = "pprintpp"
-version = "0.4.0"
-description = "A drop-in replacement for pprint that's actually pretty"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "protego"
 version = "0.2.1"
 description = "Pure-Python robots.txt parser with support for modern conventions"
@@ -401,19 +385,6 @@ tomli = ">=1.0.0"
 
 [package.extras]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
-
-[[package]]
-name = "pytest-icdiff"
-version = "0.6"
-description = "use icdiff for better error messages in pytest assertions"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-icdiff = "*"
-pprintpp = "*"
-pytest = "*"
 
 [[package]]
 name = "pytz"
@@ -738,7 +709,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "089498e5d4c6cc7ed7292232bb3cc9ff1cf4e47d63490eb9bafd4d2cbd94c665"
+content-hash = "26de4d2beb083fd671c881539ae0e8c6d7a9da596520e501f94cd91a04b0a0f2"
 
 [metadata.files]
 attrs = [
@@ -874,9 +845,6 @@ filelock = [
 hyperlink = [
     {file = "hyperlink-21.0.0-py2.py3-none-any.whl", hash = "sha256:e6b14c37ecb73e89c77d78cdb4c2cc8f3fb59a885c5b3f819ff4ed80f25af1b4"},
     {file = "hyperlink-21.0.0.tar.gz", hash = "sha256:427af957daa58bc909471c6c40f74c5450fa123dd093fc53efd2e91d2705a56b"},
-]
-icdiff = [
-    {file = "icdiff-2.0.5.tar.gz", hash = "sha256:35d24b728e48b7e0a12bdb69386d3bfc7eef4fe922d0ac1cd70d6e5c11630bae"},
 ]
 idna = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
@@ -1051,10 +1019,6 @@ pluggy = [
     {file = "pluggy-1.0.0-py2.py3-none-any.whl", hash = "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"},
     {file = "pluggy-1.0.0.tar.gz", hash = "sha256:4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159"},
 ]
-pprintpp = [
-    {file = "pprintpp-0.4.0-py2.py3-none-any.whl", hash = "sha256:b6b4dcdd0c0c0d75e4d7b2f21a9e933e5b2ce62b26e1a54537f9651ae5a5c01d"},
-    {file = "pprintpp-0.4.0.tar.gz", hash = "sha256:ea826108e2c7f49dc6d66c752973c3fc9749142a798d6b254e1e301cfdbc6403"},
-]
 protego = [
     {file = "Protego-0.2.1-py2.py3-none-any.whl", hash = "sha256:04419b18f20e8909f1691c6b678392988271cc2a324a72f9663cb3af838b4bf7"},
     {file = "Protego-0.2.1.tar.gz", hash = "sha256:df666d4304dab774e2dc9feb208bb1ac8d71ea5ceec12f4c99eba30fbd642ff2"},
@@ -1130,9 +1094,6 @@ pypydispatcher = [
 pytest = [
     {file = "pytest-7.1.3-py3-none-any.whl", hash = "sha256:1377bda3466d70b55e3f5cecfa55bb7cfcf219c7964629b967c37cf0bda818b7"},
     {file = "pytest-7.1.3.tar.gz", hash = "sha256:4f365fec2dff9c1162f834d9f18af1ba13062db0c708bf7b946f8a5c76180c39"},
-]
-pytest-icdiff = [
-    {file = "pytest-icdiff-0.6.tar.gz", hash = "sha256:e8f1ef4550a893b4f0a0ea7e7a8299b12ded72c086101d7811ddec0d85fd1bad"},
 ]
 pytz = [
     {file = "pytz-2022.5-py2.py3-none-any.whl", hash = "sha256:335ab46900b1465e714b4fda4963d87363264eb662aab5e65da039c25f1f5b22"},
