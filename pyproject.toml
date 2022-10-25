@@ -26,10 +26,7 @@ toolz = "0.*"
 
 
 [tool.poetry.dev-dependencies]
-black = "*"
 coverage = "*"
-ipykernel = "*"
-ipython = "*"
 pyright = "*"
 pytest = "*"
 pytest-watch = "*"
