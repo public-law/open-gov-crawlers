@@ -10,7 +10,7 @@ from scrapy.selector.unified import Selector, SelectorList
 
 from ...exceptions import ParseException
 from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import (
     LoCSubject,
     URL,
@@ -163,7 +163,6 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         dcterms_coverage="CAN",
         publiclaw_sourceModified=date.fromisoformat(pub_date),
         publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
-        publiclaw_readingEase=reading_ease(parsed_entries),
         dcterms_subject=dc_subject,
     )
 

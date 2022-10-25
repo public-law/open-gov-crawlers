@@ -6,7 +6,6 @@ from scrapy.http.response.html import HtmlResponse
 
 from ..metadata import Metadata
 from ..text import NonemptyString, Sentence
-from ..nlp.flesch_reading_ease import Difficulty, reading_difficulty
 
 
 @dataclass(frozen=True)
@@ -81,24 +80,6 @@ class GlossaryParseResult:
 
 
 ParseFunction: TypeAlias = Callable[[HtmlResponse], GlossaryParseResult]
-
-
-def reading_ease(entries: Iterable[GlossaryEntry]) -> Difficulty:
-    """
-    Calculate the readability level of a list of glossary entries.
-    """
-    return reading_difficulty(__definition_corpus(entries))
-
-
-def __definition_corpus(entries: Iterable[GlossaryEntry]) -> NonemptyString:
-    """
-    All the definition text for this glossary.
-    """
-    entry_list = list(entries)
-    if not entry_list:
-        return NonemptyString("No entries")
-
-    return NonemptyString("  ".join(entry.definition for entry in entries))
 
 
 def glossary_fixture(

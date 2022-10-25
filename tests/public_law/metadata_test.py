@@ -44,7 +44,6 @@ def simple_output() -> dict[str, Any]:
         ),
         "publiclaw:sourceModified": today(),
         "publiclaw:sourceCreator": "Some Canadian Agency",
-        "publiclaw:readingEase": "unknown",
     }
 
 

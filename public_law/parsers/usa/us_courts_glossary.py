@@ -1,7 +1,7 @@
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
@@ -18,7 +18,6 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_source=String("https://www.uscourts.gov/glossary"),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("United States Courts"),
-            publiclaw_readingEase=reading_ease(parsed_entries),
             dcterms_subject=(
                 Subject(
                     uri=LoCSubject("sh85033575"),  # type: ignore
