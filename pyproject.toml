@@ -20,6 +20,7 @@ scrapy-crawlera = "*"
 tika = "^1.24"
 titlecase = "*"
 toolz = "0.*"
+cryptography = "<37.0.0"
 
 
 [tool.poetry.dev-dependencies]
