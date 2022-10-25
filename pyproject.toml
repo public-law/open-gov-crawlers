@@ -14,7 +14,7 @@ more-itertools = "^8.13.0"
 msgpack-python = "*"
 lxml = "^4.9.1"  # Security vulnerability.
 pydantic = "*"
-python = "^3.10"
+python = "^3.11"
 pytz = "*"
 scrapy = "^2.6.2"
 scrapy-crawlera = "*"
@@ -35,7 +35,7 @@ pytest-icdiff = "^0.6"
 
 
 [tool.pyright]
-pythonVersion = "3.10"
+pythonVersion = "3.11"
 include = ["public_law", "tests"]
 ignore = ["**/typings"]
 
