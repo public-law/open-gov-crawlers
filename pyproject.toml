@@ -9,7 +9,6 @@ version = "1.1.1"
 
 [tool.poetry.dependencies]
 beautifulsoup4 = "^4.10.0"
-cryptography = "36.0.2"  # 37 isn't compatible with courts.gov.ie.
 more-itertools = "^8.13.0"
 msgpack-python = "*"
 lxml = "^4.9.1"  # Security vulnerability.
