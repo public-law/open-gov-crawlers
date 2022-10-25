@@ -3,7 +3,7 @@ from datetime import date, datetime
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult, reading_ease
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
@@ -24,10 +24,9 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             ),
             publiclaw_sourceModified=mod_date,
             publiclaw_sourceCreator=String("IP Australia"),
-            publiclaw_readingEase=reading_ease(entries),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85067167"),  # type: ignore
+                    uri=LoCSubject("sh85067167"),
                     rdfs_label=String("Intellectual property"),
                 ),
                 Subject(

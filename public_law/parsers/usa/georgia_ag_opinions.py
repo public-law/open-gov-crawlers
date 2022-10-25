@@ -12,7 +12,7 @@ from ...text import normalize_whitespace
 from ...exceptions import ParseException
 
 join = curry(str.join)
-map = curry(map)
+map  = curry(map)
 
 
 class CitationSet(NamedTuple):

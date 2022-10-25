@@ -27,7 +27,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             ),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85047071"),  # type: ignore
+                    uri=LoCSubject("sh85047071"),
                     rdfs_label=String("Family violence"),
                 ),
                 Subject(

@@ -1,5 +1,4 @@
 # pyright: reportSelfClsParameterName=false
-from devtools import debug  # type: ignore
 from more_itertools import first, last, nth
 
 from public_law.dates import today
@@ -43,9 +42,6 @@ class TestTheMetadata:
 
     def test_the_scrape_date(_):
         assert METADATA.dcterms_modified == today()
-
-    def test_reading_ease(_):
-        assert METADATA.publiclaw_readingEase == "Fairly difficult"
 
     def test_subjects(_):
         assert METADATA.dcterms_subject == (

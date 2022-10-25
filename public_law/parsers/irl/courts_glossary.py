@@ -31,8 +31,8 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     source_url = URL(html.url)  # type: ignore
 
     subjects = (
-                Subject(LoCSubject("sh85033571"), String("Courts")),  # type: ignore
-                Subject(WikidataTopic("Q41487"),  String("Court")),   # type: ignore
+                Subject(LoCSubject("sh85033571"), String("Courts")),
+                Subject(WikidataTopic("Q41487"),  String("Court")),
             )
     
     return Metadata(
