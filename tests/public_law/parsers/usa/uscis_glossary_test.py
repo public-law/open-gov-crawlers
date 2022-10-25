@@ -2,7 +2,6 @@
 # pyright: reportOptionalMemberAccess=false
 # pyright: reportUnusedImport=false
 
-from devtools import debug  # type: ignore
 from more_itertools import first, last
 
 from scrapy.http.response.html import HtmlResponse

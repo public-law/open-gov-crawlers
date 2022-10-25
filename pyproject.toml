@@ -23,7 +23,6 @@ textstat = { git = "https://github.com/dogweather/textstat.git", rev = "06661cff
 tika = "^1.24"
 titlecase = "*"
 toolz = "0.*"
-devtools = "*"
 
 
 [tool.poetry.dev-dependencies]

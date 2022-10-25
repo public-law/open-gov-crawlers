@@ -1,5 +1,4 @@
 # pyright: reportSelfClsParameterName=false
-from devtools import debug  # type: ignore
 from more_itertools import first, last, nth
 
 from public_law.dates import today
