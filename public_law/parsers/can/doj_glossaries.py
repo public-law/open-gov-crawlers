@@ -31,7 +31,7 @@ SelectorLike: TypeAlias = SelectorList | HtmlResponse
 SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html": (
         Subject(
-            uri=LoCSubject("sh85034952"),  # type: ignore
+            uri=LoCSubject("sh85034952"),
             rdfs_label=NonemptyString("Custody of children"),
         ),
         Subject(
@@ -41,7 +41,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     ),
     "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html": (
         Subject(
-            uri=LoCSubject("sh85075720"),  # type: ignore
+            uri=LoCSubject("sh85075720"),
             rdfs_label=NonemptyString("Legal aid"),
         ),
         Subject(
@@ -51,7 +51,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     ),
     "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/2019/elf-esc/p7.html": (
         Subject(
-            uri=LoCSubject("sh85077662"),  # type: ignore
+            uri=LoCSubject("sh85077662"),
             rdfs_label=NonemptyString("Litigation"),
         ),
         Subject(
@@ -61,7 +61,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html": (
         Subject(
-            uri=LoCSubject("sh98001029"),  # type: ignore
+            uri=LoCSubject("sh98001029"),
             rdfs_label=NonemptyString("Parental alienation syndrome"),
         ),
         Subject(
@@ -71,7 +71,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     ),
     # "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/calc/aa.html": (
     #     Subject(
-    #         uri=LoCSubject("sh85003572"),  # type: ignore
+    #         uri=LoCSubject("sh85003572"),
     #         rdfs_label=NonemptyString("Alimony"),
     #     ),
     #     Subject(
@@ -81,7 +81,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     # ),
     "https://www.justice.gc.ca/eng/rp-pr/fl-lf/spousal-epoux/spag/p18.html": (
         Subject(
-            uri=LoCSubject("sh85003572"),  # type: ignore
+            uri=LoCSubject("sh85003572"),
             rdfs_label=NonemptyString("Alimony"),
         ),
         Subject(
@@ -91,7 +91,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     ),
     "https://laws-lois.justice.gc.ca/eng/glossary/": (
         Subject(
-            uri=LoCSubject("sh98001459"),  # type: ignore
+            uri=LoCSubject("sh98001459"),
             rdfs_label=NonemptyString("Law--Canada"),
         ),
         Subject(

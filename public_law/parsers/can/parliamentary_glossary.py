@@ -20,7 +20,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceCreator=String("Parliament of Canada"),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85075807"),  # type: ignore
+                    uri=LoCSubject("sh85075807"),
                     rdfs_label=String("Legislative bodies"),
                 ),
                 Subject(

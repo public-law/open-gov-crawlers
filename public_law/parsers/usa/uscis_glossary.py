@@ -28,8 +28,8 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     source_url = URL(html.url)  # type: ignore
 
     subjects = (
-                Subject(LoCSubject("sh85042790"), String("Emigration and immigration law")),  # type: ignore
-                Subject(WikidataTopic("Q231147"),  String("immigration law")),   # type: ignore
+                Subject(LoCSubject("sh85042790"), String("Emigration and immigration law")),
+                Subject(WikidataTopic("Q231147"),  String("immigration law")), 
             )
     
     return Metadata(
@@ -80,10 +80,10 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     TODO: Refactor all the glossary parsers to need only this function.
     """
     soup    = make_soup(html)
-    phrases = [d.string for d in soup.select('div.accordion__header')]  # type: ignore
+    phrases = [d.string for d in soup.select('div.accordion__header')]
     phrases = [maybe_fix(p) for p in phrases]
 
-    defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]  # type: ignore
+    defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]
     cleaned_up_definitions = []
     for div in defn_divs:
         cleaned_up = "\n".join([str(s) for s in div if str(s) != '\n'])

@@ -26,7 +26,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceCreator=String("IP Australia"),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85067167"),  # type: ignore
+                    uri=LoCSubject("sh85067167"),
                     rdfs_label=String("Intellectual property"),
                 ),
                 Subject(

@@ -22,7 +22,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
             dcterms_subject=(
                 Subject(
-                    uri=LoCSubject("sh85071120"),  # type: ignore
+                    uri=LoCSubject("sh85071120"),
                     rdfs_label=String("Justice, Administration of"),
                 ),
                 Subject(
