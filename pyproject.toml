@@ -10,7 +10,6 @@ version = "1.1.1"
 [tool.poetry.dependencies]
 beautifulsoup4 = "^4.10.0"
 more-itertools = "^8.13.0"
-msgpack-python = "*"
 lxml = "^4.9.1"  # Security vulnerability.
 pydantic = "*"
 python = "^3.11"
