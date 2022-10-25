@@ -23,7 +23,6 @@ toolz = "0.*"
 
 
 [tool.poetry.dev-dependencies]
-pyright = "*"
 pytest = "*"
 pytest-watch = "*"
 vcrpy = "*"
