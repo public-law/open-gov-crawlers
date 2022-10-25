@@ -24,7 +24,6 @@ toolz = "0.*"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
-pytest-watch = "*"
 vcrpy = "*"
 pytest-icdiff = "^0.6"
 
