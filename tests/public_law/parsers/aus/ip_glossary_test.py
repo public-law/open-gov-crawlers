@@ -41,10 +41,6 @@ def test_source_modified_date():
     assert METADATA.publiclaw_sourceModified == date(2021, 3, 26)
 
 
-def test_reading_ease():
-    assert METADATA.publiclaw_readingEase == "Fairly difficult"
-
-
 def test_subjects():
     assert METADATA.dcterms_subject == (
         Subject(

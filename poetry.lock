@@ -402,18 +402,6 @@ python-versions = ">=3.6.8"
 diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
-name = "pyphen"
-version = "0.13.0"
-description = "Pure Python module to hyphenate text"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[package.extras]
-doc = ["sphinx", "sphinx_rtd_theme"]
-test = ["coverage[toml]", "flake8 (<5)", "pytest", "pytest-cov", "pytest-flake8", "pytest-isort", "pytest-xdist"]
-
-[[package]]
 name = "pypydispatcher"
 version = "2.1.2"
 description = "Multi-producer-multi-consumer signal dispatching mechanism"
@@ -629,24 +617,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "textstat"
-version = "0.7.3"
-description = "Calculate statistical features from text"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-develop = false
-
-[package.dependencies]
-pyphen = "*"
-
-[package.source]
-type = "git"
-url = "https://github.com/dogweather/textstat.git"
-reference = "06661cff4e09a11810656537032e92acd450d8c7"
-resolved_reference = "06661cff4e09a11810656537032e92acd450d8c7"
-
-[[package]]
 name = "tika"
 version = "1.24"
 description = "Apache Tika Python library"
@@ -835,7 +805,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "04c7a8956b74ef1c56b5f9b4b9fd9e84b6231be524b3fc66ae8a5b2246646dbf"
+content-hash = "da75453bd920716c55748dd5cdc47243fe7566a719a137ee805b3642b87ce437"
 
 [metadata.files]
 attrs = [
@@ -1231,10 +1201,6 @@ pyparsing = [
     {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
     {file = "pyparsing-3.0.9.tar.gz", hash = "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"},
 ]
-pyphen = [
-    {file = "pyphen-0.13.0-py3-none-any.whl", hash = "sha256:3363476ae72d2b633b9f173edecbaba57a907e7ec49efde0eabb8c20839f66fa"},
-    {file = "pyphen-0.13.0.tar.gz", hash = "sha256:06873cebffd65a8fca7c20c0e3dc032655c7ee8de0f552205cad3b574265c293"},
-]
 pypydispatcher = [
     {file = "PyPyDispatcher-2.1.2.tar.gz", hash = "sha256:b6bec5dfcff9d2535bca2b23c80eae367b1ac250a645106948d315fcfa9130f2"},
 ]
@@ -1334,7 +1300,6 @@ soupsieve = [
     {file = "soupsieve-2.3.2.post1-py3-none-any.whl", hash = "sha256:3b2503d3c7084a42b1ebd08116e5f81aadfaea95863628c80a3b774a11b7c759"},
     {file = "soupsieve-2.3.2.post1.tar.gz", hash = "sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d"},
 ]
-textstat = []
 tika = [
     {file = "tika-1.24.tar.gz", hash = "sha256:c2c50f405622f74531841104f9e85c17511aede11de8e5385eab1a29a31f191b"},
 ]

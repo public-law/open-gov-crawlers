@@ -1,5 +1,4 @@
 from typing import Any, Literal, TypeAlias
-from textstat import analyzer
 
 # Source: https://writingstudio.com/blog/flesch-reading-ease/
 
@@ -50,7 +49,7 @@ def reading_difficulty(text: str) -> Difficulty:
     """
     Calculate the reading difficulty of the text.
     """
-    score = analyzer.flesch_reading_ease(text)
+    score = 0
     return _score_to_difficulty(score)
 
 

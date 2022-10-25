@@ -198,10 +198,6 @@ def test_a_term_case_1(p7g):
     assert entry.definition == "Postponement of a court hearing to another date."
 
 
-def test_reading_ease(p7g):
-    assert p7g.metadata.publiclaw_readingEase == "Difficult"
-
-
 def subj_strings(glossary):
     """
     Test helper: return the strings in a Glossary's subjects.

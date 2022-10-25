@@ -43,9 +43,6 @@ class TestTheMetadata:
     def test_the_scrape_date(_):
         assert METADATA.dcterms_modified == today()
 
-    def test_reading_ease(_):
-        assert METADATA.publiclaw_readingEase == "Fairly difficult"
-
     def test_subjects(_):
         assert METADATA.dcterms_subject == (
             Subject(
