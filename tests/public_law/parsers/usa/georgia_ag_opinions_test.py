@@ -29,26 +29,26 @@ class TestOpinionDateToISO8601:
         assert opinion_date_to_iso8601(opinion_date) == "2017-10-02"
 
 
-class TestParseAgOpinion:
-    def setup(self):
-        self.result = parsed_opinion_fixture()
+PARSED_OPINION = parsed_opinion_fixture()
 
+
+class TestParseAgOpinion:
     def test_gets_the_summary(self):
         expected_summary = (
             "Updating of crimes and offenses for which "
             "the Georgia Crime Information Center is "
             "authorized to collect and file fingerprints."
         )
-        assert self.result.summary == expected_summary
+        assert PARSED_OPINION.summary == expected_summary
 
     # def test_gets_the_title(self):
-    #     assert self.result.title == "Official Opinion 2017-3"
+    #     assert PARSED_OPINION.title == "Official Opinion 2017-3"
 
     # def test_gets_is_official(self):
-    #     assert self.result.is_official
+    #     assert PARSED_OPINION.is_official
 
     def test_gets_the_date(self):
-        assert self.result.date == "2017-10-02"
+        assert PARSED_OPINION.date == "2017-10-02"
 
     def test_gets_the_full_text(self):
         expected_text = (
@@ -61,10 +61,10 @@ class TestParseAgOpinion:
             "Rebecca Dobras\n"
             "Assistant Attorney General"
         )
-        assert self.result.full_text == expected_text
+        assert PARSED_OPINION.full_text == expected_text
 
     def test_gets_the_source_url(self):
-        assert self.result.source_url == "https://law.georgia.gov/opinions/2017-3"
+        assert PARSED_OPINION.source_url == "https://law.georgia.gov/opinions/2017-3"
 
     def test_gets_all_ocga_cites(self):
         expected_cites = [
@@ -75,4 +75,4 @@ class TestParseAgOpinion:
             "42-4-13(d.1)",
             "42-4-13(e)",
         ]
-        assert self.result.citations.ocga == expected_cites
+        assert PARSED_OPINION.citations.ocga == expected_cites

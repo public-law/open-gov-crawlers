@@ -83,7 +83,7 @@ class TestParts:
 
     @my_vcr.use_cassette()
     def test_gets_the_name_right_2(self):
-        last_name = parts(ENGLISH_URL).pop().name
+        last_name = parts(ENGLISH_URL)[-1].name
 
         assert last_name == "Final Clauses"
 
@@ -95,7 +95,7 @@ class TestParts:
 
     @my_vcr.use_cassette()
     def test_gets_the_number_right_1(self):
-        last_number = parts(ENGLISH_URL).pop().number
+        last_number = parts(ENGLISH_URL)[-1].number
 
         assert last_number == 13
 
@@ -121,17 +121,25 @@ class TestFootnotes:
 #     page_div.unwrap()
 #
 
-
 class TestArticles:
     """Test the articles() function."""
+
+    articles_class_fixture = []
+
+    def setup(self):
+        if TestArticles.articles_class_fixture == []:
+            TestArticles.articles_class_fixture = self._get_articles()
 
     @my_vcr.use_cassette()
     def _get_articles(self):
         return articles(ENGLISH_URL)
 
-    @cache
     def articles_fixture(self):
-        return self._get_articles()
+        return TestArticles.articles_class_fixture
+
+    #
+    # Tests begin here
+    #
 
     def test_returns_the_correct_amount_of_items(self):
         count = len(self.articles_fixture())
@@ -146,7 +154,7 @@ class TestArticles:
         assert first_article.number == "1"
 
     def test_gets_correct_number_b(self):
-        last_article = self.articles_fixture().pop()
+        last_article = self.articles_fixture()[-1]
         assert last_article.number == "128"
 
     def test_correctly_parses_a_complex_number(self):
@@ -166,7 +174,7 @@ class TestArticles:
         assert first_article.part_number == 1
 
     def test_gets_correct_part_number_b(self):
-        last_article = self.articles_fixture().pop()
+        last_article = self.articles_fixture()[-1]
         assert last_article.part_number == 13
 
     #
@@ -178,7 +186,7 @@ class TestArticles:
         assert first_article.name == "The Court"
 
     def test_gets_the_last_name(self):
-        last_article = self.articles_fixture().pop()
+        last_article = self.articles_fixture()[-1]
         assert last_article.name == "Authentic texts"
 
     def test_handles_a_long_name(self):
