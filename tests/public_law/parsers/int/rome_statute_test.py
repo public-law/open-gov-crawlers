@@ -31,7 +31,6 @@ ENGLISH_URL = "https://www.icc-cpi.int/Publications/Rome-Statute.pdf"
 FRENCH_URL = "https://www.icc-cpi.int/Publications/Statut-de-Rome.pdf"
 
 
-@pytest.mark.skip()
 class TestTikaPdf:
     @my_vcr.use_cassette()
     def test_can_use_the_tika_api(self):
@@ -45,7 +44,6 @@ class TestTikaPdf:
             _ = tika_pdf("https://www.icc-cpi.int/Publications/abcdefg.pdf")
 
 
-@pytest.mark.skip()
 class TestMetadata:
     @my_vcr.use_cassette()
     def test_gets_the_title(self):
@@ -54,21 +52,18 @@ class TestMetadata:
         assert dc_title == "Statut de Rome de la Cour pénale internationale"
 
 
-@pytest.mark.skip()
 class TestTitle:
     @my_vcr.use_cassette()
     def test_works_correctly(self):
         assert title(FRENCH_URL) == "Statut de Rome de la Cour pénale internationale"
 
 
-@pytest.mark.skip()
 class TestModifiedAt:
     @my_vcr.use_cassette()
     def test_works_correctly(self):
         assert modified_at(FRENCH_URL) == "2021-11-02T15:46:45Z"
 
 
-@pytest.mark.skip()
 class TestLanguage:
     @my_vcr.use_cassette()
     def test_detects_french(self):
@@ -79,7 +74,6 @@ class TestLanguage:
         assert language(ENGLISH_URL) == "en-US"
 
 
-@pytest.mark.skip()
 class TestParts:
     @my_vcr.use_cassette()
     def test_gets_the_name_right_1(self):
@@ -106,7 +100,6 @@ class TestParts:
         assert last_number == 13
 
 
-@pytest.mark.skip()
 class TestFootnotes:
     def test_gets_all_of_them(self):
         number_returned = len(footnotes())
@@ -128,7 +121,6 @@ class TestFootnotes:
 #     page_div.unwrap()
 #
 
-
 class TestArticles:
     """Test the articles() function."""
 
@@ -144,6 +136,10 @@ class TestArticles:
 
     def articles_fixture(self):
         return TestArticles.articles_class_fixture
+
+    #
+    # Tests begin here
+    #
 
     def test_returns_the_correct_amount_of_items(self):
         count = len(self.articles_fixture())

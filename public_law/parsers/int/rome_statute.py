@@ -148,6 +148,7 @@ def new_metadata(pdf_url: str) -> Metadata:
     )
 
 
+@cache
 def parts(pdf_url: str) -> list[Part]:
     """Parse all the Parts from the Rome Statute PDF."""
     soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
