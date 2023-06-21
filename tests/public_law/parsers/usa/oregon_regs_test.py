@@ -13,7 +13,6 @@ from public_law.parsers.usa.oregon_regs import (
 
 
 def fixture(filename: str) -> IO[Any]:
-<<<<<<<< HEAD:test/public_law/parsers/us/oregon/oar_test.py
     return open(f"test/fixtures/{filename}", encoding="utf8")
 
 
@@ -26,9 +25,6 @@ def html_fixture() -> Selector:
 
 
 DIV_450 = html_fixture()
-========
-    return open(f"tests/fixtures/{filename}")
->>>>>>>> master:tests/public_law/parsers/usa/oregon_regs_test.py
 
 
 class TestStatuteMeta:
