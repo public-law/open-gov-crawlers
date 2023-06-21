@@ -9,22 +9,22 @@ import os
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+#
+#     https://spidermon.readthedocs.io/
 
-LOG_LEVEL = "DEBUG"
+
+SPIDERMON_ENABLED = False
+
+# TODO: Re-enable after fixing to be aware of different spiders.
+# SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
 
 BOT_NAME = "public_law"
 SPIDER_MODULES = ["public_law.spiders"]
 NEWSPIDER_MODULE = "public_law.spiders"
 
 
-# Output the JSON tree as one simple JSON object.
-FEED_FORMAT = "jsonlines"
-
-# Causes a crash on Scraping Hub
-# FEED_URI = "stdout:"
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = "Public.Law Parser (https://www.public.law/contact-us)"
+# USER_AGENT = "..."
 ROBOTSTXT_OBEY = True
 
 
@@ -51,9 +51,9 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 4
 # COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
-TELNETCONSOLE_ENABLED = True
-TELNETCONSOLE_USERNAME = "scrapy"
-TELNETCONSOLE_PASSWORD = "scrapy"
+TELNETCONSOLE_ENABLED = False
+# TELNETCONSOLE_USERNAME = ...
+# TELNETCONSOLE_PASSWORD = ...
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -85,6 +85,10 @@ if VAR in os.environ:
 # EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 # }
+EXTENSIONS = {
+    # "spidermon.contrib.scrapy.extensions.Spidermon": 500,
+}
+
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
@@ -111,3 +115,16 @@ AUTOTHROTTLE_DEBUG = False
 # HTTPCACHE_DIR = "httpcache"
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 # HTTPCACHE_POLICY = "scrapy.extensions.httpcache.DummyPolicy"
+
+
+#
+# In development mode only, set the sensitive and environment-
+# dependent configuration values via env  variables. On development
+# machines, set `SCRAPY_DEVELOPMENT_MODE` to make this work. This
+# isn't necessary, however, to develop and run the spiders.
+#
+if "PUBLAW_SCRAPY_DEVELOPMENT_MODE" in os.environ:
+    SPIDERMON_TELEGRAM_SENDER_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+    SPIDERMON_TELEGRAM_RECIPIENTS = os.environ["TELEGRAM_BOT_GROUP_ID"]
+    LOG_LEVEL = os.environ["PUBLAW_SCRAPY_LOG_LEVEL"]
+    USER_AGENT = os.environ["PUBLAW_SCRAPY_USER_AGENT"]

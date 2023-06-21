@@ -11,9 +11,5 @@ See documentation in docs/topics/extensions.rst
 """
 class ExtensionManager(MiddlewareManager):
     component_name = ...
-    @classmethod
-    def _get_mwlist_from_settings(cls, settings):
-        ...
-    
 
 

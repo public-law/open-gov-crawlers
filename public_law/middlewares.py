@@ -1,3 +1,13 @@
+# pyright: reportUninitializedInstanceVariable=false
+# pyright: reportPrivateUsage=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownParameterType=false
+# pyright: reportMissingParameterType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
+
+
 # -*- coding: utf-8 -*-
 
 # Define here the models for your spider middleware
@@ -7,7 +17,8 @@
 
 from scrapy import Spider, signals
 from scrapy.crawler import Crawler
-from scrapy.http import Response, Request
+from scrapy.http.response import Response
+from scrapy.http.request import Request
 
 
 class OarSpiderMiddleware:
@@ -18,9 +29,9 @@ class OarSpiderMiddleware:
     @classmethod
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+        the_class = cls()
+        crawler.signals.connect(the_class.spider_opened, signal=signals.spider_opened)
+        return the_class
 
     def process_spider_input(self, _response: Response, _spider: Spider) -> None:
         # Called for each response that goes through the spider
@@ -29,7 +40,7 @@ class OarSpiderMiddleware:
         # Should return None or raise an exception.
         return None
 
-    def process_spider_output(self, response: Response, result, spider: Spider):
+    def process_spider_output(self, _response: Response, result, _spider: Spider):
         # Called with the results returned from the Spider, after
         # it has processed the response.
 
@@ -51,11 +62,11 @@ class OarSpiderMiddleware:
         # that it doesn’t have a response associated.
 
         # Must return only requests (not items).
-        for r in start_requests:
-            yield r
+        for req in start_requests:
+            yield req
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
+        spider.logger.info(f"Spider opened: {spider.name}")
 
 
 class OarDownloaderMiddleware:
@@ -66,9 +77,9 @@ class OarDownloaderMiddleware:
     @classmethod
     def from_crawler(cls, crawler: Crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+        the_class = cls()
+        crawler.signals.connect(the_class.spider_opened, signal=signals.spider_opened)
+        return the_class
 
     def process_request(self, _request: Request, _spider: Spider):
         # Called for each request that goes through the downloader
@@ -102,4 +113,4 @@ class OarDownloaderMiddleware:
         pass
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
+        spider.logger.info(f"Spider opened: {spider.name}")

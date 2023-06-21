@@ -10,14 +10,15 @@ class CurlParser(argparse.ArgumentParser):
     
 
 
-curl_parser = CurlParser()
-safe_to_ignore_arguments = [['--compressed'], ['-s', '--silent'], ['-v', '--verbose'], ['-#', '--progress-bar']]
-def curl_to_request_kwargs(curl_command, ignore_unknown_options: bool = ...):
+curl_parser = ...
+safe_to_ignore_arguments = ...
+def curl_to_request_kwargs(curl_command: str, ignore_unknown_options: bool = ...) -> dict:
     """Convert a cURL command syntax to Request kwargs.
 
     :param str curl_command: string containing the curl command
     :param bool ignore_unknown_options: If true, only a warning is emitted when
-    cURL options are unknown. Otherwise raises an error. (default: True)
+                                        cURL options are unknown. Otherwise
+                                        raises an error. (default: True)
     :return: dictionary of Request kwargs
     """
     ...
