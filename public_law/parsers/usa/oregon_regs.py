@@ -70,8 +70,8 @@ def _parse_content(rule_div: Selector) -> tuple[str, dict[str, list[str] | str]]
     """Parse the given HTML div for the text string and metadata dict."""
 
     # Parse the body text
-    raw_paragraphs: list[str] = rule_div.xpath("p")[1:].getall()
-    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
+    raw_paragraphs: list[str] = rule_div.xpath("p")[1:].getall() # type: ignore
+    cleaned_up_paragraphs: list[str] = [p.strip().replace("\n", "") for p in raw_paragraphs] # type: ignore
     cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
     content_paragraphs = non_empty_paragraphs[1:-1]
