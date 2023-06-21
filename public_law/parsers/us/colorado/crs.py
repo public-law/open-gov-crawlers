@@ -6,10 +6,12 @@ from public_law.items.crs import Article, Division, Title
 
 def parse_title(dom: Selector) -> Title:
     print(f"{dom=}")
-    raw_name = dom.xpath("//title-text/text()").get()
-    raw_number = dom.xpath("//title-num/text()").get().split(" ")[1]
+    raw_name: str = dom.xpath("//title-text/text()").get() # type: ignore
+    raw_number: str = dom.xpath("//title-num/text()").get().split(" ")[1] # type: ignore
+    if not isinstance(raw_number, str):
+        raise ValueError(f"raw_number is not a string: {raw_number=}")
 
-    url_number = raw_number.rjust(2, "0")
+    url_number: str = raw_number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-{url_number}.pdf"
 
     return Title(
