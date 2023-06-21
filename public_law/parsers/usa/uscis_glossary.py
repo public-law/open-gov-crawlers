@@ -25,7 +25,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)  # type: ignore
+    source_url = URL(html.url)
 
     subjects = (
                 Subject(LoCSubject("sh85042790"), String("Emigration and immigration law")),
@@ -84,10 +84,10 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     phrases = [maybe_fix(p) for p in phrases]
 
     defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]
-    cleaned_up_definitions = []
+    cleaned_up_definitions: list[str] = []
     for div in defn_divs:
         cleaned_up = "\n".join([str(s) for s in div if str(s) != '\n'])
-        cleaned_up_definitions.append(cleaned_up)  # type: ignore
+        cleaned_up_definitions.append(cleaned_up)
 
     return zip(phrases, cleaned_up_definitions)
 
