@@ -1,5 +1,5 @@
 from scrapy.selector.unified import Selector
-from public_law.items.crs import Title
+# from public_law.items.crs import Title
 
 from public_law.parsers.us.colorado.crs import parse_title
 
