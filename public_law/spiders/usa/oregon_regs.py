@@ -9,8 +9,7 @@ from scrapy.http.request import Request
 import scrapy.signals
 from titlecase import titlecase
 
-from public_law import items
-from public_law.items.oar import Chapter, Division
+from public_law.items.oar import Chapter, Division, OAR
 from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
@@ -33,7 +32,7 @@ class OregonRegs(Spider):
 
         # The object to return for conversion to a JSON tree. All the parse
         # methods add their results to this structure.
-        self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
+        self.oar = OAR(date_accessed=todays_date(), chapters=[])
 
     def parse(self, response: Response, **_kwargs: Dict[str, Any]):
         """The primary Scrapy callback to begin scraping.
@@ -75,6 +74,9 @@ class OregonRegs(Spider):
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):  # type: ignore
             db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]  # type: ignore
+            if not isinstance(db_id, str):
+                raise ValueError(f"Invalid db_id: {db_id}")
+            
             raw_number, raw_name = map(
                 str.strip, anchor.xpath("text()").get().split("-", 1)  # type: ignore
             )
@@ -108,6 +110,10 @@ class OregonRegs(Spider):
         spider: OregonRegs = super(OregonRegs, cls).from_crawler(  # type: ignore
             crawler, *args, **kwargs
         )
+
+        if not isinstance(spider, OregonRegs):
+            raise ValueError(f"Invalid spider: {spider}")
+        
         crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
         return spider
 
@@ -137,7 +143,7 @@ class OregonRegs(Spider):
 
 
 def new_chapter(db_id: str, number: str, name: str) -> Chapter:
-    return items.Chapter(
+    return Chapter(
         kind="Chapter",
         db_id=db_id,
         number=number,
@@ -148,7 +154,7 @@ def new_chapter(db_id: str, number: str, name: str) -> Chapter:
 
 
 def new_division(db_id: str, number: str, name: str) -> Division:
-    return items.Division(
+    return Division(
         kind="Division",
         db_id=db_id,
         number=number,
