@@ -21,7 +21,7 @@ def parse_title(dom: Selector) -> Title:
 
 
 def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names = dom.xpath("//t-div/text()").getall()
+    raw_division_names: list[str] = dom.xpath("//t-div/text()").getall() # type: ignore
 
     return [
         Division(
