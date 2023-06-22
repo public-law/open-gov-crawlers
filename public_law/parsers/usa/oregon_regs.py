@@ -1,6 +1,4 @@
 import re
-from typing import cast
-
 
 from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
@@ -61,18 +59,18 @@ def _parse_rule(rule_div: Selector) -> Rule:
 
 
 def _parse_number(rule_div: Selector) -> str:
-    return rule_div.css("strong > a::text").get(" ").strip() # type: ignore
+    return rule_div.css("strong > a::text").get(" ").strip()
 
 
 def _parse_name(rule_div: Selector) -> str:
-    return rule_div.css("strong::text").get(" ").strip() # type: ignore
+    return rule_div.css("strong::text").get(" ").strip()
 
 
 def _parse_content(rule_div: Selector) -> tuple[str, dict[str, list[str] | str]]:
     """Parse the given HTML div for the text string and metadata dict."""
 
     # Parse the body text
-    raw_paragraphs: list[str] = cast(list[str], rule_div.xpath("p")[1:].getall()) # pyright: ignore[reportUnknownMemberType]
+    raw_paragraphs: list[str] = rule_div.xpath("p")[1:].getall()
     cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
     cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
