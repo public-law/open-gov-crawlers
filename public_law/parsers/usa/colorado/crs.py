@@ -68,7 +68,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
     # 4. Convert the TA-LIST elements into Article objects.    
     articles = [
         Article(
-            name=n.xpath("i/text()").get(), 
+            name=parse_article_name(n), 
             number=remove_trailing_period(n.xpath("dt/text()").get()), 
             source_url=source_url
             ) 
@@ -80,3 +80,17 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
 def is_article_node(node: Selector):
     return node.xpath("name()").get() == "ta-list"
+
+
+def parse_article_name(node: Selector):
+    """Return just the name of the Article.
+    The raw text looks like this:
+        "General, Provisions, 16-1-101 to 16-1-110"
+    
+    We want to return just the first part:
+        "General, Provisions"
+    """
+    raw_text     = node.xpath("i/text()").get()
+    cleaned_text = ", ".join(raw_text.split(",")[:-1])
+
+    return cleaned_text
