@@ -7,7 +7,6 @@ from pydantic import BaseModel, conint, constr
 from tika import parser
 from titlecase import titlecase
 
-from public_law.metadata import Metadata
 from public_law.text import NonemptyString as S, normalize_whitespace
 
 LANGUAGE_MAP = {
@@ -31,8 +30,8 @@ class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: conint(ge=1, le=13)
-    name: constr(regex=r"^[ a-zA-Z,]+$")
+    number: conint(ge=1, le=13) # type: ignore
+    name: constr(regex=r"^[ a-zA-Z,]+$") # type: ignore
 
 
 class Article(FrozenModel):
@@ -40,14 +39,14 @@ class Article(FrozenModel):
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: conint(ge=1, le=13)  # pyright: reportGeneralTypeIssues=false
+    part_number: conint(ge=1, le=13)  # type: ignore
     name: constr(
         regex=r"^[ a-zA-Z0-9,:\-\(\)]*$"
-    )  # pyright: reportGeneralTypeIssues=false
+    )  # type: ignore
     text: str
 
-    def name(self) -> str:
-        return cast(str, self.name)
+    def name_str(self) -> str:
+        return cast(str, self.name) # type: ignore
 
     def part_number(self) -> int:
         return cast(int, self.part_number)
@@ -57,7 +56,7 @@ class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
-    number: conint(ge=1, le=10)
+    number: conint(ge=1, le=10) # type: ignore
     article_number: S
     text: S
 
@@ -135,17 +134,6 @@ def footnotes() -> list[Footnote]:
             ),
         ),
     ]
-
-
-def new_metadata(pdf_url: str) -> Metadata:
-    # pdf_data = metadata(pdf_url)
-
-    return Metadata(
-        dc_identifier=S(JSON_OUTPUT_URL_EN),
-        dc_source=S(pdf_url),
-        dc_title=S(title(pdf_url)),
-        dc_language=S(language(pdf_url)),
-    )
 
 
 @cache
@@ -277,12 +265,12 @@ def _article_number(number_raw: str, current_article_num: int) -> str:
 
 def _remove_annotations(article: Article, number: str) -> Article:
     """Remove annotations from text if they exist."""
-    name = article.name
+    name = article.name_str()
     text = article.text
     annotation = article.number.replace(str(number), "")
     if annotation:
         name_text = article.text.split("\n", 1)
-        if len(name_text) > 1 and len(article.name) == 0:
+        if len(name_text) > 1 and len(article.name_str()) == 0:
             name = name_text[0].strip()
             text = name_text[1].strip()
         annotations = [int(x) for x in annotation.split()]
