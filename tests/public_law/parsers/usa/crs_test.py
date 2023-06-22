@@ -72,7 +72,7 @@ class TestParseTitle:
         )
 
 
-    def test_correct_number_of_articles_in_division(self):
+    def test_correct_number_of_articles_in_a_division(self):
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
@@ -80,7 +80,7 @@ class TestParseTitle:
         #
 
         code_of_crim_pro = PARSED_TITLE_16.divisions[0]
-        
+
         # Verify we have the correct Division.
         assert code_of_crim_pro.name == "Code of Criminal Procedure"
 
