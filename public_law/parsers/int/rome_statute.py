@@ -33,8 +33,8 @@ class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: conint(ge=1, le=13) # type: ignore
-    name: constr(regex=r"^[ a-zA-Z,]+$") # type: ignore
+    number: conint(ge=1, le=13)
+    name: constr(regex=r"^[ a-zA-Z,]+$")
 
 
 class Article(FrozenModel):
@@ -59,7 +59,7 @@ class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
-    number: conint(ge=1, le=10) # type: ignore
+    number: conint(ge=1, le=10)
     article_number: S
     text: S
 
