@@ -6,7 +6,6 @@
 # pyright: reportUntypedFunctionDecorator=false
 
 
-from functools import cache
 import pytest
 import vcr
 from urllib import error
