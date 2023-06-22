@@ -29,7 +29,7 @@ vcrpy = "*"
 
 
 [tool.poetry.group.dev.dependencies]
-pyright = "1.1.280"
+pyright = "1.1.314"
 
 [tool.pyright]
 pythonVersion = "3.11"
