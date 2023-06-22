@@ -108,6 +108,32 @@ class TestParseTitle:
 
         assert article_1.source_url == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
 
+    #
+    # Section Parsing
+    #
+
+    def test_article_has_sections_1(self):
+        code_of_crim_pro   = cast(Division, PARSED_TITLE_16.children[0])
+        general_provisions = code_of_crim_pro.articles[0]
+
+        assert len(general_provisions.sections) == 10
+
+
+    def test_section_number_1(self):
+        code_of_crim_pro   = cast(Division, PARSED_TITLE_16.children[0])
+        general_provisions = code_of_crim_pro.articles[0]
+        first_section      = general_provisions.sections[0]
+
+        assert first_section.number == "16-1-101"
+
+
+    def test_section_name_1(self):
+        code_of_crim_pro   = cast(Division, PARSED_TITLE_16.children[0])
+        general_provisions = code_of_crim_pro.articles[0]
+        first_section      = general_provisions.sections[0]
+
+        assert first_section.name == "Short Title"
+
 
     # def we_can_get_a_div_editors_note(self):
     #     div_1 = PARSED_TITLE_16.children[0]
