@@ -69,7 +69,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
     articles = [
         Article(
             name=parse_article_name(n), 
-            number=remove_trailing_period(n.xpath("dt/text()").get()), 
+            number=parse_article_number(n), 
             source_url=source_url
             ) 
         for n in article_nodes
@@ -92,5 +92,18 @@ def parse_article_name(node: Selector):
     """
     raw_text     = node.xpath("i/text()").get()
     cleaned_text = ", ".join(raw_text.split(",")[:-1])
+
+    return cleaned_text
+
+def parse_article_number(node: Selector):
+    """Return just the number of the Article.
+    The raw text looks like this:
+        "1.1."
+    
+    We want to return just this:
+        "1.1"
+    """
+    raw_text     = node.xpath("dt/text()").get()
+    cleaned_text = remove_trailing_period(raw_text)
 
     return cleaned_text
