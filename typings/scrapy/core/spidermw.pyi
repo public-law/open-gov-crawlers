@@ -14,9 +14,13 @@ Spider Middleware manager
 
 See documentation in docs/topics/spider-middleware.rst
 """
+logger = ...
 ScrapeFunc = Callable[[Union[Response, Failure], Request, Spider], Any]
 class SpiderMiddlewareManager(MiddlewareManager):
     component_name = ...
+    def __init__(self, *middlewares) -> None:
+        ...
+    
     def scrape_response(self, scrape_func: ScrapeFunc, response: Response, request: Request, spider: Spider) -> Deferred:
         ...
     

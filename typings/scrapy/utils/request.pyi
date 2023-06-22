@@ -10,9 +10,44 @@ from scrapy import Request, Spider
 This module provides some useful functions for working with
 scrapy.http.Request objects
 """
-_fingerprint_cache: WeakKeyDictionary[Request, Dict[Tuple[Optional[Tuple[bytes, ...]], bool], str]]
-_fingerprint_cache = ...
+_deprecated_fingerprint_cache: WeakKeyDictionary[Request, Dict[Tuple[Optional[Tuple[bytes, ...]], bool], str]]
+_deprecated_fingerprint_cache = ...
 def request_fingerprint(request: Request, include_headers: Optional[Iterable[Union[bytes, str]]] = ..., keep_fragments: bool = ...) -> str:
+    """
+    Return the request fingerprint as an hexadecimal string.
+
+    The request fingerprint is a hash that uniquely identifies the resource the
+    request points to. For example, take the following two urls:
+
+    http://www.example.com/query?id=111&cat=222
+    http://www.example.com/query?cat=222&id=111
+
+    Even though those are two different URLs both point to the same resource
+    and are equivalent (i.e. they should return the same response).
+
+    Another example are cookies used to store session ids. Suppose the
+    following page is only accessible to authenticated users:
+
+    http://www.example.com/members/offers.html
+
+    Lots of sites use a cookie to store the session id, which adds a random
+    component to the HTTP Request and thus should be ignored when calculating
+    the fingerprint.
+
+    For this reason, request headers are ignored by default when calculating
+    the fingerprint. If you want to include specific headers use the
+    include_headers argument, which is a list of Request headers to include.
+
+    Also, servers usually ignore fragments in urls when handling requests,
+    so they are also ignored by default when calculating the fingerprint.
+    If you want to include them, set the keep_fragments argument to True
+    (for instance when handling requests with a headless browser).
+    """
+    ...
+
+_fingerprint_cache: WeakKeyDictionary[Request, Dict[Tuple[Optional[Tuple[bytes, ...]], bool], bytes]]
+_fingerprint_cache = ...
+def fingerprint(request: Request, *, include_headers: Optional[Iterable[Union[bytes, str]]] = ..., keep_fragments: bool = ...) -> bytes:
     """
     Return the request fingerprint.
 
@@ -30,7 +65,7 @@ def request_fingerprint(request: Request, include_headers: Optional[Iterable[Uni
 
     http://www.example.com/members/offers.html
 
-    Lot of sites use a cookie to store the session id, which adds a random
+    Lots of sites use a cookie to store the session id, which adds a random
     component to the HTTP Request and thus should be ignored when calculating
     the fingerprint.
 
@@ -42,9 +77,32 @@ def request_fingerprint(request: Request, include_headers: Optional[Iterable[Uni
     so they are also ignored by default when calculating the fingerprint.
     If you want to include them, set the keep_fragments argument to True
     (for instance when handling requests with a headless browser).
-
     """
     ...
+
+class RequestFingerprinter:
+    """Default fingerprinter.
+
+    It takes into account a canonical version
+    (:func:`w3lib.url.canonicalize_url`) of :attr:`request.url
+    <scrapy.http.Request.url>` and the values of :attr:`request.method
+    <scrapy.http.Request.method>` and :attr:`request.body
+    <scrapy.http.Request.body>`. It then generates an `SHA1
+    <https://en.wikipedia.org/wiki/SHA-1>`_ hash.
+
+    .. seealso:: :setting:`REQUEST_FINGERPRINTER_IMPLEMENTATION`.
+    """
+    @classmethod
+    def from_crawler(cls, crawler): # -> Self@RequestFingerprinter:
+        ...
+    
+    def __init__(self, crawler=...) -> None:
+        ...
+    
+    def fingerprint(self, request): # -> bytes:
+        ...
+    
+
 
 def request_authenticate(request: Request, username: str, password: str) -> None:
     """Authenticate the given request (in place) using the HTTP basic access

@@ -25,7 +25,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)  # type: ignore
+    source_url = URL(html.url)
 
     subjects = (
                 Subject(LoCSubject("sh85042790"), String("Emigration and immigration law")),
@@ -51,6 +51,8 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """
 
     def cleanup_definition(defn: str) -> Sentence:
+        assert isinstance(defn, str)
+
         return pipe(
             defn,
             normalize_nonempty,
@@ -60,6 +62,8 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         ) # type: ignore
 
     def cleanup_phrase(phrase: str) -> String:
+        assert isinstance(phrase, str)
+
         return pipe(
             phrase,
             normalize_nonempty,
@@ -67,6 +71,9 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         ) # type: ignore
 
     for phrase, defn in _raw_entries(html):
+        assert isinstance(phrase, str)
+        assert isinstance(defn, str)
+        
         yield GlossaryEntry(
             phrase=cleanup_phrase(phrase),
             definition=cleanup_definition(defn),
@@ -84,12 +91,12 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     phrases = [maybe_fix(p) for p in phrases]
 
     defn_divs = [list(d.children) for d in soup.select('div.accordion__panel')]
-    cleaned_up_definitions = []
+    cleaned_up_definitions: list[str] = []
     for div in defn_divs:
         cleaned_up = "\n".join([str(s) for s in div if str(s) != '\n'])
-        cleaned_up_definitions.append(cleaned_up)  # type: ignore
+        cleaned_up_definitions.append(cleaned_up)
 
-    return zip(phrases, cleaned_up_definitions)
+    return zip(phrases, cleaned_up_definitions) 
 
 
 def maybe_fix(phrase: str|None) -> str|None:

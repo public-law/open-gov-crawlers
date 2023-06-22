@@ -10,11 +10,11 @@ class Crawler:
         ...
     
     @defer.inlineCallbacks
-    def crawl(self, *args, **kwargs):
+    def crawl(self, *args, **kwargs): # -> Generator[Unknown | Deferred[Unknown], Any, None]:
         ...
     
     @defer.inlineCallbacks
-    def stop(self): # -> Generator[Deferred[Unknown], None, None]:
+    def stop(self): # -> Generator[Deferred[Unknown], Any, None]:
         """Starts a graceful stop of the crawler and returns a deferred that is
         fired when the crawler is stopped."""
         ...
@@ -87,7 +87,7 @@ class CrawlerRunner:
         ...
     
     @defer.inlineCallbacks
-    def join(self): # -> Generator[DeferredList, None, None]:
+    def join(self): # -> Generator[DeferredList, Any, None]:
         """
         join()
 

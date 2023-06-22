@@ -14,12 +14,12 @@ class Sitemap:
     def __init__(self, xmltext) -> None:
         ...
     
-    def __iter__(self): # -> Generator[dict[Unknown, Unknown], None, None]:
+    def __iter__(self): # -> Generator[dict[Unknown, Unknown], Any, None]:
         ...
     
 
 
-def sitemap_urls_from_robots(robots_text, base_url=...): # -> Generator[str, None, None]:
+def sitemap_urls_from_robots(robots_text, base_url=...): # -> Generator[Unknown, Any, None]:
     """Return an iterator over all sitemap urls contained in the given
     robots.txt file
     """

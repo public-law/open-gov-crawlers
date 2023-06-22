@@ -37,7 +37,7 @@ class CassetteContextDecorator:
         ...
     
     @wrapt.decorator
-    def __call__(self, function, instance, args, kwargs): # -> Coroutine[Any, Any, Unknown] | Generator[Unknown, None, None]:
+    def __call__(self, function, instance, args, kwargs): # -> Coroutine[Any, Any, Unknown] | Generator[Unknown, Unknown, None]:
         ...
     
     @staticmethod
@@ -82,7 +82,7 @@ class Cassette:
         ...
     
     @property
-    def write_protected(self):
+    def write_protected(self): # -> bool:
         ...
     
     def append(self, request, response): # -> None:

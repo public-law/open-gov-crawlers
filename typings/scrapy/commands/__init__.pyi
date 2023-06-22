@@ -55,7 +55,7 @@ class ScrapyCommand:
         """
         ...
     
-    def process_options(self, args, opts):
+    def process_options(self, args, opts): # -> None:
         ...
     
     def run(self, args, opts):

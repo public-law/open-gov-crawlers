@@ -137,7 +137,7 @@ class BaseSettings(MutableMapping):
         """
         ...
     
-    def getdict(self, name, default=...): # -> dict[Any, Any]:
+    def getdict(self, name, default=...): # -> dict[bytes, bytes]:
         """
         Get a setting value as a dictionary. If the setting original type is a
         dictionary, a copy of it will be returned. If it is a string it will be
@@ -152,6 +152,30 @@ class BaseSettings(MutableMapping):
 
         :param default: the value to return if no setting is found
         :type default: object
+        """
+        ...
+    
+    def getdictorlist(self, name, default=...): # -> dict[Unknown, Unknown] | Any | list[str]:
+        """Get a setting value as either a :class:`dict` or a :class:`list`.
+
+        If the setting is already a dict or a list, a copy of it will be
+        returned.
+
+        If it is a string it will be evaluated as JSON, or as a comma-separated
+        list of strings as a fallback.
+
+        For example, settings populated from the command line will return:
+
+        -   ``{'key1': 'value1', 'key2': 'value2'}`` if set to
+            ``'{"key1": "value1", "key2": "value2"}'``
+
+        -   ``['one', 'two']`` if set to ``'["one", "two"]'`` or ``'one,two'``
+
+        :param name: the setting name
+        :type name: string
+
+        :param default: the value to return if no setting is found
+        :type default: any
         """
         ...
     
@@ -174,7 +198,7 @@ class BaseSettings(MutableMapping):
         """
         ...
     
-    def maxpriority(self): # -> int | None:
+    def maxpriority(self): # -> int:
         """
         Return the numerical value of the highest priority present throughout
         all settings, or the numerical value for ``default`` from
@@ -345,11 +369,11 @@ class Settings(BaseSettings):
     
 
 
-def iter_default_settings(): # -> Generator[tuple[str, Any], None, None]:
+def iter_default_settings(): # -> Generator[tuple[str, Any], Any, None]:
     """Return the default settings as an iterator of (name, value) tuples"""
     ...
 
-def overridden_settings(settings): # -> Generator[tuple[str, Unknown], None, None]:
+def overridden_settings(settings): # -> Generator[tuple[str, Unknown], Any, None]:
     """Return a dict of the settings that have been overridden"""
     ...
 

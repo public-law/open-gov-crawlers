@@ -17,7 +17,7 @@ class MailSender:
     def from_settings(cls, settings): # -> Self@MailSender:
         ...
     
-    def send(self, to, subject, body, cc=..., attachs=..., mimetype=..., charset=..., _callback=...):
+    def send(self, to, subject, body, cc=..., attachs=..., mimetype=..., charset=..., _callback=...): # -> Deferred[Unknown] | None:
         ...
     
 

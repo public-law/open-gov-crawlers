@@ -6,7 +6,7 @@ from contextlib import contextmanager
 
 """Helper functions which don't fit anywhere else"""
 _ITERABLE_SINGLE_VALUES = ...
-def arg_to_iter(arg): # -> list[dict[Unknown, Unknown] | Item | str | bytes | Unknown]:
+def arg_to_iter(arg): # -> list[Unknown] | list[dict[Unknown, Unknown] | Item | str | bytes | Unknown]:
     """Convert an argument to an iterable. The argument can be a None, single
     value, or an iterable.
 
@@ -34,7 +34,7 @@ def walk_modules(path): # -> list[Unknown]:
     """
     ...
 
-def extract_regex(regex, text, encoding=...): # -> list[Unknown]:
+def extract_regex(regex, text, encoding=...): # -> list[str]:
     """Extract a list of unicode strings from the given text/encoding using the following policies:
 
     * if the regex contains a named group called "extract" that will be returned
@@ -77,13 +77,13 @@ def create_instance(objcls, settings, crawler, *args, **kwargs):
     ...
 
 @contextmanager
-def set_environ(**kwargs): # -> Generator[None, None, None]:
+def set_environ(**kwargs): # -> Generator[None, Any, None]:
     """Temporarily set environment variables inside the context manager and
     fully restore previous environment afterwards
     """
     ...
 
-def walk_callable(node): # -> Generator[FunctionDef | Unknown, None, None]:
+def walk_callable(node): # -> Generator[FunctionDef | Unknown, Any, None]:
     """Similar to ``ast.walk``, but walks only function body and skips nested
     functions defined within the node.
     """

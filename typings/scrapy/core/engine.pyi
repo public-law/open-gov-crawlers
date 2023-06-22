@@ -67,7 +67,7 @@ class ExecutionEngine:
         ...
     
     @inlineCallbacks
-    def open_spider(self, spider: Spider, start_requests: Iterable = ..., close_if_idle: bool = ...): # -> Generator[Deferred[Unknown] | Unknown | Any | Deferred[_T@inlineCallbacks], None, None]:
+    def open_spider(self, spider: Spider, start_requests: Iterable = ..., close_if_idle: bool = ...): # -> Generator[Deferred[Unknown] | Unknown | Any | Deferred[None], Unknown, None]:
         ...
     
     def close_spider(self, spider: Spider, reason: str = ...) -> Deferred:

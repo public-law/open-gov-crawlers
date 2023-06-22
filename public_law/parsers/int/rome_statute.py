@@ -1,3 +1,5 @@
+# pyright: reportGeneralTypeIssues=false
+
 import re
 from functools import cache
 from typing import Any, List, cast
@@ -40,10 +42,10 @@ class Article(FrozenModel):
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: conint(ge=1, le=13)  # pyright: reportGeneralTypeIssues=false
+    part_number: conint(ge=1, le=13)  
     name: constr(
         regex=r"^[ a-zA-Z0-9,:\-\(\)]*$"
-    )  # pyright: reportGeneralTypeIssues=false
+    )  
     text: str
 
     def name(self) -> str:

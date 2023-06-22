@@ -1,6 +1,5 @@
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
-# pyright: reportUnknownMissingType=false
 # pyright: reportUnknownMemberType=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownVariableType=false

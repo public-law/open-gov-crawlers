@@ -46,19 +46,19 @@ class LogFormatter:
                         }
                     }
     """
-    def crawled(self, request, response, spider): # -> dict[str, Unknown]:
+    def crawled(self, request, response, spider): # -> dict[str, int | str | dict[str, Unknown | str | None]]:
         """Logs a message when the crawler finds a webpage."""
         ...
     
-    def scraped(self, item, response, spider): # -> dict[str, Unknown]:
+    def scraped(self, item, response, spider): # -> dict[str, int | str | dict[str, str | Unknown]]:
         """Logs a message when an item is scraped by a spider."""
         ...
     
-    def dropped(self, item, exception, response, spider): # -> dict[str, Unknown]:
+    def dropped(self, item, exception, response, spider): # -> dict[str, int | str | dict[str, Unknown]]:
         """Logs a message when an item is dropped while it is passing through the item pipeline."""
         ...
     
-    def item_error(self, item, exception, response, spider): # -> dict[str, Unknown]:
+    def item_error(self, item, exception, response, spider): # -> dict[str, int | str | dict[str, Unknown]]:
         """Logs a message when an item causes an error while it is passing
         through the item pipeline.
 
@@ -66,14 +66,14 @@ class LogFormatter:
         """
         ...
     
-    def spider_error(self, failure, request, response, spider): # -> dict[str, Unknown]:
+    def spider_error(self, failure, request, response, spider): # -> dict[str, int | str | dict[str, Unknown | str | None]]:
         """Logs an error message from a spider.
 
         .. versionadded:: 2.0
         """
         ...
     
-    def download_error(self, failure, request, spider, errmsg=...): # -> dict[str, Unknown]:
+    def download_error(self, failure, request, spider, errmsg=...): # -> dict[str, int | str | dict[str, Unknown]]:
         """Logs a download error message from a spider (typically coming from
         the engine).
 

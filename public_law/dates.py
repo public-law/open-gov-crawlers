@@ -24,9 +24,9 @@ def today() -> date:
     #       But the Scrapy settings don't seem to be
     #       available in this context.
     #       See https://doc.scrapy.org/en/latest/topics/settings.html.
-    mountain: SimpleTimezone = pytz.timezone(
+    mountain = pytz.timezone(
         "US/Mountain"
-    )  # pyright: reportUnknownMemberType=false
+    )  
     return mountain.localize(datetime.now()).date()
 
 
