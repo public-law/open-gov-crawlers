@@ -45,6 +45,13 @@ class TestParseTitle:
         assert PARSED_TITLE_4.number == "4"
 
 
+    def test_correct_number_of_divisions_1(self):
+        assert len(PARSED_TITLE_16.divisions) == 8
+
+    def test_correct_number_of_divisions_2(self):
+        assert len(PARSED_TITLE_4.divisions) == 0
+
+
     def test_first_division_retrieved(self):
         divs = PARSED_TITLE_16.divisions
 
@@ -63,13 +70,6 @@ class TestParseTitle:
             last_division.source_url
             == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-16.pdf"
         )
-
-
-    def test_correct_number_of_divisions_1(self):
-        assert len(PARSED_TITLE_16.divisions) == 8
-
-    def test_correct_number_of_divisions_2(self):
-        assert len(PARSED_TITLE_4.divisions) == 0
 
 
     # def test_correct_number_of_articles_in_division(self):
