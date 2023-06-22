@@ -13,7 +13,8 @@ class IRLCourtsGlossary(Spider):
     name       = "irl_courts_glossary"
     start_urls = ["https://www.courts.ie/glossary"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]): 
         """Framework callback which begins the parsing.
 
         @url https://www.courts.ie/glossary

@@ -81,7 +81,7 @@ class Item(MutableMapping, object_ref, metaclass=ItemMeta):
     def __repr__(self): # -> str:
         ...
     
-    def copy(self): # -> Self@Item:
+    def copy(self): # -> Item:
         ...
     
     def deepcopy(self): # -> Self@Item:

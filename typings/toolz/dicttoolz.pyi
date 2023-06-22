@@ -200,7 +200,7 @@ def update_in(d, keys, func, default=..., factory=...): # -> dict[Unknown, Unkno
     """
     ...
 
-def get_in(keys, coll, default=..., no_default=...): # -> None:
+def get_in(keys, coll, default=..., no_default=...): # -> Sequence[Unknown] | None:
     """ Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
 
     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless

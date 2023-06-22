@@ -38,7 +38,7 @@ class EqualityHashKey:
     [[], (), [1], [2], {}]
 
     **Warning:** don't change the equality value of an item already in a hash
-    containter.  Unhashable types are unhashable for a reason.  For example:
+    container.  Unhashable types are unhashable for a reason.  For example:
 
     >>> L1 = [1] ; L2 = [2]
     >>> s = set(map(EqualityHashDefault, [L1, L2]))

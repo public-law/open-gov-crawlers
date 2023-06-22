@@ -121,7 +121,7 @@ class PythonItemExporter(BaseItemExporter):
     def serialize_field(self, field, name, value):
         ...
     
-    def export_item(self, item): # -> dict[bytes | Unknown, Unknown] | dict[Unknown, Unknown | None]:
+    def export_item(self, item): # -> dict[bytes | Unknown, Unknown] | dict[str | Unknown, Unknown | None]:
         ...
     
 

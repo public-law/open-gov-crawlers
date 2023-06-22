@@ -40,10 +40,10 @@ class ContractsManager:
     def extract_contracts(self, method): # -> list[Unknown]:
         ...
     
-    def from_spider(self, spider, results):
+    def from_spider(self, spider, results): # -> list[Unknown]:
         ...
     
-    def from_method(self, method, results):
+    def from_method(self, method, results): # -> Request | None:
         ...
     
 

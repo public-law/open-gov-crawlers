@@ -62,7 +62,7 @@ class Request:
     def __str__(self) -> str:
         ...
     
-    def __repr__(self): # -> str:
+    def __repr__(self): # -> LiteralString:
         ...
     
 

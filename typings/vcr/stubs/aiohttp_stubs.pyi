@@ -18,10 +18,10 @@ class MockClientResponse(ClientResponse):
     async def json(self, *, encoding=..., loads=..., **kwargs): # -> Any | None:
         ...
     
-    async def text(self, encoding=..., errors=...): # -> Any:
+    async def text(self, encoding=..., errors=...):
         ...
     
-    async def read(self): # -> Any:
+    async def read(self):
         ...
     
     def release(self): # -> None:
@@ -33,10 +33,10 @@ class MockClientResponse(ClientResponse):
     
 
 
-def build_response(vcr_request, vcr_response, history):
+def build_response(vcr_request, vcr_response, history): # -> MockClientResponse:
     ...
 
-def play_responses(cassette, vcr_request, kwargs):
+def play_responses(cassette, vcr_request, kwargs): # -> MockClientResponse:
     ...
 
 async def record_response(cassette, vcr_request, response): # -> None:
@@ -51,6 +51,6 @@ async def record_responses(cassette, vcr_request, response): # -> None:
     """
     ...
 
-def vcr_request(cassette, real_request): # -> (self: Unknown, method: Unknown, url: Unknown, **kwargs: Unknown) -> Unknown:
+def vcr_request(cassette, real_request): # -> _Wrapped[(...), Unknown, (self: Unknown, method: Unknown, url: Unknown, **kwargs: Unknown), Coroutine[Any, Any, MockClientResponse | Unknown]]:
     ...
 

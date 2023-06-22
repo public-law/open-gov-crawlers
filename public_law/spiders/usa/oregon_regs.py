@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, cast
 
 from scrapy import Spider
 from scrapy.selector.unified import Selector
@@ -53,13 +53,13 @@ class OregonRegs(Spider):
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))  # type: ignore
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1)) # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType]
             chapter = new_chapter(db_id, number, name)
 
             new_chapter_index = len(self.oar["chapters"])  # type: ignore
             self.oar["chapters"].append(chapter)  # type: ignore
 
-            request = Request(chapter["url"], callback=self.parse_chapter_page)  # type: ignore
+            request = Request(chapter["url"], callback=self.parse_chapter_page) # pyright: ignore[reportUnknownArgumentType]
             request.meta["chapter_index"] = new_chapter_index  # type: ignore
             yield request
 
@@ -69,20 +69,20 @@ class OregonRegs(Spider):
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
+        chapter: Chapter = cast(Chapter, self.oar["chapters"][response.meta["chapter_index"]]) # pyright: ignore[reportUnknownMemberType]
 
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):  # type: ignore
-            db_id: str = anchor.xpath("@href").get().split("selectedDivision=")[1]  # type: ignore
+            db_id: str = cast(str, anchor.xpath("@href").get().split("selectedDivision=")[1]) # pyright: ignore[reportUnknownMemberType, reportOptionalMemberAccess]
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1)  # type: ignore
+                str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType, reportOptionalMemberAccess]
             )
-            number = raw_number.split(" ")[1]
+            number: str = raw_number.split(" ")[1]
             name: str = titlecase(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter["divisions"].append(division)  # type: ignore
+            chapter["divisions"].append(division) # pyright: ignore[reportUnknownMemberType]
 
             # Request a scrape of the Division page
             request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
@@ -105,9 +105,8 @@ class OregonRegs(Spider):
     @classmethod
     def from_crawler(cls, crawler: Crawler, *args: List[str], **kwargs: Dict[str, Any]):
         """Override to register to receive the idle event"""
-        spider: OregonRegs = super(OregonRegs, cls).from_crawler(  # type: ignore
-            crawler, *args, **kwargs
-        )
+        spider = cast(OregonRegs, super(OregonRegs, cls).from_crawler(crawler, *args, **kwargs)) # pyright: ignore[reportUnknownMemberType]
+
         crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
         return spider
 
