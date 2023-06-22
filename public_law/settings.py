@@ -75,6 +75,10 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy_crawlera.CrawleraMiddleware": 610,
 }
 
+CRAWLERA_ENABLED = True
+VAR = "CRAWLERA_APIKEY"
+if VAR in os.environ:
+    CRAWLERA_APIKEY = os.environ[VAR]
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

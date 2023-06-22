@@ -9,8 +9,7 @@ from scrapy.http.request import Request
 import scrapy.signals
 from titlecase import titlecase
 
-from public_law import items
-from public_law.items import Chapter, Division
+from public_law.items.oar import Chapter, Division, OAR
 from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
@@ -33,7 +32,7 @@ class OregonRegs(Spider):
 
         # The object to return for conversion to a JSON tree. All the parse
         # methods add their results to this structure.
-        self.oar = items.OAR(date_accessed=todays_date(), chapters=[])
+        self.oar = OAR(date_accessed=todays_date(), chapters=[])
 
     def parse(self, response: Response, **_kwargs: Dict[str, Any]):
         """The primary Scrapy callback to begin scraping.
@@ -136,7 +135,7 @@ class OregonRegs(Spider):
 
 
 def new_chapter(db_id: str, number: str, name: str) -> Chapter:
-    return items.Chapter(
+    return Chapter(
         kind="Chapter",
         db_id=db_id,
         number=number,
@@ -147,7 +146,7 @@ def new_chapter(db_id: str, number: str, name: str) -> Chapter:
 
 
 def new_division(db_id: str, number: str, name: str) -> Division:
-    return items.Division(
+    return Division(
         kind="Division",
         db_id=db_id,
         number=number,

@@ -1,14 +1,8 @@
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-
-# -*- coding: utf-8 -*-
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://doc.scrapy.org/en/latest/topics/items.html
-
 import scrapy
+
+#
+# Items for the Oregon Administrative Rules.
+#
 
 
 class OAR(scrapy.Item):
@@ -35,7 +29,12 @@ class Division(scrapy.Item):
 
     def number_in_rule_format(self) -> str:
         """Rules use zero-padded Division numbers"""
-        return self["number"].zfill(3)
+        number = self["number"] # type: ignore
+
+        if isinstance(number, str):
+            return number.zfill(3)
+        else:
+            raise ValueError(f"Division number is not a string: {self['number']}")
 
 
 class Rule(scrapy.Item):
@@ -51,4 +50,9 @@ class Rule(scrapy.Item):
     history = scrapy.Field()  # str
 
     def division_number(self) -> str:
-        return self["number"].split("-")[1]
+        number = self["number"] # type: ignore
+
+        if isinstance(number, str):
+            return number.split("-")[1]
+        else:
+            raise ValueError(f"Rule number is not a string: {self['number']}")
