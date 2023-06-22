@@ -1,6 +1,9 @@
+from typing import cast
+
 from scrapy.selector.unified import Selector
 
 from public_law.parsers.usa.colorado.crs import parse_title
+from public_law.items.crs import Division
 
 
 def fixture(filename: str) -> str:
@@ -45,25 +48,25 @@ class TestParseTitle:
 
 
     def test_correct_number_of_divisions_1(self):
-        assert len(PARSED_TITLE_16.divisions) == 8
+        assert len(PARSED_TITLE_16.children) == 8
 
     def test_correct_number_of_divisions_2(self):
-        assert len(PARSED_TITLE_4.divisions) == 0
+        assert len(PARSED_TITLE_4.children) == 0
 
 
     def test_first_division_retrieved(self):
-        divs = PARSED_TITLE_16.divisions
+        divs = PARSED_TITLE_16.children
 
         assert divs[0].name == "Code of Criminal Procedure"
 
     def test_last_division_retrieved(self):
-        divs = PARSED_TITLE_16.divisions
+        divs = PARSED_TITLE_16.children
 
         assert divs[-1].name == "Offenders - Registration"
 
 
     def test_division_source_url(self):
-        last_division = PARSED_TITLE_16.divisions[-1]
+        last_division = PARSED_TITLE_16.children[-1]
 
         assert (
             last_division.source_url
@@ -75,39 +78,39 @@ class TestParseTitle:
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
-        div_1_code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
 
         assert div_1_code_of_crim_pro.name          == "Code of Criminal Procedure"
         assert len(div_1_code_of_crim_pro.articles) == 22
 
     def test_correct_number_of_articles_in_a_division_2(self):
-        division_2 = PARSED_TITLE_16.divisions[1]
+        division_2 = cast(Division, PARSED_TITLE_16.children[1])
         
         assert division_2.name          == "Uniform Mandatory Disposition of Detainers Act"
         assert len(division_2.articles) == 1
 
 
     def test_article_number_1(self):
-        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
         article_1        = code_of_crim_pro.articles[0]
 
-        assert article_1.number     == "1"
+        assert article_1.number == "1"
 
     def test_article_name_1(self):
-        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
         article_1        = code_of_crim_pro.articles[0]
 
-        assert article_1.name       == "General Provisions"
+        assert article_1.name == "General Provisions"
 
     def test_article_url_1(self):
-        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
         article_1        = code_of_crim_pro.articles[0]
 
         assert article_1.source_url == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
 
 
     # def we_can_get_a_div_editors_note(self):
-    #     div_1 = PARSED_TITLE_16.divisions[0]
+    #     div_1 = PARSED_TITLE_16.children[0]
 
     #     assert (
     #         div_1.editors_note

@@ -27,7 +27,7 @@ def parse_title(dom: Selector) -> Title:
     return Title(
         name=titlecase(raw_name),
         number=raw_number,
-        divisions=_parse_divisions(dom, source_url),
+        children=_parse_divisions(dom, source_url),
         source_url=source_url,
     )
 
@@ -71,7 +71,8 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
         Article(
             name=parse_article_name(n), 
             number=parse_article_number(n), 
-            source_url=source_url
+            source_url=source_url,
+            sections=[]
             ) 
         for n in article_nodes
         ]
