@@ -55,7 +55,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
     # 2. Find the T-DIV with the Division name.
     partial_list = list(dropwhile(
-        lambda n: titlecase(n.xpath("text()").get()) != name, 
+        lambda n: titlecase(just_text(n)) != name, 
         divs_and_articles
         ))
 
@@ -83,6 +83,9 @@ def is_article_node(node: Selector):
 
 def node_name(node: Selector):
     return node.xpath("name()").get()
+
+def just_text(node: Selector):
+    return node.xpath("text()").get()
 
 
 def parse_article_name(node: Selector):
