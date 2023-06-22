@@ -65,7 +65,7 @@ def statute_meta(text: str) -> List[str]:
 
 def parse_division(html: Response) -> List[Rule]:
     rules = [
-        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]')
+        parse_rule(rule_div) for rule_div in html.xpath('//div[@class="rule_div"]') # type: ignore
     ]
     if len(rules) == 0:
         raise ParseException("Found no Rules in the Division")
@@ -74,16 +74,16 @@ def parse_division(html: Response) -> List[Rule]:
 
 
 def parse_rule(rule_div: Selector) -> Rule:
-    number: str = rule_div.css("strong > a::text").get(" ").strip()
-    name: str = rule_div.css("strong::text").get(" ").strip()
+    number: str = rule_div.css("strong > a::text").get(" ").strip() # type: ignore
+    name: str = rule_div.css("strong::text").get(" ").strip() # type: ignore
 
-    return _parse_rule_content(rule_div, number, name)
+    return _parse_rule_content(rule_div, number, name) # type: ignore
 
 
 def _parse_rule_content(rule_div: Selector, number: str, name: str) -> Rule:
-    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall()
-    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs]
-    cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs]
+    raw_paragraphs: List[str] = rule_div.xpath("p")[1:].getall() # type: ignore
+    cleaned_up_paragraphs = [p.strip().replace("\n", "") for p in raw_paragraphs] # type: ignore
+    cleaned_up_paragraphs = [re.sub(r" +", " ", p) for p in cleaned_up_paragraphs] # type: ignore
     non_empty_paragraphs = list(filter(None, cleaned_up_paragraphs))
     content_paragraphs = non_empty_paragraphs[1:-1]
 
