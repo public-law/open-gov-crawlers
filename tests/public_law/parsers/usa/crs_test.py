@@ -1,7 +1,7 @@
 from scrapy.selector.unified import Selector
 # from public_law.items.crs import Title
 
-from public_law.parsers.us.colorado.crs import parse_title
+from public_law.parsers.usa.colorado.crs import parse_title
 
 
 def fixture(filename: str) -> str:
