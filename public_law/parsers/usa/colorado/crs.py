@@ -1,17 +1,20 @@
+# pyright: reportUnknownMemberType=false
+# pyright: reportOptionalMemberAccess=false
+
+
 from scrapy.selector.unified import Selector
 from titlecase import titlecase
+from typing import cast
 
 from public_law.items.crs import Article, Division, Title
 
 
 def parse_title(dom: Selector) -> Title:
     print(f"{dom=}")
-    raw_name: str = dom.xpath("//title-text/text()").get() # type: ignore
-    raw_number: str = dom.xpath("//title-num/text()").get().split(" ")[1] # type: ignore
-    if not isinstance(raw_number, str):
-        raise ValueError(f"raw_number is not a string: {raw_number=}")
+    raw_name   = cast(str, dom.xpath("//title-text/text()").get())
+    raw_number = cast(str, dom.xpath("//title-num/text()").get().split(" ")[1])
 
-    url_number: str = raw_number.rjust(2, "0")
+    url_number = raw_number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-{url_number}.pdf"
 
     return Title(
@@ -23,7 +26,7 @@ def parse_title(dom: Selector) -> Title:
 
 
 def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names: list[str] = dom.xpath("//t-div/text()").getall() # type: ignore
+    raw_division_names: list[str] = dom.xpath("//t-div/text()").getall()
 
     return [
         Division(
