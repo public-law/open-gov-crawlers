@@ -3,11 +3,12 @@
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownLambdaType=false
+# pyright: reportGeneralTypeIssues=false
 
 
 from scrapy.selector.unified import Selector
 from titlecase import titlecase
-import itertools
+from itertools import takewhile, dropwhile
 from typing import cast
 
 from public_law.items.crs import Article, Division, Title
@@ -36,29 +37,34 @@ def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
         Division(
             name=titlecase(div_node.get()),
             source_url=source_url,
-            articles=_parse_articles(dom, div_node, source_url),
+            articles=_parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
         )
         for div_node in raw_division_names
     ]
 
 
-def _parse_articles(dom: Selector, div_node: Selector, source_url: str) -> list[Article]:
+def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
+    #
     # Algorithm:
     #
     # 1. Get all the child elements of TITLE-ANAL.
+    divs_and_articles = dom.xpath("//title-anal/t-div | //title-anal/ta-list")
+
     # 2. Find the T-DIV with the Division name.
+    partial_list = list(dropwhile(
+        lambda n: titlecase(n.xpath("text()").get()) != name, 
+        divs_and_articles
+        ))
+
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop if another T-DIV is reached.
+    _head = partial_list[0]
+    tail = partial_list[1:]
+    article_nodes = takewhile(is_article_node, tail)
 
-    divs_and_articles = dom.xpath("//t-div | //ta-list")
-
-    _head = divs_and_articles[0]
-    tail = divs_and_articles[1:]
-
-    article_nodes = itertools.takewhile(is_article_node, tail)
-    
+    # 4. Convert the TA-LIST elements into Article objects.    
     articles = [Article(name=n.get(), number="999", source_url=source_url) for n in article_nodes]
 
     return articles
