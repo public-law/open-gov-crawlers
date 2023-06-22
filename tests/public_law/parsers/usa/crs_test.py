@@ -72,19 +72,22 @@ class TestParseTitle:
         )
 
 
-    def test_correct_number_of_articles_in_a_division(self):
+    def test_correct_number_of_articles_in_a_division_1(self):
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
-        expected_article_count = 22
-        #
 
         code_of_crim_pro = PARSED_TITLE_16.divisions[0]
 
         # Verify we have the correct Division.
-        assert code_of_crim_pro.name == "Code of Criminal Procedure"
+        assert code_of_crim_pro.name          == "Code of Criminal Procedure"
+        assert len(code_of_crim_pro.articles) == 22
 
-        assert len(code_of_crim_pro.articles) == expected_article_count
+    def test_correct_number_of_articles_in_a_division_2(self):
+        division_2 = PARSED_TITLE_16.divisions[1]
+        
+        assert division_2.name          == "Uniform Mandatory Disposition of Detainers Act"
+        assert len(division_2.articles) == 1
 
 
     # def we_can_get_a_div_editors_note(self):
