@@ -10,6 +10,7 @@ from scrapy.selector.unified import Selector
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
 from typing import cast
+from public_law.text import remove_trailing_period
 
 from public_law.items.crs import Article, Division, Title
 
@@ -59,13 +60,15 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
         ))
 
     # 3. `takewhile` all the following TA-LIST elements
-    #    and stop if another T-DIV is reached.
+    #    and stop at the end of the Articles.
     _head = partial_list[0]
     tail = partial_list[1:]
     article_nodes = takewhile(is_article_node, tail)
 
     # 4. Convert the TA-LIST elements into Article objects.    
-    articles = [Article(name=n.get(), number="999", source_url=source_url) for n in article_nodes]
+    articles = [
+        Article(name=n.get(), number=remove_trailing_period(n.xpath("dt/text()").get()), source_url=source_url) 
+        for n in article_nodes]
 
     return articles
 

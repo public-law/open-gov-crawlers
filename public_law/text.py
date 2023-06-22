@@ -196,3 +196,12 @@ def truncate_words(text: str, words_count: int) -> str:
         return text
 
     return " ".join(words[:words_count]) + "..."
+
+
+def remove_trailing_period(text: str) -> str:
+    """
+    Remove a trailing period from the string.
+    """
+    if text.endswith("."):
+        return text[:-1]
+    return text

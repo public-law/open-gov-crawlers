@@ -76,10 +76,10 @@ class TestParseTitle:
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
-        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        div_1_code_of_crim_pro = PARSED_TITLE_16.divisions[0]
 
-        assert code_of_crim_pro.name          == "Code of Criminal Procedure"
-        assert len(code_of_crim_pro.articles) == 22
+        assert div_1_code_of_crim_pro.name          == "Code of Criminal Procedure"
+        assert len(div_1_code_of_crim_pro.articles) == 22
 
     def test_correct_number_of_articles_in_a_division_2(self):
         division_2 = PARSED_TITLE_16.divisions[1]
@@ -88,11 +88,16 @@ class TestParseTitle:
         assert len(division_2.articles) == 1
 
 
-    def test_article_parsing_1(self):
+    def test_article_number_1(self):
         code_of_crim_pro = PARSED_TITLE_16.divisions[0]
         article_1        = code_of_crim_pro.articles[0]
 
         assert article_1.number     == "1"
+
+    def test_article_name_1(self):
+        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        article_1        = code_of_crim_pro.articles[0]
+
         assert article_1.name       == "General Provisions"
 
 
