@@ -22,7 +22,7 @@ def parse_title(dom: Selector) -> Title:
     raw_number = dom.xpath("//title-num/text()").get().split(" ")[1]
 
     url_number = raw_number.rjust(2, "0")
-    source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-{url_number}.pdf"
+    source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
 
     return Title(
         name=titlecase(raw_name),

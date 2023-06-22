@@ -28,13 +28,13 @@ class TestParseTitle:
     def test_title_url_1(self):
         assert (
             PARSED_TITLE_16.source_url
-            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-16.pdf"
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
         )
 
     def test_title_url_2(self):
         assert (
             PARSED_TITLE_4.source_url
-            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-04.pdf"
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-04.pdf"
         )
 
 
@@ -68,7 +68,7 @@ class TestParseTitle:
 
         assert (
             last_division.source_url
-            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-16.pdf"
+            == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
         )
 
 
@@ -99,6 +99,12 @@ class TestParseTitle:
         article_1        = code_of_crim_pro.articles[0]
 
         assert article_1.name       == "General Provisions"
+
+    def test_article_url_1(self):
+        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        article_1        = code_of_crim_pro.articles[0]
+
+        assert article_1.source_url == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
 
 
     # def we_can_get_a_div_editors_note(self):
