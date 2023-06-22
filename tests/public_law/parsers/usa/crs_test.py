@@ -5,7 +5,7 @@ from public_law.parsers.us.colorado.crs import parse_title
 
 
 def fixture(filename: str) -> str:
-    return open(f"./test/fixtures/{filename}", encoding="utf8").read()
+    return open(f"./tests/fixtures/usa/crs/{filename}", encoding="utf8").read()
 
 
 # A Title with no Divisions.
