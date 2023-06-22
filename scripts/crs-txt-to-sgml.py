@@ -80,4 +80,4 @@ with open(SGML_FILE, mode="w", encoding="utf8") as f:
     f.writelines(cleaned_up)
 
 # 4. Convert the SGML to XML.
-os.system(OSX_CMD)
+_ = os.system(OSX_CMD)
