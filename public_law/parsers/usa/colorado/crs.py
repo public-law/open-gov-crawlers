@@ -79,7 +79,10 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
 
 def is_article_node(node: Selector):
-    return node.xpath("name()").get() == "ta-list"
+    return node_name(node) == "ta-list"
+
+def node_name(node: Selector):
+    return node.xpath("name()").get()
 
 
 def parse_article_name(node: Selector):
