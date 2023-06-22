@@ -32,11 +32,15 @@ class BaseDupeFilter:
 RFPDupeFilterTV = TypeVar("RFPDupeFilterTV", bound="RFPDupeFilter")
 class RFPDupeFilter(BaseDupeFilter):
     """Request Fingerprint duplicates filter"""
-    def __init__(self, path: Optional[str] = ..., debug: bool = ...) -> None:
+    def __init__(self, path: Optional[str] = ..., debug: bool = ..., *, fingerprinter=...) -> None:
         ...
     
     @classmethod
-    def from_settings(cls: Type[RFPDupeFilterTV], settings: BaseSettings) -> RFPDupeFilterTV:
+    def from_settings(cls: Type[RFPDupeFilterTV], settings: BaseSettings, *, fingerprinter=...) -> RFPDupeFilterTV:
+        ...
+    
+    @classmethod
+    def from_crawler(cls, crawler): # -> Self@RFPDupeFilter:
         ...
     
     def request_seen(self, request: Request) -> bool:

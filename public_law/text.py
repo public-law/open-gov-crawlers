@@ -123,7 +123,7 @@ def make_soup(html: HtmlResponse) -> BeautifulSoup:
     Create a BeautifulSoup object from the Response body.
     """
     return BeautifulSoup(
-        cast(str, html.body), "html.parser" # type: ignore
+        cast(str, html.body), "html.parser"
     )  
 
 
@@ -164,6 +164,8 @@ def normalize_whitespace(text: str) -> str:
     """
     Remove extra whitespace from around and within the string
     """
+    assert isinstance(text, str)
+    
     no_newlines = text.replace("\n", " ")
     return " ".join(no_newlines.strip().split())
 
@@ -173,6 +175,8 @@ def normalize_nonempty(text: str) -> NonemptyString:
     Remove extra whitespace from around and within the string,
     combined with instantiation of a NonemptyString.
     """
+    assert isinstance(text, str)
+
     return NonemptyString(normalize_whitespace(text))
 
 

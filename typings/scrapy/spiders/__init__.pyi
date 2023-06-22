@@ -43,7 +43,7 @@ class Spider(object_ref):
     def from_crawler(cls, crawler, *args, **kwargs): # -> Self@Spider:
         ...
     
-    def start_requests(self): # -> Generator[Request, None, None]:
+    def start_requests(self): # -> Generator[Request, Any, None]:
         ...
     
     def parse(self, response, **kwargs):

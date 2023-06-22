@@ -21,7 +21,7 @@ class TextResponse(Response):
         ...
     
     @property
-    def encoding(self):
+    def encoding(self): # -> str:
         ...
     
     def json(self): # -> Any | object:
@@ -33,7 +33,7 @@ class TextResponse(Response):
         ...
     
     @property
-    def text(self):
+    def text(self): # -> str:
         """ Body as unicode """
         ...
     
@@ -46,10 +46,10 @@ class TextResponse(Response):
     def selector(self): # -> Selector:
         ...
     
-    def xpath(self, query, **kwargs):
+    def xpath(self, query, **kwargs): # -> selectorlist_cls:
         ...
     
-    def css(self, query):
+    def css(self, query): # -> selectorlist_cls:
         ...
     
     def follow(self, url, callback=..., method=..., headers=..., body=..., cookies=..., meta=..., encoding=..., priority=..., dont_filter=..., errback=..., cb_kwargs=..., flags=...) -> Request:

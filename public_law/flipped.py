@@ -8,8 +8,8 @@ from toolz.functoolz import flip
 
 
 """ Return a copy of the string with leading characters removed. """
-lstrip: Callable[[str, str], str] = flip(str.lstrip)
+lstrip: Callable[[str, str], str] = flip(str.lstrip) # type: ignore
 
 
 """ Return a copy of the string with trailing characters removed. """
-rstrip: Callable[[str, str], str] = flip(str.rstrip)
+rstrip: Callable[[str, str], str] = flip(str.rstrip) # type: ignore

@@ -6,7 +6,7 @@ class SignalManager:
     def __init__(self, sender=...) -> None:
         ...
     
-    def connect(self, receiver, signal, **kwargs):
+    def connect(self, receiver, signal, **kwargs): # -> None:
         """
         Connect a receiver function to a signal.
 
@@ -22,7 +22,7 @@ class SignalManager:
         """
         ...
     
-    def disconnect(self, receiver, signal, **kwargs):
+    def disconnect(self, receiver, signal, **kwargs): # -> None:
         """
         Disconnect a receiver function from a signal. This has the
         opposite effect of the :meth:`connect` method, and the arguments
@@ -30,7 +30,7 @@ class SignalManager:
         """
         ...
     
-    def send_catch_log(self, signal, **kwargs):
+    def send_catch_log(self, signal, **kwargs): # -> list[Unknown]:
         """
         Send a signal, catch exceptions and log them.
 

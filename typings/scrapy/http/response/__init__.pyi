@@ -39,11 +39,11 @@ class Response(object_ref):
         ...
     
     __repr__ = ...
-    def copy(self): # -> Self@Response:
+    def copy(self): # -> Response:
         """Return a copy of this Response"""
         ...
     
-    def replace(self, *args, **kwargs): # -> Self@Response:
+    def replace(self, *args, **kwargs): # -> Response:
         """Create a new Response with the same attributes except for those given new values"""
         ...
     

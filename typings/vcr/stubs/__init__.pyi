@@ -96,7 +96,7 @@ class VCRHTTPResponse(HTTPResponse):
     def getheaders(self): # -> list[tuple[Unknown, Unknown]]:
         ...
     
-    def getheader(self, header, default=...): # -> str | None:
+    def getheader(self, header, default=...): # -> LiteralString | None:
         ...
     
     def readable(self): # -> bool:

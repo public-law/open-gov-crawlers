@@ -28,7 +28,7 @@ def get_exclude_keywords(num_pos_only, sigspec): # -> tuple[()] | tuple[Unknown,
 def signature_or_spec(func): # -> Signature | None:
     ...
 
-def expand_sig(sig): # -> tuple[Unknown | int, Unknown, Unknown | tuple[()] | tuple[Any, ...], Signature | None]:
+def expand_sig(sig): # -> tuple[Unknown | int, Unknown, Unknown | tuple[Any, ...], Signature | None]:
     """ Convert the signature spec in ``module_info`` to add to ``signatures``
 
     The input signature spec is one of:
@@ -59,7 +59,7 @@ def check_partial(sig, args, kwargs):
     """ Like ``is_partial_args`` for the given signature spec"""
     ...
 
-def check_arity(n, sig): # -> Literal[False]:
+def check_arity(n, sig): # -> bool | None:
     ...
 
 def check_varargs(sig): # -> bool | None:
@@ -68,6 +68,6 @@ def check_varargs(sig): # -> bool | None:
 def check_keywords(sig): # -> bool | None:
     ...
 
-def check_required_args(sig):
+def check_required_args(sig): # -> int | Literal[False] | None:
     ...
 

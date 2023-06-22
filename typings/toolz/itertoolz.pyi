@@ -13,7 +13,7 @@ def remove(predicate, seq): # -> filterfalse[Unknown]:
     """
     ...
 
-def accumulate(binop, seq, initial=...): # -> Generator[Unknown | str, None, None]:
+def accumulate(binop, seq, initial=...): # -> Generator[Unknown | str, Any, None]:
     """ Repeatedly apply binary function to a sequence, accumulating results
 
     >>> from operator import add, mul
@@ -69,7 +69,7 @@ def groupby(key, seq): # -> dict[Unknown, Unknown]:
     """
     ...
 
-def merge_sorted(*seqs, **kwargs): # -> Iterator[Any] | Generator[Unknown, None, None]:
+def merge_sorted(*seqs, **kwargs): # -> Iterator[Any] | Generator[Unknown, Any, None]:
     """ Merge and sort a collection of sorted collections
 
     This works lazily and only keeps one value from each iterable in memory.
@@ -87,7 +87,7 @@ def merge_sorted(*seqs, **kwargs): # -> Iterator[Any] | Generator[Unknown, None,
     """
     ...
 
-def interleave(seqs): # -> Generator[Unknown, None, None]:
+def interleave(seqs): # -> Generator[Unknown, Any, None]:
     """ Interleave a sequence of sequences
 
     >>> list(interleave([[1, 2], [3, 4]]))
@@ -102,7 +102,7 @@ def interleave(seqs): # -> Generator[Unknown, None, None]:
     """
     ...
 
-def unique(seq, key=...): # -> Generator[Unknown, None, None]:
+def unique(seq, key=...): # -> Generator[Unknown, Any, None]:
     """ Return only unique elements of a sequence
 
     >>> tuple(unique((1, 2, 3)))
@@ -221,7 +221,7 @@ def last(seq):
     ...
 
 rest = ...
-def get(ind, seq, default=...):
+def get(ind, seq, default=...): # -> Any | tuple[Unknown] | tuple[()] | tuple[Unknown | str, ...] | str:
     """ Get element in a sequence or dict
 
     Provides standard indexing
@@ -384,7 +384,7 @@ def reduceby(key, binop, seq, init=...): # -> dict[Unknown, Unknown]:
     """
     ...
 
-def iterate(func, x): # -> Generator[Unknown, None, None]:
+def iterate(func, x): # -> Generator[Unknown, Any, None]:
     """ Repeatedly apply a function func onto an original input
 
     Yields x, then func(x), then func(func(x)), then func(func(func(x))), etc..
@@ -427,7 +427,7 @@ def sliding_window(n, seq): # -> zip[tuple[Unknown]]:
     ...
 
 no_pad = ...
-def partition(n, seq, pad=...): # -> zip[tuple[Unknown]] | zip_longest[tuple[Unknown]]:
+def partition(n, seq, pad=...): # -> zip[Unknown] | zip_longest[Unknown]:
     """ Partition sequence into tuples of length n
 
     >>> list(partition(2, [1, 2, 3, 4]))
@@ -447,7 +447,7 @@ def partition(n, seq, pad=...): # -> zip[tuple[Unknown]] | zip_longest[tuple[Unk
     """
     ...
 
-def partition_all(n, seq): # -> Generator[tuple[Unknown] | tuple[Unknown, ...], None, None]:
+def partition_all(n, seq): # -> Generator[Unknown, Any, None]:
     """ Partition all elements of sequence into tuples of length at most n
 
     The final tuple may be shorter to accommodate extra elements.
@@ -500,10 +500,10 @@ def pluck(ind, seqs, default=...): # -> map[Any] | Generator[tuple[Unknown | str
     """
     ...
 
-def getter(index): # -> ((x: Unknown) -> tuple[Unknown]) | itemgetter[Any] | ((x: Unknown) -> tuple[()]):
+def getter(index): # -> ((x: Unknown) -> tuple[Unknown]) | itemgetter[Unknown] | ((x: Unknown) -> tuple[()]):
     ...
 
-def join(leftkey, leftseq, rightkey, rightseq, left_default=..., right_default=...):
+def join(leftkey, leftseq, rightkey, rightseq, left_default=..., right_default=...): # -> Generator[tuple[Unknown, Unknown] | tuple[str, Unknown] | tuple[Unknown, str], Any, None]:
     """ Join two sequences on common attributes
 
     This is a semi-streaming operation.  The LEFT sequence is fully evaluated
@@ -563,7 +563,7 @@ def join(leftkey, leftseq, rightkey, rightseq, left_default=..., right_default=.
     """
     ...
 
-def diff(*seqs, **kwargs):
+def diff(*seqs, **kwargs): # -> Generator[Unknown, Any, None]:
     """ Return those items that differ between sequences
 
     >>> list(diff([1, 2, 3], [1, 2, 10, 100]))

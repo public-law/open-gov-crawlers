@@ -61,7 +61,7 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         is_official=title.startswith("Official"),
         date=opinion_date_to_iso8601(date),
         full_text=full_text,
-        source_url=html.url,  # pyright: reportUnknownMemberType=false
+        source_url=html.url,
         citations=citation_set,
     )
 
@@ -71,11 +71,11 @@ def opinion_date_to_iso8601(date: str) -> str:
 
 
 def get_all(node: Union[Response, Selector], css: str) -> List[str]:
-    return node.css(css).getall()
+    return node.css(css).getall() # type: ignore
 
 
 def first(node: Response | Selector, css: str, expected: str) -> str:
-    match node.css(css).get():
+    match node.css(css).get(): # type: ignore
         case str(result):
             return result
         case _:

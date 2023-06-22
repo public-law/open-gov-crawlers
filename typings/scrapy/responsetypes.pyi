@@ -39,7 +39,7 @@ class ResponseTypes:
         cannot be guess using more straightforward methods."""
         ...
     
-    def from_args(self, headers=..., url=..., filename=..., body=...):
+    def from_args(self, headers=..., url=..., filename=..., body=...): # -> Type[Response]:
         """Guess the most appropriate Response class based on
         the given arguments."""
         ...

@@ -17,7 +17,7 @@ class VCR:
     def use_cassette(self, path=..., **kwargs): # -> CassetteContextDecorator:
         ...
     
-    def get_merged_config(self, **kwargs): # -> dict[str, Unknown]:
+    def get_merged_config(self, **kwargs): # -> dict[str, Module("vcr.config.yamlserializer") | Module("vcr.config.jsonserializer") | Type[FilesystemPersister] | Unknown | list[Unknown] | RecordMode | ((request: Unknown) -> Unknown) | ((response: Unknown) -> Unknown) | tuple[Unknown, ...] | bool | ((incoming: Unknown) -> Unknown) | ((function: Unknown) -> str) | None]:
         ...
     
     def register_serializer(self, name, serializer): # -> None:

@@ -20,6 +20,7 @@ def url_is_from_spider(url, spider): # -> bool:
     ...
 
 def url_has_any_extension(url, extensions): # -> bool:
+    """Return True if the url ends with one of the extensions provided"""
     ...
 
 def parse_url(url, encoding=...): # -> ParseResult:
@@ -28,7 +29,7 @@ def parse_url(url, encoding=...): # -> ParseResult:
     """
     ...
 
-def escape_ajax(url):
+def escape_ajax(url): # -> str:
     """
     Return the crawleable url according to:
     https://developers.google.com/webmasters/ajax-crawling/docs/getting-started
@@ -57,12 +58,12 @@ def add_http_if_no_scheme(url):
     """Add http as the default scheme if it is missing from the url."""
     ...
 
-def guess_scheme(url):
+def guess_scheme(url): # -> str:
     """Add an URL scheme if missing: file:// for filepath-like input or
     http:// otherwise."""
     ...
 
-def strip_url(url, strip_credentials=..., strip_default_port=..., origin_only=..., strip_fragment=...):
+def strip_url(url, strip_credentials=..., strip_default_port=..., origin_only=..., strip_fragment=...): # -> str:
     """Strip URL string from some of its components:
 
     - ``strip_credentials`` removes "user:password@"

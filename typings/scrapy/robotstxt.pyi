@@ -84,7 +84,7 @@ class ProtegoRobotParser(RobotParser):
     def from_crawler(cls, crawler, robotstxt_body): # -> Self@ProtegoRobotParser:
         ...
     
-    def allowed(self, url, user_agent):
+    def allowed(self, url, user_agent): # -> Literal[True]:
         ...
     
 
