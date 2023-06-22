@@ -1,17 +1,24 @@
+# pyright: reportUnknownMemberType=false
+# pyright: reportOptionalMemberAccess=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownLambdaType=false
+
+
 from scrapy.selector.unified import Selector
 from titlecase import titlecase
+import itertools
+from typing import cast
 
 from public_law.items.crs import Article, Division, Title
 
 
 def parse_title(dom: Selector) -> Title:
     print(f"{dom=}")
-    raw_name: str = dom.xpath("//title-text/text()").get() # type: ignore
-    raw_number: str = dom.xpath("//title-num/text()").get().split(" ")[1] # type: ignore
-    if not isinstance(raw_number, str):
-        raise ValueError(f"raw_number is not a string: {raw_number=}")
+    raw_name   = cast(str, dom.xpath("//title-text/text()").get())
+    raw_number = cast(str, dom.xpath("//title-num/text()").get().split(" ")[1])
 
-    url_number: str = raw_number.rjust(2, "0")
+    url_number = raw_number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-{url_number}.pdf"
 
     return Title(
@@ -23,21 +30,19 @@ def parse_title(dom: Selector) -> Title:
 
 
 def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names: list[str] = dom.xpath("//t-div/text()").getall() # type: ignore
+    raw_division_names = dom.xpath("//t-div/text()")
 
     return [
         Division(
-            name=titlecase(name),
+            name=titlecase(div_node.get()),
             source_url=source_url,
-            articles=_parse_articles(name, dom, source_url),
+            articles=_parse_articles(dom, div_node, source_url),
         )
-        for name in raw_division_names
+        for div_node in raw_division_names
     ]
 
 
-def _parse_articles(
-    division_name: str, dom: Selector, source_url: str
-) -> list[Article]:
+def _parse_articles(dom: Selector, div_node: Selector, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     # Algorithm:
@@ -47,4 +52,16 @@ def _parse_articles(
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop if another T-DIV is reached.
 
-    return []
+    divs_and_articles = dom.xpath("//t-div | //ta-list")
+
+    _head = divs_and_articles[0]
+    tail = divs_and_articles[1:]
+
+    article_nodes = itertools.takewhile(
+        lambda node: node.xpath("name()").get() == "ta-list", 
+        tail
+        )
+    
+    articles = [Article(name=n.get(), number="999", source_url=source_url) for n in article_nodes]
+
+    return articles
