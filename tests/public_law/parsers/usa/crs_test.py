@@ -76,10 +76,8 @@ class TestParseTitle:
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
-
         code_of_crim_pro = PARSED_TITLE_16.divisions[0]
 
-        # Verify we have the correct Division.
         assert code_of_crim_pro.name          == "Code of Criminal Procedure"
         assert len(code_of_crim_pro.articles) == 22
 

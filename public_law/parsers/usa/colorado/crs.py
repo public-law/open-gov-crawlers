@@ -57,11 +57,12 @@ def _parse_articles(dom: Selector, div_node: Selector, source_url: str) -> list[
     _head = divs_and_articles[0]
     tail = divs_and_articles[1:]
 
-    article_nodes = itertools.takewhile(
-        lambda node: node.xpath("name()").get() == "ta-list", 
-        tail
-        )
+    article_nodes = itertools.takewhile(is_article_node, tail)
     
     articles = [Article(name=n.get(), number="999", source_url=source_url) for n in article_nodes]
 
     return articles
+
+
+def is_article_node(node: Selector):
+    return node.xpath("name()").get() == "ta-list"
