@@ -88,6 +88,14 @@ class TestParseTitle:
         assert len(division_2.articles) == 1
 
 
+    def test_article_parsing_1(self):
+        code_of_crim_pro = PARSED_TITLE_16.divisions[0]
+        article_1        = code_of_crim_pro.articles[0]
+
+        assert article_1.number     == "1"
+        assert article_1.name       == "General Provisions"
+
+
     # def we_can_get_a_div_editors_note(self):
     #     div_1 = PARSED_TITLE_16.divisions[0]
 
