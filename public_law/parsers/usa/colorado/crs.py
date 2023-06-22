@@ -67,8 +67,13 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
     # 4. Convert the TA-LIST elements into Article objects.    
     articles = [
-        Article(name=n.get(), number=remove_trailing_period(n.xpath("dt/text()").get()), source_url=source_url) 
-        for n in article_nodes]
+        Article(
+            name=n.xpath("i/text()").get(), 
+            number=remove_trailing_period(n.xpath("dt/text()").get()), 
+            source_url=source_url
+            ) 
+        for n in article_nodes
+        ]
 
     return articles
 
