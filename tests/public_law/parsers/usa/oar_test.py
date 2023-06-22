@@ -13,7 +13,7 @@ from public_law.parsers.usa.oregon_regs import (
  
 
 def fixture(filename: str) -> IO[Any]:
-    return open(f"test/fixtures/{filename}", encoding="utf8")
+    return open(f"tests/fixtures/usa/oar/{filename}", encoding="utf8")
 
 
 def fixture2(filename: str) -> str:
@@ -21,7 +21,7 @@ def fixture2(filename: str) -> str:
 
 
 def html_fixture() -> Selector:
-    return Selector(text=fixture2("oar/division_450.html"))
+    return Selector(text=fixture2("division_450.html"))
 
 
 DIV_450 = html_fixture()
@@ -106,7 +106,7 @@ class TestMetaSections:
 
 class TestTheFixture:
     def test_can_access_a_fixture(self):
-        assert len(fixture2("oar/division_450.html")) > 0
+        assert len(fixture2("division_450.html")) > 0
 
 
 class TestParseDivision:
