@@ -10,8 +10,9 @@ from scrapy.selector.unified import Selector
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
 from typing import cast
-from public_law.text import remove_trailing_period
 
+from public_law.selector_util import node_name, just_text
+from public_law.text import remove_trailing_period
 from public_law.items.crs import Article, Division, Title
 
 
@@ -80,13 +81,6 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
 def is_article_node(node: Selector):
     return node_name(node) == "ta-list"
-
-def node_name(node: Selector):
-    return node.xpath("name()").get()
-
-def just_text(node: Selector):
-    return node.xpath("text()").get()
-
 
 def parse_article_name(node: Selector):
     """Return just the name of the Article.
