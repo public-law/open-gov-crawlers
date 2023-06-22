@@ -2,10 +2,12 @@
 # pyright: reportOptionalMemberAccess=false
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownLambdaType=false
 
 
 from scrapy.selector.unified import Selector
 from titlecase import titlecase
+import itertools
 from typing import cast
 
 from public_law.items.crs import Article, Division, Title
@@ -32,15 +34,15 @@ def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
 
     return [
         Division(
-            name=titlecase(name.get()),
+            name=titlecase(div_node.get()),
             source_url=source_url,
-            articles=_parse_articles(name, source_url),
+            articles=_parse_articles(dom, div_node, source_url),
         )
-        for name in raw_division_names
+        for div_node in raw_division_names
     ]
 
 
-def _parse_articles(dom: Selector, source_url: str) -> list[Article]:
+def _parse_articles(dom: Selector, div_node: Selector, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     # Algorithm:
@@ -50,5 +52,16 @@ def _parse_articles(dom: Selector, source_url: str) -> list[Article]:
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop if another T-DIV is reached.
 
-    # breakpoint()
-    return []
+    divs_and_articles = dom.xpath("//t-div | //ta-list")
+
+    _head = divs_and_articles[0]
+    tail = divs_and_articles[1:]
+
+    article_nodes = itertools.takewhile(
+        lambda node: node.xpath("name()").get() == "ta-list", 
+        tail
+        )
+    
+    articles = [Article(name=n.get(), number="999", source_url=source_url) for n in article_nodes]
+
+    return articles
