@@ -10,7 +10,7 @@ import scrapy.signals
 from titlecase import titlecase
 
 from public_law.items.oar import Chapter, Division, OAR
-from public_law.parsers.us.oregon import DOMAIN, oar_url, parse_division
+from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
 
 
