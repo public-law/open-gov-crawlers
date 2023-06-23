@@ -19,7 +19,8 @@ TITLE_16 = Selector(text=fixture("title16.xml"))
 PARSED_TITLE_16 = parse_title(TITLE_16)
 
 
-class TestParseTitle:
+
+class TestParseTitles:
     def test_title_name_1(self):
         assert PARSED_TITLE_16.name == "Criminal Proceedings"
 
@@ -47,6 +48,8 @@ class TestParseTitle:
         assert PARSED_TITLE_4.number == "4"
 
 
+
+class TestParseDivisions:
     def test_correct_number_of_divisions_1(self):
         assert len(PARSED_TITLE_16.children) == 8
 
@@ -74,6 +77,8 @@ class TestParseTitle:
         )
 
 
+
+class TestParseArticles:
     def test_correct_number_of_articles_in_a_division_1(self):
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
@@ -108,10 +113,8 @@ class TestParseTitle:
 
         assert article_1.source_url == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
 
-    #
-    # Section Parsing
-    #
 
+class TestParseSection:
     def test_article_has_sections_1(self):
         code_of_crim_pro   = cast(Division, PARSED_TITLE_16.children[0])
         general_provisions = code_of_crim_pro.articles[0]

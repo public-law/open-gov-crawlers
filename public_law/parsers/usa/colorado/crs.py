@@ -83,6 +83,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 def is_article_node(node: Selector):
     return node_name(node) == "ta-list"
 
+
 def parse_article_name(node: Selector):
     """Return just the name of the Article.
     The raw text looks like this:
@@ -95,6 +96,7 @@ def parse_article_name(node: Selector):
     cleaned_text = ", ".join(raw_text.split(",")[:-1])
 
     return cleaned_text
+
 
 def parse_article_number(node: Selector):
     """Return just the number of the Article.
