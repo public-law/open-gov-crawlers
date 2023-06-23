@@ -23,24 +23,26 @@ class TestSectionsGenerally:
 
 class TestParseFirstSection:
     def test_number(self):
-        first_section  = ARTICLE_1_SECTIONS[0]
+        first_section = ARTICLE_1_SECTIONS[0]
+
         assert first_section.number == "16-1-101"
 
 
     def test_name(self):
-        first_section  = ARTICLE_1_SECTIONS[0]
+        first_section = ARTICLE_1_SECTIONS[0]
+        
         assert first_section.name == "Short title"
 
 
 
 class TestParseLastSection:
     def test_number(self):
-        last_section  = ARTICLE_1_SECTIONS[-1]
+        last_section = ARTICLE_1_SECTIONS[-1]
 
         assert last_section.number == "16-1-110"
 
 
     def test_name(self):
-        last_section  = ARTICLE_1_SECTIONS[-1]
+        last_section = ARTICLE_1_SECTIONS[-1]
 
         assert last_section.name == "Regulation of showup identification procedures - definitions - repeal"
