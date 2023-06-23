@@ -17,6 +17,9 @@ from public_law.items.crs import Article, Division, Title, Section
 
 from bs4 import BeautifulSoup
 
+
+
+
 def parse_sections(dom: Selector) -> list[Section]:
     section_nodes = dom.xpath("//section-text")
     sections = [
@@ -35,7 +38,6 @@ def parse_sections(dom: Selector) -> list[Section]:
 def _parse_section_number(section_node: Selector) -> str:
     return just_text(section_node.xpath('catch-line/rhfto'))
 
-
 def _parse_section_name(section_node: Selector) -> str:
     raw_name = just_text(section_node.xpath('catch-line/m'))
     if raw_name is None:
@@ -43,13 +45,13 @@ def _parse_section_name(section_node: Selector) -> str:
     
     return normalize_whitespace(remove_trailing_period(raw_name))
 
-
 def _parse_section_text(section_node: Selector) -> str:
     raw_text     = section_node.get()
     text_strings = list(BeautifulSoup(raw_text, 'xml').stripped_strings)[3:]
     paragraphs   = ["<p>" + normalize_whitespace(s) + "</p>" for s in text_strings]
     
     return "\n".join(paragraphs)
+
 
 
 def parse_title(dom: Selector) -> Title:
