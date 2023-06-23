@@ -15,7 +15,7 @@ from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period, normalize_whitespace
 from public_law.items.crs import Article, Division, Title, Section
 
-
+from bs4 import BeautifulSoup
 
 def parse_sections(dom: Selector) -> list[Section]:
     section_nodes = dom.xpath("//section-text")
@@ -44,12 +44,11 @@ def _parse_section_name(section_node: Selector) -> str:
 
 
 def _parse_section_text(section_node: Selector) -> str:
-    raw_text = just_text(section_node)
-
-    if raw_text is None:
-        return ''
+    raw_text     = section_node.get()
+    text_strings = list(BeautifulSoup(raw_text, 'xml').stripped_strings)[3:]
+    paragraphs   = ["<p>" + normalize_whitespace(s) + "</p>" for s in text_strings]
     
-    return normalize_whitespace(raw_text)
+    return "\n".join(paragraphs)
 
 
 def parse_title(dom: Selector) -> Title:
