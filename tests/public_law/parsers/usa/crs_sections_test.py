@@ -29,7 +29,16 @@ class TestParseFirstSection:
 
     def test_name(self):
         assert self.FIRST.name == "Short title"
-    
+
+
+class TestParseSecondSection:
+    SECOND = ARTICLE_1_SECTIONS[1]
+
+    def test_number(self):
+        assert self.SECOND.number == "16-1-102"
+
+    def test_text(self):
+        assert self.SECOND.text == '<p>The provisions of this code are intended to create, define, and protect rights, duties, and obligations as distinguished from matters wholly procedural. Except as specifically set forth in this code, the provisions of this code are not applicable to proceedings under the "Colorado Children\'s Code" or to violations of municipal charters or municipal ordinances.</p>'
 
 
 class TestParseLastSection:
