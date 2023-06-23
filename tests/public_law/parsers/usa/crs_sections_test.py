@@ -8,11 +8,6 @@ from public_law.parsers.usa.colorado.crs import parse_sections
 TITLE_16 = Selector(text = fixture('usa', 'crs', "title16.xml"))
 TITLE_16_SECTIONS = parse_sections(TITLE_16)
 
-# A Title with no Divisions.
-# TITLE_4 = Selector(text = fixture('usa', 'crs', "title04.xml"))
-# PARSED_TITLE_4 = parse_title(TITLE_4)
-
-
 
 class TestParseSection:
     def test_article_has_correct_number_of_sections_1(self):

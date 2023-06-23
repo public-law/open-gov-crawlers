@@ -26,6 +26,7 @@ class TestParseArticles:
         assert div_1_code_of_crim_pro.name          == "Code of Criminal Procedure"
         assert len(div_1_code_of_crim_pro.articles) == 22
 
+
     def test_correct_number_of_articles_in_a_division_2(self):
         division_2 = cast(Division, PARSED_TITLE_16.children[1])
         
@@ -38,6 +39,7 @@ class TestParseArticles:
         article_1        = code_of_crim_pro.articles[0]
 
         assert article_1.number == "1"
+
 
     def test_article_name_1(self):
         code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
