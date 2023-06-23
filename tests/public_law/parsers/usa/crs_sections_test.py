@@ -10,7 +10,8 @@ TITLE_16_SECTIONS = parse_sections(TITLE_16)
 ARTICLE_1_SECTIONS = [s for s in TITLE_16_SECTIONS if s.article_number == "1"]
 
 
-class TestParseFirstSection:
+
+class TestSectionsGenerally:
     def test_article_has_correct_number_of_sections(self):
         """The parsing strategy is JSON lines. And so there isn't a
         direct API for this.
@@ -18,6 +19,8 @@ class TestParseFirstSection:
         assert len(ARTICLE_1_SECTIONS) == 10
 
 
+
+class TestParseFirstSection:
     def test_section_number(self):
         first_section  = ARTICLE_1_SECTIONS[0]
 
@@ -30,14 +33,15 @@ class TestParseFirstSection:
         assert first_section.name == "Short title"
 
 
+
 class TestParseLastSection:
     def test_section_number(self):
-        first_section  = ARTICLE_1_SECTIONS[-1]
+        last_section  = ARTICLE_1_SECTIONS[-1]
 
-        assert first_section.number == "16-1-110"
+        assert last_section.number == "16-1-110"
 
 
     def test_section_name(self):
-        first_section  = ARTICLE_1_SECTIONS[-1]
+        last_section  = ARTICLE_1_SECTIONS[-1]
 
-        assert first_section.name == "Regulation of showup identification procedures - definitions - repeal"
+        assert last_section.name == "Regulation of showup identification procedures - definitions - repeal"
