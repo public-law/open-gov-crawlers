@@ -18,7 +18,6 @@ class Section:
     """
     name:           NonemptyString
     number:         NonemptyString
-    source_url:     URL
     text:           NonemptyString
     # Structure
     article_number: NonemptyString

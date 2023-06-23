@@ -23,7 +23,6 @@ def parse_sections(dom: Selector) -> list[Section]:
         Section(
             name=_parse_section_name(n),
             number=_parse_section_number(n),
-            source_url='',
             text='',
             article_number=_parse_section_number(n).split('-')[1],
             division_number=''
