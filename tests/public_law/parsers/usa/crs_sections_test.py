@@ -30,9 +30,15 @@ class TestParseFirstSection:
     def test_name(self):
         assert self.FIRST.name == "Short title"
 
+    def test_article_number(self):
+        assert self.FIRST.article_number == "1"
+
 
 class TestParseSecondSection:
     SECOND = ARTICLE_1_SECTIONS[1]
+
+    def test_article_number(self):
+        assert self.SECOND.article_number == "1"
 
     def test_number(self):
         assert self.SECOND.number == "16-1-102"
@@ -43,6 +49,9 @@ class TestParseSecondSection:
 
 class TestParseLastSection:
     LAST = ARTICLE_1_SECTIONS[-1]
+
+    def test_article_number(self):
+        assert self.LAST.article_number == "1"
 
     def test_number(self):
         assert self.LAST.number == "16-1-110"
