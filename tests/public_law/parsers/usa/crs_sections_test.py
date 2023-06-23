@@ -22,39 +22,48 @@ class TestSectionsGenerally:
 
 
 class TestParseFirstSection:
-    FIRST = ARTICLE_1_SECTIONS[0]
+    SECTION = ARTICLE_1_SECTIONS[0]
 
     def test_number(self):
-        assert self.FIRST.number == "16-1-101"
+        assert self.SECTION.number == "16-1-101"
 
     def test_name(self):
-        assert self.FIRST.name == "Short title"
+        assert self.SECTION.name == "Short title"
 
     def test_article_number(self):
-        assert self.FIRST.article_number == "1"
+        assert self.SECTION.article_number == "1"
+
+    def test_title_number(self):
+        assert self.SECTION.title_number == "16"
 
 
 class TestParseSecondSection:
-    SECOND = ARTICLE_1_SECTIONS[1]
+    SECTION = ARTICLE_1_SECTIONS[1]
 
     def test_article_number(self):
-        assert self.SECOND.article_number == "1"
+        assert self.SECTION.article_number == "1"
 
     def test_number(self):
-        assert self.SECOND.number == "16-1-102"
+        assert self.SECTION.number == "16-1-102"
 
     def test_text(self):
-        assert self.SECOND.text == '<p>The provisions of this code are intended to create, define, and protect rights, duties, and obligations as distinguished from matters wholly procedural. Except as specifically set forth in this code, the provisions of this code are not applicable to proceedings under the "Colorado Children\'s Code" or to violations of municipal charters or municipal ordinances.</p>'
+        assert self.SECTION.text == '<p>The provisions of this code are intended to create, define, and protect rights, duties, and obligations as distinguished from matters wholly procedural. Except as specifically set forth in this code, the provisions of this code are not applicable to proceedings under the "Colorado Children\'s Code" or to violations of municipal charters or municipal ordinances.</p>'
+
+    def test_title_number(self):
+        assert self.SECTION.title_number == "16"
 
 
 class TestParseLastSection:
-    LAST = ARTICLE_1_SECTIONS[-1]
+    SECTION = ARTICLE_1_SECTIONS[-1]
 
     def test_article_number(self):
-        assert self.LAST.article_number == "1"
+        assert self.SECTION.article_number == "1"
+
+    def test_title_number(self):
+        assert self.SECTION.title_number == "16"
 
     def test_number(self):
-        assert self.LAST.number == "16-1-110"
+        assert self.SECTION.number == "16-1-110"
 
     def test_name(self):
-        assert self.LAST.name == "Regulation of showup identification procedures - definitions - repeal"
+        assert self.SECTION.name == "Regulation of showup identification procedures - definitions - repeal"

@@ -25,7 +25,7 @@ def parse_sections(dom: Selector) -> list[Section]:
             number=_parse_section_number(n),
             text=_parse_section_text(n),
             article_number=_parse_section_number(n).split('-')[1],
-            division_number=''
+            title_number=_parse_section_number(n).split('-')[0]
         )
         for n in section_nodes
     ]

@@ -21,7 +21,7 @@ class Section:
     text:           NonemptyString
     # Structure
     article_number: NonemptyString
-    division_number: NonemptyString
+    title_number: NonemptyString
 
 
 @dataclass(frozen=True)
