@@ -27,4 +27,4 @@ class TestParseSection:
     def test_section_name_1(self):
         first_section  = ARTICLE_1_SECTIONS[0]
 
-        assert first_section.name == "Short titles"
+        assert first_section.name == "Short title"

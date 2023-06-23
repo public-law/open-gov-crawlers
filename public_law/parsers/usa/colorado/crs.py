@@ -21,7 +21,7 @@ def parse_sections(dom: Selector) -> list[Section]:
     section_nodes = dom.xpath("//section-text")
     sections = [
         Section(
-            name='',
+            name=_parse_section_name(n),
             number=_parse_section_number(n),
             source_url='',
             text='',
@@ -35,6 +35,13 @@ def parse_sections(dom: Selector) -> list[Section]:
 
 def _parse_section_number(section_node: Selector) -> str:
     return just_text(section_node.xpath('catch-line/rhfto'))
+
+def _parse_section_name(section_node: Selector) -> str:
+    raw_name = just_text(section_node.xpath('catch-line/m'))
+    if raw_name is None:
+        return ''
+    
+    return remove_trailing_period(raw_name)
 
 
 def parse_title(dom: Selector) -> Title:
