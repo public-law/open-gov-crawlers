@@ -22,15 +22,19 @@ def parse_sections(dom: Selector) -> list[Section]:
     sections = [
         Section(
             name='',
-            number=just_text(n.xpath('catch-line/rhfto')),
+            number=_parse_section_number(n),
             source_url='',
             text='',
-            article_number=just_text(n.xpath('catch-line/rhfto')).split('-')[1],
+            article_number=_parse_section_number(n).split('-')[1],
             division_number=''
         )
         for n in section_nodes
     ]
     return sections
+
+
+def _parse_section_number(section_node: Selector) -> str:
+    return just_text(section_node.xpath('catch-line/rhfto'))
 
 
 def parse_title(dom: Selector) -> Title:
