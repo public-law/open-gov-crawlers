@@ -18,19 +18,18 @@ from public_law.items.crs import Article, Division, Title, Section
 
 
 def parse_sections(dom: Selector) -> list[Section]:
-    section_nodes = dom.xpath("//section-text").getall()
+    section_nodes = dom.xpath("//section-text")
     sections = [
         Section(
             name='',
-            number='',
+            number=just_text(n.xpath('catch-line/rhfto')),
             source_url='',
             text='',
-            article_number='1',
+            article_number=just_text(n.xpath('catch-line/rhfto')).split('-')[1],
             division_number=''
         )
-        for _ in section_nodes
+        for n in section_nodes
     ]
-
     return sections
 
 
