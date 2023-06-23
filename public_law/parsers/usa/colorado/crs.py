@@ -13,7 +13,12 @@ from typing import cast
 
 from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period
-from public_law.items.crs import Article, Division, Title
+from public_law.items.crs import Article, Division, Title, Section
+
+
+
+def parse_sections(dom: Selector) -> list[Section]:
+    return []
 
 
 def parse_title(dom: Selector) -> Title:

@@ -16,18 +16,23 @@ class Section:
     It means:
         Title 16, Article 1, Maybe Part 1, Section 101.
     """
-    name: NonemptyString
-    number: NonemptyString
-    source_url: URL
-    text: NonemptyString
+    name:           NonemptyString
+    number:         NonemptyString
+    source_url:     URL
+    text:           NonemptyString
+    # Structure
+    article_number: NonemptyString
+    division_number: NonemptyString
 
 
 @dataclass(frozen=True)
 class Part:
-    """CRS Part: a nonstructural namespace level."""
+    """CRS Part: a nonstructural namespace level.
+    Used with Articles."""
     name: NonemptyString
-    source_url: URL
+    # Structure
     sections: list[Section]
+    article_number: NonemptyString
 
 
 @dataclass(frozen=True)
@@ -35,19 +40,21 @@ class Article:
     """A CRS Article."""
     name: NonemptyString
     number: NonemptyString
-    source_url: URL
-    sections: list[Section]
+    # Structure
+    title_number: NonemptyString
 
 
 @dataclass(frozen=True)
 class Division:
     """CRS Division: a nonstructural namespace level.
 
-    Some titles have Divisions, others don't.
+    Used withing Titles. Some titles have Divisions, 
+    others don't.
     """
     name: NonemptyString
-    source_url: URL
+    # Structure
     articles: list[Article]
+    title_number: NonemptyString
 
 
 @dataclass(frozen=True)
@@ -56,4 +63,5 @@ class Title:
     name: NonemptyString
     number: NonemptyString
     source_url: URL
+    # Structure
     children: list[Division] | list[Article]
