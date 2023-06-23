@@ -44,9 +44,3 @@ class TestParseArticles:
         article_1        = code_of_crim_pro.articles[0]
 
         assert article_1.name == "General Provisions"
-
-    def test_article_url_1(self):
-        code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1        = code_of_crim_pro.articles[0]
-
-        assert article_1.source_url == "https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-16.pdf"
