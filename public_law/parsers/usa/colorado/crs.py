@@ -21,11 +21,11 @@ def parse_sections(dom: Selector) -> list[Section]:
     section_nodes = dom.xpath("//section-text")
     sections = [
         Section(
-            name=_parse_section_name(n),
-            number=_parse_section_number(n),
-            text=_parse_section_text(n),
-            article_number=_parse_section_number(n).split('-')[1],
-            title_number=_parse_section_number(n).split('-')[0]
+            name           = _parse_section_name(n),
+            number         = _parse_section_number(n),
+            text           = _parse_section_text(n),
+            article_number = _parse_section_number(n).split('-')[1],
+            title_number   = _parse_section_number(n).split('-')[0]
         )
         for n in section_nodes
     ]
