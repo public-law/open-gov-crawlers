@@ -4,6 +4,7 @@ from public_law.test_util import fixture
 from public_law.parsers.usa.colorado.crs import parse_sections
 
 
+
 # A Title which uses Divisions.
 TITLE_16 = Selector(text = fixture('usa', 'crs', "title16.xml"))
 TITLE_16_SECTIONS = parse_sections(TITLE_16)

@@ -9,7 +9,6 @@ import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
-
 class NonemptyString(str):
     """
     A str subclass which is guaranteed to have length > 0

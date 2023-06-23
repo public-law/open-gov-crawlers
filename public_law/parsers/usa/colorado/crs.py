@@ -12,7 +12,7 @@ from itertools import takewhile, dropwhile
 from typing import cast
 
 from public_law.selector_util import node_name, just_text
-from public_law.text import remove_trailing_period
+from public_law.text import remove_trailing_period, normalize_whitespace
 from public_law.items.crs import Article, Division, Title, Section
 
 
@@ -41,7 +41,7 @@ def _parse_section_name(section_node: Selector) -> str:
     if raw_name is None:
         return ''
     
-    return remove_trailing_period(raw_name)
+    return normalize_whitespace(remove_trailing_period(raw_name))
 
 
 def parse_title(dom: Selector) -> Title:
