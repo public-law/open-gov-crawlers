@@ -10,21 +10,34 @@ TITLE_16_SECTIONS = parse_sections(TITLE_16)
 ARTICLE_1_SECTIONS = [s for s in TITLE_16_SECTIONS if s.article_number == "1"]
 
 
-class TestParseSection:
-    def test_article_has_correct_number_of_sections_1(self):
+class TestParseFirstSection:
+    def test_article_has_correct_number_of_sections(self):
         """The parsing strategy is JSON lines. And so there isn't a
         direct API for this.
         """
         assert len(ARTICLE_1_SECTIONS) == 10
 
 
-    def test_section_number_1(self):
+    def test_section_number(self):
         first_section  = ARTICLE_1_SECTIONS[0]
 
         assert first_section.number == "16-1-101"
 
 
-    def test_section_name_1(self):
+    def test_section_name(self):
         first_section  = ARTICLE_1_SECTIONS[0]
 
         assert first_section.name == "Short title"
+
+
+class TestParseLastSection:
+    def test_section_number(self):
+        first_section  = ARTICLE_1_SECTIONS[-1]
+
+        assert first_section.number == "16-1-110"
+
+
+    def test_section_name(self):
+        first_section  = ARTICLE_1_SECTIONS[-1]
+
+        assert first_section.name == "Regulation of showup identification procedures - definitions - repeal"
