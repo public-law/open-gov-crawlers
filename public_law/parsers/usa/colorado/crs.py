@@ -42,8 +42,10 @@ def _parse_section_name(section_node: Selector) -> str:
     
     return normalize_whitespace(remove_trailing_period(raw_name))
 
+
 def _parse_section_text(section_node: Selector) -> str:
     raw_text = just_text(section_node)
+
     if raw_text is None:
         return ''
     
