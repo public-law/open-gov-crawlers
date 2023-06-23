@@ -27,9 +27,8 @@ class TestParseSection:
         assert first_section.number == "16-1-101"
 
 
-    # def test_section_name_1(self):
-    #     code_of_crim_pro   = cast(Division, PARSED_TITLE_16.children[0])
-    #     general_provisions = code_of_crim_pro.articles[0]
-    #     first_section      = general_provisions.sections[0]
+    def test_section_name_1(self):
+        art_1_sections = [s for s in TITLE_16_SECTIONS if s.article_number == "1"]
+        first_section  = art_1_sections[0]
 
-    #     assert first_section.name == "Short Title"
+        assert first_section.name == "Short Title"
