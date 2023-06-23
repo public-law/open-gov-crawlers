@@ -24,27 +24,27 @@ def parse_sections(dom: Selector) -> list[Section]:
 def parse_title(dom: Selector) -> Title:
     print(f"{dom=}")
     raw_name   = cast(str, dom.xpath("//title-text/text()").get())
-    raw_number = dom.xpath("//title-num/text()").get().split(" ")[1]
+    number = dom.xpath("//title-num/text()").get().split(" ")[1]
 
-    url_number = raw_number.rjust(2, "0")
+    url_number = number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
 
     return Title(
-        name=titlecase(raw_name),
-        number=raw_number,
-        children=_parse_divisions(dom, source_url),
-        source_url=source_url,
+        name       = titlecase(raw_name),
+        number     = number,
+        children   = _parse_divisions(number, dom, source_url),
+        source_url = source_url,
     )
 
 
-def _parse_divisions(dom: Selector, source_url: str) -> list[Division]:
+def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
     raw_division_names = dom.xpath("//t-div/text()")
 
     return [
         Division(
-            name=titlecase(div_node.get()),
-            source_url=source_url,
-            articles=_parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
+            name         = titlecase(div_node.get()),
+            articles     = _parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
+            title_number = "0"
         )
         for div_node in raw_division_names
     ]
@@ -68,16 +68,15 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop at the end of the Articles.
     _head = partial_list[0]
-    tail = partial_list[1:]
+    tail  = partial_list[1:]
     article_nodes = takewhile(is_article_node, tail)
 
     # 4. Convert the TA-LIST elements into Article objects.    
     articles = [
         Article(
-            name=parse_article_name(n), 
-            number=parse_article_number(n), 
-            source_url=source_url,
-            sections=[]
+            name = parse_article_name(n), 
+            number = parse_article_number(n),
+            title_number = "0"
             ) 
         for n in article_nodes
         ]
