@@ -22,6 +22,11 @@ TITLE_42_SECTIONS = parse_sections(TITLE_42)
 # TODO: Title 4.
 
 
+class TestSectionWithError:
+    def test_name(self):
+        section_42_4_2403 = [s for s in TITLE_42_SECTIONS if s.number == "42-4-2403"][0]
+        assert section_42_4_2403.name == 'Applicability'
+
 
 class TestSectionsGenerally:
     def test_article_has_correct_number_of_sections(self):
@@ -29,7 +34,6 @@ class TestSectionsGenerally:
         direct API for this.
         """
         assert len(ARTICLE_1_SECTIONS) == 10
-
 
 
 class TestParseFirstSection:

@@ -68,11 +68,11 @@ def _parse_section_number(section_node: Selector) -> str | None:
 
 
 def _parse_section_name(section_node: Selector) -> str | None:
-    raw_name = just_text(section_node.xpath('CATCH-LINE/M'))
-    if raw_name is None:
-        return None
-    
-    return normalize_whitespace(remove_trailing_period(raw_name))
+    soup = BeautifulSoup(section_node.xpath('CATCH-LINE').get(), 'xml')
+    raw_name = normalize_whitespace(soup.get_text())
+    name = remove_trailing_period(raw_name).split('.')[-1]
+
+    return normalize_whitespace(name)
 
 
 def _parse_section_text(section_node: Selector) -> str:
