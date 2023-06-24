@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Literal
 
 from public_law.text import NonemptyString, URL
 
@@ -23,6 +24,8 @@ class Section:
     article_number: NonemptyString
     title_number: NonemptyString
 
+    kind: str = 'Section'
+
 
 @dataclass(frozen=True)
 class Part:
@@ -33,6 +36,8 @@ class Part:
     sections: list[Section]
     article_number: NonemptyString
 
+    kind: str = "Part"
+
 
 @dataclass(frozen=True)
 class Article:
@@ -41,6 +46,8 @@ class Article:
     number: NonemptyString
     # Structure
     title_number: NonemptyString
+
+    kind: str = "Article"
 
 
 @dataclass(frozen=True)
@@ -55,6 +62,8 @@ class Division:
     articles: list[Article]
     title_number: NonemptyString
 
+    kind: str = "Division"
+
 
 @dataclass(frozen=True)
 class Title:
@@ -64,3 +73,5 @@ class Title:
     source_url: URL
     # Structure
     children: list[Division] | list[Article]
+
+    kind: str = "Title"

@@ -6,7 +6,7 @@ from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from public_law.parsers.usa.colorado.crs import parse_title
+from public_law.parsers.usa.colorado.crs import parse_title, parse_sections
 
 
 class ColoradoCRS(Spider):
@@ -26,3 +26,6 @@ class ColoradoCRS(Spider):
         """Framework callback which begins the parsing."""
         print(f"Parsing {response.url}...")
         yield parse_title(response)
+
+        for s in parse_sections(response):
+            yield s
