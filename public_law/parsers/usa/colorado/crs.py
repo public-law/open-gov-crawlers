@@ -117,14 +117,14 @@ def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[
     return [
         Division(
             name         = titlecase(div_node.get()),
-            articles     = _parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
+            articles     = _parse_articles(title_number, dom, div_node, titlecase(div_node.get()), source_url),
             title_number = title_number
         )
         for div_node in raw_division_names
     ]
 
 
-def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: str) -> list[Article]:
+def _parse_articles(title_number: str, dom: Selector, div_node: Selector, name: str, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -153,7 +153,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
         Article(
             name = parse_article_name(n), 
             number = parse_article_number(n),
-            title_number = "0"
+            title_number = title_number
             ) 
         for n in article_nodes
         ]
