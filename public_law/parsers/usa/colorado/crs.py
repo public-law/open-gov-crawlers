@@ -118,7 +118,7 @@ def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[
         Division(
             name         = titlecase(div_node.get()),
             articles     = _parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
-            title_number = "0"
+            title_number = title_number
         )
         for div_node in raw_division_names
     ]
