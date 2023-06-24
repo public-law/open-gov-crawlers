@@ -113,7 +113,6 @@ def parse_title(dom: Response, logger: Any = None) -> Title | None:
 
 def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
-    # breakpoint()
 
     divs = []
     for div_node in division_nodes:
@@ -159,7 +158,7 @@ def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url:
     article_nodes = takewhile(is_article_node, tail)
 
     # 4. Convert the TA-LIST elements into Article objects.    
-    articles = [
+    return [
         Article(
             name = parse_article_name(n), 
             number = parse_article_number(n),
@@ -167,8 +166,6 @@ def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url:
             ) 
         for n in article_nodes
         ]
-
-    return articles
 
 
 def is_article_node(node: Selector):
