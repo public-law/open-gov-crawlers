@@ -6,6 +6,8 @@ from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
+from public_law.parsers.usa.colorado.crs import parse_title
+
 
 class ColoradoCRS(Spider):
     """Spider for the Colorado CRS XML files.
@@ -21,6 +23,6 @@ class ColoradoCRS(Spider):
 
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
-        """Framework callback which begins the parsing.
-        """
+        """Framework callback which begins the parsing."""
         print(f"response.url: {response.url}")
+        yield parse_title(response)

@@ -7,6 +7,8 @@
 
 
 from scrapy.selector.unified import Selector
+from scrapy.http.response import Response
+
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
 from typing import cast
@@ -20,7 +22,7 @@ from bs4 import BeautifulSoup
 
 
 
-def parse_sections(dom: Selector) -> list[Section]:
+def parse_sections(dom: Response) -> list[Section]:
     section_nodes = dom.xpath("//section-text")
     sections = [
         Section(
@@ -53,10 +55,17 @@ def _parse_section_text(section_node: Selector) -> str:
     return "\n".join(paragraphs)
 
 
+def parse_title(dom: Response) -> Title:
+    raw_name   = dom.xpath("//title-text/text()").get()
+    if raw_name is None:
+        return Title(
+            name       = "Parse error",
+            number     = "Parse error",
+            children   = "Parse error",
+            source_url = "Parse error",
+        )
 
-def parse_title(dom: Selector) -> Title:
-    raw_name   = cast(str, dom.xpath("//title-text/text()").get())
-    number = dom.xpath("//title-num/text()").get().split(" ")[1]
+    number     = dom.xpath("//title-num/text()").get().split(" ")[1]
 
     url_number = number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
