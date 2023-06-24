@@ -27,6 +27,9 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
 
     sections = []
     for node in section_nodes:
+        if _is_repealed(node):
+            continue
+
         number = _parse_section_number(node)
         if number is None:
             logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())}")
@@ -48,6 +51,10 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
         ))
 
     return sections
+
+
+def _is_repealed(section_text: Selector) -> bool:
+    return "(Repealed)" in just_text(section_text.xpath('CATCH-LINE'))
 
 
 def _parse_section_number(section_node: Selector) -> str | None:
