@@ -1,3 +1,5 @@
+# pyright: reportUnknownMemberType=false
+
 import os
 from pathlib import Path
 
@@ -24,8 +26,9 @@ class ColoradoCRS(Spider):
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing."""
-        print(f"Parsing {response.url}...")
+        self.logger.debug(f"Parsing {response.url}...")
+
         yield parse_title(response)
 
-        for s in parse_sections(response):
+        for s in parse_sections(response, self.logger):
             yield s

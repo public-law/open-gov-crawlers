@@ -11,6 +11,7 @@ from scrapy.http.response import Response
 
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
+from typing import Any
 
 from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period, normalize_whitespace
@@ -21,29 +22,42 @@ from bs4 import BeautifulSoup
 
 
 
-def parse_sections(dom: Response) -> list[Section]:
+def parse_sections(dom: Response, logger: Any) -> list[Section]:
     section_nodes = dom.xpath("//SECTION-TEXT")
-    sections = [
-        Section(
-            name           = _parse_section_name(n),
-            number         = _parse_section_number(n),
-            text           = _parse_section_text(n),
-            article_number = _parse_section_number(n).split('-')[1],
-            title_number   = _parse_section_number(n).split('-')[0]
-        )
-        for n in section_nodes
-    ]
+
+    sections = []
+    for node in section_nodes:
+        number = _parse_section_number(node)
+        if number is None:
+            logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())}")
+            continue
+
+        name = _parse_section_name(node)
+        if name is None:
+            logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())}")
+            continue
+
+        text   = _parse_section_text(node)
+
+        sections.append(Section(
+            name           = name,
+            number         = number,
+            text           = text,
+            article_number = number.split('-')[1],
+            title_number   = number.split('-')[0]
+        ))
+
     return sections
 
 
-def _parse_section_number(section_node: Selector) -> str:
+def _parse_section_number(section_node: Selector) -> str | None:
     return just_text(section_node.xpath('CATCH-LINE/RHFTO'))
 
 
-def _parse_section_name(section_node: Selector) -> str:
+def _parse_section_name(section_node: Selector) -> str | None:
     raw_name = just_text(section_node.xpath('CATCH-LINE/M'))
     if raw_name is None:
-        return ''
+        return None
     
     return normalize_whitespace(remove_trailing_period(raw_name))
 
