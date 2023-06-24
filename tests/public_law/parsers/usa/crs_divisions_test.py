@@ -22,6 +22,10 @@ class TestParseErrors:
         divs = PARSED_TITLE_1.children
         assert divs[0].name == "General, Primary, Recall, and Congressional Vacancy Elections"
 
+    def test_title_number(self):
+        divs = PARSED_TITLE_1.children
+        assert divs[0].title_number == "1"
+
 
 class TestParseDivisions:
     def test_correct_number_of_divisions_1(self):
