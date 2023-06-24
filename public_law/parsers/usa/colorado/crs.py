@@ -32,12 +32,12 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
 
         number = _parse_section_number(node)
         if number is None:
-            logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())}")
+            logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
         name = _parse_section_name(node)
         if name is None:
-            logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())}")
+            logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
         text   = _parse_section_text(node)
