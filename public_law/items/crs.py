@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Literal
 
 from public_law.text import NonemptyString, URL
 

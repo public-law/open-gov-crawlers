@@ -83,17 +83,13 @@ def _parse_section_text(section_node: Selector) -> str:
     return "\n".join(paragraphs)
 
 
-def parse_title(dom: Response) -> Title:
+def parse_title(dom: Response, logger: Any = None) -> Title | None:
     raw_name = dom.xpath("//TITLE-TEXT/text()").get()
-    # breakpoint()
     
     if raw_name is None:
-        return Title(
-            name       = "Parse error",
-            number     = "Parse error",
-            children   = "Parse error",
-            source_url = dom.url,
-        )
+        if logger is not None:
+            logger.warn(f"Could not parse title name in {dom.url}")
+            return None
 
     number     = dom.xpath("//TITLE-NUM/text()").get().split(" ")[1]
     url_number = number.rjust(2, "0")

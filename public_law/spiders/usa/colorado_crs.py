@@ -29,7 +29,7 @@ class ColoradoCRS(Spider):
         """Framework callback which begins the parsing."""
         self.logger.debug(f"Parsing {response.url}...")
 
-        yield parse_title(response)
+        yield parse_title(response, self.logger)
 
         for s in parse_sections(response, self.logger):
             yield s
