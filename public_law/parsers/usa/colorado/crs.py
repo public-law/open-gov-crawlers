@@ -173,7 +173,7 @@ def parse_article_name(node: Selector):
     We want to return just the first part:
         "General, Provisions"
     """
-    raw_text     = node.xpath("I/text()").get()
+    raw_text     = normalize_whitespace(node.xpath("I/text()").get())
     cleaned_text = ", ".join(raw_text.split(",")[:-1])
 
     return cleaned_text
