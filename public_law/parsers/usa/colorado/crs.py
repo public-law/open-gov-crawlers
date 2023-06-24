@@ -134,7 +134,7 @@ def _div_name_text(div_node: Selector) -> str:
     return titlecase(normalize_whitespace(soup.get_text()))
 
 
-def _parse_articles(title_number: str, dom: Selector, name: str, source_url: str) -> list[Article]:
+def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -145,7 +145,7 @@ def _parse_articles(title_number: str, dom: Selector, name: str, source_url: str
 
     # 2. Find the T-DIV with the Division name.
     partial_list = list(dropwhile(
-        lambda n: titlecase(just_text(n)) != name, 
+        lambda n: _div_name_text(n) != div_name, 
         divs_and_articles
         ))
 

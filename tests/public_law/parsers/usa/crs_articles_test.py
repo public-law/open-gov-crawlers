@@ -11,7 +11,6 @@ from public_law.parsers.usa.colorado.crs import parse_title_bang
 TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
 PARSED_TITLE_1 = parse_title_bang(TITLE_1)
 
-
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
 PARSED_TITLE_4 = parse_title_bang(TITLE_4)
