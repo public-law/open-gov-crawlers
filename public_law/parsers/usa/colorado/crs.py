@@ -106,6 +106,9 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
         divs_and_articles
         ))
 
+    if len(partial_list) == 0:
+        return []
+
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop at the end of the Articles.
     _head = partial_list[0]
