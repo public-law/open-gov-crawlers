@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 
 
 
-def parse_sections(dom: Response, logger: Any) -> list[Section]:
+def parse_sections(dom: Response, logger: Any = None) -> list[Section]:
     section_nodes = dom.xpath("//SECTION-TEXT")
 
     sections = []
@@ -32,12 +32,14 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
 
         number = _parse_section_number(node)
         if number is None:
-            logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
+            if logger is not None:
+                logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
         name = _parse_section_name(node)
         if name is None:
-            logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
+            if logger is not None:
+                logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
         text   = _parse_section_text(node)
@@ -82,7 +84,9 @@ def _parse_section_text(section_node: Selector) -> str:
 
 
 def parse_title(dom: Response) -> Title:
-    raw_name   = dom.xpath("//TITLE-TEXT/text()").get()
+    raw_name = dom.xpath("//TITLE-TEXT/text()").get()
+    # breakpoint()
+    
     if raw_name is None:
         return Title(
             name       = "Parse error",

@@ -1,15 +1,15 @@
-from scrapy.selector.unified import Selector
+from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import fixture
 from public_law.parsers.usa.colorado.crs import parse_title
 
 
 # A Title with no Divisions.
-TITLE_4 = Selector(text = fixture('usa', 'crs', "title04.xml"))
+TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
 PARSED_TITLE_4 = parse_title(TITLE_4)
 
 # A Title which uses Divisions.
-TITLE_16 = Selector(text = fixture('usa', 'crs', "title16.xml"))
+TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title(TITLE_16)
 
 

@@ -22,7 +22,7 @@ class Section:
     text:           NonemptyString
     # Structure
     article_number: NonemptyString
-    title_number: NonemptyString
+    title_number:   NonemptyString
 
     kind: str = 'Section'
 

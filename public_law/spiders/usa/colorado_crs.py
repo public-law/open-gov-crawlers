@@ -19,6 +19,7 @@ class ColoradoCRS(Spider):
     name = "usa_colorado_crs"
     XML_DIR  = f"{os.getcwd()}/tmp/sources/CRSDATA20220915/TITLES"
 
+
     def start_requests(self):
         for path in sorted(Path(self.XML_DIR).glob("*.xml")):
             yield Request(url=f"file://{path}", callback=self.parse)
