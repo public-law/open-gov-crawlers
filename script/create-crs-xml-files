@@ -1,0 +1,17 @@
+#!/usr/bin/env fish
+
+#
+# So far, just a history of commands I ran.
+#
+
+cd tmp/sources/
+
+unzip ~/Documents/publaw-input/CRSDATA20220915.zip
+
+cd CRSDATA20220915/TITLES
+
+cp ../../../../public_law/parsers/usa/colorado/crs.dtd .
+
+for file in *.txt
+    ../../../../script/crs-txt-to-sgml.py $file
+end

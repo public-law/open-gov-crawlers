@@ -7,9 +7,11 @@
 
 
 from scrapy.selector.unified import Selector
+from scrapy.http.response import Response
+
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
-from typing import cast
+from typing import Any
 
 from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period, normalize_whitespace
@@ -20,30 +22,58 @@ from bs4 import BeautifulSoup
 
 
 
-def parse_sections(dom: Selector) -> list[Section]:
-    section_nodes = dom.xpath("//section-text")
-    sections = [
-        Section(
-            name           = _parse_section_name(n),
-            number         = _parse_section_number(n),
-            text           = _parse_section_text(n),
-            article_number = _parse_section_number(n).split('-')[1],
-            title_number   = _parse_section_number(n).split('-')[0]
-        )
-        for n in section_nodes
-    ]
+def parse_sections(dom: Response, logger: Any = None) -> list[Section]:
+    section_nodes = dom.xpath("//SECTION-TEXT")
+
+    sections = []
+    for node in section_nodes:
+        if _is_repealed(node):
+            continue
+
+        number = _parse_section_number(node)
+        if number is None:
+            if logger is not None:
+                logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
+            continue
+
+        name = _parse_section_name(node)
+        if name is None:
+            if logger is not None:
+                logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
+            continue
+
+        text   = _parse_section_text(node)
+
+        sections.append(Section(
+            name           = name,
+            number         = number,
+            text           = text,
+            article_number = number.split('-')[1],
+            title_number   = number.split('-')[0]
+        ))
+
     return sections
 
 
-def _parse_section_number(section_node: Selector) -> str:
-    return just_text(section_node.xpath('catch-line/rhfto'))
+def _is_repealed(section_text: Selector) -> bool:
+    match section_text.xpath('CATCH-LINE').get():
+        case str(st):
+            return "(Repealed)" in st
+        case None:
+            return False
 
-def _parse_section_name(section_node: Selector) -> str:
-    raw_name = just_text(section_node.xpath('catch-line/m'))
-    if raw_name is None:
-        return ''
-    
-    return normalize_whitespace(remove_trailing_period(raw_name))
+
+def _parse_section_number(section_node: Selector) -> str | None:
+    return just_text(section_node.xpath('CATCH-LINE/RHFTO'))
+
+
+def _parse_section_name(section_node: Selector) -> str | None:
+    soup = BeautifulSoup(section_node.xpath('CATCH-LINE').get(), 'xml')
+    raw_name = normalize_whitespace(soup.get_text())
+    name = remove_trailing_period(raw_name).split('.')[-1]
+
+    return normalize_whitespace(name)
+
 
 def _parse_section_text(section_node: Selector) -> str:
     raw_text     = section_node.get()
@@ -53,11 +83,23 @@ def _parse_section_text(section_node: Selector) -> str:
     return "\n".join(paragraphs)
 
 
+def parse_title_bang(dom: Response, logger: Any = None) -> Title:
+    result = parse_title(dom, logger)
+    if result is None:
+        raise Exception("Could not parse title")
+    else:
+        return result
 
-def parse_title(dom: Selector) -> Title:
-    raw_name   = cast(str, dom.xpath("//title-text/text()").get())
-    number = dom.xpath("//title-num/text()").get().split(" ")[1]
 
+def parse_title(dom: Response, logger: Any = None) -> Title | None:
+    raw_name = dom.xpath("//TITLE-TEXT/text()").get()
+    
+    if raw_name is None:
+        if logger is not None:
+            logger.warn(f"Could not parse title name in {dom.url}")
+            return None
+
+    number     = dom.xpath("//TITLE-NUM/text()").get().split(" ")[1]
     url_number = number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
 
@@ -70,32 +112,44 @@ def parse_title(dom: Selector) -> Title:
 
 
 def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names = dom.xpath("//t-div/text()")
+    division_nodes = dom.xpath("//T-DIV")
 
-    return [
-        Division(
-            name         = titlecase(div_node.get()),
-            articles     = _parse_articles(dom, div_node, titlecase(div_node.get()), source_url),
-            title_number = "0"
+    divs = []
+    for div_node in division_nodes:
+        name = _div_name_text(div_node)
+
+        divs.append(
+            Division(
+                name         = name,
+                articles     = _parse_articles(title_number, dom, name, source_url),
+                title_number = title_number)
         )
-        for div_node in raw_division_names
-    ]
+    return divs
 
 
-def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: str) -> list[Article]:
+def _div_name_text(div_node: Selector) -> str:
+    soup = BeautifulSoup(div_node.get(), 'xml')
+
+    return titlecase(normalize_whitespace(soup.get_text()))
+
+
+def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
     # Algorithm:
     #
     # 1. Get all the child elements of TITLE-ANAL.
-    divs_and_articles = dom.xpath("//title-anal/t-div | //title-anal/ta-list")
+    divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
 
     # 2. Find the T-DIV with the Division name.
     partial_list = list(dropwhile(
-        lambda n: titlecase(just_text(n)) != name, 
+        lambda n: _div_name_text(n) != div_name, 
         divs_and_articles
         ))
+
+    if len(partial_list) == 0:
+        return []
 
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop at the end of the Articles.
@@ -104,20 +158,18 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
     article_nodes = takewhile(is_article_node, tail)
 
     # 4. Convert the TA-LIST elements into Article objects.    
-    articles = [
+    return [
         Article(
             name = parse_article_name(n), 
             number = parse_article_number(n),
-            title_number = "0"
+            title_number = title_number
             ) 
         for n in article_nodes
         ]
 
-    return articles
-
 
 def is_article_node(node: Selector):
-    return node_name(node) == "ta-list"
+    return node_name(node) == "TA-LIST"
 
 
 def parse_article_name(node: Selector):
@@ -128,7 +180,7 @@ def parse_article_name(node: Selector):
     We want to return just the first part:
         "General, Provisions"
     """
-    raw_text     = node.xpath("i/text()").get()
+    raw_text     = normalize_whitespace(node.xpath("I/text()").get())
     cleaned_text = ", ".join(raw_text.split(",")[:-1])
 
     return cleaned_text
@@ -142,7 +194,7 @@ def parse_article_number(node: Selector):
     We want to return just this:
         "1.1"
     """
-    raw_text     = node.xpath("dt/text()").get()
+    raw_text     = node.xpath("DT/text()").get()
     cleaned_text = remove_trailing_period(raw_text)
 
     return cleaned_text

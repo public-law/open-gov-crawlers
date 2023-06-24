@@ -21,7 +21,9 @@ class Section:
     text:           NonemptyString
     # Structure
     article_number: NonemptyString
-    title_number: NonemptyString
+    title_number:   NonemptyString
+
+    kind: str = 'Section'
 
 
 @dataclass(frozen=True)
@@ -33,6 +35,8 @@ class Part:
     sections: list[Section]
     article_number: NonemptyString
 
+    kind: str = "Part"
+
 
 @dataclass(frozen=True)
 class Article:
@@ -41,6 +45,8 @@ class Article:
     number: NonemptyString
     # Structure
     title_number: NonemptyString
+
+    kind: str = "Article"
 
 
 @dataclass(frozen=True)
@@ -55,6 +61,8 @@ class Division:
     articles: list[Article]
     title_number: NonemptyString
 
+    kind: str = "Division"
+
 
 @dataclass(frozen=True)
 class Title:
@@ -64,3 +72,5 @@ class Title:
     source_url: URL
     # Structure
     children: list[Division] | list[Article]
+
+    kind: str = "Title"
