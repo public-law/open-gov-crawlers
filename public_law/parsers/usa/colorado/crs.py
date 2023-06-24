@@ -54,7 +54,11 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
 
 
 def _is_repealed(section_text: Selector) -> bool:
-    return "(Repealed)" in just_text(section_text.xpath('CATCH-LINE'))
+    match just_text(section_text.xpath('CATCH-LINE')):
+        case str(st):
+            return "(Repealed)" in st
+        case None:
+            return False
 
 
 def _parse_section_number(section_node: Selector) -> str | None:
