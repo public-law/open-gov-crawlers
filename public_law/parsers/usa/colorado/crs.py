@@ -83,6 +83,14 @@ def _parse_section_text(section_node: Selector) -> str:
     return "\n".join(paragraphs)
 
 
+def parse_title_bang(dom: Response, logger: Any = None) -> Title:
+    result = parse_title(dom, logger)
+    if result is None:
+        raise Exception("Could not parse title")
+    else:
+        return result
+
+
 def parse_title(dom: Response, logger: Any = None) -> Title | None:
     raw_name = dom.xpath("//TITLE-TEXT/text()").get()
     
