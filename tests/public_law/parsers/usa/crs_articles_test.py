@@ -28,6 +28,12 @@ class TestParseErrors:
 
         assert seventh_article.name == "Internet-based Voting Pilot Program for Absent Uniformed Services Electors"
 
+    def test_title_number(self):
+        first_div = cast(Division, PARSED_TITLE_1.children[0])
+        seventh_article = first_div.articles[6]
+
+        assert seventh_article.title_number == "1"
+
 
 class TestParseArticles:
     def test_correct_number_of_articles_in_a_division_1(self):
