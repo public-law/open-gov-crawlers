@@ -8,13 +8,13 @@ import os
 import sys
 from typing import Final
 
-TXT_FILE: Final = sys.argv[1]
+TXT_FILE:  Final = sys.argv[1]
 SGML_FILE: Final = TXT_FILE.replace(".txt", ".sgml")
-XML_FILE: Final = SGML_FILE.replace(".sgml", ".xml")
+XML_FILE:  Final = SGML_FILE.replace(".sgml", ".xml")
 
 # The osx executable is provided by the open-sp or opensp packages.
 OSX_CMD: Final = (
-    f"osx --max-errors=10 --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} > {XML_FILE}"
+    f"osx --max-errors=20 --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} > {XML_FILE}"
 )
 
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
@@ -89,4 +89,5 @@ with open(SGML_FILE, mode="w", encoding="utf8") as f:
     f.writelines(cleaned_up)
 
 # 4. Convert the SGML to XML.
+print(f"Executing {OSX_CMD}...")
 _ = os.system(OSX_CMD)
