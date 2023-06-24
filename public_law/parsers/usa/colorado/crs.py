@@ -11,7 +11,6 @@ from scrapy.http.response import Response
 
 from titlecase import titlecase
 from itertools import takewhile, dropwhile
-from typing import cast
 
 from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period, normalize_whitespace
@@ -23,7 +22,7 @@ from bs4 import BeautifulSoup
 
 
 def parse_sections(dom: Response) -> list[Section]:
-    section_nodes = dom.xpath("//section-text")
+    section_nodes = dom.xpath("//SECTION-TEXT")
     sections = [
         Section(
             name           = _parse_section_name(n),
@@ -38,14 +37,16 @@ def parse_sections(dom: Response) -> list[Section]:
 
 
 def _parse_section_number(section_node: Selector) -> str:
-    return just_text(section_node.xpath('catch-line/rhfto'))
+    return just_text(section_node.xpath('CATCH-LINE/RHFTO'))
+
 
 def _parse_section_name(section_node: Selector) -> str:
-    raw_name = just_text(section_node.xpath('catch-line/m'))
+    raw_name = just_text(section_node.xpath('CATCH-LINE/M'))
     if raw_name is None:
         return ''
     
     return normalize_whitespace(remove_trailing_period(raw_name))
+
 
 def _parse_section_text(section_node: Selector) -> str:
     raw_text     = section_node.get()
@@ -56,17 +57,16 @@ def _parse_section_text(section_node: Selector) -> str:
 
 
 def parse_title(dom: Response) -> Title:
-    raw_name   = dom.xpath("//title-text/text()").get()
+    raw_name   = dom.xpath("//TITLE-TEXT/text()").get()
     if raw_name is None:
         return Title(
             name       = "Parse error",
             number     = "Parse error",
             children   = "Parse error",
-            source_url = "Parse error",
+            source_url = dom.url,
         )
 
-    number     = dom.xpath("//title-num/text()").get().split(" ")[1]
-
+    number     = dom.xpath("//TITLE-NUM/text()").get().split(" ")[1]
     url_number = number.rjust(2, "0")
     source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
 
@@ -79,7 +79,7 @@ def parse_title(dom: Response) -> Title:
 
 
 def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names = dom.xpath("//t-div/text()")
+    raw_division_names = dom.xpath("//T-DIV/text()")
 
     return [
         Division(
@@ -98,7 +98,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
     # Algorithm:
     #
     # 1. Get all the child elements of TITLE-ANAL.
-    divs_and_articles = dom.xpath("//title-anal/t-div | //title-anal/ta-list")
+    divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
 
     # 2. Find the T-DIV with the Division name.
     partial_list = list(dropwhile(
@@ -126,7 +126,7 @@ def _parse_articles(dom: Selector, div_node: Selector, name: str, source_url: st
 
 
 def is_article_node(node: Selector):
-    return node_name(node) == "ta-list"
+    return node_name(node) == "TA-LIST"
 
 
 def parse_article_name(node: Selector):
@@ -137,7 +137,7 @@ def parse_article_name(node: Selector):
     We want to return just the first part:
         "General, Provisions"
     """
-    raw_text     = node.xpath("i/text()").get()
+    raw_text     = node.xpath("I/text()").get()
     cleaned_text = ", ".join(raw_text.split(",")[:-1])
 
     return cleaned_text
@@ -151,7 +151,7 @@ def parse_article_number(node: Selector):
     We want to return just this:
         "1.1"
     """
-    raw_text     = node.xpath("dt/text()").get()
+    raw_text     = node.xpath("DT/text()").get()
     cleaned_text = remove_trailing_period(raw_text)
 
     return cleaned_text
