@@ -24,5 +24,5 @@ class ColoradoCRS(Spider):
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing."""
-        print(f"response.url: {response.url}")
+        print(f"Parsing {response.url}...")
         yield parse_title(response)
