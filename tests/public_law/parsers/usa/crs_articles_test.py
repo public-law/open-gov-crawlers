@@ -7,6 +7,10 @@ from public_law.items.crs import Division
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
+# Divisions aren't parsing correctly.
+TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
+PARSED_TITLE_1 = parse_title_bang(TITLE_1)
+
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
@@ -15,6 +19,14 @@ PARSED_TITLE_4 = parse_title_bang(TITLE_4)
 # A Title which uses Divisions.
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title_bang(TITLE_16)
+
+
+class TestParseErrors:
+    def test_name(self):
+        first_div = cast(Division, PARSED_TITLE_1.children[0])
+        seventh_article = first_div.articles[6]
+
+        assert seventh_article.name == "Internet-based Voting Pilot Program for Absent Uniformed Services Electors"
 
 
 class TestParseArticles:
