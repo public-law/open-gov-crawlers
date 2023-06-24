@@ -112,18 +112,22 @@ def parse_title(dom: Response, logger: Any = None) -> Title | None:
 
 
 def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
-    raw_division_names = dom.xpath("//T-DIV/text()")
+    division_nodes = dom.xpath("//T-DIV")
     # breakpoint()
 
-
-    return [
-        Division(
-            name         = titlecase(div_node.get()),
-            articles     = _parse_articles(title_number, dom, titlecase(div_node.get()), source_url),
-            title_number = title_number
+    divs = []
+    for div_node in division_nodes:
+        divs.append(
+            Division(
+                name         = _div_name_text(div_node),
+                articles     = _parse_articles(title_number, dom, _div_name_text(div_node), source_url),
+                title_number = title_number)
         )
-        for div_node in raw_division_names
-    ]
+    return divs
+
+
+def _div_name_text(div_node: Selector) -> str:
+    return titlecase(div_node.xpath('text()').get())
 
 
 def _parse_articles(title_number: str, dom: Selector, name: str, source_url: str) -> list[Article]:
