@@ -117,17 +117,21 @@ def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[
 
     divs = []
     for div_node in division_nodes:
+        name = _div_name_text(div_node)
+
         divs.append(
             Division(
-                name         = _div_name_text(div_node),
-                articles     = _parse_articles(title_number, dom, _div_name_text(div_node), source_url),
+                name         = name,
+                articles     = _parse_articles(title_number, dom, name, source_url),
                 title_number = title_number)
         )
     return divs
 
 
 def _div_name_text(div_node: Selector) -> str:
-    return titlecase(div_node.xpath('text()').get())
+    soup = BeautifulSoup(div_node.get(), 'xml')
+
+    return titlecase(normalize_whitespace(soup.get_text()))
 
 
 def _parse_articles(title_number: str, dom: Selector, name: str, source_url: str) -> list[Article]:
