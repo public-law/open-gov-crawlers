@@ -1,10 +1,14 @@
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportGeneralTypeIssues=false
+# pyright: reportUnusedCallResult=false
 
 import os
 import re
 
 from pathlib import Path
 
+from progressbar import ProgressBar
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
@@ -25,11 +29,17 @@ class ColoradoCRS(Spider):
 
     def start_requests(self):
         """Read the files from a local directory."""
+        xml_files = sorted(Path(self.XML_DIR).glob("*.xml"))
+        bar = ProgressBar(max_value=len(xml_files)+1).start()
 
         yield Request(url=f"file://{self.DIR}/README.txt", callback=self.parse_readme)
+        bar.update(1)
 
-        for path in sorted(Path(self.XML_DIR).glob("*.xml")):
+        for path in xml_files:
             yield Request(url=f"file://{path}", callback=self.parse_title_xml)
+            bar.update(bar.value + 1)
+
+        bar.finish()
 
 
     def parse_readme(self, response: HtmlResponse, **_: dict[str, Any]):
