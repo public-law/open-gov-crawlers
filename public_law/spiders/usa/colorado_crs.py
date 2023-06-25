@@ -37,7 +37,7 @@ class ColoradoCRS(Spider):
         if len(result) != 1:
             raise Exception(f"Could not parse year from README: {response.body}")
         
-        year = result[0]
+        year: str = result[0]
 
         yield { "kind": "CRS", "edition": year }
 
