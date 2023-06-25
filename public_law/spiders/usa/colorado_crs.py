@@ -37,7 +37,7 @@ class ColoradoCRS(Spider):
 
         for path in xml_files:
             yield Request(url=f"file://{path}", callback=self.parse_title_xml)
-            bar.update(bar.value + 1)
+            bar.increment()
 
         bar.finish()
 
