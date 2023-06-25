@@ -1,5 +1,6 @@
 # pyright: reportUnknownMemberType=false
 # pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownParameterType=false
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnusedCallResult=false
 
@@ -33,7 +34,7 @@ class ColoradoCRS(Spider):
         xml_urls  = [f"file://{path}" for path in xml_files]
         readme_url = f"file://{self.DIR}/README.txt"
 
-        with ProgressBar(max_value = len(xml_files)+1) as bar:
+        with ProgressBar(max_value = len(xml_files) + 1) as bar:
             yield Request(readme_url)
             bar.update(1)
 
@@ -43,7 +44,7 @@ class ColoradoCRS(Spider):
 
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
-        if response.url.endswith("README.txt"):
+        if "README.txt" in response.url:
             yield from self.parse_readme(response)
         else:
             yield from self.parse_title_xml(response)
