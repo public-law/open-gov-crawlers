@@ -34,12 +34,19 @@ class ColoradoCRS(Spider):
         readme_url = f"file://{self.DIR}/README.txt"
 
         with ProgressBar(max_value = len(xml_files)+1) as bar:
-            yield Request(url=readme_url, callback=self.parse_readme)
+            yield Request(readme_url)
             bar.update(1)
 
             for url in xml_urls:
-                yield Request(url=url, callback=self.parse_title_xml)
+                yield Request(url)
                 bar.increment()
+
+
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+        if response.url.endswith("README.txt"):
+            yield from self.parse_readme(response)
+        else:
+            yield from self.parse_title_xml(response)
 
 
     def parse_readme(self, response: HtmlResponse, **_: dict[str, Any]):
