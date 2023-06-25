@@ -1,20 +1,20 @@
 from scrapy.http.response.xml import XmlResponse
 
-from public_law.test_util import fixture
+from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
 # Divisions aren't parsing correctly.
 TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
-PARSED_TITLE_1 = parse_title_bang(TITLE_1)
+PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
-PARSED_TITLE_4 = parse_title_bang(TITLE_4)
+PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 
 # A Title which uses Divisions.
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
-PARSED_TITLE_16 = parse_title_bang(TITLE_16)
+PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
 
 class TestParseErrors:

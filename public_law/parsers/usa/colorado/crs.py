@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 
 
 
-def parse_sections(dom: Response, logger: Any = None) -> list[Section]:
+def parse_sections(dom: Response, logger: Any) -> list[Section]:
     section_nodes = dom.xpath("//SECTION-TEXT")
 
     sections = []
@@ -32,17 +32,15 @@ def parse_sections(dom: Response, logger: Any = None) -> list[Section]:
 
         number = _parse_section_number(node)
         if number is None:
-            if logger is not None:
-                logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
+            logger.warn(f"Could not parse section number for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
         name = _parse_section_name(node)
         if name is None:
-            if logger is not None:
-                logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
+            logger.warn(f"Could not parse section name for {normalize_whitespace(node.get())} in {dom.url}")
             continue
 
-        text   = _parse_section_text(node)
+        text = _parse_section_text(node)
 
         sections.append(Section(
             name           = name,
@@ -83,7 +81,7 @@ def _parse_section_text(section_node: Selector) -> str:
     return "\n".join(paragraphs)
 
 
-def parse_title_bang(dom: Response, logger: Any = None) -> Title:
+def parse_title_bang(dom: Response, logger: Any) -> Title:
     result = parse_title(dom, logger)
     if result is None:
         raise Exception("Could not parse title")
@@ -91,13 +89,12 @@ def parse_title_bang(dom: Response, logger: Any = None) -> Title:
         return result
 
 
-def parse_title(dom: Response, logger: Any = None) -> Title | None:
+def parse_title(dom: Response, logger: Any) -> Title | None:
     raw_name = dom.xpath("//TITLE-TEXT/text()").get()
     
     if raw_name is None:
-        if logger is not None:
-            logger.warn(f"Could not parse title name in {dom.url}")
-            return None
+        logger.warn(f"Could not parse title name in {dom.url}")
+        return None
 
     number     = dom.xpath("//TITLE-NUM/text()").get().split(" ")[1]
     url_number = number.rjust(2, "0")
