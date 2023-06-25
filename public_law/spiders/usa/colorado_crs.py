@@ -1,6 +1,8 @@
 # pyright: reportUnknownMemberType=false
 
 import os
+import re
+
 from pathlib import Path
 
 from scrapy import Spider
@@ -27,14 +29,20 @@ class ColoradoCRS(Spider):
         yield Request(url=f"file://{self.DIR}/README.txt", callback=self.parse_readme)
 
         for path in sorted(Path(self.XML_DIR).glob("*.xml")):
-            yield Request(url=f"file://{path}", callback=self.parse_title)
+            yield Request(url=f"file://{path}", callback=self.parse_title_xml)
 
 
     def parse_readme(self, response: HtmlResponse, **_: dict[str, Any]):
-        yield { "kind": "Readme", "edition": "9999"}
+        result = re.findall(r'COLORADO REVISED STATUTES (\d\d\d\d) DATASET', str(response.body))
+        if len(result) != 1:
+            raise Exception(f"Could not parse year from README: {response.body}")
+        
+        year = result[0]
+
+        yield { "kind": "CRS", "edition": year }
 
 
-    def parse_title(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_title_xml(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which parses one XML file."""
         self.logger.debug(f"Parsing {response.url}...")
 
