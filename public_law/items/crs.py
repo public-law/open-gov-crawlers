@@ -70,7 +70,6 @@ class Title:
     name:       NonemptyString
     number:     NonemptyString
     source_url: URL
-    edition:    NonemptyString
     # Structure
     children: list[Division] | list[Article]
 

@@ -44,10 +44,3 @@ class TestParseTitles:
 
     def test_title_number_2(self):
         assert PARSED_TITLE_4.number == "4"
-
-
-    def test_title_edition_1(self):
-        assert PARSED_TITLE_16.edition == "2022"
-
-    def test_title_edition_2(self):
-        assert PARSED_TITLE_4.edition == "2022"
