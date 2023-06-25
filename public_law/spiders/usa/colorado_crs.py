@@ -58,7 +58,7 @@ class ColoradoCRS(Spider):
         
         year: str = result[0]
 
-        yield { "kind": "CRS", "edition": year }
+        yield { "kind": "CRS", "edition": int(year) }
 
 
     def parse_title_xml(self, response: HtmlResponse, **_: dict[str, Any]):
