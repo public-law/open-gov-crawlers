@@ -67,9 +67,10 @@ class Division:
 @dataclass(frozen=True)
 class Title:
     """A CRS Title."""
-    name: NonemptyString
-    number: NonemptyString
+    name:       NonemptyString
+    number:     NonemptyString
     source_url: URL
+    edition:    NonemptyString
     # Structure
     children: list[Division] | list[Article]
 

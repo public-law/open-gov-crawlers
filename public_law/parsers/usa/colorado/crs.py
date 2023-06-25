@@ -108,6 +108,7 @@ def parse_title(dom: Response, logger: Any = None) -> Title | None:
         number     = number,
         children   = _parse_divisions(number, dom, source_url),
         source_url = source_url,
+        edition    = '0000'
     )
 
 
