@@ -30,14 +30,15 @@ class ColoradoCRS(Spider):
     def start_requests(self):
         """Read the files from a local directory."""
         xml_files = sorted(Path(self.XML_DIR).glob("*.xml"))
+        xml_urls  = [f"file://{path}" for path in xml_files]
+        readme_url = f"file://{self.DIR}/README.txt"
 
         with ProgressBar(max_value = len(xml_files)+1) as bar:
-
-            yield Request(url = f"file://{self.DIR}/README.txt", callback = self.parse_readme)
+            yield Request(url=readme_url, callback=self.parse_readme)
             bar.update(1)
 
-            for path in xml_files:
-                yield Request(url = f"file://{path}", callback = self.parse_title_xml)
+            for url in xml_urls:
+                yield Request(url=url, callback=self.parse_title_xml)
                 bar.increment()
 
 
