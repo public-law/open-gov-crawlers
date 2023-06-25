@@ -1,22 +1,22 @@
 from scrapy.http.response.xml import XmlResponse
 
-from public_law.test_util import fixture
+from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_sections
 
 
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
-TITLE_4_SECTIONS = parse_sections(TITLE_4)
+TITLE_4_SECTIONS = parse_sections(TITLE_4, null_logger)
 
 # A Title which uses Divisions.
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
-TITLE_16_SECTIONS  = parse_sections(TITLE_16)
+TITLE_16_SECTIONS  = parse_sections(TITLE_16, null_logger)
 ARTICLE_1_SECTIONS = [s for s in TITLE_16_SECTIONS if s.article_number == "1"]
 
 # A Title which uses Divisions.
 TITLE_42 = XmlResponse(body = fixture('usa', 'crs', "title42.xml"), url = "title42.xml", encoding = "utf-8")
-TITLE_42_SECTIONS = parse_sections(TITLE_42)
+TITLE_42_SECTIONS = parse_sections(TITLE_42, null_logger)
 
 
 # TODO: Title 4.

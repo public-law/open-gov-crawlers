@@ -1,8 +1,15 @@
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownParameterType=false
+# pyright: reportGeneralTypeIssues=false
+# pyright: reportUnusedCallResult=false
 
 import os
+import re
+
 from pathlib import Path
 
+from progressbar import ProgressBar
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
@@ -16,17 +23,45 @@ class ColoradoCRS(Spider):
 
     Reads the sources from a local directory instead of the web.
     """
-    name = "usa_colorado_crs"
-    XML_DIR  = f"{os.getcwd()}/tmp/sources/CRSDATA20220915/TITLES"
+    name     = "usa_colorado_crs"
+    DIR      = f"{os.getcwd()}/tmp/sources/CRSDATA20220915"
+    XML_DIR  = f"{DIR}/TITLES"
 
 
     def start_requests(self):
-        for path in sorted(Path(self.XML_DIR).glob("*.xml")):
-            yield Request(url=f"file://{path}", callback=self.parse)
+        """Read the files from a local directory."""
+        xml_files = sorted(Path(self.XML_DIR).glob("*.xml"))
+        xml_urls  = [f"file://{path}" for path in xml_files]
+        readme_url = f"file://{self.DIR}/README.txt"
+
+        with ProgressBar(max_value = len(xml_files) + 1) as bar:
+            yield Request(readme_url)
+            bar.update(1)
+
+            for url in xml_urls:
+                yield Request(url)
+                bar.increment()
 
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
-        """Framework callback which begins the parsing."""
+        if "README.txt" in response.url:
+            yield from self.parse_readme(response)
+        else:
+            yield from self.parse_title_xml(response)
+
+
+    def parse_readme(self, response: HtmlResponse, **_: dict[str, Any]):
+        result = re.findall(r'COLORADO REVISED STATUTES (\d\d\d\d) DATASET', str(response.body))
+        if len(result) != 1:
+            raise Exception(f"Could not parse year from README: {response.body}")
+        
+        year: str = result[0]
+
+        yield { "kind": "CRS", "edition": year }
+
+
+    def parse_title_xml(self, response: HtmlResponse, **_: dict[str, Any]):
+        """Framework callback which parses one XML file."""
         self.logger.debug(f"Parsing {response.url}...")
 
         yield parse_title(response, self.logger)
