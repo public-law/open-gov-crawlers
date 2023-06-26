@@ -108,22 +108,25 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
     url_number = number.rjust(2, "0")
     source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
-    print(f"\nTitle: {number}, {name}")
+    # print(f"\nTitle: {number}, {name}")
 
     return Title(
         name       = name,
         number     = number,
-        children   = _parse_divisions(number, dom, source_url),
+        children   = _parse_divisions(number, dom, source_url, logger),
         source_url = URL(source_url)
     )
 
 
-def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, source_url: URL) -> list[Division]:
+def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, source_url: URL, logger: Any) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
 
     divs = []
     for div_node in division_nodes:
         name = _div_name_text(div_node)
+        if name is None:
+            logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
+            continue
 
         divs.append(
             Division(
@@ -135,13 +138,14 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, sou
     return divs
 
 
-def _div_name_text(div_node: Selector) -> NonemptyString:
+def _div_name_text(div_node: Selector) -> NonemptyString | None:
     soup = BeautifulSoup(div_node.get(), 'xml')
     soup_text = soup.get_text()
     cleaned_up_text = titlecase(normalize_whitespace(soup_text))
-    print(f"Div Name: {cleaned_up_text}")
-
-    return NonemptyString(cleaned_up_text)
+    try:
+        return NonemptyString(cleaned_up_text)
+    except ValueError:
+        return None
 
 
 def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString, source_url: URL) -> list[Article]:
