@@ -193,7 +193,7 @@ def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | 
             title_number = title_number,
             division_name= div_name,
             ) 
-        for n in article_nodes
+        for n in article_nodes  if '(Repealed)' not in parse_article_name(n)
         ]
 
 
