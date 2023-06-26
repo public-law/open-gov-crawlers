@@ -3,7 +3,7 @@ from typing import cast
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.items.crs import Division
+from public_law.items.crs import Division, Article
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
@@ -18,11 +18,6 @@ PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 # A Title which uses Divisions.
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
-
-
-class TestWithNoDivisions:
-    def test_correct_count(self):
-        assert len(PARSED_TITLE_4.children) == 16
 
 
 class TestParseErrors:
@@ -76,3 +71,26 @@ class TestParseArticles:
         article_1              = div_1_code_of_crim_pro.articles[0]
 
         assert article_1.division_name == "Code of Criminal Procedure"
+
+
+class TestWithNoDivisions:
+    ARTICLE_1 = cast(Article, PARSED_TITLE_4.children[0])
+
+    def test_correct_count(self):
+        assert len(PARSED_TITLE_4.children) == 16
+
+    def test_theyre_all_articles(self):
+        for child in PARSED_TITLE_4.children:
+            assert child.kind == "Article"
+
+    def test_a_name(self):
+        assert self.ARTICLE_1.name == "General Provisions"
+
+    def test_a_number(self):
+        assert self.ARTICLE_1.number == "1"
+
+    def test_a_title_number(self):
+        assert self.ARTICLE_1.title_number == "4"
+
+    def test_a_division_name(self):
+        assert self.ARTICLE_1.division_name is None
