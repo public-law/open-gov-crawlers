@@ -50,6 +50,7 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
             number         = NonemptyString(number),
             text           = NonemptyString(text),
             article_number = NonemptyString(number.split('-')[1]),
+            part_number    = None,
             title_number   = NonemptyString(number.split('-')[0])
         ))
 
@@ -113,8 +114,8 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
     return Title(
         name       = name,
         number     = number,
-        children   = _parse_divisions(number, dom, source_url, logger),
-        source_url = URL(source_url)
+        source_url = URL(source_url),
+        children   = _parse_divisions(number, dom, source_url, logger)
     )
 
 
@@ -177,7 +178,8 @@ def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_
         Article(
             name = parse_article_name(n), 
             number = parse_article_number(n),
-            title_number = title_number
+            title_number = title_number,
+            division_name= div_name,
             ) 
         for n in article_nodes
         ]
