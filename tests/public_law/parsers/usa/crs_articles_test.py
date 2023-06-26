@@ -21,9 +21,9 @@ PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
 
 class TestWithNoDivisions:
-    def test_correct_number_of_articles(self):
+    def test_correct_count(self):
         assert len(PARSED_TITLE_4.children) == 16
-        
+
 
 class TestParseErrors:
     def test_name(self):
