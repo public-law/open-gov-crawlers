@@ -89,11 +89,11 @@ def _parse_section_text(section_node: Selector) -> str:
 
 
 def parse_title_bang(dom: Response, logger: Any) -> Title:
-    result = parse_title(dom, logger)
-    if result is None:
-        raise Exception("Could not parse title")
-    else:
-        return result
+    match parse_title(dom, logger):
+        case None:
+            raise Exception("Could not parse title")
+        case result:
+            return result
 
 
 def parse_title(dom: Response, logger: Any) -> Title | None:
