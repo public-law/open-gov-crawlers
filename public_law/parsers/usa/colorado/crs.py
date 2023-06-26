@@ -65,11 +65,15 @@ def _parse_section_number(section_node: Selector) -> str | None:
 
 
 def _parse_section_name(section_node: Selector) -> str | None:
-    soup = BeautifulSoup(section_node.xpath('CATCH-LINE').get(), 'xml')
-    raw_name = normalize_whitespace(soup.get_text())
-    name = remove_trailing_period(raw_name).split('.')[-1]
+    match section_node.xpath('CATCH-LINE').get():
+        case None:
+            return None
+        case str(s):
+            soup     = BeautifulSoup(s, 'xml')
+            raw_name = normalize_whitespace(soup.get_text())
+            name     = remove_trailing_period(raw_name).split('.')[-1]
 
-    return normalize_whitespace(name)
+            return normalize_whitespace(name)
 
 
 def _parse_section_text(section_node: Selector) -> str:
@@ -95,19 +99,19 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
         logger.warn(f"Could not parse title name in {dom.url}")
         return None
 
-    number     = dom.xpath("//TITLE-NUM/text()").get().split(" ")[1]
+    number     = NonemptyString(dom.xpath("//TITLE-NUM/text()").get().split(" ")[1])
     url_number = number.rjust(2, "0")
-    source_url = f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf"
+    source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
     return Title(
-        name       = titlecase(raw_name),
+        name       = NonemptyString(titlecase(raw_name)),
         number     = number,
         children   = _parse_divisions(number, dom, source_url),
         source_url = URL(source_url)
     )
 
 
-def _parse_divisions(title_number: str, dom: Selector | Response, source_url: str) -> list[Division]:
+def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, source_url: URL) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
 
     divs = []
@@ -123,13 +127,13 @@ def _parse_divisions(title_number: str, dom: Selector | Response, source_url: st
     return divs
 
 
-def _div_name_text(div_node: Selector) -> str:
+def _div_name_text(div_node: Selector) -> NonemptyString:
     soup = BeautifulSoup(div_node.get(), 'xml')
 
-    return titlecase(normalize_whitespace(soup.get_text()))
+    return NonemptyString(titlecase(normalize_whitespace(soup.get_text())))
 
 
-def _parse_articles(title_number: str, dom: Selector | Response, div_name: str, source_url: str) -> list[Article]:
+def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString, source_url: URL) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -168,7 +172,7 @@ def is_article_node(node: Selector) -> bool:
     return node_name(node) == "TA-LIST"
 
 
-def parse_article_name(node: Selector) -> str:
+def parse_article_name(node: Selector) -> NonemptyString:
     """Return just the name of the Article.
     The raw text looks like this:
         "General, Provisions, 16-1-101 to 16-1-110"
@@ -176,13 +180,16 @@ def parse_article_name(node: Selector) -> str:
     We want to return just the first part:
         "General, Provisions"
     """
-    raw_text     = normalize_whitespace(node.xpath("I/text()").get())
-    cleaned_text = ", ".join(raw_text.split(",")[:-1])
+    match node.xpath("I/text()").get():
+        case str(text):
+            raw_text     = normalize_whitespace(text)
+            cleaned_text = ", ".join(raw_text.split(",")[:-1])
+            return NonemptyString(cleaned_text)
+        case None:
+            raise Exception("Could not parse article name in {node}")
 
-    return cleaned_text
 
-
-def parse_article_number(node: Selector) -> str:
+def parse_article_number(node: Selector) -> NonemptyString:
     """Return just the number of the Article.
     The raw text looks like this:
         "1.1."
@@ -192,6 +199,6 @@ def parse_article_number(node: Selector) -> str:
     """
     match node.xpath("DT/text()").get():
         case str(raw_text):
-            return remove_trailing_period(raw_text)
+            return NonemptyString(remove_trailing_period(raw_text))
         case None:
             raise Exception("Could not parse article number in {node}")
