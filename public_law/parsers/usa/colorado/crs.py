@@ -3,7 +3,6 @@
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownLambdaType=false
-# pyright: reportGeneralTypeIssues=false
 
 
 from scrapy.selector.unified import Selector
@@ -14,7 +13,7 @@ from itertools import takewhile, dropwhile
 from typing import Any
 
 from public_law.selector_util import node_name, just_text
-from public_law.text import remove_trailing_period, normalize_whitespace
+from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString, URL
 from public_law.items.crs import Article, Division, Title, Section
 
 from bs4 import BeautifulSoup
@@ -43,11 +42,11 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
         text = _parse_section_text(node)
 
         sections.append(Section(
-            name           = name,
-            number         = number,
-            text           = text,
-            article_number = number.split('-')[1],
-            title_number   = number.split('-')[0]
+            name           = NonemptyString(name),
+            number         = NonemptyString(number),
+            text           = NonemptyString(text),
+            article_number = NonemptyString(number.split('-')[1]),
+            title_number   = NonemptyString(number.split('-')[0])
         ))
 
     return sections
@@ -104,11 +103,11 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
         name       = titlecase(raw_name),
         number     = number,
         children   = _parse_divisions(number, dom, source_url),
-        source_url = source_url,
+        source_url = URL(source_url)
     )
 
 
-def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[Division]:
+def _parse_divisions(title_number: str, dom: Selector | Response, source_url: str) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
 
     divs = []
@@ -117,9 +116,9 @@ def _parse_divisions(title_number: str, dom: Selector, source_url: str) -> list[
 
         divs.append(
             Division(
-                name         = name,
+                name         = NonemptyString(name),
                 articles     = _parse_articles(title_number, dom, name, source_url),
-                title_number = title_number)
+                title_number = NonemptyString(title_number))
         )
     return divs
 
@@ -130,7 +129,7 @@ def _div_name_text(div_node: Selector) -> str:
     return titlecase(normalize_whitespace(soup.get_text()))
 
 
-def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url: str) -> list[Article]:
+def _parse_articles(title_number: str, dom: Selector | Response, div_name: str, source_url: str) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -165,11 +164,11 @@ def _parse_articles(title_number: str, dom: Selector, div_name: str, source_url:
         ]
 
 
-def is_article_node(node: Selector):
+def is_article_node(node: Selector) -> bool:
     return node_name(node) == "TA-LIST"
 
 
-def parse_article_name(node: Selector):
+def parse_article_name(node: Selector) -> str:
     """Return just the name of the Article.
     The raw text looks like this:
         "General, Provisions, 16-1-101 to 16-1-110"
@@ -183,7 +182,7 @@ def parse_article_name(node: Selector):
     return cleaned_text
 
 
-def parse_article_number(node: Selector):
+def parse_article_number(node: Selector) -> str:
     """Return just the number of the Article.
     The raw text looks like this:
         "1.1."
@@ -191,7 +190,8 @@ def parse_article_number(node: Selector):
     We want to return just this:
         "1.1"
     """
-    raw_text     = node.xpath("DT/text()").get()
-    cleaned_text = remove_trailing_period(raw_text)
-
-    return cleaned_text
+    match node.xpath("DT/text()").get():
+        case str(raw_text):
+            return remove_trailing_period(raw_text)
+        case None:
+            raise Exception("Could not parse article number in {node}")
