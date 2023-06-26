@@ -20,6 +20,11 @@ TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title
 PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
 
+class TestWithNoDivisions:
+    def test_correct_number_of_articles(self):
+        assert len(PARSED_TITLE_4.children) == 16
+        
+
 class TestParseErrors:
     def test_name(self):
         first_div = cast(Division, PARSED_TITLE_1.children[0])
