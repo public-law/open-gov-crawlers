@@ -50,6 +50,7 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
             number         = NonemptyString(number),
             text           = NonemptyString(text),
             article_number = NonemptyString(number.split('-')[1]),
+            part_number    = None,
             title_number   = NonemptyString(number.split('-')[0])
         ))
 
