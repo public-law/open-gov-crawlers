@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from public_law.text import NonemptyString, URL
 
@@ -21,6 +22,7 @@ class Section:
     text:           NonemptyString
     # Structure
     article_number: NonemptyString
+    part_number:    Optional[NonemptyString]
     title_number:   NonemptyString
 
     kind: str = 'Section'
@@ -32,9 +34,7 @@ class Part:
     Used with Articles."""
     name: NonemptyString
     # Structure
-    sections: list[Section]
     article_number: NonemptyString
-
     kind: str = "Part"
 
 
@@ -44,8 +44,8 @@ class Article:
     name: NonemptyString
     number: NonemptyString
     # Structure
-    title_number: NonemptyString
-
+    title_number:  NonemptyString
+    division_name: Optional[NonemptyString]
     kind: str = "Article"
 
 
@@ -58,9 +58,7 @@ class Division:
     """
     name: NonemptyString
     # Structure
-    articles: list[Article]
     title_number: NonemptyString
-
     kind: str = "Division"
 
 
@@ -69,8 +67,6 @@ class Title:
     """A CRS Title."""
     name:       NonemptyString
     number:     NonemptyString
-    source_url: URL
     # Structure
-    children: list[Division] | list[Article]
-
+    source_url: URL
     kind: str = "Title"
