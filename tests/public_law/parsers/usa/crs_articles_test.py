@@ -74,14 +74,15 @@ class TestParseArticles:
 
 
 class TestWithNoDivisions:
-    ARTICLE_1 = cast(Article, PARSED_TITLE_4.children[0])
-
     def test_correct_count(self):
         assert len(PARSED_TITLE_4.children) == 16
 
     def test_theyre_all_articles(self):
         for child in PARSED_TITLE_4.children:
             assert child.kind == "Article"
+
+
+    ARTICLE_1 = cast(Article, PARSED_TITLE_4.children[0])
 
     def test_a_name(self):
         assert self.ARTICLE_1.name == "General Provisions"
@@ -94,3 +95,18 @@ class TestWithNoDivisions:
 
     def test_a_division_name(self):
         assert self.ARTICLE_1.division_name is None
+
+
+    ARTICLE_3 = cast(Article, PARSED_TITLE_4.children[2])
+
+    def test_a_name_2(self):
+        assert self.ARTICLE_3.name == "Leases"
+
+    def test_a_number_2(self):
+        assert self.ARTICLE_3.number == "2.5"
+
+    def test_a_title_number_2(self):
+        assert self.ARTICLE_3.title_number == "4"
+
+    def test_a_division_name_2(self):
+        assert self.ARTICLE_3.division_name is None
