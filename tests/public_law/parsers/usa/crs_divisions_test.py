@@ -30,19 +30,25 @@ class TestParseErrors:
 class TestParseDivisions:
     def test_correct_number_of_divisions_1(self):
         assert len(PARSED_TITLE_16.children) == 8
+        for putative_division in PARSED_TITLE_16.children:
+            assert putative_division.kind == "Division"
 
     def test_correct_number_of_divisions_2(self):
         assert len(PARSED_TITLE_4.children) == 0
+        for putative_division in PARSED_TITLE_4.children:
+            assert putative_division.kind == "Division"
 
 
     def test_first_division_retrieved(self):
         divs = PARSED_TITLE_16.children
-
         assert divs[0].name == "Code of Criminal Procedure"
+
+    def test_second_division_retrieved(self):
+        divs = PARSED_TITLE_16.children
+        assert divs[1].name == "Uniform Mandatory Disposition of Detainers Act"
 
     def test_last_division_retrieved(self):
         divs = PARSED_TITLE_16.children
-
         assert divs[-1].name == "Offenders - Registration"
 
     # def we_can_get_a_div_editors_note(self):
