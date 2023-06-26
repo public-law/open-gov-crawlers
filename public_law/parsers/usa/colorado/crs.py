@@ -103,12 +103,15 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
         logger.warn(f"Could not parse title name in {dom.url}")
         return None
 
+    name       = NonemptyString(titlecase(raw_name))
     number     = NonemptyString(dom.xpath("//TITLE-NUM/text()").get().split(" ")[1])
     url_number = number.rjust(2, "0")
     source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
+    print(f"\nTitle: {number}, {name}")
+
     return Title(
-        name       = NonemptyString(titlecase(raw_name)),
+        name       = name,
         number     = number,
         children   = _parse_divisions(number, dom, source_url),
         source_url = URL(source_url)
@@ -124,17 +127,21 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, sou
 
         divs.append(
             Division(
-                name         = NonemptyString(name),
+                name         = name,
                 articles     = _parse_articles(title_number, dom, name, source_url),
-                title_number = NonemptyString(title_number))
-        )
+                title_number = title_number
+                )
+            )
     return divs
 
 
 def _div_name_text(div_node: Selector) -> NonemptyString:
     soup = BeautifulSoup(div_node.get(), 'xml')
+    soup_text = soup.get_text()
+    cleaned_up_text = titlecase(normalize_whitespace(soup_text))
+    print(f"Div Name: {cleaned_up_text}")
 
-    return NonemptyString(titlecase(normalize_whitespace(soup.get_text())))
+    return NonemptyString(cleaned_up_text)
 
 
 def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString, source_url: URL) -> list[Article]:
