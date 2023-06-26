@@ -75,7 +75,8 @@ class TestParseArticles:
 
 class TestWithNoDivisions:
     def test_correct_count(self):
-        assert len(PARSED_TITLE_4.children) == 16
+        """Title 4 contains 12 not-repealed Articles."""
+        assert len(PARSED_TITLE_4.children) == 12
 
     def test_theyre_all_articles(self):
         for child in PARSED_TITLE_4.children:
@@ -110,3 +111,19 @@ class TestWithNoDivisions:
 
     def test_a_division_name_2(self):
         assert self.ARTICLE_3.division_name is None
+
+
+    # This should be the last article in Title 4.
+    ARTICLE_9_7 = cast(Article, PARSED_TITLE_4.children[-1])
+
+    def test_a_name_3(self):
+        assert self.ARTICLE_9_7.name == "Colorado Statutory Lien Registration Act"
+
+    def test_a_number_3(self):
+        assert self.ARTICLE_9_7.number == "9.7"
+
+    def test_a_title_number_3(self):
+        assert self.ARTICLE_9_7.title_number == "4"
+    
+    def test_a_division_name_3(self):
+        assert self.ARTICLE_9_7.division_name is None
