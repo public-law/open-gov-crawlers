@@ -188,6 +188,8 @@ def parse_article_name(node: Selector) -> NonemptyString:
         case str(text):
             raw_text     = normalize_whitespace(text)
             cleaned_text = ", ".join(raw_text.split(",")[:-1])
+            if cleaned_text == "":
+                cleaned_text = raw_text
             return NonemptyString(cleaned_text)
         case None:
             raise Exception("Could not parse article name in {node}")
