@@ -114,7 +114,8 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
     return Title(
         name       = name,
         number     = number,
-        source_url = URL(source_url)
+        source_url = URL(source_url),
+        children   = _parse_divisions(number, dom, source_url, logger)
     )
 
 
@@ -177,7 +178,8 @@ def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_
         Article(
             name = parse_article_name(n), 
             number = parse_article_number(n),
-            title_number = title_number
+            title_number = title_number,
+            division_name= div_name,
             ) 
         for n in article_nodes
         ]
