@@ -199,8 +199,6 @@ def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | 
 
 
 def _parse_articles(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Article]:
-    """Return the articles within the given Division."""
-
     #
     # Algorithm:
     #
@@ -223,7 +221,7 @@ def _parse_articles(title_number: NonemptyString, dom: Selector | Response, logg
             title_number = title_number,
             division_name= None,
             ) 
-        for n in article_nodes
+        for n in article_nodes if '(Repealed)' not in parse_article_name(n)
         ]
 
 
