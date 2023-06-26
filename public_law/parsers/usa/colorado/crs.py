@@ -40,6 +40,10 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
             continue
 
         text = _parse_section_text(node)
+        if text == '':
+            logger.warn(f"Could not parse section text for {normalize_whitespace(node.get())} in {dom.url}")
+            continue
+
 
         sections.append(Section(
             name           = NonemptyString(name),
