@@ -114,7 +114,6 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
     return Title(
         name       = name,
         number     = number,
-        children   = _parse_divisions(number, dom, source_url, logger),
         source_url = URL(source_url)
     )
 
