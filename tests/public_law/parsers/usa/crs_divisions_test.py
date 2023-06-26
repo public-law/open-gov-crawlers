@@ -34,9 +34,9 @@ class TestParseDivisions:
             assert putative_division.kind == "Division"
 
     def test_correct_number_of_divisions_2(self):
-        assert len(PARSED_TITLE_4.children) == 0
-        for putative_division in PARSED_TITLE_4.children:
-            assert putative_division.kind == "Division"
+        """Title 4 has no Divisions."""
+        for putative_article in PARSED_TITLE_4.children:
+            assert putative_article.kind == "Article"
 
 
     def test_first_division_retrieved(self):

@@ -115,11 +115,23 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
         name       = name,
         number     = number,
         source_url = URL(source_url),
-        children   = _parse_divisions(number, dom, source_url, logger)
+        children   = _parse_divisions_or_articles(number, dom, logger)
     )
 
 
-def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, source_url: URL, logger: Any) -> list[Division]:
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Division] | list[Article]:
+    division_nodes = dom.xpath("//T-DIV")
+    article_nodes  = dom.xpath("//TA-LIST")
+
+    if len(division_nodes) > 0:
+        return _parse_divisions(title_number, dom, logger)
+    elif len(article_nodes) > 0:
+        return _parse_articles(title_number, dom, logger)
+    else:
+        raise Exception(f"Could not parse divisions or articles in Title {title_number}")
+
+
+def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
 
     divs = []
@@ -132,7 +144,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, sou
         divs.append(
             Division(
                 name         = name,
-                articles     = _parse_articles(title_number, dom, name, source_url),
+                articles     = _parse_articles_from_division(title_number, dom, name),
                 title_number = title_number
                 )
             )
@@ -149,7 +161,7 @@ def _div_name_text(div_node: Selector) -> NonemptyString | None:
         return None
 
 
-def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString, source_url: URL) -> list[Article]:
+def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -173,16 +185,45 @@ def _parse_articles(title_number: NonemptyString, dom: Selector | Response, div_
     tail  = partial_list[1:]
     article_nodes = takewhile(is_article_node, tail)
 
-    # 4. Convert the TA-LIST elements into Article objects.    
+    # 4. Convert the TA-LIST elements into Article objects.   
     return [
         Article(
-            name = parse_article_name(n), 
+            name =   parse_article_name(n), 
             number = parse_article_number(n),
             title_number = title_number,
             division_name= div_name,
             ) 
-        for n in article_nodes
+        for n in article_nodes  if '(Repealed)' not in parse_article_name(n)
         ]
+
+
+
+def _parse_articles(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Article]:
+    #
+    # Algorithm:
+    #
+    # 1. Get all the child elements of TITLE-ANAL.
+    articles = dom.xpath("//TITLE-ANAL/TA-LIST")
+
+    if len(articles) == 0:
+        logger.warn(f"Could not parse articles in Title {title_number}")
+        return []
+
+    # 3. `takewhile` all the following TA-LIST elements
+    #    and stop at the end of the Articles.
+    article_nodes = takewhile(is_article_node, articles)
+
+    # 4. Convert the TA-LIST elements into Article objects.   
+    return [
+        Article(
+            name =   parse_article_name(n), 
+            number = parse_article_number(n),
+            title_number = title_number,
+            division_name= None,
+            ) 
+        for n in article_nodes if '(Repealed)' not in parse_article_name(n)
+        ]
+
 
 
 def is_article_node(node: Selector) -> bool:

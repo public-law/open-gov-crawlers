@@ -3,7 +3,7 @@ from typing import cast
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.items.crs import Division
+from public_law.items.crs import Division, Article
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
@@ -71,3 +71,59 @@ class TestParseArticles:
         article_1              = div_1_code_of_crim_pro.articles[0]
 
         assert article_1.division_name == "Code of Criminal Procedure"
+
+
+class TestWithNoDivisions:
+    def test_correct_count(self):
+        """Title 4 contains 12 not-repealed Articles."""
+        assert len(PARSED_TITLE_4.children) == 12
+
+    def test_theyre_all_articles(self):
+        for child in PARSED_TITLE_4.children:
+            assert child.kind == "Article"
+
+
+    ARTICLE_1 = cast(Article, PARSED_TITLE_4.children[0])
+
+    def test_a_name(self):
+        assert self.ARTICLE_1.name == "General Provisions"
+
+    def test_a_number(self):
+        assert self.ARTICLE_1.number == "1"
+
+    def test_a_title_number(self):
+        assert self.ARTICLE_1.title_number == "4"
+
+    def test_a_division_name(self):
+        assert self.ARTICLE_1.division_name is None
+
+
+    ARTICLE_3 = cast(Article, PARSED_TITLE_4.children[2])
+
+    def test_a_name_2(self):
+        assert self.ARTICLE_3.name == "Leases"
+
+    def test_a_number_2(self):
+        assert self.ARTICLE_3.number == "2.5"
+
+    def test_a_title_number_2(self):
+        assert self.ARTICLE_3.title_number == "4"
+
+    def test_a_division_name_2(self):
+        assert self.ARTICLE_3.division_name is None
+
+
+    # This should be the last article in Title 4.
+    ARTICLE_9_7 = cast(Article, PARSED_TITLE_4.children[-1])
+
+    def test_a_name_3(self):
+        assert self.ARTICLE_9_7.name == "Colorado Statutory Lien Registration Act"
+
+    def test_a_number_3(self):
+        assert self.ARTICLE_9_7.number == "9.7"
+
+    def test_a_title_number_3(self):
+        assert self.ARTICLE_9_7.title_number == "4"
+    
+    def test_a_division_name_3(self):
+        assert self.ARTICLE_9_7.division_name is None
