@@ -8,7 +8,7 @@ JD_VERBOSE_NAME  = "USA"
 PUBLICATION_NAME = "USCIS Glossary"
 
 
-class USACourtsGlossary(Spider):
+class USCISGlossary(Spider):
     name = "usa_uscis_glossary"
 
     start_urls = ["https://www.uscis.gov/tools/glossary"]
