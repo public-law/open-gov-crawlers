@@ -8,7 +8,7 @@ JD_VERBOSE_NAME = "Australia"
 PUBLICATION_NAME = "IP Glossary"
 
 
-class AUSIPGlossary(Spider):
+class IPGlossary(Spider):
     name = "aus_ip_glossary"
 
     start_urls = [
