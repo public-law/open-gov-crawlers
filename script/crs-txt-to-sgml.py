@@ -75,10 +75,10 @@ def fix_and_cleanup(line: str) -> str:
 # Execution begins here.
 #
 
-print(f"Converting\n  {TXT_FILE=} to\n  {XML_FILE=}...")
+print(f"\nConverting\n  {TXT_FILE=} to\n  {XML_FILE=}...")
 
 # 1. Clean up the text.
-with open(TXT_FILE, encoding="utf8") as f:
+with open(TXT_FILE, encoding='ascii', errors='replace') as f:
     cleaned_up = [fix_and_cleanup(line) for line in f.readlines()]
 
 # 2. Add the DOCTYPE declaration.
