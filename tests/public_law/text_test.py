@@ -1,5 +1,10 @@
 import pytest
-from public_law.text import NonemptyString, truncate_words
+from public_law.text import NonemptyString, truncate_words, titleize
+
+
+class TestTitleize:
+    def test_roman_numeral(self):
+        assert titleize("title i") == "Title I"
 
 
 class TestNonemptyString:
