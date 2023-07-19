@@ -9,6 +9,28 @@ import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
+
+
+def titleize(text: str) -> str:
+    """
+    Capitalize the first letter of each word in a string.
+    This is a wrapper around the `titlecase` library.
+
+    >>> titleize("hello world")
+    'Hello World'
+
+    >>> titleize("title iii")
+    'Title III'
+    """
+    def titlecase_special_cases(word: str, **kwargs) -> str | None:  # type: ignore
+        if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
+            return word.upper()
+
+    return titlecase.titlecase(text, callback=titlecase_special_cases) # type: ignore
+
+
+
+
 class NonemptyString(str):
     """
     A str subclass which is guaranteed to have length > 0
