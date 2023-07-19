@@ -7,11 +7,11 @@ import scrapy.exceptions
 from scrapy.http.response import Response
 from scrapy.http.request import Request
 import scrapy.signals
-from titlecase import titlecase
 
 from public_law.items.oar import Chapter, Division, OAR
 from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
 from public_law.dates import todays_date
+from public_law.text  import titleize
 
 
 JD_VERBOSE_NAME = "USA / Oregon"
@@ -78,7 +78,7 @@ class OregonRegs(Spider):
                 str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType, reportOptionalMemberAccess]
             )
             number: str = raw_number.split(" ")[1]
-            name: str = titlecase(raw_name)
+            name: str = titleize(raw_name)
             division = new_division(db_id, number, name)
 
             chapter["divisions"].append(division) # pyright: ignore[reportUnknownMemberType]

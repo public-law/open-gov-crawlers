@@ -8,12 +8,11 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 
-from titlecase import titlecase
 from itertools import takewhile, dropwhile
 from typing import Any
 
 from public_law.selector_util import node_name, just_text
-from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString, URL
+from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString, URL, titleize
 from public_law.items.crs import Article, Division, Title, Section
 
 from bs4 import BeautifulSoup
@@ -104,7 +103,7 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
         logger.warn(f"Could not parse title name in {dom.url}")
         return None
 
-    name       = NonemptyString(titlecase(raw_name))
+    name       = NonemptyString(titleize(raw_name))
     number     = NonemptyString(dom.xpath("//TITLE-NUM/text()").get().split(" ")[1])
     url_number = number.rjust(2, "0")
     source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
@@ -154,7 +153,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
 def _div_name_text(div_node: Selector) -> NonemptyString | None:
     soup = BeautifulSoup(div_node.get(), 'xml')
     soup_text = soup.get_text()
-    cleaned_up_text = titlecase(normalize_whitespace(soup_text))
+    cleaned_up_text = titleize(normalize_whitespace(soup_text))
     try:
         return NonemptyString(cleaned_up_text)
     except ValueError:
