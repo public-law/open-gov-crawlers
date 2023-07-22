@@ -53,8 +53,8 @@ class Article:
 class Division:
     """CRS Division: a nonstructural namespace level.
 
-    Used withing Titles. Some titles have Divisions, 
-    others don't.
+    Used within Titles. Some titles have Divisions, 
+    others don't. All Divisions' raw names are upper case.
     """
     raw_name: NonemptyString
     name:     NonemptyString = field(init=False)
