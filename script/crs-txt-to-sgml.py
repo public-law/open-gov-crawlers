@@ -54,10 +54,7 @@ def fix_unencoded_text(line: str) -> str:
 
 
 def cleanup(line: str) -> str:
-    """Why is this necessary? The XML might be easier
-    to parse if the text was left as-is.
-    """
-    return line.replace("_", "-")
+    return line.replace("_", "-").replace("<T>", "")
 
 
 def replace_entities(line: str) -> str:

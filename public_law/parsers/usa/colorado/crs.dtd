@@ -37,7 +37,7 @@
 <!ELEMENT CTRKB        - - (#PCDATA | NL | U)* >
 <!ELEMENT DL           - O EMPTY >
 <!ELEMENT DT           - O (#PCDATA) >
-<!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | P)* >
+<!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | N| P)* >
 <!ELEMENT HLINE        - O EMPTY >
 <!ELEMENT I            - O (#PCDATA) >
 <!ELEMENT IP-0-5       - O EMPTY >
@@ -50,7 +50,7 @@
 <!ELEMENT M            - O (#PCDATA) >
 <!ELEMENT N            - O EMPTY >
 <!ELEMENT NL           - O EMPTY >
-<!ELEMENT P            - O EMPTY >
+<!ELEMENT P            - O (#PCDATA | M | N )* >
 <!ELEMENT PAGE         - O EMPTY >
 <!ELEMENT R            - O EMPTY >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
@@ -60,10 +60,9 @@
 <!ELEMENT S            - - ANY >
 <!ELEMENT S1           - O EMPTY >
 <!ELEMENT S2           - O EMPTY >
-<!ELEMENT SOURCE-NOTE  - O (T | EDITORS-NOTE)* >
+<!ELEMENT SOURCE-NOTE  - O (#PCDATA | B | M | T | EDITORS-NOTE)* >
 <!ELEMENT SUB          - - (#PCDATA) >
 <!ELEMENT SUP          - - (#PCDATA) >
-<!ELEMENT T            - O (#PCDATA | AN-SUB | ANNO-TEXT| B | BL-1 | IT | J | M | N | NL | S1 | SUB | SUP | TD | U)* >
 <!ELEMENT T-DIV        - O (#PCDATA | NL)* >
 <!ELEMENT TA-LIST      - O (#PCDATA, DT, I) >
 <!ELEMENT TBL          - O EMPTY >
@@ -97,7 +96,7 @@
 <!ELEMENT TITLE-PART   - - (#PCDATA) >
 <!ELEMENT TR           - O EMPTY >
 <!ELEMENT U            - - (#PCDATA | BL | IT | M | T)* >
-<!ELEMENT XREF-NOTE    - O (#PCDATA | T | B | P)* >
+<!ELEMENT XREF-NOTE    - - (#PCDATA | B | M | N | P | T)* >
 
 
 <!ATTLIST P
