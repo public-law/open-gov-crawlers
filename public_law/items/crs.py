@@ -1,7 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import re
 from typing import Optional
 
-from public_law.text import NonemptyString, URL
+from public_law.text import NonemptyString, titleize, URL
 
 #
 # Items for the Colorado Revised Statutes.
@@ -48,18 +49,30 @@ class Article:
     kind:          str = "Article"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Division:
     """CRS Division: a nonstructural namespace level.
 
     Used withing Titles. Some titles have Divisions, 
     others don't.
     """
-    name: NonemptyString
+    raw_name: NonemptyString
+    name:     NonemptyString = field(init=False)
     # Structure
     articles:     list[Article]
     title_number: NonemptyString
     kind:         str = "Division"
+
+    def validate(self):
+        return re.match(r'[A-Z][A-Z]+', self.raw_name)
+    
+    def __post_init__(self):
+        if not self.validate():
+            raise ValueError(f"Invalid Division: {self.raw_name}")
+        
+        self.name = NonemptyString(titleize(self.raw_name))
+        
+
 
 
 @dataclass(frozen=True)

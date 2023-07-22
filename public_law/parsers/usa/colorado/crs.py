@@ -142,7 +142,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
 
         divs.append(
             Division(
-                name         = name,
+                raw_name     = name,
                 articles     = _parse_articles_from_division(title_number, dom, name),
                 title_number = title_number
                 )
@@ -153,7 +153,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
 def _div_name_text(div_node: Selector) -> NonemptyString | None:
     soup = BeautifulSoup(div_node.get(), 'xml')
     soup_text = soup.get_text()
-    cleaned_up_text = titleize(normalize_whitespace(soup_text))
+    cleaned_up_text = normalize_whitespace(soup_text)
     try:
         return NonemptyString(cleaned_up_text)
     except ValueError:
