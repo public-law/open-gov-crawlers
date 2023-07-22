@@ -50,6 +50,30 @@ class Article:
 
 
 @dataclass
+class Subdivision:
+    """CRS Subdivision: a nonstructural namespace level.
+
+    Used within Divisions. Some Divisions have Subdivisions, 
+    others don't. All Subdivisions' raw names are title-case.
+    """
+    raw_name: NonemptyString
+    name:     NonemptyString = field(init=False)
+    # Structure
+    articles:     list[Article]
+    title_number: NonemptyString
+    kind:         str = "Subdivision"
+
+    def validate(self):
+        return re.match(r'[A-Z][a-z]+', self.raw_name)
+    
+    def __post_init__(self):
+        if not self.validate():
+            raise ValueError(f"Invalid Subdivision: {self.raw_name}")
+        
+        self.name = NonemptyString(titleize(self.raw_name))
+
+
+@dataclass
 class Division:
     """CRS Division: a nonstructural namespace level.
 
@@ -59,7 +83,7 @@ class Division:
     raw_name: NonemptyString
     name:     NonemptyString = field(init=False)
     # Structure
-    articles:     list[Article]
+    children:     list[Subdivision] | list[Article]
     title_number: NonemptyString
     kind:         str = "Division"
 
@@ -72,8 +96,6 @@ class Division:
         
         self.name = NonemptyString(titleize(self.raw_name))
         
-
-
 
 @dataclass(frozen=True)
 class Title:
