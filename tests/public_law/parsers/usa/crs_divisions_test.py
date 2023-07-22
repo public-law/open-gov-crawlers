@@ -1,3 +1,5 @@
+import pytest
+
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
@@ -53,6 +55,15 @@ class TestParseTitle7:
         assert len(PARSED_TITLE_07.children) == 8
         for putative_division in PARSED_TITLE_07.children:
             assert putative_division.kind == "Division"
+
+    @pytest.mark.skip
+    def test_correct_number_of_subdivisions(self):
+        first_division = PARSED_TITLE_07.children[0]
+
+        assert len(first_division.children) == 4
+        for item in first_division.children:
+            assert item.kind == "Subdivision"
+
 
 
 class TestParseDivisions:
