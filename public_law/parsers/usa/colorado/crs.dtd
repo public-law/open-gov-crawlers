@@ -95,7 +95,7 @@
 <!ELEMENT TITLE-PART   - - (#PCDATA) >
 <!ELEMENT TR           - O EMPTY >
 <!ELEMENT U            - - (#PCDATA | BL | IT | M | N | T)* >
-<!ELEMENT XREF-NOTE    - - (#PCDATA | B | M | N | P | T)* >
+<!ELEMENT XREF-NOTE    - O (#PCDATA | B | M | N | P | T)* >
 
 
 <!ATTLIST P
