@@ -16,6 +16,27 @@ PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
+# A Title with Divisions and Subdivisions.
+TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
+PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
+
+    # $ grep '<T-DIV>' tmp/sources/CRSDADA20220915/TITLES/title07.xml
+    #
+    # <T-DIV>CORPORATIONS</T-DIV>
+    #   <T-DIV>Colorado Corporation Code</T-DIV>
+    #   <T-DIV>Nonprofit Corporations</T-DIV>
+    #   <T-DIV>Special Purpose Corporations</T-DIV>
+    #   <T-DIV>Religious and Benevolent Organizations</T-DIV>
+    # <T-DIV>ASSOCIATIONS</T-DIV>
+    # <T-DIV>PARTNERSHIPS</T-DIV>
+    # <T-DIV>TRADEMARKS AND BUSINESS NAMES</T-DIV>
+    # <T-DIV>TRADE SECRETS</T-DIV>
+    # <T-DIV>LIMITED LIABILITY COMPANIES</T-DIV>
+    # <T-DIV>CORPORATIONS AND ASSOCIATIONS</T-DIV>
+    # <T-DIV>CORPORATIONS - Continued</T-DIV>
+    #   <T-DIV>Colorado Business Corporations</T-DIV>
+    #   <T-DIV>Nonprofit Corporations</T-DIV>
+
 
 class TestParseErrors:
     def test_name(self):
@@ -25,6 +46,13 @@ class TestParseErrors:
     def test_title_number(self):
         divs = PARSED_TITLE_1.children
         assert divs[0].title_number == "1"
+
+
+class TestParseTitle7:
+    def test_correct_number_of_divisions(self):
+        assert len(PARSED_TITLE_07.children) == 8
+        for putative_division in PARSED_TITLE_07.children:
+            assert putative_division.kind == "Division"
 
 
 class TestParseDivisions:
@@ -37,7 +65,6 @@ class TestParseDivisions:
         """Title 4 has no Divisions."""
         for putative_article in PARSED_TITLE_4.children:
             assert putative_article.kind == "Article"
-
 
     def test_first_division_retrieved(self):
         divs = PARSED_TITLE_16.children
