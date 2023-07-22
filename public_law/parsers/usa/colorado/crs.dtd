@@ -1,25 +1,25 @@
-<!ELEMENT CRS          O O (BLEED | TITLE-NUM | TITLE-TEXT | XREF-NOTE | TITLE-ANAL | TITLE-PART | TITLE-DIV | EDITORS-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ARTICLE-PART | ART-ANAL | SECTION-TEXT | SOURCE-NOTE | COMMENT-HEAD | COMMENT-TEXT | ANNO-NOTE)* >
+<!ELEMENT CRS          O O (B | BLEED | TITLE-NUM | TITLE-TEXT | XREF-NOTE | TITLE-ANAL | TITLE-PART | TITLE-DIV | EDITORS-NOTE | ARTICLE-NUM | ARTICLE-TEXT | ARTICLE-PART | ART-ANAL | SECTION-TEXT | SOURCE-NOTE | COMMENT-HEAD | COMMENT-TEXT | ANNO-NOTE)* >
 <!ELEMENT AL           - O (#PCDATA | I | N | NL | P)* >
 <!ELEMENT AN-DIV       - - (#PCDATA | B | M | N | NL)* >
 <!ELEMENT AN-SUB       - - (#PCDATA | AN-DIV | B | T | M | N | NL)* >
 <!ELEMENT ANNO-NOTE    - - (#PCDATA | ANNO-TEXT | ANNO-TOC | AN-DIV | AN-SUB | B | T | P )+ >
-<!ELEMENT ANNO-TEXT    - O (#PCDATA | B | J | M | N | NL | P | T)* >
+<!ELEMENT ANNO-TEXT    - O (#PCDATA | B | FOOTNOTE | J | M | N | NL | P | T)* >
 <!ELEMENT ANNO-TOC     - O (#PCDATA | I | M | T)* >
 <!ELEMENT ART-ANAL     - - (AL | I | ART-PART | NL | P)+ >
 <!ELEMENT ART-PART     - - (#PCDATA | NL | P)* >
 <!ELEMENT ARTICLE-NUM  - - (#PCDATA) >
 <!ELEMENT ARTICLE-PART - - (#PCDATA | NL | P)* >
 <!ELEMENT ARTICLE-TEXT - - (RHRTC) >
-<!ELEMENT B            - - (#PCDATA | C | IT | M | N | NL | P | T | U)* >
+<!ELEMENT B            - - (#PCDATA | BL | C | IT | M | N | NL | P | T | U)* >
 <!ELEMENT BL           - O EMPTY >
 <!ELEMENT BL-1         - O (#PCDATA) >
 <!ELEMENT BLEED        - - (B | CTR)* >
-<!ELEMENT (C|C2|C3|C4|C5|C6|C7|C8|C10|C15|TC) - O (#PCDATA) >
+<!ELEMENT (C|C2|C3|C4|C5|C6|C7|C8|C10|C11|C15|TC) - O (#PCDATA) >
 <!ELEMENT CDEF         - O EMPTY >
 <!ELEMENT CATCH-LINE   - - ANY >
 <!ELEMENT COL15        - O EMPTY >
 <!ELEMENT COMMENT-HEAD - - (#PCDATA | B | CTR | NL | P)* >
-<!ELEMENT COMMENT-TEXT - - (#PCDATA | B | IP-5-5-5 | IT | M | N | P | T)* >
+<!ELEMENT COMMENT-TEXT - - (#PCDATA | ANNO-TEXT | B | FOOTNOTE | IP-5-5-5 | IT | M | N | P | T)* >
 <!ELEMENT CPOINT07     - O EMPTY >
 <!ELEMENT CPOINT09     - O EMPTY >
 <!ELEMENT CTEMP        - O EMPTY >
@@ -27,6 +27,7 @@
 <!ELEMENT DL           - O EMPTY >
 <!ELEMENT DT           - O (#PCDATA) >
 <!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | N | P | U)* >
+<!ELEMENT FOOTNOTE     - - (#PCDATA | Ital | U)* >
 <!ELEMENT HLINE        - O EMPTY >
 <!ELEMENT I            - O (#PCDATA) >
 <!ELEMENT IP-0-5       - O EMPTY >
@@ -34,12 +35,13 @@
 <!ELEMENT IP-5-5-5     - O EMPTY >
 <!ELEMENT IP-10-10-10  - O EMPTY >
 <!ELEMENT IT           - - (#PCDATA | B | N)* >
+<!ELEMENT Ital         - - (#PCDATA) >
 <!ELEMENT J            - - (#PCDATA) >
 <!ELEMENT LANDSCAPE    - O EMPTY >
 <!ELEMENT M            - O (#PCDATA) >
 <!ELEMENT N            - O EMPTY >
 <!ELEMENT NL           - O EMPTY >
-<!ELEMENT P            - O (#PCDATA | B | BL | DL | M | N | NL | U | SUP)* >
+<!ELEMENT P            - O (#PCDATA | B | BL | DL | FOOTNOTE | M | N | NL | U | S2 | SUP)* >
 <!ELEMENT PAGE         - O EMPTY >
 <!ELEMENT (R|RT)       - O (#PCDATA | B | C | TC)+ >
 <!ELEMENT RHRTC        - - (#PCDATA | NL)* >
@@ -52,7 +54,7 @@
 <!ELEMENT SUP          - - (#PCDATA) >
 <!ELEMENT T-DIV        - O (#PCDATA | NL)* >
 <!ELEMENT TA-LIST      - O (#PCDATA, DT, I) >
-<!ELEMENT TBL          - O (#PCDATA | C | TC)* >
+<!ELEMENT (TBL|TBL.39-22-514|TBL.37-23-107|TBL.30-2-102X2|TBL.25-5.5-101|TBL.25-7-109.3X1|TBL.25-7-109.3X2|TBL.25-7-109.3X3|TBL.25-7-109.3X4|TBL.25-12-103|TBL.39-22-301X1|TBL.39-22-301X2|TBL.30-10-409|TBL.25-12-107|TBL.17-22.5-201)          - O (#PCDATA | C | TC)* >
 <!ELEMENT TBL.6-7-105X1 - O EMPTY >
 <!ELEMENT TBL.10-3-201  - O EMPTY >
 <!ELEMENT TBL.10-3-209  - O EMPTY >
