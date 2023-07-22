@@ -37,7 +37,7 @@
 <!ELEMENT CTRKB        - - (#PCDATA | NL | U)* >
 <!ELEMENT DL           - O EMPTY >
 <!ELEMENT DT           - O (#PCDATA) >
-<!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | N| P)* >
+<!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | N | P)* >
 <!ELEMENT HLINE        - O EMPTY >
 <!ELEMENT I            - O (#PCDATA) >
 <!ELEMENT IP-0-5       - O EMPTY >
@@ -58,7 +58,6 @@
 <!ELEMENT RT           - O EMPTY >
 <!ELEMENT SECTION-TEXT - O (#PCDATA | AN-SUB | ANNO-TEXT| B | BL | BL-1 | C | C2 | C3 | C4 | C5 | C6 | C8 | C10 | C11 | C15 | CATCH-LINE | CDEF | COL15 | CPOINT07 | CPOINT09 | CTEMP | CTR | CTRK | CTRKB | DL | HLINE | IP-0-5 | IP-0-25 | IP-5-5-5 | IP-10-10-10 | I | IT | J | LANDSCAPE | M | N | NL | P | PAGE | R | RT | S | S1 | S2 | SUB | SUP | T | TBL | TD | TR | U)* >
 <!ELEMENT S            - - ANY >
-<!ELEMENT S1           - O EMPTY >
 <!ELEMENT S2           - O EMPTY >
 <!ELEMENT SOURCE-NOTE  - O (#PCDATA | B | M | T | EDITORS-NOTE)* >
 <!ELEMENT SUB          - - (#PCDATA) >

@@ -54,7 +54,7 @@ def fix_unencoded_text(line: str) -> str:
 
 
 def cleanup(line: str) -> str:
-    return line.replace("_", "-").replace("<T>", "")
+    return line.replace("_", "-").replace("<T>", "").replace("<S1>", "").replace("<IT>", "").replace("</IT>", "")
 
 
 def replace_entities(line: str) -> str:
