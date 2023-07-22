@@ -14,7 +14,7 @@ XML_FILE:  Final = SGML_FILE.replace(".sgml", ".xml")
 
 # The osx executable is provided by the open-sp (Homebrew) or opensp (Ubuntu) packages.
 OSX_CMD: Final = (
-    f"osx --max-errors=20 --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} | tidy -xml -i - > {XML_FILE}"
+    f"osx --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} | tidy -xml -i -q - > {XML_FILE}"
 )
 
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
