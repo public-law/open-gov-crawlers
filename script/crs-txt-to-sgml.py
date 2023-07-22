@@ -42,6 +42,12 @@ ENTITIES: Final = {
     "Uuml": 220,
 }
 
+ELEMENTS_TO_DELETE: Final = [
+    'IT',
+    'S1',
+    'T',
+]
+
 
 def fix_unencoded_text(line: str) -> str:
     return (
@@ -54,7 +60,7 @@ def fix_unencoded_text(line: str) -> str:
 
 
 def cleanup(line: str) -> str:
-    return line.replace("_", "-").replace("<T>", "").replace("<S1>", "").replace("<IT>", "").replace("</IT>", "")
+    return line.replace("_", "-")
 
 
 def replace_entities(line: str) -> str:
@@ -64,8 +70,15 @@ def replace_entities(line: str) -> str:
     return line
 
 
+def delete_unwanted_elements(line: str) -> str:
+    for elem in ELEMENTS_TO_DELETE:
+        line = line.replace(f"<{elem}>", '').replace(f"</{elem}>", '')
+
+    return line
+
+
 def fix_and_cleanup(line: str) -> str:
-    return replace_entities(cleanup(fix_unencoded_text(line)))
+    return delete_unwanted_elements(replace_entities(cleanup(fix_unencoded_text(line))))
 
 
 #
