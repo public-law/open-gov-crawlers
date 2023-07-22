@@ -5,6 +5,7 @@
 #
 
 import os
+import re
 import sys
 from typing import Final
 
@@ -74,13 +75,17 @@ def replace_entities(line: str) -> str:
 
 def delete_unwanted_elements(line: str) -> str:
     for elem in ELEMENTS_TO_DELETE:
-        line = line.replace(f"<{elem}>", '').replace(f"</{elem}>", '')
+        p_open   = re.compile("<"+elem+'\\s*>')
+        p_closed = re.compile("</"+elem+'\\s*>')
+
+        line = re.sub(p_open,   '', line)
+        line = re.sub(p_closed, '', line)
 
     return line
 
 
 def fix_and_cleanup(line: str) -> str:
-    return delete_unwanted_elements(replace_entities(cleanup(fix_unencoded_text(line))))
+    return replace_entities(cleanup(fix_unencoded_text(line)))
 
 
 #
@@ -97,8 +102,9 @@ with open(TXT_FILE, encoding='ascii', errors='replace') as f:
 cleaned_up.insert(0, PROLOG)
 
 # 3. Save the SGML.
+new_sgml = delete_unwanted_elements("\n".join(cleaned_up))
 with open(SGML_FILE, mode="w", encoding="utf8") as f:
-    f.writelines(cleaned_up)
+    _ = f.write(new_sgml)
 
 # 4. Convert the SGML to XML.
 print(f"Executing {OSX_CMD}...")
