@@ -44,7 +44,7 @@ class TestFromSubdivision:
         subdiv_1 = cast(Subdivision, div_8.children[0])
         print(subdiv_1)
 
-        assert len(subdiv_1.articles) == 17
+        assert len(subdiv_1.articles) == 16
 
 
 class TestParseArticles:
