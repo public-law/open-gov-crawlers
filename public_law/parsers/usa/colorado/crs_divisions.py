@@ -12,7 +12,7 @@ from typing import Any
 
 from public_law.selector_util import just_text
 from public_law.text import NonemptyString
-from public_law.items.crs import Division
+from public_law.items.crs import Division, Subdivision
 from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_articles_from_division
 
 
@@ -33,7 +33,7 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
                     divs.append(
                         Division(
                             raw_name     = name,
-                            children     = parse_articles_from_division(title_number, dom, name),
+                            children     = parse_subdivisions_from_division(title_number, dom, name),
                             title_number = title_number
                             )
                         )
@@ -55,3 +55,7 @@ def _has_subdivisions(dom: Selector | Response) -> bool:
     raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
     
     return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
+
+
+def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Subdivision]:
+    return []
