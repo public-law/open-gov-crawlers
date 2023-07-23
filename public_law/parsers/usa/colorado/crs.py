@@ -8,12 +8,12 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 
-from itertools import takewhile, dropwhile
 from typing import Any
 
-from public_law.selector_util import node_name, just_text
+from public_law.selector_util import just_text
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString, URL, titleize
-from public_law.items.crs import Article, Division, Title, Section, Subdivision
+from public_law.items.crs import Article, Division, Title, Section
+from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_articles, parse_articles_from_division
 
 from bs4 import BeautifulSoup
 
@@ -130,7 +130,7 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | R
     if len(division_nodes) > 0:
         return _parse_divisions(title_number, dom, logger)
     elif len(article_nodes) > 0:
-        return _parse_articles(title_number, dom, logger)
+        return parse_articles(title_number, dom, logger)
     else:
         raise Exception(f"Could not parse divisions or articles in Title {title_number}")
 
@@ -140,7 +140,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
 
     divs = []
     for div_node in division_nodes:
-        name = _div_name_text(div_node)
+        name = div_name_text(div_node)
         if name is None:
             logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
             continue
@@ -159,7 +159,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
                 divs.append(
                     Division(
                         raw_name     = name,
-                        children     = _parse_articles_from_division(title_number, dom, name),
+                        children     = parse_articles_from_division(title_number, dom, name),
                         title_number = title_number
                         )
                     )
@@ -167,116 +167,3 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
             logger.warn(f"Could not parse division name in {name}, Title {title_number}")
 
     return divs
-
-
-def _div_name_text(div_node: Selector) -> NonemptyString | None:
-    soup = BeautifulSoup(div_node.get(), 'xml')
-    soup_text = soup.get_text()
-    cleaned_up_text = normalize_whitespace(soup_text)
-    try:
-        return NonemptyString(cleaned_up_text)
-    except ValueError:
-        return None
-
-
-def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: NonemptyString) -> list[Article]:
-    """Return the articles within the given Division."""
-
-    #
-    # Algorithm:
-    #
-    # 1. Get all the child elements of TITLE-ANAL.
-    divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
-
-    # 2. Find the T-DIV with the Division name.
-    partial_list = list(dropwhile(
-        lambda n: _div_name_text(n) != raw_div_name, 
-        divs_and_articles
-        ))
-
-    if len(partial_list) == 0:
-        return []
-
-    # 3. `takewhile` all the following TA-LIST elements
-    #    and stop at the end of the Articles.
-    _head = partial_list[0]
-    tail  = partial_list[1:]
-    article_nodes = takewhile(is_article_node, tail)
-
-    # 4. Convert the TA-LIST elements into Article objects.   
-    return [
-        Article(
-            name =   parse_article_name(n), 
-            number = parse_article_number(n),
-            title_number = title_number,
-            division_name= Division.name_from_raw(raw_div_name),
-            ) 
-        for n in article_nodes  if '(Repealed)' not in parse_article_name(n)
-        ]
-
-
-
-def _parse_articles(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Article]:
-    #
-    # Algorithm:
-    #
-    # 1. Get all the child elements of TITLE-ANAL.
-    articles = dom.xpath("//TITLE-ANAL/TA-LIST")
-
-    if len(articles) == 0:
-        logger.warn(f"Could not parse articles in Title {title_number}")
-        return []
-
-    # 3. `takewhile` all the following TA-LIST elements
-    #    and stop at the end of the Articles.
-    article_nodes = takewhile(is_article_node, articles)
-
-    # 4. Convert the TA-LIST elements into Article objects.   
-    return [
-        Article(
-            name =   parse_article_name(n), 
-            number = parse_article_number(n),
-            title_number = title_number,
-            division_name= None,
-            ) 
-        for n in article_nodes if '(Repealed)' not in parse_article_name(n)
-        ]
-
-
-
-def is_article_node(node: Selector) -> bool:
-    return node_name(node) == "TA-LIST"
-
-
-def parse_article_name(node: Selector) -> NonemptyString:
-    """Return just the name of the Article.
-    The raw text looks like this:
-        "General, Provisions, 16-1-101 to 16-1-110"
-    
-    We want to return just the first part:
-        "General, Provisions"
-    """
-    match node.xpath("I/text()").get():
-        case str(text):
-            raw_text     = normalize_whitespace(text)
-            cleaned_text = ", ".join(raw_text.split(",")[:-1])
-            if cleaned_text == "":
-                cleaned_text = raw_text
-            return NonemptyString(cleaned_text)
-        case None:
-            raise Exception("Could not parse article name in {node}")
-
-
-def parse_article_number(node: Selector) -> NonemptyString:
-    """Return just the number of the Article.
-    The raw text looks like this:
-        "1.1."
-    
-    We want to return just this:
-        "1.1"
-    """
-    match node.xpath("DT/text()").get():
-        case str(raw_text):
-            return NonemptyString(remove_trailing_period(raw_text))
-        case None:
-            raise Exception("Could not parse article number in {node}")
