@@ -55,7 +55,8 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
 
 
 def _has_subdivisions(dom: Response) -> bool:
-    return True
+    t_divs = dom.xpath("//TITLE-ANAL/T-DIV")
+    return len(t_divs) > 0
 
 
 
@@ -143,13 +144,17 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
             logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
             continue
 
-        divs.append(
-            Division(
-                raw_name     = name,
-                children     = _parse_articles_from_division(title_number, dom, name),
-                title_number = title_number
+        try:
+            divs.append(
+                Division(
+                    raw_name     = name,
+                    children     = _parse_articles_from_division(title_number, dom, name),
+                    title_number = title_number
+                    )
                 )
-            )
+        except ValueError:
+            logger.warn(f"Could not parse division name in {name}, Title {title_number}")
+
     return divs
 
 
