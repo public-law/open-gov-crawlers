@@ -9,7 +9,7 @@ from scrapy.http.response.xml import XmlResponse
 from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 from public_law.parsers.usa.colorado.crs_divisions import _has_subdivisions
-from public_law.items.crs import Division
+from public_law.items.crs import Division, Subdivision
 
 
 # Divisions aren't parsing correctly.
@@ -83,6 +83,11 @@ class TestParseTitle7:
         
         assert names == ['Colorado Corporation Code', 'Nonprofit Corporations', 'Special Purpose Corporations', 'Religious and Benevolent Organizations']
 
+    def test_subdiv_gets_div_name(self):
+        first_div    = cast(Division, PARSED_TITLE_07.children[0])
+        first_subdiv = cast(Subdivision, first_div.children[0])
+
+        assert first_subdiv.division_name == first_div.name
 
 
 

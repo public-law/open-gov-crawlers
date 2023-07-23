@@ -59,8 +59,9 @@ class Subdivision:
     raw_name: NonemptyString
     name:     NonemptyString = field(init=False)
     # Structure
-    articles:     list[Article]
-    title_number: NonemptyString
+    articles:      list[Article]
+    division_name: NonemptyString
+    title_number:  NonemptyString
     kind:         str = "Subdivision"
 
     def validate(self):
