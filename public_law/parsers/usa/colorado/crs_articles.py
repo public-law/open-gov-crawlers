@@ -39,17 +39,17 @@ def parse_articles_from_division(title_number: NonemptyString, dom: Selector | R
     #    and stop at the end of the Articles.
     _head = partial_list[0]
     tail  = partial_list[1:]
-    article_nodes = takewhile(is_article_node, tail)
+    article_nodes = takewhile(_is_article_node, tail)
 
     # 4. Convert the TA-LIST elements into Article objects.   
     return [
         Article(
-            name =   parse_article_name(n), 
-            number = parse_article_number(n),
+            name =   _parse_article_name(n), 
+            number = _parse_article_number(n),
             title_number = title_number,
             division_name= Division.name_from_raw(raw_div_name),
             ) 
-        for n in article_nodes  if '(Repealed)' not in parse_article_name(n)
+        for n in article_nodes  if '(Repealed)' not in _parse_article_name(n)
         ]
 
 
@@ -67,26 +67,26 @@ def parse_articles(title_number: NonemptyString, dom: Selector | Response, logge
 
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop at the end of the Articles.
-    article_nodes = takewhile(is_article_node, articles)
+    article_nodes = takewhile(_is_article_node, articles)
 
     # 4. Convert the TA-LIST elements into Article objects.   
     return [
         Article(
-            name =   parse_article_name(n), 
-            number = parse_article_number(n),
+            name =   _parse_article_name(n), 
+            number = _parse_article_number(n),
             title_number = title_number,
             division_name= None,
             ) 
-        for n in article_nodes if '(Repealed)' not in parse_article_name(n)
+        for n in article_nodes if '(Repealed)' not in _parse_article_name(n)
         ]
 
 
 
-def is_article_node(node: Selector) -> bool:
+def _is_article_node(node: Selector) -> bool:
     return node_name(node) == "TA-LIST"
 
 
-def parse_article_name(node: Selector) -> NonemptyString:
+def _parse_article_name(node: Selector) -> NonemptyString:
     """Return just the name of the Article.
     The raw text looks like this:
         "General, Provisions, 16-1-101 to 16-1-110"
@@ -105,7 +105,7 @@ def parse_article_name(node: Selector) -> NonemptyString:
             raise Exception("Could not parse article name in {node}")
 
 
-def parse_article_number(node: Selector) -> NonemptyString:
+def _parse_article_number(node: Selector) -> NonemptyString:
     """Return just the number of the Article.
     The raw text looks like this:
         "1.1."

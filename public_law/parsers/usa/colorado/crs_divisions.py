@@ -22,31 +22,31 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
 
     divs = []
     for div_node in division_nodes:
-        name = div_name_text(div_node)
-        if name is None:
+        raw_div_name = div_name_text(div_node)
+        if raw_div_name is None:
             logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
             continue
 
         try:
             if _has_subdivisions(dom):
-                if Division.is_valid_raw_name(name):
+                if Division.is_valid_raw_name(raw_div_name):
                     divs.append(
                         Division(
-                            raw_name     = name,
-                            children     = parse_subdivisions_from_division(title_number, dom, name),
+                            raw_name     = raw_div_name,
+                            children     = parse_subdivisions_from_division(title_number, dom, raw_div_name),
                             title_number = title_number
                             )
                         )
             else:
                 divs.append(
                     Division(
-                        raw_name     = name,
-                        children     = parse_articles_from_division(title_number, dom, name),
+                        raw_name     = raw_div_name,
+                        children     = parse_articles_from_division(title_number, dom, raw_div_name),
                         title_number = title_number
                         )
                     )
         except ValueError:
-            logger.warn(f"Could not parse division name in {name}, Title {title_number}")
+            logger.warn(f"Could not parse division name in {raw_div_name}, Title {title_number}")
 
     return divs
 
