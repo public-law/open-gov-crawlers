@@ -1,10 +1,14 @@
+# pyright: reportPrivateUsage=false
+
+
+
 import pytest
 from typing import cast
 
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.parsers.usa.colorado.crs import parse_title_bang, has_subdivisions
+from public_law.parsers.usa.colorado.crs import parse_title_bang, _has_subdivisions
 from public_law.items.crs import Division
 
 
@@ -27,10 +31,10 @@ PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
 
 class TestHasSubdivisions:
     def test_when_it_does(self):
-        assert has_subdivisions(PARSED_TITLE_07)
+        assert _has_subdivisions(TITLE_07)
 
     def test_when_it_does_not(self):
-        assert not has_subdivisions(PARSED_TITLE_16)
+        assert not _has_subdivisions(TITLE_16)
 
 
 class TestParseErrors:

@@ -18,8 +18,6 @@ from public_law.items.crs import Article, Division, Title, Section
 from bs4 import BeautifulSoup
 
 
-
-
 def parse_sections(dom: Response, logger: Any) -> list[Section]:
     section_nodes = dom.xpath("//SECTION-TEXT")
 
@@ -54,6 +52,11 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
         ))
 
     return sections
+
+
+def _has_subdivisions(dom: Response) -> bool:
+    return True
+
 
 
 def _is_repealed(section_text: Selector) -> bool:
