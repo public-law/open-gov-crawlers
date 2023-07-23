@@ -40,10 +40,11 @@ class TestParseErrors:
 
 class TestFromSubdivision:
     def test_correct_number(self):
-        div_1 =    cast(Division, PARSED_TITLE_07.children[0])
-        subdiv_1 = cast(Subdivision, div_1.children[0])
+        div_8 =    cast(Division, PARSED_TITLE_07.children[7])
+        subdiv_1 = cast(Subdivision, div_8.children[0])
+        print(subdiv_1)
 
-        assert len(subdiv_1.articles) == 10
+        assert len(subdiv_1.articles) == 17
 
 
 class TestParseArticles:
