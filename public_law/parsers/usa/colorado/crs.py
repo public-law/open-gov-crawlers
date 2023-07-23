@@ -13,7 +13,7 @@ from typing import Any
 
 from public_law.selector_util import node_name, just_text
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString, URL, titleize
-from public_law.items.crs import Article, Division, Title, Section
+from public_law.items.crs import Article, Division, Title, Section, Subdivision
 
 from bs4 import BeautifulSoup
 
@@ -54,9 +54,10 @@ def parse_sections(dom: Response, logger: Any) -> list[Section]:
     return sections
 
 
-def _has_subdivisions(dom: Response) -> bool:
-    t_divs = dom.xpath("//TITLE-ANAL/T-DIV")
-    return len(t_divs) > 0
+def _has_subdivisions(dom: Selector | Response) -> bool:
+    raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
+    
+    return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
 
 
 
@@ -145,13 +146,16 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
             continue
 
         try:
-            divs.append(
-                Division(
-                    raw_name     = name,
-                    children     = _parse_articles_from_division(title_number, dom, name),
-                    title_number = title_number
+            if _has_subdivisions(dom):
+                pass
+            else:
+                divs.append(
+                    Division(
+                        raw_name     = name,
+                        children     = _parse_articles_from_division(title_number, dom, name),
+                        title_number = title_number
+                        )
                     )
-                )
         except ValueError:
             logger.warn(f"Could not parse division name in {name}, Title {title_number}")
 

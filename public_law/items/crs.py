@@ -64,13 +64,17 @@ class Subdivision:
     kind:         str = "Subdivision"
 
     def validate(self):
-        return re.match(r'[A-Z][a-z]+', self.raw_name)
+        return self.is_valid_raw_name(self.raw_name)
     
     def __post_init__(self):
         if not self.validate():
             raise ValueError(f"Invalid Subdivision: {self.raw_name}")
         
         self.name = NonemptyString(titleize(self.raw_name))
+
+    @staticmethod
+    def is_valid_raw_name(raw_name: str | None) -> bool:
+        return re.match(r'[A-Z][a-z]+', raw_name or '') is not None
 
 
 @dataclass
@@ -88,13 +92,18 @@ class Division:
     kind:         str = "Division"
 
     def validate(self):
-        return re.match(r'[A-Z][A-Z]+', self.raw_name)
+        return self.is_valid_raw_name(self.raw_name)
     
     def __post_init__(self):
         if not self.validate():
             raise ValueError(f"Invalid Division: {self.raw_name}")
         
         self.name = NonemptyString(titleize(self.raw_name))
+
+    @staticmethod
+    def is_valid_raw_name(raw_name: str|None) -> bool:
+        return re.match(r'[A-Z][A-Z]+', raw_name or '') is not None
+
         
 
 @dataclass(frozen=True)
