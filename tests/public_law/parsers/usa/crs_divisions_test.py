@@ -4,7 +4,7 @@ from typing import cast
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.parsers.usa.colorado.crs import parse_title_bang
+from public_law.parsers.usa.colorado.crs import parse_title_bang, has_subdivisions
 from public_law.items.crs import Division
 
 
@@ -24,6 +24,13 @@ PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
 PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
 
+
+class TestHasSubdivisions:
+    def test_when_it_does(self):
+        assert has_subdivisions(PARSED_TITLE_07)
+
+    def test_when_it_does_not(self):
+        assert not has_subdivisions(PARSED_TITLE_16)
 
 
 class TestParseErrors:
