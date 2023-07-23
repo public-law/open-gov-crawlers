@@ -6,9 +6,9 @@
 
 cd tmp/sources/
 
-unzip ~/Documents/publaw-input/CRSDATA20220915.zip
+unzip CRSDATA*.zip
 
-cd CRSDATA20220915/TITLES
+cd CRSDADA20220915/TITLES
 
 cp ../../../../public_law/parsers/usa/colorado/crs.dtd .
 

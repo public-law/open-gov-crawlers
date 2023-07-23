@@ -16,7 +16,8 @@ from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from public_law.parsers.usa.colorado.crs import parse_title, parse_sections
+from public_law.parsers.usa.colorado.crs import parse_title
+from public_law.parsers.usa.colorado.crs_sections import parse_sections
 
 
 class ColoradoCRS(Spider):
@@ -25,15 +26,21 @@ class ColoradoCRS(Spider):
     Reads the sources from a local directory instead of the web.
     """
     name     = "usa_colorado_crs"
-    DIR      = f"{os.getcwd()}/tmp/sources/CRSDATA20220915"
-    XML_DIR  = f"{DIR}/TITLES"
 
 
     def start_requests(self):
         """Read the files from a local directory."""
-        xml_files = sorted(Path(self.XML_DIR).glob("*.xml"))
+        try:
+            dir = self.crsdata_dir
+        except:
+            raise Exception("No crsdata_dir specified.")
+
+        DIR      = f"{os.getcwd()}/{dir}"
+        XML_DIR  = f"{DIR}/TITLES"
+
+        xml_files = sorted(Path(XML_DIR).glob("*.xml"))
         xml_urls  = [f"file://{path}" for path in xml_files]
-        readme_url = f"file://{self.DIR}/README.txt"
+        readme_url = f"file://{DIR}/README.txt"
 
         with ProgressBar(max_value = len(xml_files) + 1) as bar:
             yield Request(readme_url)

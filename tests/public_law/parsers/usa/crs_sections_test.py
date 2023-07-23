@@ -1,7 +1,7 @@
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.parsers.usa.colorado.crs import parse_sections
+from public_law.parsers.usa.colorado.crs_sections import parse_sections
 
 
 

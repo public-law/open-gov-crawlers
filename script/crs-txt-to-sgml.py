@@ -5,6 +5,7 @@
 #
 
 import os
+import re
 import sys
 from typing import Final
 
@@ -12,9 +13,9 @@ TXT_FILE:  Final = sys.argv[1]
 SGML_FILE: Final = TXT_FILE.replace(".txt", ".sgml")
 XML_FILE:  Final = SGML_FILE.replace(".sgml", ".xml")
 
-# The osx executable is provided by the open-sp or opensp packages.
+# The osx executable is provided by the open-sp (Homebrew) or opensp (Ubuntu) packages.
 OSX_CMD: Final = (
-    f"osx --max-errors=20 --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} > {XML_FILE}"
+    f"osx --encoding=UTF-8 --xml-output-option=no-nl-in-tag {SGML_FILE} | tidy -xml -i -q - > {XML_FILE}"
 )
 
 PROLOG: Final = '<!DOCTYPE CRS SYSTEM "crs.dtd">\n'
@@ -42,27 +43,46 @@ ENTITIES: Final = {
     "Uuml": 220,
 }
 
+ELEMENTS_TO_DELETE: Final = [
+    'IT',
+    'S1',
+    'S3',
+    'T',
+]
+
 
 def fix_unencoded_text(line: str) -> str:
     return (
         line.replace("&RE", "&amp;RE")
         .replace("M&S", "M&amp;S")
+        .replace('EG&G', 'EG&amp;G')
+        .replace('E&P', 'E&amp;P')
         .replace("&A ", "&amp;A ")
+        .replace("&ampl ", "&amp; ")
+        .replace("CF&I", 'CF&amp;I')
         .replace(chr(21), "")
         .replace(chr(12), "")
     )
 
 
 def cleanup(line: str) -> str:
-    """Why is this necessary? The XML might be easier
-    to parse if the text was left as-is.
-    """
     return line.replace("_", "-")
 
 
 def replace_entities(line: str) -> str:
     for key, value in ENTITIES.items():
         line = line.replace(f"&{key};", f"&#{value};")
+
+    return line
+
+
+def delete_unwanted_elements(line: str) -> str:
+    for elem in ELEMENTS_TO_DELETE:
+        p_open   = re.compile("<"+elem+'\\s*>')
+        p_closed = re.compile("</"+elem+'\\s*>')
+
+        line = re.sub(p_open,   '', line)
+        line = re.sub(p_closed, '', line)
 
     return line
 
@@ -85,8 +105,9 @@ with open(TXT_FILE, encoding='ascii', errors='replace') as f:
 cleaned_up.insert(0, PROLOG)
 
 # 3. Save the SGML.
+new_sgml = delete_unwanted_elements("\n".join(cleaned_up))
 with open(SGML_FILE, mode="w", encoding="utf8") as f:
-    f.writelines(cleaned_up)
+    _ = f.write(new_sgml)
 
 # 4. Convert the SGML to XML.
 print(f"Executing {OSX_CMD}...")
