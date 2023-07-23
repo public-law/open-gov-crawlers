@@ -23,13 +23,13 @@ PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 class TestParseErrors:
     def test_name(self):
         first_div = cast(Division, PARSED_TITLE_1.children[0])
-        seventh_article = first_div.articles[6]
+        seventh_article = first_div.children[6]
 
         assert seventh_article.name == "Internet-based Voting Pilot Program for Absent Uniformed Services Electors"
 
     def test_title_number(self):
         first_div = cast(Division, PARSED_TITLE_1.children[0])
-        seventh_article = first_div.articles[6]
+        seventh_article = first_div.children[6]
 
         assert seventh_article.title_number == "1"
 
@@ -42,33 +42,33 @@ class TestParseArticles:
         div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
 
         assert div_1_code_of_crim_pro.name          == "Code of Criminal Procedure"
-        assert len(div_1_code_of_crim_pro.articles) == 22
+        assert len(div_1_code_of_crim_pro.children) == 22
 
 
     def test_correct_number_of_articles_in_a_division_2(self):
         division_2 = cast(Division, PARSED_TITLE_16.children[1])
         
         assert division_2.name          == "Uniform Mandatory Disposition of Detainers Act"
-        assert len(division_2.articles) == 1
+        assert len(division_2.children) == 1
 
 
     def test_article_number_1(self):
         code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1        = code_of_crim_pro.articles[0]
+        article_1        = code_of_crim_pro.children[0]
 
         assert article_1.number == "1"
 
 
     def test_article_name_1(self):
         div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1              = div_1_code_of_crim_pro.articles[0]
+        article_1              = div_1_code_of_crim_pro.children[0]
 
         assert article_1.name == "General Provisions"
 
 
     def test_division_name_1(self):
         div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1              = div_1_code_of_crim_pro.articles[0]
+        article_1              = div_1_code_of_crim_pro.children[0]
 
         assert article_1.division_name == "Code of Criminal Procedure"
 

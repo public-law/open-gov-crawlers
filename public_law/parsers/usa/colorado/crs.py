@@ -143,7 +143,7 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
         divs.append(
             Division(
                 raw_name     = name,
-                articles     = _parse_articles_from_division(title_number, dom, name),
+                children     = _parse_articles_from_division(title_number, dom, name),
                 title_number = title_number
                 )
             )
