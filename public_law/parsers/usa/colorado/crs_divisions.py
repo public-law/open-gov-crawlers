@@ -29,14 +29,14 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
 
         try:
             if _has_subdivisions(dom):
-                pass
-                # divs.append(
-                #     Division(
-                #         raw_name     = name,
-                #         children     = _parse_subdivisions_from_division(title_number, dom, name),
-                #         title_number = title_number
-                #         )
-                #     )
+                if Division.is_valid_raw_name(name):
+                    divs.append(
+                        Division(
+                            raw_name     = name,
+                            children     = parse_articles_from_division(title_number, dom, name),
+                            title_number = title_number
+                            )
+                        )
             else:
                 divs.append(
                     Division(
