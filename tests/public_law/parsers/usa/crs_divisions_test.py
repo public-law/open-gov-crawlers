@@ -1,9 +1,11 @@
 import pytest
+from typing import cast
 
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_title_bang
+from public_law.items.crs import Division
 
 
 # Divisions aren't parsing correctly.
@@ -22,6 +24,19 @@ PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
 PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
 
+
+
+class TestParseErrors:
+    def test_name(self):
+        divs = PARSED_TITLE_1.children
+        assert divs[0].name == "General, Primary, Recall, and Congressional Vacancy Elections"
+
+    def test_title_number(self):
+        divs = PARSED_TITLE_1.children
+        assert divs[0].title_number == "1"
+
+
+class TestParseTitle7:
     # $ grep '<T-DIV>' tmp/sources/CRSDADA20220915/TITLES/title07.xml
     #
     # <T-DIV>CORPORATIONS</T-DIV>
@@ -39,18 +54,6 @@ PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
     #   <T-DIV>Colorado Business Corporations</T-DIV>
     #   <T-DIV>Nonprofit Corporations</T-DIV>
 
-
-class TestParseErrors:
-    def test_name(self):
-        divs = PARSED_TITLE_1.children
-        assert divs[0].name == "General, Primary, Recall, and Congressional Vacancy Elections"
-
-    def test_title_number(self):
-        divs = PARSED_TITLE_1.children
-        assert divs[0].title_number == "1"
-
-
-class TestParseTitle7:
     def test_correct_number_of_divisions(self):
         assert len(PARSED_TITLE_07.children) == 8
         for putative_division in PARSED_TITLE_07.children:
@@ -58,7 +61,7 @@ class TestParseTitle7:
 
     @pytest.mark.skip
     def test_correct_number_of_subdivisions(self):
-        first_division = PARSED_TITLE_07.children[0]
+        first_division = cast(Division, PARSED_TITLE_07.children[0])
 
         assert len(first_division.children) == 4
         for item in first_division.children:

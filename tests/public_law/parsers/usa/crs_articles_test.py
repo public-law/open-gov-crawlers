@@ -54,7 +54,7 @@ class TestParseArticles:
 
     def test_article_number_1(self):
         code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1        = code_of_crim_pro.children[0]
+        article_1        = cast(Article, code_of_crim_pro.children[0])
 
         assert article_1.number == "1"
 
@@ -68,7 +68,7 @@ class TestParseArticles:
 
     def test_division_name_1(self):
         div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
-        article_1              = div_1_code_of_crim_pro.children[0]
+        article_1              = cast(Article, div_1_code_of_crim_pro.children[0])
 
         assert article_1.division_name == "Code of Criminal Procedure"
 
