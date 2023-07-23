@@ -3,7 +3,7 @@ from typing import cast
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.items.crs import Division, Article
+from public_law.items.crs import Division, Article, Subdivision
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
@@ -19,6 +19,10 @@ PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
+# A Title which uses Divisions & Subdivisions.
+TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
+PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
+
 
 class TestParseErrors:
     def test_name(self):
@@ -32,6 +36,13 @@ class TestParseErrors:
         seventh_article = first_div.children[6]
 
         assert seventh_article.title_number == "1"
+
+class TestFromSubdivision:
+    def test_correct_number(self):
+        div_1 =    cast(Division, PARSED_TITLE_07.children[0])
+        subdiv_1 = cast(Subdivision, div_1.children[0])
+
+        assert len(subdiv_1.articles) == 10
 
 
 class TestParseArticles:
