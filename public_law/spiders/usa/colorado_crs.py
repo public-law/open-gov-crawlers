@@ -16,7 +16,8 @@ from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
 from typing import Any
 
-from public_law.parsers.usa.colorado.crs import parse_title, parse_sections
+from public_law.parsers.usa.colorado.crs import parse_title
+from public_law.parsers.usa.colorado.crs_sections import parse_sections
 
 
 class ColoradoCRS(Spider):
