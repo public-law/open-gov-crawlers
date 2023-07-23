@@ -37,6 +37,7 @@ class TestParseErrors:
 
         assert seventh_article.title_number == "1"
 
+
 class TestFromSubdivision:
     def test_correct_number(self):
         div_1 =    cast(Division, PARSED_TITLE_07.children[0])

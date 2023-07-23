@@ -2,7 +2,6 @@
 
 
 
-import pytest
 from typing import cast
 
 from scrapy.http.response.xml import XmlResponse
