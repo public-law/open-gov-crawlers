@@ -8,7 +8,8 @@ from typing import cast
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
-from public_law.parsers.usa.colorado.crs import parse_title_bang, _has_subdivisions
+from public_law.parsers.usa.colorado.crs import parse_title_bang
+from public_law.parsers.usa.colorado.crs_divisions import _has_subdivisions
 from public_law.items.crs import Division
 
 
