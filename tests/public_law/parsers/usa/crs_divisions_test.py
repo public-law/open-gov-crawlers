@@ -78,6 +78,13 @@ class TestParseTitle7:
         for item in first_division.children:
             assert item.kind == "Subdivision"
 
+    def test_subdivision_names(self):
+        first_division = cast(Division, PARSED_TITLE_07.children[0])
+        names = [c.name for c in first_division.children]
+        
+        assert names == ['Colorado Corporation Code', 'Nonprofit Corporations', 'Special Purpose Corporations', 'Religious and Benevolent Organizations']
+
+
 
 
 class TestParseDivisions:
