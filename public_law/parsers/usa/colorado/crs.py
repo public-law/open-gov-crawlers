@@ -36,8 +36,6 @@ def parse_title(dom: Response, logger: Any) -> Title | None:
     url_number = number.rjust(2, "0")
     source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
-    # print(f"\nTitle: {number}, {name}")
-
     return Title(
         name       = name,
         number     = number,
