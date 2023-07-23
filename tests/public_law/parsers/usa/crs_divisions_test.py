@@ -71,7 +71,6 @@ class TestParseTitle7:
         for putative_division in PARSED_TITLE_07.children:
             assert putative_division.kind == "Division"
 
-    @pytest.mark.skip
     def test_correct_number_of_subdivisions(self):
         first_division = cast(Division, PARSED_TITLE_07.children[0])
 
