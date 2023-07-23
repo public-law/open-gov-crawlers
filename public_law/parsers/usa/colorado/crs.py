@@ -148,6 +148,13 @@ def _parse_divisions(title_number: NonemptyString, dom: Selector | Response, log
         try:
             if _has_subdivisions(dom):
                 pass
+                # divs.append(
+                #     Division(
+                #         raw_name     = name,
+                #         children     = _parse_subdivisions_from_division(title_number, dom, name),
+                #         title_number = title_number
+                #         )
+                #     )
             else:
                 divs.append(
                     Division(
@@ -172,7 +179,7 @@ def _div_name_text(div_node: Selector) -> NonemptyString | None:
         return None
 
 
-def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, div_name: NonemptyString) -> list[Article]:
+def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: NonemptyString) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -183,7 +190,7 @@ def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | 
 
     # 2. Find the T-DIV with the Division name.
     partial_list = list(dropwhile(
-        lambda n: _div_name_text(n) != div_name, 
+        lambda n: _div_name_text(n) != raw_div_name, 
         divs_and_articles
         ))
 
@@ -202,7 +209,7 @@ def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | 
             name =   parse_article_name(n), 
             number = parse_article_number(n),
             title_number = title_number,
-            division_name= div_name,
+            division_name= Division.name_from_raw(raw_div_name),
             ) 
         for n in article_nodes  if '(Repealed)' not in parse_article_name(n)
         ]

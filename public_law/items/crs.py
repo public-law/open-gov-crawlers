@@ -98,11 +98,15 @@ class Division:
         if not self.validate():
             raise ValueError(f"Invalid Division: {self.raw_name}")
         
-        self.name = NonemptyString(titleize(self.raw_name))
+        self.name = self.name_from_raw(self.raw_name)
 
     @staticmethod
     def is_valid_raw_name(raw_name: str|None) -> bool:
         return re.match(r'[A-Z][A-Z]+', raw_name or '') is not None
+    
+    @staticmethod
+    def name_from_raw(raw_name: str) -> NonemptyString:
+        return NonemptyString(titleize(raw_name))
 
         
 
