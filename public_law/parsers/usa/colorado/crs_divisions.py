@@ -9,6 +9,8 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 
 from typing import Any
+from itertools import takewhile, dropwhile
+
 
 from public_law.selector_util import just_text
 from public_law.text import NonemptyString
@@ -58,4 +60,39 @@ def _has_subdivisions(dom: Selector | Response) -> bool:
 
 
 def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Subdivision]:
-    return []
+    """Return the Subdivisions within the given Division."""
+
+    #
+    # Algorithm:
+    #
+    # 1. Get all the Divs and Subdivs.
+    divs_and_subdivs = dom.xpath("//TITLE-ANAL/T-DIV")
+
+    # 2. Find the T-DIV with the Division name.
+    partial_list = list(dropwhile(
+        lambda n: div_name_text(n) != raw_div_name, 
+        divs_and_subdivs
+        ))
+
+    if len(partial_list) == 0:
+        return []
+
+    # 3. `takewhile` all the following T-DIV elements
+    #    and stop at the end of the Subdivs.
+    _head = partial_list[0]
+    tail  = partial_list[1:]
+    subdiv_nodes = takewhile(_is_subdiv_node, tail)
+
+    # 4. Convert the T-DIV elements into Subdivisions.
+    return [
+        Subdivision(
+            raw_name = NonemptyString(just_text(n)),
+            articles = [],
+            title_number = title_number,
+            ) 
+        for n in subdiv_nodes
+        ]
+
+
+def _is_subdiv_node(node: Selector) -> bool:
+    return Subdivision.is_valid_raw_name(just_text(node))
