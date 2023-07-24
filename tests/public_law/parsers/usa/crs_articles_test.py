@@ -65,9 +65,16 @@ class TestFromSubdivision:
 
     def test_we_got_article_55(self):
         second_div = cast(Division, PARSED_TITLE_07.children[1])
-        article_55 = second_div.children[0]
+        article_55 = cast(Article, second_div.children[0])
 
         assert article_55.name == "Cooperatives - General"
+
+
+    def test_we_got_article_56(self):
+        second_div = cast(Division, PARSED_TITLE_07.children[1])
+        article_56 = cast(Article, second_div.children[1])
+
+        assert article_56.name == "Cooperatives"
 
 
 class TestParseArticles:
