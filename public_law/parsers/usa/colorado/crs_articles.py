@@ -23,7 +23,6 @@ def parse_articles_from_division(
         raw_div_name: str, 
         subdiv_name: NonemptyString|None = None) -> list[Article]:
     """Return the articles within the given Division."""
-    print(f"Called with: {raw_div_name}, {subdiv_name}")
 
     #
     # Algorithm:

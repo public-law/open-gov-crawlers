@@ -25,7 +25,6 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
     divs = []
     for div_node in division_nodes:
         raw_div_name = div_name_text(div_node)
-        print(f"Raw div name: {raw_div_name}")
 
         if raw_div_name is None:
             logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
@@ -68,8 +67,6 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
 def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Subdivision]:
     """Return the Subdivisions within the given Division."""
 
-    print(f"parse_subdivisions_from_division() with: {raw_div_name}")
-
     #
     # Algorithm:
     #
@@ -83,7 +80,6 @@ def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector
         ))
 
     if len(partial_list) == 0:
-        print("No partial list\n")
         return []
 
     # 3. `takewhile` all the following T-DIV elements
