@@ -21,6 +21,9 @@ def titleize(text: str) -> str:
 
     >>> titleize("title iii")
     'Title III'
+
+    >>> titleize("CORPORATIONS - Continued")
+    'Corporations - Continued'
     """
     def titlecase_special_cases(word: str, **kwargs) -> str | None:  # type: ignore
         if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
