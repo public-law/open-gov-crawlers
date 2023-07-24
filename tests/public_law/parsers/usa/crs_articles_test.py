@@ -79,6 +79,17 @@ class TestFromSubdivision:
 
         assert article_56.name == "Cooperatives"
 
+    
+    def test_we_get_articles_121_to_137(self):
+        expected_numbers = list(range(121, 138))
+        last_div    = cast(Division, self.parsed_title_7().children[-1])
+        last_subdiv = cast(Subdivision, last_div.children[-1])
+        article_numbers = [a.number for a in last_subdiv.articles]
+
+        assert last_div.name    == 'Corporations - Continued'
+        assert last_subdiv.name == 'Nonprofit Corporations'
+        assert article_numbers  == expected_numbers
+
 
 class TestParseArticles:
     def test_correct_number_of_articles_in_a_division_1(self):
