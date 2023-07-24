@@ -44,9 +44,10 @@ class Article:
     name: NonemptyString
     number: NonemptyString
     # Structure
-    title_number:  NonemptyString
-    division_name: Optional[NonemptyString]
-    kind:          str = "Article"
+    title_number:     NonemptyString
+    division_name:    Optional[NonemptyString]
+    subdivision_name: Optional[NonemptyString]
+    kind:             str = "Article"
 
 
 @dataclass
@@ -71,11 +72,17 @@ class Subdivision:
         if not self.validate():
             raise ValueError(f"Invalid Subdivision: {self.raw_name}")
         
-        self.name = NonemptyString(titleize(self.raw_name))
+        self.name = self.name_from_raw(self.raw_name)
 
     @staticmethod
     def is_valid_raw_name(raw_name: str | None) -> bool:
         return re.match(r'[A-Z][a-z]+', raw_name or '') is not None
+
+    @staticmethod
+    def name_from_raw(raw_name: str) -> NonemptyString:
+        return NonemptyString(titleize(raw_name))
+
+
 
 
 @dataclass

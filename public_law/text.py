@@ -21,12 +21,16 @@ def titleize(text: str) -> str:
 
     >>> titleize("title iii")
     'Title III'
+
+    >>> titleize("CORPORATIONS - Continued")
+    'Corporations - Continued'
     """
     def titlecase_special_cases(word: str, **kwargs) -> str | None:  # type: ignore
         if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
             return word.upper()
 
-    return titlecase.titlecase(text, callback=titlecase_special_cases) # type: ignore
+    # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
+    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore
 
 
 

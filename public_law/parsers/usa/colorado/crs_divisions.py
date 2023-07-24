@@ -87,10 +87,10 @@ def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector
     return [
         Subdivision(
             raw_name = NonemptyString(just_text(n)),
-            articles = parse_articles_from_division(title_number, dom, NonemptyString(just_text(n))),
+            articles = parse_articles_from_division(title_number, dom, raw_div_name, Subdivision.name_from_raw(NonemptyString(just_text(n)))),
             title_number = title_number,
             division_name = Division.name_from_raw(raw_div_name)
-            ) 
+            )
         for n in subdiv_nodes
         ]
 

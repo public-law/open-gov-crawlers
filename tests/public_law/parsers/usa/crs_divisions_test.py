@@ -70,6 +70,17 @@ class TestParseTitle7:
         for putative_division in PARSED_TITLE_07.children:
             assert putative_division.kind == "Division"
 
+
+    def test_division_name_1(self):
+        first_div = cast(Division, PARSED_TITLE_07.children[0])
+        assert first_div.name == "Corporations"
+
+
+    def test_division_name_2(self):
+        last_div = cast(Division, PARSED_TITLE_07.children[7])
+        assert last_div.name == "Corporations - Continued"
+
+
     def test_correct_number_of_subdivisions(self):
         first_division = cast(Division, PARSED_TITLE_07.children[0])
 
@@ -77,11 +88,13 @@ class TestParseTitle7:
         for item in first_division.children:
             assert item.kind == "Subdivision"
 
+
     def test_subdivision_names(self):
         first_division = cast(Division, PARSED_TITLE_07.children[0])
         names = [c.name for c in first_division.children]
         
         assert names == ['Colorado Corporation Code', 'Nonprofit Corporations', 'Special Purpose Corporations', 'Religious and Benevolent Organizations']
+
 
     def test_subdiv_gets_div_name(self):
         first_div    = cast(Division, PARSED_TITLE_07.children[0])

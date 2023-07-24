@@ -17,7 +17,11 @@ from public_law.items.crs import Article, Division
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
 
 
-def parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: NonemptyString) -> list[Article]:
+def parse_articles_from_division(
+        title_number: NonemptyString, 
+        dom: Selector | Response, 
+        raw_div_name: str, 
+        subdiv_name: NonemptyString|None = None) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -26,9 +30,10 @@ def parse_articles_from_division(title_number: NonemptyString, dom: Selector | R
     # 1. Get all the child elements of TITLE-ANAL.
     divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
 
-    # 2. Find the T-DIV with the Division name.
+    # 2. Find the T-DIV with the Division or Subdivision name.
+    search_string = subdiv_name or raw_div_name
     partial_list = list(dropwhile(
-        lambda n: div_name_text(n) != raw_div_name, 
+        lambda n: div_name_text(n) != search_string, 
         divs_and_articles
         ))
 
@@ -48,6 +53,7 @@ def parse_articles_from_division(title_number: NonemptyString, dom: Selector | R
             number = _parse_article_number(n),
             title_number = title_number,
             division_name= Division.name_from_raw(raw_div_name),
+            subdivision_name= subdiv_name,
             ) 
         for n in article_nodes  if '(Repealed)' not in _parse_article_name(n)
         ]
@@ -76,6 +82,7 @@ def parse_articles(title_number: NonemptyString, dom: Selector | Response, logge
             number = _parse_article_number(n),
             title_number = title_number,
             division_name= None,
+            subdivision_name= None,
             ) 
         for n in article_nodes if '(Repealed)' not in _parse_article_name(n)
         ]
