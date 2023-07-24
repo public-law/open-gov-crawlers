@@ -44,9 +44,10 @@ class Article:
     name: NonemptyString
     number: NonemptyString
     # Structure
-    title_number:  NonemptyString
-    division_name: Optional[NonemptyString]
-    kind:          str = "Article"
+    title_number:     NonemptyString
+    division_name:    Optional[NonemptyString]
+    subdivision_name: Optional[NonemptyString]
+    kind:             str = "Article"
 
 
 @dataclass

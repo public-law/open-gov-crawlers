@@ -48,6 +48,7 @@ def parse_articles_from_division(title_number: NonemptyString, dom: Selector | R
             number = _parse_article_number(n),
             title_number = title_number,
             division_name= Division.name_from_raw(raw_div_name),
+            subdivision_name= None,
             ) 
         for n in article_nodes  if '(Repealed)' not in _parse_article_name(n)
         ]
@@ -76,6 +77,7 @@ def parse_articles(title_number: NonemptyString, dom: Selector | Response, logge
             number = _parse_article_number(n),
             title_number = title_number,
             division_name= None,
+            subdivision_name= None,
             ) 
         for n in article_nodes if '(Repealed)' not in _parse_article_name(n)
         ]

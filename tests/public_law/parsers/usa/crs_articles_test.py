@@ -47,6 +47,22 @@ class TestFromSubdivision:
         assert len(subdiv_1.articles) == 16
 
 
+    def test_correct_div_name(self):
+        div_8    = cast(Division, PARSED_TITLE_07.children[7])
+        subdiv_1 = cast(Subdivision, div_8.children[0])
+        art_1    = subdiv_1.articles[0]
+
+        assert art_1.division_name == div_8.name
+
+
+    def test_correct_subdiv_name(self):
+        div_8    = cast(Division, PARSED_TITLE_07.children[7])
+        subdiv_1 = cast(Subdivision, div_8.children[0])
+        art_1    = subdiv_1.articles[0]
+
+        assert art_1.subdivision_name == subdiv_1.name
+
+
 class TestParseArticles:
     def test_correct_number_of_articles_in_a_division_1(self):
         # Title 16 contains eight Divisions.
