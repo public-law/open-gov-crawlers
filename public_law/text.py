@@ -29,7 +29,8 @@ def titleize(text: str) -> str:
         if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
             return word.upper()
 
-    return titlecase.titlecase(text, callback=titlecase_special_cases) # type: ignore
+    # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
+    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore
 
 
 
