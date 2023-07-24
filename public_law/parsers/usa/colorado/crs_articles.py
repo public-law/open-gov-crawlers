@@ -31,7 +31,11 @@ def parse_articles_from_division(
     divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
 
     # 2. Find the T-DIV with the Division or Subdivision name.
-    search_string = subdiv_name or raw_div_name
+    if subdiv_name is not None:
+        search_string = subdiv_name
+    else:
+        search_string = raw_div_name
+
     partial_list = list(dropwhile(
         lambda n: div_name_text(n) != search_string, 
         divs_and_articles
