@@ -63,6 +63,13 @@ class TestFromSubdivision:
         assert art_1.subdivision_name == subdiv_1.name
 
 
+    def test_we_got_article_55(self):
+        second_div = cast(Division, PARSED_TITLE_07.children[1])
+        article_55 = second_div.children[0]
+
+        assert article_55.name == "Cooperatives - General"
+
+
 class TestParseArticles:
     def test_correct_number_of_articles_in_a_division_1(self):
         # Title 16 contains eight Divisions.
