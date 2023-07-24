@@ -17,7 +17,11 @@ from public_law.items.crs import Article, Division
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
 
 
-def parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: NonemptyString) -> list[Article]:
+def parse_articles_from_division(
+        title_number: NonemptyString, 
+        dom: Selector | Response, 
+        raw_div_name: str, 
+        subdiv_name: NonemptyString|None = None) -> list[Article]:
     """Return the articles within the given Division."""
 
     #
@@ -48,7 +52,7 @@ def parse_articles_from_division(title_number: NonemptyString, dom: Selector | R
             number = _parse_article_number(n),
             title_number = title_number,
             division_name= Division.name_from_raw(raw_div_name),
-            subdivision_name= None,
+            subdivision_name= subdiv_name,
             ) 
         for n in article_nodes  if '(Repealed)' not in _parse_article_name(n)
         ]
