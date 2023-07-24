@@ -7,9 +7,6 @@ from public_law.items.crs import Division, Article, Subdivision
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
-# Divisions aren't parsing correctly.
-TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
-PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
@@ -19,36 +16,42 @@ PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
 PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
-# A Title which uses Divisions & Subdivisions.
-TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
-PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
 
 
 class TestParseErrors:
+    # Divisions aren't parsing correctly.
+    TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
+    PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
+
     def test_name(self):
-        first_div = cast(Division, PARSED_TITLE_1.children[0])
+        first_div = cast(Division, self.PARSED_TITLE_1.children[0])
         seventh_article = first_div.children[6]
 
         assert seventh_article.name == "Internet-based Voting Pilot Program for Absent Uniformed Services Electors"
 
     def test_title_number(self):
-        first_div = cast(Division, PARSED_TITLE_1.children[0])
+        first_div = cast(Division, self.PARSED_TITLE_1.children[0])
         seventh_article = first_div.children[6]
 
         assert seventh_article.title_number == "1"
 
 
 class TestFromSubdivision:
+    def parsed_title_7(self):
+        # A Title which uses Divisions & Subdivisions.
+        TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
+        return parse_title_bang(TITLE_07, null_logger)
+
+
     def test_correct_number(self):
-        div_8 =    cast(Division, PARSED_TITLE_07.children[7])
+        div_8 =    cast(Division, self.parsed_title_7().children[7])
         subdiv_1 = cast(Subdivision, div_8.children[0])
-        print(subdiv_1)
 
         assert len(subdiv_1.articles) == 16
 
 
     def test_correct_div_name(self):
-        div_8    = cast(Division, PARSED_TITLE_07.children[7])
+        div_8    = cast(Division, self.parsed_title_7().children[7])
         subdiv_1 = cast(Subdivision, div_8.children[0])
         art_1    = subdiv_1.articles[0]
 
@@ -56,7 +59,7 @@ class TestFromSubdivision:
 
 
     def test_correct_subdiv_name(self):
-        div_8    = cast(Division, PARSED_TITLE_07.children[7])
+        div_8    = cast(Division, self.parsed_title_7().children[7])
         subdiv_1 = cast(Subdivision, div_8.children[0])
         art_1    = subdiv_1.articles[0]
 
@@ -64,15 +67,15 @@ class TestFromSubdivision:
 
 
     def test_we_got_article_55(self):
-        second_div = cast(Division, PARSED_TITLE_07.children[1])
-        article_55 = cast(Article, second_div.children[0])
+        div_2      = cast(Division, self.parsed_title_7().children[1])
+        article_55 = cast(Article, div_2.children[0])
 
         assert article_55.name == "Cooperatives - General"
 
 
     def test_we_got_article_56(self):
-        second_div = cast(Division, PARSED_TITLE_07.children[1])
-        article_56 = cast(Article, second_div.children[1])
+        div_2      = cast(Division, self.parsed_title_7().children[1])
+        article_56 = cast(Article, div_2.children[1])
 
         assert article_56.name == "Cooperatives"
 

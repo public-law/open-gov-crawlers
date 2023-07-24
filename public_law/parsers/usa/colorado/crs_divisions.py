@@ -25,6 +25,8 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
     divs = []
     for div_node in division_nodes:
         raw_div_name = div_name_text(div_node)
+        print(f"Raw div name: {raw_div_name}")
+
         if raw_div_name is None:
             logger.warn(f"Could not parse division name in {div_node.get()}, Title {title_number}")
             continue
@@ -32,13 +34,23 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
         try:
             if _has_subdivisions(dom):
                 if Division.is_valid_raw_name(raw_div_name):
-                    divs.append(
-                        Division(
-                            raw_name     = raw_div_name,
-                            children     = parse_subdivisions_from_division(title_number, dom, raw_div_name),
-                            title_number = title_number
+                    subdivisions = parse_subdivisions_from_division(title_number, dom, raw_div_name)
+                    if len(subdivisions) > 0:
+                        divs.append(
+                            Division(
+                                raw_name     = raw_div_name,
+                                children     = subdivisions,
+                                title_number = title_number
+                                )
                             )
-                        )
+                    else:
+                        divs.append(
+                            Division(
+                                raw_name     = raw_div_name,
+                                children     = parse_articles_from_division(title_number, dom, raw_div_name),
+                                title_number = title_number
+                                )
+                            )
             else:
                 divs.append(
                     Division(
@@ -53,14 +65,10 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
     return divs
 
 
-def _has_subdivisions(dom: Selector | Response) -> bool:
-    raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
-    
-    return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
-
-
 def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Subdivision]:
     """Return the Subdivisions within the given Division."""
+
+    print(f"parse_subdivisions_from_division() with: {raw_div_name}")
 
     #
     # Algorithm:
@@ -75,6 +83,7 @@ def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector
         ))
 
     if len(partial_list) == 0:
+        print("No partial list\n")
         return []
 
     # 3. `takewhile` all the following T-DIV elements
@@ -97,3 +106,9 @@ def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector
 
 def _is_subdiv_node(node: Selector) -> bool:
     return Subdivision.is_valid_raw_name(just_text(node))
+
+
+def _has_subdivisions(dom: Selector | Response) -> bool:
+    raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
+    
+    return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
