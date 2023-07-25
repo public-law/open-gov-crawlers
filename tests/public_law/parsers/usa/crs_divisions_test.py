@@ -92,7 +92,6 @@ class TestParseTitle7:
             'Corporations - Continued'
             ]
 
-    @pytest.mark.skip
     def test_division_name_2(self):
         last_div = cast(Division, PARSED_TITLE_07.children[7])
         assert last_div.name == "Corporations - Continued"
