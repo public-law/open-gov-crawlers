@@ -18,13 +18,17 @@ PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
 PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 
-# A Title which uses Divisions.
-TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
-PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
-
 # A Title with Divisions and Subdivisions.
 TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
 PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
+
+# A Title with an odd division title.
+TITLE_08 = XmlResponse(body = fixture('usa', 'crs', "title08.xml"), url = "title08.xml", encoding = "utf-8")
+PARSED_TITLE_08 = parse_title_bang(TITLE_08, null_logger)
+
+# A Title which uses Divisions.
+TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
+PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
 
 # class TestHasSubdivisions:
@@ -113,6 +117,13 @@ class TestParseTitle7:
         first_subdiv = cast(Subdivision, first_div.children[0])
 
         assert first_subdiv.division_name == first_div.name
+
+
+    def test_subdiv_gets_name_without_newlines(self):
+        first_div    = cast(Division, PARSED_TITLE_08.children[0])
+        first_subdiv = cast(Subdivision, first_div.children[0])
+
+        assert first_subdiv.name == 'Division of Labor - Industrial Claim Appeals Office'
 
 
 
