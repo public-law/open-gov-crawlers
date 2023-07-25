@@ -13,7 +13,7 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response import Response
 
 from public_law.selector_util import node_name
-from public_law.items.crs import Article, Division
+from public_law.items.crs import *
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
 
 
@@ -56,8 +56,8 @@ def parse_articles_from_division(
             name =   _parse_article_name(n), 
             number = _parse_article_number(n),
             title_number = title_number,
-            division_name= Division.name_from_raw(raw_div_name),
-            subdivision_name= subdiv_name,
+            division_name    = Division.name_from_raw(raw_div_name),
+            subdivision_name = Subdivision.name_from_raw(subdiv_name),
             ) 
         for n in article_nodes
         ]
@@ -111,7 +111,7 @@ def _parse_article_name(node: Selector) -> NonemptyString:
             cleaned_text = ", ".join(raw_text.split(",")[:-1])
             if cleaned_text == "":
                 cleaned_text = raw_text
-            return NonemptyString(cleaned_text)
+            return NonemptyString(remove_trailing_period(cleaned_text))
         case None:
             raise Exception("Could not parse article name in {node}")
 

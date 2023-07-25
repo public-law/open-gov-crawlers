@@ -67,10 +67,15 @@ class TestFromSubdivision:
 
 
     def test_we_got_article_55(self):
-        div_2      = cast(Division, self.parsed_title_7().children[1])
-        article_55 = cast(Article, div_2.children[0])
+        div_2 = cast(Division, self.parsed_title_7().children[1])
+        assert div_2.kind == 'Division'
+        assert div_2.name == 'Associations'
 
-        assert article_55.name == "Cooperatives - General"
+        art_55 = cast(Article, div_2.children[0])
+        assert art_55.kind == 'Article'
+
+        assert art_55.number == '55'
+        assert art_55.name   == "Cooperatives - General"
 
 
     def test_we_got_article_56(self):
