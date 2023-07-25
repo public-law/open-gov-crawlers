@@ -119,7 +119,6 @@ class TestFromSubdivision:
         assert article_numbers  == expected_numbers
 
 
-    @pytest.mark.skip
     def test_we_get_articles_121_to_137(self):
         expected_numbers = [str(i) for i in range(121, 138)]
         last_div         = cast(Division, self.parsed_title_7().children[-1])
