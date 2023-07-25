@@ -121,7 +121,6 @@ class TestParseTitle7:
 
 
 class TestParseDivisions:
-    @pytest.mark.skip
     def test_correct_number_of_divisions_1(self):
         assert len(PARSED_TITLE_16.children) == 8
         for putative_division in PARSED_TITLE_16.children:
