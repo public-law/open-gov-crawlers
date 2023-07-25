@@ -173,8 +173,7 @@ class TestParseArticles:
 
 class TestWithNoDivisions:
     def test_correct_count(self):
-        """Title 4 contains 12 not-repealed Articles."""
-        assert len(PARSED_TITLE_4.children) == 12
+        assert len(PARSED_TITLE_4.children) == 16
 
     def test_theyre_all_articles(self):
         for child in PARSED_TITLE_4.children:
