@@ -1,5 +1,4 @@
 from typing import cast
-import pytest
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *

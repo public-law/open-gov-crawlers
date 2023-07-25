@@ -82,7 +82,7 @@ def _is_subdiv_node(node: Selector) -> bool:
     return Subdivision.is_valid_raw_name(just_text(node))
 
 
-def _has_subdivisions(dom: Selector | Response) -> bool:
-    raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
+# def _has_subdivisions(dom: Selector | Response) -> bool:
+#     raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
     
-    return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
+#     return not all([Division.is_valid_raw_name(n) for n in raw_div_names])
