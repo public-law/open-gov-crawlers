@@ -135,7 +135,6 @@ class TestParseDivisions:
         divs = PARSED_TITLE_16.children
         assert divs[0].name == "Code of Criminal Procedure"
 
-    @pytest.mark.skip
     def test_second_division_retrieved(self):
         divs = PARSED_TITLE_16.children
         assert divs[1].name == "Uniform Mandatory Disposition of Detainers Act"
