@@ -59,7 +59,7 @@ def parse_articles_from_division(
             division_name= Division.name_from_raw(raw_div_name),
             subdivision_name= subdiv_name,
             ) 
-        for n in article_nodes  if '(Repealed)' not in _parse_article_name(n)
+        for n in article_nodes
         ]
 
 
@@ -82,13 +82,13 @@ def parse_articles(title_number: NonemptyString, dom: Selector | Response, logge
     # 4. Convert the TA-LIST elements into Article objects.   
     return [
         Article(
-            name =   _parse_article_name(n), 
-            number = _parse_article_number(n),
-            title_number = title_number,
-            division_name= None,
-            subdivision_name= None,
+            name             = _parse_article_name(n), 
+            number           = _parse_article_number(n),
+            title_number     = title_number,
+            division_name    = None,
+            subdivision_name = None,
             ) 
-        for n in article_nodes if '(Repealed)' not in _parse_article_name(n)
+        for n in article_nodes
         ]
 
 

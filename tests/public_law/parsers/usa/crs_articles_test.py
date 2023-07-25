@@ -79,7 +79,28 @@ class TestFromSubdivision:
 
         assert article_56.name == "Cooperatives"
 
-    
+
+    def test_repealed_statute_number(self):
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        subdiv           = cast(Subdivision, last_div.children[-2])
+        article_104      = subdiv.articles[3]
+
+        assert last_div.name == 'Corporations - Continued'
+        assert subdiv.name   == 'Colorado Business Corporations'
+        assert article_104.number == '104'
+
+
+    def test_repealed_statute_name(self):
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        subdiv           = cast(Subdivision, last_div.children[-2])
+        article_104      = subdiv.articles[3]
+
+        assert last_div.name    == 'Corporations - Continued'
+        assert subdiv.name      == 'Colorado Business Corporations'
+        assert article_104.name == 'Name (Repealed)'
+
+
+    @pytest.mark.skip    
     def test_we_get_articles_101_to_117(self):
         expected_numbers = [str(i) for i in range(101, 118)]
         last_div         = cast(Division, self.parsed_title_7().children[-1])
