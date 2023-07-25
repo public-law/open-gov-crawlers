@@ -45,9 +45,12 @@ class TestFromSubdivision:
 
     def test_correct_number(self):
         div_8 =    cast(Division, self.parsed_title_7().children[7])
-        subdiv_1 = cast(Subdivision, div_8.children[0])
+        assert div_8.name == 'Corporations - Continued'
 
-        assert len(subdiv_1.articles) == 16
+        subdiv_1 = cast(Subdivision, div_8.children[0])
+        assert subdiv_1.name == 'Colorado Business Corporations'
+
+        assert len(subdiv_1.articles) == 17
 
 
     def test_correct_div_name(self):
