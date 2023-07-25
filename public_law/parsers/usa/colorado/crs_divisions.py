@@ -33,24 +33,11 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
             continue
 
         if Division.is_valid_raw_name(raw_div_name):
-            subdivisions = parse_subdivisions_from_division(title_number, dom, raw_div_name)
+            children = parse_subdivisions_from_division(title_number, dom, raw_div_name)
+            if len(children) == 0:
+                children = parse_articles_from_division(title_number, dom, raw_div_name)
 
-            if len(subdivisions) > 0:
-                divs.append(
-                    Division(
-                        raw_name     = raw_div_name,
-                        children     = subdivisions,
-                        title_number = title_number
-                        )
-                    )
-            else:
-                divs.append(
-                    Division(
-                        raw_name     = raw_div_name,
-                        children     = parse_articles_from_division(title_number, dom, raw_div_name),
-                        title_number = title_number
-                        )
-                    )
+            divs.append(Division(raw_name = raw_div_name, children = children, title_number = title_number))
 
     return divs
 
