@@ -50,7 +50,7 @@ reportUnusedImport = "warning"
 
 
 [tool.pytest.ini_options]
-addopts = "-q --no-header --doctest-modules -p no:pastebin"
+addopts = "--no-header --doctest-modules -p no:pastebin"
 minversion = "7.1"
 pythonpath = "."
 python_files = ["*_test.py",]
