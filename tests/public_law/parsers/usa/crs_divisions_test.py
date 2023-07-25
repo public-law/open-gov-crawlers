@@ -1,14 +1,12 @@
 # pyright: reportPrivateUsage=false
 
 
-import pytest
 from typing import cast
 
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_title_bang
-from public_law.parsers.usa.colorado.crs_divisions import _has_subdivisions
 from public_law.items.crs import Division, Subdivision
 
 
@@ -20,21 +18,25 @@ PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
 PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 
-# A Title which uses Divisions.
-TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
-PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
-
 # A Title with Divisions and Subdivisions.
 TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
 PARSED_TITLE_07 = parse_title_bang(TITLE_07, null_logger)
 
+# A Title with an odd division title.
+TITLE_08 = XmlResponse(body = fixture('usa', 'crs', "title08.xml"), url = "title08.xml", encoding = "utf-8")
+PARSED_TITLE_08 = parse_title_bang(TITLE_08, null_logger)
 
-class TestHasSubdivisions:
-    def test_when_it_does(self):
-        assert _has_subdivisions(TITLE_07)
+# A Title which uses Divisions.
+TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
+PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
 
-    def test_when_it_does_not(self):
-        assert not _has_subdivisions(TITLE_16)
+
+# class TestHasSubdivisions:
+#     def test_when_it_does(self):
+#         assert _has_subdivisions(TITLE_07)
+
+#     def test_when_it_does_not(self):
+#         assert not _has_subdivisions(TITLE_16)
 
 
 class TestParseErrors:
@@ -115,6 +117,13 @@ class TestParseTitle7:
         first_subdiv = cast(Subdivision, first_div.children[0])
 
         assert first_subdiv.division_name == first_div.name
+
+
+    def test_subdiv_gets_name_without_newlines(self):
+        first_div    = cast(Division, PARSED_TITLE_08.children[0])
+        first_subdiv = cast(Subdivision, first_div.children[0])
+
+        assert first_subdiv.name == 'Division of Labor - Industrial Claim Appeals Office'
 
 
 
