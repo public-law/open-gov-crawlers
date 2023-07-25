@@ -131,7 +131,6 @@ class TestParseDivisions:
         for putative_article in PARSED_TITLE_4.children:
             assert putative_article.kind == "Article"
 
-    @pytest.mark.skip
     def test_first_division_retrieved(self):
         divs = PARSED_TITLE_16.children
         assert divs[0].name == "Code of Criminal Procedure"
