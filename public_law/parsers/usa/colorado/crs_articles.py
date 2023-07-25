@@ -18,10 +18,18 @@ from public_law.text import remove_trailing_period, normalize_whitespace, Nonemp
 
 
 def parse_articles_from_division(
-        title_number: NonemptyString, 
-        dom: Selector | Response, 
-        raw_div_name: str, 
-        subdiv_name: NonemptyString|None = None) -> list[Article]:
+    title_number: NonemptyString, 
+    dom: Selector | Response, 
+    raw_div_name: str, 
+    subdiv_name: NonemptyString|None = None) -> list[Article]:
+
+    if subdiv_name is None:
+        return _parse_articles_from_division(title_number, dom, raw_div_name)
+    else:
+        return _parse_articles_from_subdivision(title_number, dom, raw_div_name, subdiv_name)
+
+
+def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Article]: 
     """Return the articles within the given Division."""
 
     #
@@ -30,16 +38,52 @@ def parse_articles_from_division(
     # 1. Get all the child elements of TITLE-ANAL.
     divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
 
-    # 2. Find the T-DIV with the Division or Subdivision name.
-    if subdiv_name is not None:
-        search_string = subdiv_name
-    else:
-        search_string = raw_div_name
-
     partial_list = list(dropwhile(
-        lambda n: div_name_text(n) != search_string, 
+        lambda n: div_name_text(n) != raw_div_name, 
         divs_and_articles
         ))
+
+    if len(partial_list) == 0:
+        return []
+
+    # 3. `takewhile` all the following TA-LIST elements
+    #    and stop at the end of the Articles.
+    _head = partial_list[0]
+    tail  = partial_list[1:]
+    article_nodes = takewhile(_is_article_node, tail)
+
+    # 4. Convert the TA-LIST elements into Article objects.   
+    return [
+        Article(
+            name =   _parse_article_name(n), 
+            number = _parse_article_number(n),
+            title_number = title_number,
+            division_name    = Division.name_from_raw(raw_div_name),
+            subdivision_name = None,
+            ) 
+        for n in article_nodes
+        ]
+
+
+def _parse_articles_from_subdivision(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str, subdiv_name: NonemptyString) -> list[Article]: 
+    """Return the articles within the given Subdivision."""
+
+    #
+    # Algorithm:
+    #
+    # 1. Get all the child elements of TITLE-ANAL.
+    divs_and_articles = dom.xpath("//TITLE-ANAL/T-DIV | //TITLE-ANAL/TA-LIST")
+
+    partial_list = list(dropwhile(
+        lambda n: div_name_text(n) != raw_div_name, 
+        divs_and_articles
+        ))
+    
+    partial_list = list(dropwhile(
+        lambda n: div_name_text(n) != subdiv_name, 
+        partial_list
+        ))
+
 
     if len(partial_list) == 0:
         return []
