@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 import re
 from typing import Optional
 
-from public_law.text import NonemptyString, titleize, URL, remove_trailing_period
+from public_law.text import *
 
 #
 # Items for the Colorado Revised Statutes.
@@ -88,7 +88,7 @@ class Subdivision:
 
     @staticmethod
     def name_from_raw_nonempty(raw_name: NonemptyString) -> NonemptyString:
-        return NonemptyString(titleize(remove_trailing_period(raw_name)))
+        return NonemptyString(titleize(remove_trailing_period(normalize_whitespace(raw_name))))
 
 
 
@@ -125,7 +125,7 @@ class Division:
 
     @staticmethod
     def name_from_raw(raw_name: str) -> NonemptyString:
-        return NonemptyString(titleize(raw_name))
+        return NonemptyString(titleize(normalize_whitespace(raw_name)))
 
         
 
