@@ -126,7 +126,6 @@ class TestParseDivisions:
         for putative_division in PARSED_TITLE_16.children:
             assert putative_division.kind == "Division"
 
-    @pytest.mark.skip
     def test_correct_number_of_divisions_2(self):
         """Title 4 has no Divisions."""
         for putative_article in PARSED_TITLE_4.children:
