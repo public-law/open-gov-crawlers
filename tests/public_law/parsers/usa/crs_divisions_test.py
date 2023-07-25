@@ -67,7 +67,6 @@ class TestParseTitle7:
     #   <T-DIV>Colorado Business Corporations</T-DIV>
     #   <T-DIV>Nonprofit Corporations</T-DIV>
 
-    @pytest.mark.skip
     def test_correct_number_of_divisions(self):
         assert len(PARSED_TITLE_07.children) == 8
         for putative_division in PARSED_TITLE_07.children:
