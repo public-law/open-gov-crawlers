@@ -209,16 +209,16 @@ class TestWithNoDivisions:
 
 
     # This should be the last article in Title 4.
-    ARTICLE_9_7 = cast(Article, PARSED_TITLE_4.children[-1])
+    ARTICLE_11 = cast(Article, PARSED_TITLE_4.children[-1])
 
     def test_a_name_3(self):
-        assert self.ARTICLE_9_7.name == "Colorado Statutory Lien Registration Act"
+        assert self.ARTICLE_11.name == "Fees (Repealed)"
 
     def test_a_number_3(self):
-        assert self.ARTICLE_9_7.number == "9.7"
+        assert self.ARTICLE_11.number == "11"
 
     def test_a_title_number_3(self):
-        assert self.ARTICLE_9_7.title_number == "4"
+        assert self.ARTICLE_11.title_number == "4"
     
     def test_a_division_name_3(self):
-        assert self.ARTICLE_9_7.division_name is None
+        assert self.ARTICLE_11.division_name is None
