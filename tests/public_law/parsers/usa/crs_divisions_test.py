@@ -1,7 +1,7 @@
 # pyright: reportPrivateUsage=false
 
 
-
+import pytest
 from typing import cast
 
 from scrapy.http.response.xml import XmlResponse
@@ -75,6 +75,20 @@ class TestParseTitle7:
         first_div = cast(Division, PARSED_TITLE_07.children[0])
         assert first_div.name == "Corporations"
 
+
+    def test_division_names(self):
+        names = [c.name for c in PARSED_TITLE_07.children]
+        
+        assert names == [
+            'Corporations',
+            'Associations',
+            'Partnerships',
+            'Trademarks and Business Names',
+            'Trade Secrets',
+            'Limited Liability Companies',
+            'Corporations and Associations',
+            'Corporations - Continued'
+            ]
 
     def test_division_name_2(self):
         last_div = cast(Division, PARSED_TITLE_07.children[7])

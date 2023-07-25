@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 import re
 from typing import Optional
 
-from public_law.text import NonemptyString, titleize, URL
+from public_law.text import NonemptyString, titleize, URL, remove_trailing_period
 
 #
 # Items for the Colorado Revised Statutes.
@@ -63,7 +63,7 @@ class Subdivision:
     articles:      list[Article]
     division_name: NonemptyString
     title_number:  NonemptyString
-    kind:         str = "Subdivision"
+    kind:          str = "Subdivision"
 
     def validate(self):
         return self.is_valid_raw_name(self.raw_name)
@@ -76,11 +76,16 @@ class Subdivision:
 
     @staticmethod
     def is_valid_raw_name(raw_name: str | None) -> bool:
-        return re.match(r'[A-Z][a-z]+', raw_name or '') is not None
+        if raw_name is None:
+            return False
+        
+        return re.match(r'[A-Z][a-z]+', raw_name) is not None
 
     @staticmethod
-    def name_from_raw(raw_name: str) -> NonemptyString:
-        return NonemptyString(titleize(raw_name))
+    def name_from_raw(raw_name: str|None) -> NonemptyString|None:
+        if raw_name is None:
+            return None
+        return NonemptyString(titleize(remove_trailing_period(raw_name)))
 
 
 
@@ -110,8 +115,12 @@ class Division:
 
     @staticmethod
     def is_valid_raw_name(raw_name: str|None) -> bool:
-        return re.match(r'[A-Z][A-Z]+', raw_name or '') is not None
+        if raw_name is None:
+            return False
+        
+        return re.match(r'[A-Z][A-Z]+', raw_name) is not None
     
+
     @staticmethod
     def name_from_raw(raw_name: str) -> NonemptyString:
         return NonemptyString(titleize(raw_name))

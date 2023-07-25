@@ -1,5 +1,5 @@
 from typing import cast
-
+import pytest
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.test_util import *
@@ -45,9 +45,12 @@ class TestFromSubdivision:
 
     def test_correct_number(self):
         div_8 =    cast(Division, self.parsed_title_7().children[7])
-        subdiv_1 = cast(Subdivision, div_8.children[0])
+        assert div_8.name == 'Corporations - Continued'
 
-        assert len(subdiv_1.articles) == 16
+        subdiv_1 = cast(Subdivision, div_8.children[0])
+        assert subdiv_1.name == 'Colorado Business Corporations'
+
+        assert len(subdiv_1.articles) == 17
 
 
     def test_correct_div_name(self):
@@ -67,10 +70,15 @@ class TestFromSubdivision:
 
 
     def test_we_got_article_55(self):
-        div_2      = cast(Division, self.parsed_title_7().children[1])
-        article_55 = cast(Article, div_2.children[0])
+        div_2 = cast(Division, self.parsed_title_7().children[1])
+        assert div_2.kind == 'Division'
+        assert div_2.name == 'Associations'
 
-        assert article_55.name == "Cooperatives - General"
+        art_55 = cast(Article, div_2.children[0])
+        assert art_55.kind == 'Article'
+
+        assert art_55.number == '55'
+        assert art_55.name   == "Cooperatives - General"
 
 
     def test_we_got_article_56(self):
@@ -78,6 +86,48 @@ class TestFromSubdivision:
         article_56 = cast(Article, div_2.children[1])
 
         assert article_56.name == "Cooperatives"
+
+
+    def test_repealed_statute_number(self):
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        subdiv           = cast(Subdivision, last_div.children[-2])
+        article_104      = subdiv.articles[3]
+
+        assert last_div.name == 'Corporations - Continued'
+        assert subdiv.name   == 'Colorado Business Corporations'
+        assert article_104.number == '104'
+
+
+    def test_repealed_statute_name(self):
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        subdiv           = cast(Subdivision, last_div.children[-2])
+        article_104      = subdiv.articles[3]
+
+        assert last_div.name    == 'Corporations - Continued'
+        assert subdiv.name      == 'Colorado Business Corporations'
+        assert article_104.name == 'Name (Repealed)'
+
+
+    def test_we_get_articles_101_to_117(self):
+        expected_numbers = [str(i) for i in range(101, 118)]
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        subdiv           = cast(Subdivision, last_div.children[-2])
+        article_numbers  = [a.number for a in subdiv.articles]
+
+        assert last_div.name    == 'Corporations - Continued'
+        assert subdiv.name      == 'Colorado Business Corporations'
+        assert article_numbers  == expected_numbers
+
+
+    def test_we_get_articles_121_to_137(self):
+        expected_numbers = [str(i) for i in range(121, 138)]
+        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        last_subdiv      = cast(Subdivision, last_div.children[-1])
+        article_numbers  = [a.number for a in last_subdiv.articles]
+
+        assert last_div.name    == 'Corporations - Continued'
+        assert last_subdiv.name == 'Nonprofit Corporations'
+        assert article_numbers  == expected_numbers
 
 
 class TestParseArticles:
@@ -121,8 +171,7 @@ class TestParseArticles:
 
 class TestWithNoDivisions:
     def test_correct_count(self):
-        """Title 4 contains 12 not-repealed Articles."""
-        assert len(PARSED_TITLE_4.children) == 12
+        assert len(PARSED_TITLE_4.children) == 16
 
     def test_theyre_all_articles(self):
         for child in PARSED_TITLE_4.children:
@@ -160,16 +209,16 @@ class TestWithNoDivisions:
 
 
     # This should be the last article in Title 4.
-    ARTICLE_9_7 = cast(Article, PARSED_TITLE_4.children[-1])
+    ARTICLE_11 = cast(Article, PARSED_TITLE_4.children[-1])
 
     def test_a_name_3(self):
-        assert self.ARTICLE_9_7.name == "Colorado Statutory Lien Registration Act"
+        assert self.ARTICLE_11.name == "Fees (Repealed)"
 
     def test_a_number_3(self):
-        assert self.ARTICLE_9_7.number == "9.7"
+        assert self.ARTICLE_11.number == "11"
 
     def test_a_title_number_3(self):
-        assert self.ARTICLE_9_7.title_number == "4"
+        assert self.ARTICLE_11.title_number == "4"
     
     def test_a_division_name_3(self):
-        assert self.ARTICLE_9_7.division_name is None
+        assert self.ARTICLE_11.division_name is None
