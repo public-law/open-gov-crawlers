@@ -4,14 +4,10 @@
 # So far, just a history of commands I ran.
 #
 
-cd tmp/sources/
+cd tmp/sources/TITLES
 
-unzip CRSDATA*.zip
-
-cd CRSDADA20220915/TITLES
-
-cp ../../../../public_law/parsers/usa/colorado/crs.dtd .
+cp ../../../public_law/parsers/usa/colorado/crs.dtd .
 
 for file in *.txt
-    ../../../../script/crs-txt-to-sgml.py $file
+    ../../../script/crs-txt-to-sgml.py $file
 end
