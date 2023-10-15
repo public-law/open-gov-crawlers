@@ -45,6 +45,7 @@ ENTITIES: Final = {
 
 ELEMENTS_TO_DELETE: Final = [
     'IT',
+    'S',
     'S1',
     'S3',
     'T',
