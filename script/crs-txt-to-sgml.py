@@ -60,6 +60,7 @@ def fix_unencoded_text(line: str) -> str:
         .replace("&A ", "&amp;A ")
         .replace("&ampl ", "&amp; ")
         .replace("CF&I", 'CF&amp;I')
+        .replace("Q&A", "Q&amp;A")
         .replace(chr(21), "")
         .replace(chr(12), "")
     )

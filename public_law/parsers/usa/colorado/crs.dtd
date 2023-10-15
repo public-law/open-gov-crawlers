@@ -81,8 +81,7 @@
 <!ELEMENT TITLE-ANAL   - O (T-DIV | TA-LIST | B | P )* >
 <!ELEMENT TITLE-DIV    - - (#PCDATA | NL)* >
 <!ELEMENT TITLE-NUM    - - (#PCDATA) >
-<!ELEMENT TITLE-TEXT   - - (#PCDATA | NL)* >
-<!ELEMENT TITLE-PART   - - (#PCDATA) >
+<!ELEMENT (TITLE-TEXT|TITLE-PART)   - - (#PCDATA | NL)* >
 <!ELEMENT TR           - O EMPTY >
 <!ELEMENT U            - - (#PCDATA | BL | IT | M | N | T)* >
 <!ELEMENT XREF-NOTE    - O (#PCDATA | B | M | N | P | T | TBL)* >
