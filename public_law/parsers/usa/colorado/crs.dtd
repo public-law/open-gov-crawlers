@@ -27,7 +27,7 @@
 <!ELEMENT DL           - O EMPTY >
 <!ELEMENT DT           - O (#PCDATA) >
 <!ELEMENT EDITORS-NOTE - O (#PCDATA | IP-5-5-5 | CTR | CTRK | CTRKB | HLINE | T | B | M | N | P | U)* >
-<!ELEMENT FOOTNOTE     - - (#PCDATA | Ital | U)* >
+<!ELEMENT FOOTNOTE     - - (#PCDATA | Ital | SUP | U)* >
 <!ELEMENT HLINE        - O EMPTY >
 <!ELEMENT I            - O (#PCDATA) >
 <!ELEMENT IP-0-5       - O EMPTY >
