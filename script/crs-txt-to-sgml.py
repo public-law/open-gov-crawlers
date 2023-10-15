@@ -63,6 +63,7 @@ def fix_unencoded_text(line: str) -> str:
         .replace("CF&I", 'CF&amp;I')
         .replace("Q&A", "Q&amp;A")
         .replace('&eacute;e', 'é')
+        .replace('&para;', "¶")
         .replace(chr(21), "")
         .replace(chr(12), "")
     )
