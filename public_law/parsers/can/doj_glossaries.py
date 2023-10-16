@@ -102,7 +102,7 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
 }
 
 
-def configured_urls() -> tuple[str]:
+def configured_urls() -> tuple[str, ...]:
     """All the URLs that have been properly set up with subjects."""
     return tuple(SUBJECTS.keys())
 

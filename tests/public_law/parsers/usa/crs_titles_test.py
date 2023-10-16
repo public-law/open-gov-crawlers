@@ -4,10 +4,6 @@ from public_law.test_util import *
 from public_law.parsers.usa.colorado.crs import parse_title_bang
 
 
-class NullLogger:
-    def warn(self, message: str) -> None:
-        pass
-
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
 PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)

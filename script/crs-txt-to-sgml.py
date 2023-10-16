@@ -45,6 +45,7 @@ ENTITIES: Final = {
 
 ELEMENTS_TO_DELETE: Final = [
     'IT',
+    'S',
     'S1',
     'S3',
     'T',
@@ -60,6 +61,13 @@ def fix_unencoded_text(line: str) -> str:
         .replace("&A ", "&amp;A ")
         .replace("&ampl ", "&amp; ")
         .replace("CF&I", 'CF&amp;I')
+        .replace("Q&A", "Q&amp;A")
+        .replace('&eacute;e', 'é')
+        .replace('&para;', "¶")
+        .replace('&ccedil;', 'ç')
+        .replace('&sect ', '§ ')
+        .replace('&sect.', '§')
+        .replace('&divide;', '÷')
         .replace(chr(21), "")
         .replace(chr(12), "")
     )
