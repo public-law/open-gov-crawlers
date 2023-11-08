@@ -45,7 +45,7 @@ Then we can run one of the spiders:
 $ scrapy crawl --overwrite-output tmp/output.json usa_or_regs
 ```
 
-This produces the output:
+This produces:
 
 ```json
 {
