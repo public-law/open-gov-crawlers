@@ -21,7 +21,7 @@
 
 
 
-> The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our current coding style.
+> The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our coding style.
 > See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
 > of our parsing strategy. 
 
