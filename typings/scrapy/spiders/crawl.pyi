@@ -24,14 +24,14 @@ class CrawlSpider(Spider):
     def __init__(self, *a, **kw) -> None:
         ...
     
-    def parse_start_url(self, response, **kwargs): # -> list[Unknown]:
+    def parse_start_url(self, response, **kwargs): # -> list[Any]:
         ...
     
-    def process_results(self, response: Response, results: list): # -> list[Unknown]:
+    def process_results(self, response: Response, results: list): # -> list[Any]:
         ...
     
     @classmethod
-    def from_crawler(cls, crawler, *args, **kwargs): # -> Self@CrawlSpider:
+    def from_crawler(cls, crawler, *args, **kwargs): # -> Self:
         ...
     
 

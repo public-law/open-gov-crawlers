@@ -1,6 +1,8 @@
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
-from typing import Any
+from scrapy.http.response import Response
+
+from typing import Any, cast
 
 from ...parsers.usa.uscis_glossary import parse_glossary
 
@@ -13,7 +15,7 @@ class USCISGlossary(Spider):
 
     start_urls = ["https://www.uscis.gov/tools/glossary"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse(self, response: Response, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
         @url https://www.uscis.gov/tools/glossary
@@ -21,4 +23,4 @@ class USCISGlossary(Spider):
         @returns requests 0 0
         @scrapes metadata entries
         """
-        yield parse_glossary(response).asdict()
+        yield parse_glossary(cast(HtmlResponse, response)).asdict()

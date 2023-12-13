@@ -20,6 +20,25 @@ requests in Scrapy.
 See documentation in docs/topics/request-response.rst
 """
 RequestTypeVar = TypeVar("RequestTypeVar", bound="Request")
+def NO_CALLBACK(*args, **kwargs):
+    """When assigned to the ``callback`` parameter of
+    :class:`~scrapy.http.Request`, it indicates that the request is not meant
+    to have a spider callback at all.
+
+    For example:
+
+    .. code-block:: python
+
+       Request("https://example.com", callback=NO_CALLBACK)
+
+    This value should be used by :ref:`components <topics-components>` that
+    create and handle their own requests, e.g. through
+    :meth:`scrapy.core.engine.ExecutionEngine.download`, so that downloader
+    middlewares handling such requests can treat them differently from requests
+    intended for the :meth:`~scrapy.Spider.parse` callback.
+    """
+    ...
+
 class Request(object_ref):
     """Represents an HTTP request, which is usually generated in a Spider and
     executed by the Downloader, thus generating a :class:`Response`.
@@ -42,10 +61,9 @@ class Request(object_ref):
     def encoding(self) -> str:
         ...
     
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         ...
     
-    __repr__ = ...
     def copy(self) -> Request:
         ...
     

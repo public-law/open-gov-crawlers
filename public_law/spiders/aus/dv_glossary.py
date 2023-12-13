@@ -15,7 +15,7 @@ class DVGlossary(Spider):
         "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
     ]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
         """Framework callback which begins the parsing.
 
         @url https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary

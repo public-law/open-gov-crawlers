@@ -6,14 +6,15 @@ import re
 import sys
 from functools import wraps
 from inspect import getmembers
-from typing import Dict
+from types import CoroutineType
+from typing import AsyncGenerator, Dict
 from unittest import TestCase
 from scrapy.http import Request
 from scrapy.utils.python import get_spec
 from scrapy.utils.spider import iterate_spider_output
 
 class Contract:
-    """ Abstract class for contracts """
+    """Abstract class for contracts"""
     request_cls = ...
     def __init__(self, method, *args) -> None:
         ...
@@ -34,13 +35,13 @@ class ContractsManager:
     def __init__(self, contracts) -> None:
         ...
     
-    def tested_methods_from_spidercls(self, spidercls): # -> list[Unknown]:
+    def tested_methods_from_spidercls(self, spidercls): # -> list[Any]:
         ...
     
-    def extract_contracts(self, method): # -> list[Unknown]:
+    def extract_contracts(self, method): # -> list[Any]:
         ...
     
-    def from_spider(self, spider, results): # -> list[Unknown]:
+    def from_spider(self, spider, results): # -> list[Any]:
         ...
     
     def from_method(self, method, results): # -> Request | None:

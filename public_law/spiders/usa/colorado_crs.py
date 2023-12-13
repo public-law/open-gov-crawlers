@@ -51,7 +51,7 @@ class ColoradoCRS(Spider):
                 bar.increment()
 
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
         if "README.txt" in response.url:
             yield from self.parse_readme(response)
         else:

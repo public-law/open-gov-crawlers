@@ -12,7 +12,7 @@ class DojGlossaries(Spider):
     name = "can_doj_glossaries"
     start_urls = parser.configured_urls()
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
         """Framework callback which begins the parsing.
 
         @url https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html
