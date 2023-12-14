@@ -26,13 +26,13 @@ class RomeStatute(Spider):
             yield {"metadata": new_metadata(url).as_dublin_core_dict()}
 
             for part in parts(url):
-                yield {"part": part.dict()}
+                yield {"part": part.model_dump()}
 
             for article in articles(url):
-                yield {"article": article.dict()}
+                yield {"article": article.model_dump()}
 
             for footnote in footnotes():
-                yield {"footnote": footnote.dict()}
+                yield {"footnote": footnote.model_dump()}
 
 
 #
