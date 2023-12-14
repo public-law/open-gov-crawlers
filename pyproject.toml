@@ -14,7 +14,7 @@ lxml            = "^4.9.1"  # Security vulnerability.
 pydantic        = "^2.5.2"
 python          = "^3.11"
 pytz            = "*"
-scrapy          = "^2.6.2"
+scrapy          = "^2.6"
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"
@@ -26,7 +26,7 @@ progressbar2    = "^4.2.0"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.314"
 pytest = "*"
-pytest-watch = "^4.2.0"
+pytest-watch = "*"
 vcrpy = "*"
 
 
