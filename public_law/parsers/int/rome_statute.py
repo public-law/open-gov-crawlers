@@ -26,6 +26,7 @@ class FrozenModel(BaseModel):
 
     class Config:
         frozen = True
+        arbitrary_types_allowed = True
 
 
 class Part(FrozenModel):
