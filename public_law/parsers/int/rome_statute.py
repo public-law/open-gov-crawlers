@@ -5,7 +5,7 @@ from functools import cache
 from typing import Any, List, cast
 
 from bs4 import BeautifulSoup
-from pydantic import BaseModel, conint, constr
+from pydantic import BaseModel, Field, conint
 from tika import parser
 
 from public_law.metadata import Metadata
@@ -33,7 +33,7 @@ class Part(FrozenModel):
     It's basically like a chapter. A Part has many Articles."""
 
     number: conint(ge=1, le=13)
-    name: constr(regex=r"^[ a-zA-Z,]+$")
+    name: str = Field(pattern=r"^[ a-zA-Z,]+$")
 
 
 class Article(FrozenModel):
@@ -42,9 +42,7 @@ class Article(FrozenModel):
 
     number: str  # Is string because of numbers like "8 bis".
     part_number: conint(ge=1, le=13)  
-    name: constr(
-        regex=r"^[ a-zA-Z0-9,:\-\(\)]*$"
-    )  
+    name: str = Field(pattern=r"^[ a-zA-Z0-9,:\-\(\)]*$")  
     text: str
 
     def name(self) -> str:
