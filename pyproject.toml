@@ -12,7 +12,7 @@ beautifulsoup4  = "^4.10.0"
 more-itertools  = "^10.1.0"
 lxml            = "^4.9.1"  # Security vulnerability.
 pydantic        = "^2.5.2"
-python          = "^3.11"
+python          = "^3.12"
 pytz            = "*"
 scrapy          = "^2.6"
 scrapy-crawlera = "*"
@@ -31,7 +31,7 @@ vcrpy = "*"
 
 
 [tool.pyright]
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 include = ["public_law", "tests"]
 ignore = ["**/typings"]
 
