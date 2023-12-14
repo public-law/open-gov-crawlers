@@ -23,13 +23,11 @@ cryptography    = "*"
 progressbar2    = "^4.2.0"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 
-[tool.poetry.dev-dependencies]
-pytest = "*"
-vcrpy = "*"
-
 [tool.poetry.group.dev.dependencies]
-pyright = "1.1.314"
+pyright = "^1.1.314"
+pytest = "*"
 pytest-watch = "^4.2.0"
+vcrpy = "*"
 
 
 [tool.pyright]

@@ -61,6 +61,6 @@ def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
 
     paragraphs = soup.find_all("p")
     strongs = filter(lambda s: s is not None, (p.strong for p in paragraphs))
-    strongs = filter(lambda s: s.string != "Indigenous", strongs)  # type: ignore
+    strongs: filter[Any] = filter(lambda s: s.string != "Indigenous", strongs)
 
-    return ((phrase.string, "".join(map(str, phrase.next_siblings))) for phrase in strongs)  # type: ignore
+    return ((phrase.string, "".join(map(str, phrase.next_siblings))) for phrase in strongs)

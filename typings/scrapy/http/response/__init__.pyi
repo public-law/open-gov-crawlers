@@ -22,7 +22,7 @@ class Response(object_ref):
     downloaded (by the Downloader) and fed to the Spiders for processing.
     """
     attributes: Tuple[str, ...] = ...
-    def __init__(self, url, status=..., headers=..., body=..., flags=..., request=..., certificate=..., ip_address=..., protocol=...) -> None:
+    def __init__(self, url: str, status=..., headers=..., body=..., flags=..., request=..., certificate=..., ip_address=..., protocol=...) -> None:
         ...
     
     @property
@@ -35,15 +35,14 @@ class Response(object_ref):
     
     url = ...
     body = ...
-    def __str__(self) -> str:
+    def __repr__(self): # -> str:
         ...
     
-    __repr__ = ...
-    def copy(self): # -> Response:
+    def copy(self):
         """Return a copy of this Response"""
         ...
     
-    def replace(self, *args, **kwargs): # -> Response:
+    def replace(self, *args, **kwargs):
         """Create a new Response with the same attributes except for those given new values"""
         ...
     
@@ -60,6 +59,12 @@ class Response(object_ref):
         ...
     
     def css(self, *a, **kw):
+        """Shortcut method implemented only by responses whose content
+        is text (subclasses of TextResponse).
+        """
+        ...
+    
+    def jmespath(self, *a, **kw):
         """Shortcut method implemented only by responses whose content
         is text (subclasses of TextResponse).
         """

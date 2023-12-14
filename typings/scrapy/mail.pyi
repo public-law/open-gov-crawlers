@@ -14,10 +14,10 @@ class MailSender:
         ...
     
     @classmethod
-    def from_settings(cls, settings): # -> Self@MailSender:
+    def from_settings(cls, settings): # -> Self:
         ...
     
-    def send(self, to, subject, body, cc=..., attachs=..., mimetype=..., charset=..., _callback=...): # -> Deferred[Unknown] | None:
+    def send(self, to, subject, body, cc=..., attachs=..., mimetype=..., charset=..., _callback=...): # -> Deferred[Any] | None:
         ...
     
 

@@ -14,7 +14,7 @@ class IRLCourtsGlossary(Spider):
     start_urls = ["https://www.courts.ie/glossary"]
 
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]): 
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):  # type: ignore[override]
         """Framework callback which begins the parsing.
 
         @url https://www.courts.ie/glossary

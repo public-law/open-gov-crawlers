@@ -22,7 +22,7 @@ class ItemMeta(ABCMeta):
 
     .. _metaclass: https://realpython.com/python-metaclasses
     """
-    def __new__(mcs, class_name, bases, attrs): # -> Self@ItemMeta:
+    def __new__(mcs, class_name, bases, attrs): # -> Self:
         ...
     
 
@@ -71,22 +71,21 @@ class Item(MutableMapping, object_ref, metaclass=ItemMeta):
     def __len__(self): # -> int:
         ...
     
-    def __iter__(self): # -> Iterator[Unknown]:
+    def __iter__(self): # -> Iterator[Any]:
         ...
     
     __hash__ = ...
-    def keys(self): # -> dict_keys[Unknown, Unknown]:
+    def keys(self): # -> dict_keys[Any, Any]:
         ...
     
     def __repr__(self): # -> str:
         ...
     
-    def copy(self): # -> Item:
+    def copy(self): # -> Self:
         ...
     
-    def deepcopy(self): # -> Self@Item:
-        """Return a :func:`~copy.deepcopy` of this item.
-        """
+    def deepcopy(self): # -> Self:
+        """Return a :func:`~copy.deepcopy` of this item."""
         ...
     
 

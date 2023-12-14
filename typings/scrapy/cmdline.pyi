@@ -11,5 +11,5 @@ class ScrapyArgumentParser(argparse.ArgumentParser):
 def execute(argv=..., settings=...):
     ...
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ...

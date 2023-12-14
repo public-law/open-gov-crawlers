@@ -29,7 +29,7 @@ class ScrapyPriorityQueue:
 
     """
     @classmethod
-    def from_crawler(cls, crawler, downstream_queue_cls, key, startprios=...): # -> Self@ScrapyPriorityQueue:
+    def from_crawler(cls, crawler, downstream_queue_cls, key, startprios=...): # -> Self:
         ...
     
     def __init__(self, crawler, downstream_queue_cls, key, startprios=...) -> None:
@@ -59,7 +59,7 @@ class ScrapyPriorityQueue:
         """
         ...
     
-    def close(self): # -> list[Unknown]:
+    def close(self): # -> list[Any]:
         ...
     
     def __len__(self): # -> int:
@@ -71,7 +71,7 @@ class DownloaderInterface:
     def __init__(self, crawler) -> None:
         ...
     
-    def stats(self, possible_slots): # -> list[tuple[int, Unknown]]:
+    def stats(self, possible_slots): # -> list[tuple[int, Any]]:
         ...
     
     def get_slot_key(self, request):
@@ -80,12 +80,12 @@ class DownloaderInterface:
 
 
 class DownloaderAwarePriorityQueue:
-    """ PriorityQueue which takes Downloader activity into account:
+    """PriorityQueue which takes Downloader activity into account:
     domains (slots) with the least amount of active downloads are dequeued
     first.
     """
     @classmethod
-    def from_crawler(cls, crawler, downstream_queue_cls, key, startprios=...): # -> Self@DownloaderAwarePriorityQueue:
+    def from_crawler(cls, crawler, downstream_queue_cls, key, startprios=...): # -> Self:
         ...
     
     def __init__(self, crawler, downstream_queue_cls, key, slot_startprios=...) -> None:
@@ -109,7 +109,7 @@ class DownloaderAwarePriorityQueue:
         """
         ...
     
-    def close(self): # -> dict[Unknown, Unknown]:
+    def close(self): # -> dict[Any, Any]:
         ...
     
     def __len__(self): # -> int:

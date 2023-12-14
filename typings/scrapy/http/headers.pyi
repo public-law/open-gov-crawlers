@@ -26,34 +26,34 @@ class Headers(CaselessDict):
     def get(self, key, def_val=...): # -> None:
         ...
     
-    def getlist(self, key, def_val=...): # -> list[bytes] | list[Unknown]:
+    def getlist(self, key, def_val=...): # -> list[bytes] | list[Any]:
         ...
     
     def setlist(self, key, list_): # -> None:
         ...
     
-    def setlistdefault(self, key, default_list=...): # -> None:
+    def setlistdefault(self, key, default_list=...):
         ...
     
     def appendlist(self, key, value): # -> None:
         ...
     
-    def items(self): # -> Generator[tuple[Unknown, Unknown | list[bytes] | list[Unknown]], None, None]:
+    def items(self): # -> Generator[tuple[Any, Any | list[bytes] | list[Any]], None, None]:
         ...
     
-    def values(self): # -> list[Unknown | None]:
+    def values(self): # -> list[Any | None]:
         ...
     
     def to_string(self): # -> bytes | None:
         ...
     
-    def to_unicode_dict(self): # -> CaselessDict:
-        """ Return headers as a CaselessDict with unicode keys
+    def to_unicode_dict(self): # -> CaseInsensitiveDict:
+        """Return headers as a CaselessDict with unicode keys
         and unicode values. Multiple values are joined with ','.
         """
         ...
     
-    def __copy__(self): # -> Headers:
+    def __copy__(self): # -> Self:
         ...
     
     copy = ...

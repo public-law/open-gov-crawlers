@@ -43,7 +43,7 @@ class XMLFeedSpider(Spider):
         """This method must be overridden with your custom spider functionality"""
         ...
     
-    def parse_nodes(self, response, nodes): # -> Generator[Unknown, Any, None]:
+    def parse_nodes(self, response, nodes): # -> Generator[Any, Any, None]:
         """This method is called for the nodes matching the provided tag name
         (itertag). Receives the response and an Selector for each node.
         Overriding this method is mandatory. Otherwise, you spider won't work.
@@ -77,7 +77,7 @@ class CSVFeedSpider(Spider):
         """This method must be overridden with your custom spider functionality"""
         ...
     
-    def parse_rows(self, response): # -> Generator[Unknown, Any, None]:
+    def parse_rows(self, response): # -> Generator[Any, Any, None]:
         """Receives a response and a dict (representing each row) with a key for
         each provided (or detected) header of the CSV file.  This spider also
         gives the opportunity to override adapt_response and

@@ -12,7 +12,7 @@ class USACourtsGlossary(Spider):
     name       = "can_parliamentary_glossary"
     start_urls = ["https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
         """Framework callback which begins the parsing.
 
         @url https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html

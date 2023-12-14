@@ -6,17 +6,17 @@ import pkgutil
 import sys
 import warnings
 from twisted import version as _txv
-from scrapy.spiders import Spider
 from scrapy.http import FormRequest, Request
-from scrapy.selector import Selector
 from scrapy.item import Field, Item
+from scrapy.selector import Selector
+from scrapy.spiders import Spider
 
 """
 Scrapy - a web crawling and web scraping framework written for Python
 """
-__all__ = ['__version__', 'version_info', 'twisted_version', 'Spider', 'Request', 'FormRequest', 'Selector', 'Item', 'Field']
+__all__ = ["__version__", "version_info", "twisted_version", "Spider", "Request", "FormRequest", "Selector", "Item", "Field"]
 __version__ = ...
 version_info = ...
 twisted_version = ...
-if sys.version_info < (3, 7):
+if sys.version_info < (3, 8):
     ...

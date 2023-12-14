@@ -42,7 +42,7 @@ class PythonRobotParser(RobotParser):
         ...
     
     @classmethod
-    def from_crawler(cls, crawler, robotstxt_body): # -> Self@PythonRobotParser:
+    def from_crawler(cls, crawler, robotstxt_body): # -> Self:
         ...
     
     def allowed(self, url, user_agent): # -> bool:
@@ -55,7 +55,7 @@ class ReppyRobotParser(RobotParser):
         ...
     
     @classmethod
-    def from_crawler(cls, crawler, robotstxt_body): # -> Self@ReppyRobotParser:
+    def from_crawler(cls, crawler, robotstxt_body): # -> Self:
         ...
     
     def allowed(self, url, user_agent):
@@ -68,7 +68,7 @@ class RerpRobotParser(RobotParser):
         ...
     
     @classmethod
-    def from_crawler(cls, crawler, robotstxt_body): # -> Self@RerpRobotParser:
+    def from_crawler(cls, crawler, robotstxt_body): # -> Self:
         ...
     
     def allowed(self, url, user_agent):
@@ -81,7 +81,7 @@ class ProtegoRobotParser(RobotParser):
         ...
     
     @classmethod
-    def from_crawler(cls, crawler, robotstxt_body): # -> Self@ProtegoRobotParser:
+    def from_crawler(cls, crawler, robotstxt_body): # -> Self:
         ...
     
     def allowed(self, url, user_agent): # -> Literal[True]:

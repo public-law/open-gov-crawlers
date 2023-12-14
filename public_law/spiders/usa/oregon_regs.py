@@ -104,7 +104,7 @@ class OregonRegs(Spider):
     @classmethod
     def from_crawler(cls, crawler: Crawler, *args: List[str], **kwargs: Dict[str, Any]):
         """Override to register to receive the idle event"""
-        spider = cast(OregonRegs, super(OregonRegs, cls).from_crawler(crawler, *args, **kwargs)) # pyright: ignore[reportUnknownMemberType]
+        spider = cast(OregonRegs, super(OregonRegs, cls).from_crawler(crawler, *args, **kwargs))
 
         crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
         return spider
