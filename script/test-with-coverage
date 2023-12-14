@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-# Run pytest and collect coverage info.
-coverage run -m pytest
-coverage html
-
-# Output the format readable by Code Climate.
-coverage xml -o coverage/coverage.xml --quiet

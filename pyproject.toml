@@ -9,12 +9,12 @@ version = "1.1.1"
 
 [tool.poetry.dependencies]
 beautifulsoup4  = "^4.10.0"
-more-itertools  = "^8.13.0"
+more-itertools  = "^10.1.0"
 lxml            = "^4.9.1"  # Security vulnerability.
-pydantic        = "^1.10.9"
-python          = "^3.11"
+pydantic        = "^2.5.2"
+python          = "^3.12"
 pytz            = "*"
-scrapy          = "^2.6.2"
+scrapy          = "^2.6"
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"
@@ -26,12 +26,12 @@ progressbar2    = "^4.2.0"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.314"
 pytest = "*"
-pytest-watch = "^4.2.0"
+pytest-watch = "*"
 vcrpy = "*"
 
 
 [tool.pyright]
-pythonVersion = "3.11"
+pythonVersion = "3.12"
 include = ["public_law", "tests"]
 ignore = ["**/typings"]
 
@@ -48,7 +48,7 @@ reportUnusedImport = "warning"
 
 
 [tool.pytest.ini_options]
-addopts = "--no-header --doctest-modules -p no:pastebin"
+addopts = "-q --no-header --doctest-modules -p no:pastebin"
 minversion = "7.1"
 pythonpath = "."
 python_files = ["*_test.py",]
