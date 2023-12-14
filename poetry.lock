@@ -542,13 +542,13 @@ source = ["Cython (>=0.29.35)"]
 
 [[package]]
 name = "more-itertools"
-version = "8.14.0"
+version = "10.1.0"
 description = "More routines for operating on iterables, beyond itertools"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.8"
 files = [
-    {file = "more-itertools-8.14.0.tar.gz", hash = "sha256:c09443cd3d5438b8dafccd867a6bc1cb0894389e90cb53d227456b0b0bccb750"},
-    {file = "more_itertools-8.14.0-py3-none-any.whl", hash = "sha256:1bc4f91ee5b1b31ac7ceacc17c09befe6a40a503907baf9c839c229b5095cfd2"},
+    {file = "more-itertools-10.1.0.tar.gz", hash = "sha256:626c369fa0eb37bac0291bce8259b332fd59ac792fa5497b59837309cd5b114a"},
+    {file = "more_itertools-10.1.0-py3-none-any.whl", hash = "sha256:64e0735fcfdc6f3464ea133afe8ea4483b1c5fe3a3d69852e6503b43a0b222e6"},
 ]
 
 [[package]]
@@ -1683,4 +1683,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "24edc83702149092e2c84a64ac9405030d9ba138c224123ab93020c2937b2e49"
+content-hash = "cd34467707ebc604499e8b9f27f4bf1f32ec762348afdf8825e06db51ab73f57"
