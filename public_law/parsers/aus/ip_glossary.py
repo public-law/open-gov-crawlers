@@ -60,6 +60,6 @@ def _parse_mod_date(html: HtmlResponse) -> date:
     <span class="date-display-single" property="dc:date" datatype="xsd:dateTime" content="2021-03-26T00:00:00+11:00">26 March 2021</span>
     """
     mod_date_str: str = cast(str, (
-        html.selector.css("span.date-display-single").xpath("@content").get()  # type: ignore
+        html.selector.css("span.date-display-single").xpath("@content").get()
     ))
     return datetime.fromisoformat(mod_date_str).date()

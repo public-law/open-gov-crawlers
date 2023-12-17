@@ -41,6 +41,7 @@ typeCheckingMode                    = "strict"
 reportCallInDefaultInitializer      = "error"
 reportImplicitStringConcatenation   = "error"
 reportMissingSuperCall              = "error"
+reportMissingTypeStubs              = false
 reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
 reportUnnecessaryTypeIgnoreComment  = "error"

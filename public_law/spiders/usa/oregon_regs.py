@@ -106,7 +106,7 @@ class OregonRegs(Spider):
         """Override to register to receive the idle event"""
         spider = cast(OregonRegs, super(OregonRegs, cls).from_crawler(crawler, *args, **kwargs))
 
-        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)  # type: ignore
+        crawler.signals.connect(spider.spider_idle, signal=scrapy.signals.spider_idle)
         return spider
 
     def spider_idle(self, spider: Spider):
