@@ -1,8 +1,4 @@
 # pyright: reportUnknownMemberType=false
-# pyright: reportOptionalMemberAccess=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownLambdaType=false
 
 
 from scrapy.selector.unified import Selector
@@ -31,8 +27,16 @@ def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
         logger.warn(f"Could not parse title name in {dom.url}")
         return None
 
-    name       = NonemptyString(titleize(raw_name))
-    number     = NonemptyString(dom.xpath("//TITLE-NUM/text()").get().split(" ")[1])
+    name = NonemptyString(titleize(raw_name))
+
+    match(dom.xpath("//TITLE-NUM/text()").get()):
+        case str(raw_number):
+            number = NonemptyString(raw_number.split(" ")[1])
+
+        case None:
+            logger.warn(f"Could not the parse title number in {dom.url}")
+            return None
+
     url_number = number.rjust(2, "0")
     source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
@@ -53,4 +57,4 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     elif len(article_nodes) > 0:
         return parse_articles(title_number, dom, logger)
     else:
-        raise Exception(f"Could not parse divisions or articles in Title {title_number}")
+        raise Exception(f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found.")
