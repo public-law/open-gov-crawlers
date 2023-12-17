@@ -4,15 +4,15 @@ description = "Open-gov spiders written with Python"
 name = "open-gov-crawlers"
 packages = [ { include = "public_law" } ]
 repository = "https://github.com/public-law/open-gov-crawlers"
-version = "1.1.1"
+version = "1.1.2"
 
 
 [tool.poetry.dependencies]
 beautifulsoup4  = "^4.10"
 cryptography    = "*"
-lxml            = "^4.9.1"  # Security vulnerability.
-more-itertools  = "^10.1"
-progressbar2    = "^4.2"
+lxml            = "*"
+more-itertools  = "*"
+progressbar2    = "*"
 pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
@@ -20,7 +20,7 @@ scrapy          = "^2.6"
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"
-toolz           = "0.*"
+toolz           = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 
 [tool.poetry.group.dev.dependencies]
@@ -36,15 +36,16 @@ include = ["public_law", "tests"]
 ignore = ["**/typings"]
 
 # As strict as possible: strict mode plus the optional strict checks.
-typeCheckingMode = "strict"
-reportCallInDefaultInitializer = "error"
-reportImplicitStringConcatenation = "error"
-reportMissingSuperCall = "error"
-reportPropertyTypeMismatch = "error"
+typeCheckingMode                    = "strict"
+
+reportCallInDefaultInitializer      = "error"
+reportImplicitStringConcatenation   = "error"
+reportMissingSuperCall              = "error"
+reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportUnusedCallResult = "error"
-reportUnusedImport = "warning"
+reportUnnecessaryTypeIgnoreComment  = "error"
+reportUnusedCallResult              = "error"
+reportUnusedImport                  = "warning"
 
 
 [tool.pytest.ini_options]
