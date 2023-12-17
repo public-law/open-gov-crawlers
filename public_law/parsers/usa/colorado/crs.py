@@ -1,6 +1,5 @@
 # pyright: reportUnknownMemberType=false
 
-
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
@@ -21,18 +20,16 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
 
 
 def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
-    raw_name = dom.xpath("//TITLE-TEXT/text()").get()
-    
-    if raw_name is None:
-        logger.warn(f"Could not parse title name in {dom.url}")
-        return None
-
-    name = NonemptyString(titleize(raw_name))
+    match(dom.xpath("//TITLE-TEXT/text()").get()):
+        case str(raw_name):
+            name = NonemptyString(titleize(raw_name))
+        case None:
+            logger.warn(f"Could not the parse title name in {dom.url}")
+            return None
 
     match(dom.xpath("//TITLE-NUM/text()").get()):
         case str(raw_number):
             number = NonemptyString(raw_number.split(" ")[1])
-
         case None:
             logger.warn(f"Could not the parse title number in {dom.url}")
             return None
