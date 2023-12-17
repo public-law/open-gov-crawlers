@@ -1,10 +1,10 @@
 #!/usr/bin/env fish
 
 
-cd tmp/sources/TITLES
+cd tmp/TITLES
 
-cp ../../../public_law/parsers/usa/colorado/crs.dtd .
+cp ../../public_law/parsers/usa/colorado/crs.dtd .
 
 for file in *.txt
-    ../../../script/crs-txt-to-sgml.py $file
+    ../../script/crs-txt-to-sgml.py $file
 end
