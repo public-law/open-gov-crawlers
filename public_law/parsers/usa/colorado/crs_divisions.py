@@ -1,8 +1,4 @@
 # pyright: reportUnknownMemberType=false
-# pyright: reportOptionalMemberAccess=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownLambdaType=false
 
 
 from scrapy.selector.unified import Selector
@@ -22,7 +18,7 @@ from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_ar
 def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Division]:
     division_nodes = dom.xpath("//T-DIV")
 
-    divs = []
+    divs: list[Division] = []
     for div_node in division_nodes:
         raw_div_name = div_name_text(div_node)
 
