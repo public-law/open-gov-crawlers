@@ -937,13 +937,13 @@ files = [
 
 [[package]]
 name = "pyright"
-version = "1.1.340"
+version = "1.1.341"
 description = "Command line wrapper for pyright"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.340-py3-none-any.whl", hash = "sha256:cce44db270382caa2dd8e19fbb370c7550863454cfd4bcd971de6b6bf444e525"},
-    {file = "pyright-1.1.340.tar.gz", hash = "sha256:2486cc2410b62c57ede245d9f5cb854a8a85dd789a82b8a9a1bbd787a9b5e449"},
+    {file = "pyright-1.1.341-py3-none-any.whl", hash = "sha256:f5800daf9d5780ebf6c6e04064a6d20da99c0ef16efd77526f83cc8d8551ff9f"},
+    {file = "pyright-1.1.341.tar.gz", hash = "sha256:b891721f3abd10635cc4fd3076bcff5b7676567dc3a629997ed59a0d30034a87"},
 ]
 
 [package.dependencies]
@@ -1683,4 +1683,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "3784c3ce1dccb5bdb5cdeb1f64aa792ad98444828a8527cb3a2e2e1f74847941"
+content-hash = "be46911f41e1ff7873ec29034cb049cca5dcf9d0b028f803a5bf700a4e1946ca"

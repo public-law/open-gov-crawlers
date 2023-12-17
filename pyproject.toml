@@ -8,10 +8,10 @@ version = "1.1.1"
 
 
 [tool.poetry.dependencies]
-beautifulsoup4  = "^4.10.0"
-more-itertools  = "^10.1.0"
+beautifulsoup4  = "^4.10"
+more-itertools  = "^10.1"
 lxml            = "^4.9.1"  # Security vulnerability.
-pydantic        = "^2.5.2"
+pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
 scrapy          = "^2.6"
@@ -20,11 +20,11 @@ tika            = "^1.24"
 titlecase       = "*"
 toolz           = "0.*"
 cryptography    = "*"
-progressbar2    = "^4.2.0"
+progressbar2    = "^4.2"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.314"
+pyright = "^1.1"
 pytest = "*"
 pytest-watch = "*"
 vcrpy = "*"
