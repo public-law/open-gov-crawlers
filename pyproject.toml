@@ -1,61 +1,62 @@
 [tool.poetry]
-authors = ["Robb Shecter <robb@public.law>"]
+authors     = ["Robb Shecter <robb@public.law>"]
 description = "Open-gov spiders written with Python"
-name = "open-gov-crawlers"
-packages = [ { include = "public_law" } ]
-repository = "https://github.com/public-law/open-gov-crawlers"
-version = "1.1.1"
+name        = "open-gov-crawlers"
+packages    = [ { include = "public_law" } ]
+repository  = "https://github.com/public-law/open-gov-crawlers"
+version     = "1.1.2"
 
 
 [tool.poetry.dependencies]
-beautifulsoup4  = "^4.10.0"
-more-itertools  = "^10.1.0"
-lxml            = "^4.9.1"  # Security vulnerability.
-pydantic        = "^2.5.2"
+beautifulsoup4  = "^4.10"
+cryptography    = "*"
+lxml            = "*"
+more-itertools  = "*"
+progressbar2    = "*"
+pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
 scrapy          = "^2.6"
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"
-toolz           = "0.*"
-cryptography    = "*"
-progressbar2    = "^4.2.0"
+toolz           = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.314"
-pytest = "*"
+pyright      = "^1.1"
+pytest       = "*"
 pytest-watch = "*"
-vcrpy = "*"
+vcrpy        = "*"
 
 
 [tool.pyright]
 pythonVersion = "3.12"
-include = ["public_law", "tests"]
-ignore = ["**/typings"]
+include       = ["public_law", "tests"]
+ignore        = ["**/typings"]
 
 # As strict as possible: strict mode plus the optional strict checks.
-typeCheckingMode = "strict"
-reportCallInDefaultInitializer = "error"
-reportImplicitStringConcatenation = "error"
-reportMissingSuperCall = "error"
-reportPropertyTypeMismatch = "error"
+typeCheckingMode                    = "strict"
+
+reportCallInDefaultInitializer      = "error"
+reportImplicitStringConcatenation   = "error"
+reportMissingSuperCall              = "error"
+reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportUnusedCallResult = "error"
-reportUnusedImport = "warning"
+reportUnnecessaryTypeIgnoreComment  = "error"
+reportUnusedCallResult              = "error"
+reportUnusedImport                  = "warning"
 
 
 [tool.pytest.ini_options]
-addopts = "-q --no-header --doctest-modules -p no:pastebin"
-minversion = "7.1"
-pythonpath = "."
-python_files = ["*_test.py",]
-python_classes = ["Test", "Describe"]
+addopts          = "-q --no-header --doctest-modules -p no:pastebin"
+minversion       = "7.1"
+pythonpath       = "."
+python_files     = ["*_test.py",]
+python_classes   = ["Test", "Describe"]
 python_functions = ["test_", "it_", "and_", "but_", "they_"]
-testpaths = ["tests", "public_law"]
+testpaths        = ["tests", "public_law"]
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires      = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
