@@ -3,16 +3,15 @@
 # pyright: reportGeneralTypeIssues=false
 
 import os
-import re
-
 from pathlib import Path
+from typing import Any
 
 from progressbar import ProgressBar
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response.html import HtmlResponse
-from typing import Any
 
+from public_law import dates
 from public_law.parsers.usa.colorado.crs import parse_title
 from public_law.parsers.usa.colorado.crs_sections import parse_sections
 
@@ -22,7 +21,7 @@ class ColoradoCRS(Spider):
 
     Reads the sources from a local directory instead of the web.
     """
-    name     = "usa_colorado_crs"
+    name = "usa_colorado_crs"
 
 
     def start_requests(self):
@@ -50,19 +49,9 @@ class ColoradoCRS(Spider):
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
         if "README.txt" in response.url:
-            yield from self.parse_readme(response)
+            yield { "kind": "CRS", "edition": dates.current_year() }
         else:
             yield from self.parse_title_xml(response)
-
-
-    def parse_readme(self, response: HtmlResponse, **_: dict[str, Any]):
-        result = re.findall(r'COLORADO REVISED STATUTES (\d\d\d\d) DATASET', str(response.body))
-        if len(result) != 1:
-            raise Exception(f"Could not parse year from README: {response.body}")
-        
-        year: str = result[0]
-
-        yield { "kind": "CRS", "edition": int(year) }
 
 
     def parse_title_xml(self, response: HtmlResponse, **_: dict[str, Any]):
