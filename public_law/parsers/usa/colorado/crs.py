@@ -16,8 +16,8 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
     match parse_title(dom, logger):
         case None:
             raise Exception("Could not parse title")
-        case result:
-            return result
+        case title:
+            return title
 
 
 def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
