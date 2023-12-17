@@ -31,4 +31,4 @@ jobs:
       run: poetry run pytest
 
     - name: Type-check with Pyright
-      run: poetry run pyright public_law/
+      run: poetry run pyright
