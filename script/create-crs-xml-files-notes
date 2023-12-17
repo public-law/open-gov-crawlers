@@ -1,8 +1,5 @@
 #!/usr/bin/env fish
 
-#
-# So far, just a history of commands I ran.
-#
 
 cd tmp/sources/TITLES
 
