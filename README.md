@@ -27,7 +27,7 @@
 
 
 ## Example: Oregon Administrative Rules Parser
-The spiders retrieve the HTML pages and output well formed JSON which represents the source's structure.
+The spiders retrieve HTML pages and output well formed JSON. It represents the source's structure.
 First, we can see which spiders are available:
 
 ```bash
