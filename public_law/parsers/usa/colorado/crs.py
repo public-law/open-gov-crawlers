@@ -50,8 +50,10 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     article_nodes  = dom.xpath("//TA-LIST")
 
     if len(division_nodes) > 0:
-        return parse_divisions(title_number, dom, logger)
+        func = parse_divisions
     elif len(article_nodes) > 0:
-        return parse_articles(title_number, dom, logger)
+        func = parse_articles
     else:
         raise Exception(f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found.")
+
+    return func(title_number, dom, logger)
