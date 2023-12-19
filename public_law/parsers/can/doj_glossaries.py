@@ -113,7 +113,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     entries: list[GlossaryEntry] = []
 
-    match html.css("main dl"):
+    match html.selector.css("main dl"):
         case [first, *_]:
             first_dl_list = first
         case _:
