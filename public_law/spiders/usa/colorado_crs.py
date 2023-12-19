@@ -1,10 +1,10 @@
-
+# pyright: reportUnknownMemberType=false
 # pyright: reportUnknownVariableType=false
 # pyright: reportGeneralTypeIssues=false
 
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from progressbar import ProgressBar
 from scrapy import Spider
@@ -27,9 +27,9 @@ class ColoradoCRS(Spider):
     def start_requests(self):
         """Read the files from a local directory."""
         try:
-            dir = self.crsdata_dir
+            dir = cast(str, self.crsdata_dir)
         except:
-            raise Exception("No crsdata_dir specified.")
+            raise Exception("No crsdata_dir specified with the -a command line option.")
 
         DIR      = f"{os.getcwd()}/{dir}"
         XML_DIR  = f"{DIR}/TITLES"

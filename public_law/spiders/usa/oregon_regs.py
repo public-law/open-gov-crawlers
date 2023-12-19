@@ -57,7 +57,7 @@ class OregonRegs(Spider):
             chapter = new_chapter(db_id, number, name)
 
             new_chapter_index = len(self.oar["chapters"])  # type: ignore
-            self.oar["chapters"].append(chapter)
+            self.oar["chapters"].append(chapter)           # type: ignore
 
             request = Request(chapter["url"], callback=self.parse_chapter_page) # pyright: ignore[reportUnknownArgumentType]
             request.meta["chapter_index"] = new_chapter_index
@@ -82,7 +82,7 @@ class OregonRegs(Spider):
             name: str = titleize(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter["divisions"].append(division)
+            chapter["divisions"].append(division)  # type: ignore
 
             # Request a scrape of the Division page
             request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
@@ -94,7 +94,7 @@ class OregonRegs(Spider):
         chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
         division: Division = chapter["divisions"][response.meta["division_index"]]  # type: ignore
 
-        division["rules"].extend(parse_division(response))
+        division["rules"].extend(parse_division(response))   # type: ignore
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -124,7 +124,7 @@ class OregonRegs(Spider):
         self.crawler.engine.schedule(null_request, spider)  # type: ignore
         raise scrapy.exceptions.DontCloseSpider
 
-    def submit_data(self, _):
+    def submit_data(self, _: Any):
         """Simply return the collection of all the scraped data.
 
         Ignore the actual scraped content. I haven't figured out another

@@ -3,7 +3,7 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from typing import Any, Optional
+from typing import Any, Optional, cast
 from toolz.functoolz import curry, flip, pipe # type: ignore
 
 from public_law.exceptions import ParseException
@@ -13,9 +13,10 @@ from public_law.items.crs import Article, Division, Title
 from public_law.parsers.usa.colorado.crs_articles  import parse_articles
 from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
 
-split       = curry(flip(str.split))
+split       = curry(flip(str.split)) # type: ignore
 second: str = lambda x: x[1] # type: ignore
 xpath_get   = curry(xpath_get)
+
 
 def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
     match parse_title(dom, logger):
@@ -29,17 +30,20 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     try:
         name: S = pipe(                                       # type: ignore
             "//TITLE-TEXT/text()",
-            xpath_get(dom),
+            xpath_get(dom),                                   # type: ignore
             titleize,
             S
         )
         number: S = pipe(                                     # type: ignore
             "//TITLE-NUM/text()",
-            xpath_get(dom),
-            split(" "),
+            xpath_get(dom),                                   # type: ignore
+            split_on_space,                                   # type: ignore
             second,
             S
         )
+
+        name     = cast(S, name)
+        number   = cast(S, number)
         children = _parse_divisions_or_articles(number, dom, logger)
 
         return Title(
