@@ -35,25 +35,29 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
-        name = pipe_to_string(
-            "//TITLE-TEXT/text()"
-            , xpath_get(dom)
-            , text.titleize
-        )
-        number = pipe_to_string(
-            "//TITLE-NUM/text()"
-            , xpath_get(dom)
-            , text.split_on_space
-            , second
-        )
-        children = _parse_divisions_or_articles(number, dom, logger)
-        url      = source_url(number)
-        return Title(name, number, children, url)
-
+        return parse_title_or_raise(dom, logger)
     except ParseException as e:
         logger.warn(f"Could not parse the title: {e}")
         return None
-    
+
+
+def parse_title_or_raise(dom: XmlResponse, logger: Logger) -> Title:
+    name = pipe_to_string(
+        "//TITLE-TEXT/text()"
+        , xpath_get(dom)
+        , text.titleize
+    )
+    number = pipe_to_string(
+        "//TITLE-NUM/text()"
+        , xpath_get(dom)
+        , text.split_on_space
+        , second
+    )
+    children = _parse_divisions_or_articles(number, dom, logger)
+    url      = source_url(number)
+
+    return Title(name, number, children, url)
+
 
 def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
