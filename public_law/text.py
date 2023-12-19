@@ -230,3 +230,7 @@ def remove_trailing_period(text: str) -> str:
     if text.endswith("."):
         return text[:-1]
     return text
+
+
+def split_on_space(s: str) -> list[str]:
+    return s.split(" ")
