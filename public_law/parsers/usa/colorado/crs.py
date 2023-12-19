@@ -36,7 +36,6 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     
     match _parse_divisions_or_articles(number, dom, logger):
         case None:
-            logger.warn(f"Could not parse divisions or articles in Title {number}")
             return None
         case children:
             url_number = number.rjust(2, "0")
@@ -58,8 +57,7 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     elif len(article_nodes) > 0:
         func = parse_articles
     else:
-        msg = f"""Could not parse divisions or articles in Title {title_number}.
-            Neither T-DIV nor TA-LIST nodes were found."""
+        msg = f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found."
         logger.warn(msg)
         return None
 
