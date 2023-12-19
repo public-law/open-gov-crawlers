@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
+from public_law.exceptions import ParseException
 
 from public_law.selector_util import node_name
 from public_law.items.crs import *
@@ -114,7 +115,7 @@ def _parse_articles_from_subdivision(title_number: NonemptyString, dom_or_sel: S
 
 
 
-def parse_articles(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, logger: Any) -> list[Article]:
+def parse_articles(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse) -> list[Article]:
     if isinstance(dom_or_sel, XmlResponse):
         dom = dom_or_sel.selector
     else:
@@ -127,8 +128,7 @@ def parse_articles(title_number: NonemptyString, dom_or_sel: Selector | XmlRespo
     articles = dom.xpath("//TITLE-ANAL/TA-LIST")
 
     if len(articles) == 0:
-        logger.warn(f"Could not parse articles in Title {title_number}")
-        return []
+        raise ParseException(f"Could not parse articles in Title {title_number}")
 
     # 3. `takewhile` all the following TA-LIST elements
     #    and stop at the end of the Articles.

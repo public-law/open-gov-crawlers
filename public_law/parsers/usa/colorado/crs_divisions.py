@@ -3,6 +3,7 @@ from scrapy.http.response.xml import XmlResponse
 
 from typing import Any
 from itertools import takewhile, dropwhile
+from public_law.exceptions import ParseException
 
 
 from public_law.selector_util import just_text
@@ -12,7 +13,7 @@ from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_ar
 
 
 
-def parse_divisions(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, logger: Any) -> list[Division]:
+def parse_divisions(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse) -> list[Division]:
     if isinstance(dom_or_sel, XmlResponse):
         dom = dom_or_sel.selector
     else:
@@ -26,9 +27,7 @@ def parse_divisions(title_number: NonemptyString, dom_or_sel: Selector | XmlResp
 
         if raw_div_name is None or raw_div_name == '':
             msg = "Could not parse division name in {div_node.get()}, Title {title_number}"
-            print(msg)
-            logger.warn(msg)
-            continue
+            raise ParseException(msg)
 
         if Division.is_valid_raw_name(raw_div_name):
             children = parse_subdivisions_from_division(title_number, dom, raw_div_name)

@@ -35,13 +35,13 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
-        return parse_title_or_raise(dom, logger)
+        return parse_title_or_raise(dom)
     except ParseException as e:
         logger.warn(f"Could not parse the title: {e}")
         return None
 
 
-def parse_title_or_raise(dom: XmlResponse, logger: Logger) -> Title:
+def parse_title_or_raise(dom: XmlResponse) -> Title:
     name = pipe_to_string(
         "//TITLE-TEXT/text()"
         , xpath_get(dom)
@@ -53,13 +53,13 @@ def parse_title_or_raise(dom: XmlResponse, logger: Logger) -> Title:
         , text.split_on_space
         , second
     )
-    children = _parse_divisions_or_articles(number, dom, logger)
+    children = _parse_divisions_or_articles(number, dom)
     url      = source_url(number)
 
     return Title(name, number, children, url)
 
 
-def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
@@ -71,7 +71,7 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
         msg = f"Neither T-DIV nor TA-LIST nodes were found in Title {title_number}."
         raise ParseException(msg)
 
-    return parse_fun(title_number, dom, logger)
+    return parse_fun(title_number, dom)
 
 
 def source_url(title_number: NonemptyString) -> URL:
