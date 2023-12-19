@@ -33,15 +33,13 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
         name = string_pipe(
             "//TITLE-TEXT/text()",
             xpath_get(dom),
-            titleize,
-            NonemptyString
+            titleize
         )
         number = string_pipe(
             "//TITLE-NUM/text()",
             xpath_get(dom),
             text.split_on_space,
-            second,
-            NonemptyString
+            second
         )
         children = _parse_divisions_or_articles(number, dom, logger)
         url      = source_url(number)
@@ -54,7 +52,9 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
 
 def string_pipe(*args: Any) -> NonemptyString:
     """A wrapper around pipe() that casts the result to a NonemptyString."""
-    return cast(NonemptyString, pipe(*args))
+    args_with_string: Any = args + (NonemptyString,)
+
+    return cast(NonemptyString, pipe(*args_with_string))
     
 
 def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
