@@ -4,14 +4,15 @@ from scrapy.http.response.xml import XmlResponse
 from typing import Any, Optional, Protocol
 from toolz.functoolz import curry, flip
 
+from ....flow import pipe_to_string
+
 from public_law.exceptions import ParseException
 from public_law.selector_util import xpath_get
-from ....flow import pipe_to_string
 from public_law.text import NonemptyString, URL, titleize
 import public_law.text as text
 from public_law.items.crs import Article, Division, Title
-from public_law.parsers.usa.colorado.crs_articles  import parse_articles
-from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
+from .crs_articles  import parse_articles
+from .crs_divisions import parse_divisions
 
 split     = curry(flip(str.split))
 xpath_get = curry(xpath_get)
