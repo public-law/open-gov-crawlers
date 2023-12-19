@@ -14,14 +14,15 @@ from public_law.dates import todays_date
 from public_law.text  import titleize
 
 
-JD_VERBOSE_NAME = "USA / Oregon"
+JD_VERBOSE_NAME  = "USA / Oregon"
 PUBLICATION_NAME = "Oregon Administrative Rules"
 
 
 class OregonRegs(Spider):
-    name = "usa_or_regs"
+    name            = "usa_or_regs"
     allowed_domains = [DOMAIN]
-    start_urls = [oar_url("ruleSearch.action")]
+    start_urls      = [oar_url("ruleSearch.action")]
+
 
     def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
         super().__init__(*args, **kwargs)  # type: ignore
@@ -47,12 +48,12 @@ class OregonRegs(Spider):
         The search page contains a list of Chapters, with the names,
         numbers, and internal id's.
         """
-        for option in response.css("#browseForm option"):  # type: ignore
+        for option in response.css("#browseForm option"):
             db_id: Any = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1)) # pyright: ignore[reportUnknownArgumentType]
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))  # type: ignore # FIXME
             chapter = new_chapter(db_id, number, name)
 
             new_chapter_index = len(self.oar["chapters"])  # type: ignore
@@ -73,9 +74,9 @@ class OregonRegs(Spider):
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):  # type: ignore
-            db_id: str = cast(str, anchor.xpath("@href").get().split("selectedDivision=")[1]) # pyright: ignore[reportOptionalMemberAccess]
+            db_id = anchor.xpath("@href").get().split("selectedDivision=")[1] # pyright: ignore[reportOptionalMemberAccess]
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportUnknownArgumentType, reportOptionalMemberAccess]
+                str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportOptionalMemberAccess]
             )
             number: str = raw_number.split(" ")[1]
             name: str = titleize(raw_name)
@@ -86,7 +87,7 @@ class OregonRegs(Spider):
             # Request a scrape of the Division page
             request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
             request.meta["division_index"] = len(chapter["divisions"]) - 1  # type: ignore
-            request.meta["chapter_index"] = response.meta["chapter_index"]  # type: ignore
+            request.meta["chapter_index"] = response.meta["chapter_index"]
             yield request
 
     def parse_division_page(self, response: Response):

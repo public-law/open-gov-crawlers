@@ -13,7 +13,7 @@ from public_law.text import remove_trailing_period, normalize_whitespace, Nonemp
 
 
 def parse_sections(dom: XmlResponse, logger: Any) -> list[Section]:
-    section_nodes = dom.xpath("//SECTION-TEXT")
+    section_nodes = dom.selector.xpath("//SECTION-TEXT")
 
     sections: list[Section] = []
     for node in section_nodes:
@@ -34,7 +34,6 @@ def parse_sections(dom: XmlResponse, logger: Any) -> list[Section]:
         if text == '':
             logger.warn(f"Could not parse section text for {normalize_whitespace(node.get())} in {dom.url}")
             continue
-
 
         sections.append(Section(
             name           = NonemptyString(name),

@@ -48,7 +48,7 @@ reportUnusedCallResult              = "error"
 
 reportUnusedImport                  = "information"
 reportMissingTypeStubs              = false  # I don't know the purpose. Scrapy does better w/out type stubs.
-# reportUnknownMemberType             = false  # False positives that can't be corrected.
+reportUnknownMemberType             = false  # False positives that can't be corrected.
 
 
 [tool.pytest.ini_options]
