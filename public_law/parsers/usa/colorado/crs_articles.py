@@ -1,8 +1,4 @@
 # pyright: reportUnknownMemberType=false
-# pyright: reportOptionalMemberAccess=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownLambdaType=false
 
 from itertools import takewhile, dropwhile
 from typing import Any

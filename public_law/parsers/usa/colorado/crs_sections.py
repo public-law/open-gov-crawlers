@@ -1,13 +1,9 @@
 # pyright: reportUnknownMemberType=false
-# pyright: reportOptionalMemberAccess=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownLambdaType=false
 
 from typing import Any
 
 from bs4 import BeautifulSoup
-from scrapy.http.response import Response
+from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
 from public_law.selector_util import just_text
@@ -16,10 +12,10 @@ from public_law.text import remove_trailing_period, normalize_whitespace, Nonemp
 
 
 
-def parse_sections(dom: Response, logger: Any) -> list[Section]:
+def parse_sections(dom: XmlResponse, logger: Any) -> list[Section]:
     section_nodes = dom.xpath("//SECTION-TEXT")
 
-    sections = []
+    sections: list[Section] = []
     for node in section_nodes:
         if _is_repealed(node):
             continue

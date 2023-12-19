@@ -48,12 +48,12 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
             join("\n"),
         ),
     )
-    citation_set = pipe(
+    citation_set = cast(CitationSet, pipe(
         re.findall(r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text),
         set,
         sorted,
         CitationSet,
-    )
+    ))
 
     return OpinionParseResult(
         summary=summary,

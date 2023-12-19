@@ -1,3 +1,5 @@
+"""Provide date-related functions."""
+
 from typing import Protocol
 
 from datetime import datetime, date
@@ -17,6 +19,12 @@ def todays_date() -> str:
     return iso_8601(today())
 
 
+def current_year() -> int:
+    """Provide the current year."""
+
+    return today().year
+
+
 def today() -> date:
     """Provide today's date in the given timezone."""
 
@@ -24,10 +32,9 @@ def today() -> date:
     #       But the Scrapy settings don't seem to be
     #       available in this context.
     #       See https://doc.scrapy.org/en/latest/topics/settings.html.
-    mountain = pytz.timezone(
-        "US/Mountain"
-    )  
-    return mountain.localize(datetime.now()).date()
+    tz = pytz.timezone("US/Mountain")
+
+    return tz.localize(datetime.now()).date()
 
 
 def iso_8601(a_date: date) -> str:

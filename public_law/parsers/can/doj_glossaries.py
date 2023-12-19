@@ -102,9 +102,9 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
 }
 
 
-def configured_urls() -> tuple[str, ...]:
+def configured_urls() -> list[str]:
     """All the URLs that have been properly set up with subjects."""
-    return tuple(SUBJECTS.keys())
+    return list(SUBJECTS.keys())
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -114,7 +114,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     entries: list[GlossaryEntry] = []
 
     match html.css("main dl"):
-        case [first, *_] if isinstance(first, Selector):
+        case [first, *_]:
             first_dl_list = first
         case _:
             raise ParseException("Expected a <dl>")
