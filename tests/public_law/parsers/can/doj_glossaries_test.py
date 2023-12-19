@@ -1,6 +1,6 @@
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
-# pyright: reportUnknownMemberType=false
+
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownVariableType=false
 
@@ -36,9 +36,7 @@ def p11() -> GlossaryParseResult:
     )
 
 
-@pytest.fixture
-def glos() -> GlossaryParseResult:
-    return glossary_fixture(
+GLOS = glossary_fixture(
         "glos.html",
         "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
         parse_glossary,
@@ -69,13 +67,13 @@ def p18() -> GlossaryParseResult:
 
 
 class TestDctermsTitle:
-    def test_when_it_contains_an_anchor(self, glos):
+    def test_when_it_contains_an_anchor(self):
         assert (
-            glos.metadata.dcterms_title
+            GLOS.metadata.dcterms_title
             == "Glossary - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
         )
 
-    def test_when_there_is_just_an_h1(self, index):
+    def test_when_there_is_just_an_h1(self, index: GlossaryParseResult):
         assert index.metadata.dcterms_title == "Glossary"  # Unfortunately.
 
     def test_all_caps_title_correctly_formatted(self, p18: GlossaryParseResult):
@@ -84,7 +82,7 @@ class TestDctermsTitle:
             == "Glossary of Terms - Spousal Support Advisory Guidelines July 2008"
         )
 
-    def test_the_title(self, p7g):
+    def test_the_title(self, p7g: GlossaryParseResult):
         assert (
             p7g.metadata.dcterms_title
             == "Glossary of Legal Terms - Legal Aid Program Evaluation"
@@ -110,8 +108,8 @@ class TestDcTermsSubject:
             ),
         )
 
-    def test_subject_glos(self, glos):
-        assert subj_strings(glos) == (
+    def test_subject_glos(self):
+        assert subj_strings(GLOS) == (
             (
                 "http://id.loc.gov/authorities/subjects/sh98001029",
                 "Parental alienation syndrome",
@@ -123,11 +121,11 @@ class TestDcTermsSubject:
         )
 
 
-def test_phrase_does_not_end_with_colon(glos):
-    assert first(glos.entries).phrase == "Alienated Parent"
+def test_phrase_does_not_end_with_colon():
+    assert first(GLOS.entries).phrase == "Alienated Parent"
 
 
-def test_parses_emphasized_text(p11):
+def test_parses_emphasized_text(p11: GlossaryParseResult):
     definition_with_em = first(p11.entries).definition
     expected_definition = (
         "Legal term previously used in the <em>Divorce Act</em> to "
@@ -167,37 +165,37 @@ def test_parse_error_is_fixed_4(p18: GlossaryParseResult):
     assert entry.definition[-4:] == "</p>"
 
 
-def test_the_url(p7g):
+def test_the_url(p7g: GlossaryParseResult):
     assert (
         p7g.metadata.dcterms_source
         == "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html"
     )
 
 
-def test_the_author(p7g):
+def test_the_author(p7g: GlossaryParseResult):
     assert p7g.metadata.dcterms_creator == "https://public.law"
 
 
-def test_the_scrape_date(p7g):
+def test_the_scrape_date(p7g: GlossaryParseResult):
     assert p7g.metadata.publiclaw_sourceModified == date(2022, 5, 13)
 
 
-def test_the_original_modification_date(p7g):
+def test_the_original_modification_date(p7g: GlossaryParseResult):
     assert p7g.metadata.dcterms_modified == today()
 
 
-def test_proper_number_of_entries(p7g):
+def test_proper_number_of_entries(p7g: GlossaryParseResult):
     assert len(tuple(p7g.entries)) == 36
 
 
-def test_a_term_case_1(p7g):
+def test_a_term_case_1(p7g: GlossaryParseResult):
     entry = cast(GlossaryEntry, nth(p7g.entries, 2))
 
     assert entry.phrase == "Adjournment"
     assert entry.definition == "Postponement of a court hearing to another date."
 
 
-def subj_strings(glossary):
+def subj_strings(glossary: GlossaryParseResult):
     """
     Test helper: return the strings in a Glossary's subjects.
     """

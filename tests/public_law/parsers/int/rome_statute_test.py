@@ -1,7 +1,7 @@
 # # pyright: reportUninitializedInstanceVariable=false
 # # pyright: reportPrivateUsage=false
 # # pyright: reportUnknownVariableType=false
-# # pyright: reportUnknownMemberType=false
+# 
 # # pyright: reportGeneralTypeIssues=false
 # # pyright: reportUntypedFunctionDecorator=false
 

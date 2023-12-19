@@ -16,7 +16,7 @@ progressbar2    = "*"
 pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
-scrapy          = "^2.6"
+scrapy          = {git = "https://github.com/scrapy/scrapy.git", branch = "master"}
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"
@@ -41,12 +41,13 @@ typeCheckingMode                    = "strict"
 reportCallInDefaultInitializer      = "error"
 reportImplicitStringConcatenation   = "error"
 reportMissingSuperCall              = "error"
-reportMissingTypeStubs              = false
 reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
 reportUnnecessaryTypeIgnoreComment  = "error"
 reportUnusedCallResult              = "error"
-reportUnusedImport                  = "warning"
+
+reportUnusedImport                  = false
+reportMissingTypeStubs              = false  # I don't know the purpose. Scrapy does better w/out type stubs.
 
 
 [tool.pytest.ini_options]

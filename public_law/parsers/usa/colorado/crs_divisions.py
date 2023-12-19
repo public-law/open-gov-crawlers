@@ -1,8 +1,5 @@
-# pyright: reportUnknownMemberType=false
-
-
 from scrapy.selector.unified import Selector
-from scrapy.http.response import Response
+from scrapy.http.response.xml import XmlResponse
 
 from typing import Any
 from itertools import takewhile, dropwhile
@@ -15,7 +12,12 @@ from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_ar
 
 
 
-def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Division]:
+def parse_divisions(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, logger: Any) -> list[Division]:
+    if isinstance(dom_or_sel, XmlResponse):
+        dom = dom_or_sel.selector
+    else:
+        dom = dom_or_sel
+
     division_nodes = dom.xpath("//T-DIV")
 
     divs: list[Division] = []
@@ -38,8 +40,13 @@ def parse_divisions(title_number: NonemptyString, dom: Selector | Response, logg
     return divs
 
 
-def parse_subdivisions_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Subdivision]:
+def parse_subdivisions_from_division(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, raw_div_name: str) -> list[Subdivision]:
     """Return the Subdivisions within the given Division."""
+
+    if isinstance(dom_or_sel, XmlResponse):
+        dom = dom_or_sel.selector
+    else:
+        dom = dom_or_sel
 
     #
     # Algorithm:
@@ -78,7 +85,7 @@ def _is_subdiv_node(node: Selector) -> bool:
     return Subdivision.is_valid_raw_name(just_text(node))
 
 
-# def _has_subdivisions(dom: Selector | Response) -> bool:
+# def _has_subdivisions(dom: Selector | XmlResponse) -> bool:
 #     raw_div_names = [just_text(e) for e in dom.xpath("//TITLE-ANAL/T-DIV")]
     
 #     return not all([Division.is_valid_raw_name(n) for n in raw_div_names])

@@ -1,4 +1,4 @@
-# pyright: reportUnknownMemberType=false
+
 
 from itertools import takewhile, dropwhile
 from typing import Any
@@ -6,7 +6,7 @@ from typing import Any
 from bs4 import BeautifulSoup
 
 from scrapy.selector.unified import Selector
-from scrapy.http.response import Response
+from scrapy.http.response.xml import XmlResponse
 
 from public_law.selector_util import node_name
 from public_law.items.crs import *
@@ -15,7 +15,7 @@ from public_law.text import remove_trailing_period, normalize_whitespace, Nonemp
 
 def parse_articles_from_division(
     title_number: NonemptyString, 
-    dom: Selector | Response, 
+    dom: Selector | XmlResponse, 
     raw_div_name: str, 
     subdiv_name: NonemptyString|None = None) -> list[Article]:
 
@@ -25,8 +25,13 @@ def parse_articles_from_division(
         return _parse_articles_from_subdivision(title_number, dom, raw_div_name, subdiv_name)
 
 
-def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str) -> list[Article]: 
+def _parse_articles_from_division(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, raw_div_name: str) -> list[Article]: 
     """Return the articles within the given Division."""
+
+    if isinstance(dom_or_sel, XmlResponse):
+        dom = dom_or_sel.selector
+    else:
+        dom = dom_or_sel
 
     #
     # Algorithm:
@@ -61,8 +66,13 @@ def _parse_articles_from_division(title_number: NonemptyString, dom: Selector | 
         ]
 
 
-def _parse_articles_from_subdivision(title_number: NonemptyString, dom: Selector | Response, raw_div_name: str, subdiv_name: NonemptyString) -> list[Article]: 
+def _parse_articles_from_subdivision(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, raw_div_name: str, subdiv_name: NonemptyString) -> list[Article]: 
     """Return the articles within the given Subdivision."""
+
+    if isinstance(dom_or_sel, XmlResponse):
+        dom = dom_or_sel.selector
+    else:
+        dom = dom_or_sel
 
     #
     # Algorithm:
@@ -104,7 +114,12 @@ def _parse_articles_from_subdivision(title_number: NonemptyString, dom: Selector
 
 
 
-def parse_articles(title_number: NonemptyString, dom: Selector | Response, logger: Any) -> list[Article]:
+def parse_articles(title_number: NonemptyString, dom_or_sel: Selector | XmlResponse, logger: Any) -> list[Article]:
+    if isinstance(dom_or_sel, XmlResponse):
+        dom = dom_or_sel.selector
+    else:
+        dom = dom_or_sel
+
     #
     # Algorithm:
     #

@@ -1,9 +1,9 @@
-# pyright: reportUnknownMemberType=false
+
 # pyright: reportUnknownVariableType=false
 
 import re
 from datetime import date
-from typing import Any, TypeAlias, cast
+from typing import Any, TypeAlias
 
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import Selector, SelectorList
@@ -113,7 +113,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     entries: list[GlossaryEntry] = []
 
-    match html.css("main dl"):
+    match html.selector.css("main dl"):
         case [first, *_]:
             first_dl_list = first
         case _:
@@ -148,7 +148,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
         )
 
     parsed_entries = tuple(entries)
-    url = cast(str, html.url)
+    url = html.url
 
     match SUBJECTS.get(url):
         case tuple(subjects):

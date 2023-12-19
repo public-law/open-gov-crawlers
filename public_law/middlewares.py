@@ -3,9 +3,8 @@
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
-# pyright: reportUnknownMemberType=false
+
 # pyright: reportUnknownArgumentType=false
-# pyright: reportGeneralTypeIssues=false
 
 
 # -*- coding: utf-8 -*-
@@ -66,7 +65,7 @@ class OarSpiderMiddleware:
             yield req
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info(f"Spider opened: {spider.name}")
+        spider.logger.info(f"Spider opened: {spider.name}")  # type: ignore
 
 
 class OarDownloaderMiddleware:
@@ -113,4 +112,4 @@ class OarDownloaderMiddleware:
         pass
 
     def spider_opened(self, spider: Spider):
-        spider.logger.info(f"Spider opened: {spider.name}")
+        spider.logger.info(f"Spider opened: {spider.name}")  # type: ignore
