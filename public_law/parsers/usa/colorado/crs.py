@@ -4,7 +4,9 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
 from typing import Any, Optional
+from public_law.exceptions import ParseException
 
+from public_law.selector_util import xpath_get
 from public_law.text import NonemptyString, URL, titleize
 from public_law.items.crs import Article, Division, Title
 from public_law.parsers.usa.colorado.crs_articles  import parse_articles
@@ -20,33 +22,24 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
 
 
 def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
-    match(dom.xpath("//TITLE-TEXT/text()").get()):
-        case str(raw_name):
-            name = NonemptyString(titleize(raw_name))
-        case None:
-            logger.warn(f"Could not the parse title name in {dom.url}")
-            return None
+    try:
+        name     = NonemptyString(titleize(xpath_get(dom, "//TITLE-TEXT/text()")))
+        number   = NonemptyString(xpath_get(dom, "//TITLE-NUM/text()").split(" ")[1])    
+        children = _parse_divisions_or_articles(number, dom, logger)
 
-    match(dom.xpath("//TITLE-NUM/text()").get()):
-        case str(raw_number):
-            number = NonemptyString(raw_number.split(" ")[1])
-        case None:
-            logger.warn(f"Could not the parse title number in {dom.url}")
-            return None
-    
-    match _parse_divisions_or_articles(number, dom, logger):
-        case list(children):
-            return Title(
-                name       = name,
-                number     = number,
-                source_url = title_source_url(number),
-                children   = children
-            )
-        case None:
-            return None
+        return Title(
+            name       = name,
+            number     = number,
+            source_url = title_source_url(number),
+            children   = children
+        )
 
+    except ParseException as e:
+        logger.warn(f"Could not parse the title: {e}")
+        return None
+        
 
-def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> Optional[list[Division] | list[Article]]:
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
@@ -56,8 +49,7 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
         parse_fun = parse_articles
     else:
         msg = f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found."
-        logger.warn(msg)
-        return None
+        raise ParseException(msg)
 
     return parse_fun(title_number, dom, logger)
 
