@@ -35,17 +35,15 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
             return None
     
     match _parse_divisions_or_articles(number, dom, logger):
-        case None:
-            return None
-        case children:
-            url_number = number.rjust(2, "0")
-            source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
+        case list(children):
             return Title(
                 name       = name,
                 number     = number,
-                source_url = URL(source_url),
+                source_url = title_source_url(number),
                 children   = children
             )
+        case None:
+            return None
 
 
 def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> Optional[list[Division] | list[Article]]:
@@ -53,12 +51,17 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     article_nodes  = dom.xpath("//TA-LIST")
 
     if len(division_nodes) > 0:
-        func = parse_divisions
+        parse_fun = parse_divisions
     elif len(article_nodes) > 0:
-        func = parse_articles
+        parse_fun = parse_articles
     else:
         msg = f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found."
         logger.warn(msg)
         return None
 
-    return func(title_number, dom, logger)
+    return parse_fun(title_number, dom, logger)
+
+
+def title_source_url(title_number: NonemptyString) -> URL:
+    url_number = title_number.rjust(2, "0")
+    return URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
