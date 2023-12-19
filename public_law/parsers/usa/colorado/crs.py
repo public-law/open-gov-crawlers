@@ -1,7 +1,7 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from typing import Any, Optional, cast
+from typing import Any, Optional, cast, Protocol
 from toolz.functoolz import curry, flip, pipe # type: ignore
 
 from public_law.exceptions import ParseException
@@ -18,9 +18,12 @@ xpath_get = curry(xpath_get)
 def second(x: list[Any]) -> Any:
     return x[1]
 
+class Logger(Protocol):
+    def warn(self, msg: str) -> None: ...
 
 
-def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
+
+def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
     match parse_title(dom, logger):
         case None:
             raise Exception("Could not parse title")
@@ -28,7 +31,7 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
             return title
 
 
-def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
+def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = string_pipe(
             "//TITLE-TEXT/text()",
@@ -57,7 +60,7 @@ def string_pipe(*args: Any) -> NonemptyString:
     return cast(NonemptyString, pipe(*args_with_string))
     
 
-def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
