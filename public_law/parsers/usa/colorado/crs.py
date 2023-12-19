@@ -19,7 +19,7 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
             return title
 
 
-def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
+def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     match(dom.xpath("//TITLE-TEXT/text()").get()):
         case str(raw_name):
             name = NonemptyString(titleize(raw_name))
@@ -60,6 +60,7 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     else:
         msg = f"""Could not parse divisions or articles in Title {title_number}.
             Neither T-DIV nor TA-LIST nodes were found."""
-        raise Exception(msg)
+        logger.warn(msg)
+        return None
 
     return func(title_number, dom, logger)
