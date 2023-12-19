@@ -1,11 +1,12 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from typing import Any, Optional, cast, Protocol
-from toolz.functoolz import curry, flip, pipe # type: ignore
+from typing import Any, Optional, Protocol
+from toolz.functoolz import curry, flip
 
 from public_law.exceptions import ParseException
 from public_law.selector_util import xpath_get
+from ....flow import pipe_to_string
 from public_law.text import NonemptyString, URL, titleize
 import public_law.text as text
 from public_law.items.crs import Article, Division, Title
@@ -33,12 +34,12 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
-        name = string_pipe(
+        name = pipe_to_string(
             "//TITLE-TEXT/text()",
             xpath_get(dom),
             titleize
         )
-        number = string_pipe(
+        number = pipe_to_string(
             "//TITLE-NUM/text()",
             xpath_get(dom),
             text.split_on_space,
@@ -51,13 +52,6 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     except ParseException as e:
         logger.warn(f"Could not parse the title: {e}")
         return None
-    
-
-def string_pipe(*args: Any) -> NonemptyString:
-    """A wrapper around pipe() that casts the result to a NonemptyString."""
-    args_with_string: Any = args + (NonemptyString,)
-
-    return cast(NonemptyString, pipe(*args_with_string))
     
 
 def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
