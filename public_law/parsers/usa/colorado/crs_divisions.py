@@ -1,4 +1,4 @@
-# pyright: reportUnknownMemberType=false
+
 
 
 from scrapy.selector.unified import Selector

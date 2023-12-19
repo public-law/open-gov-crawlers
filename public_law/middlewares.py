@@ -3,9 +3,8 @@
 # pyright: reportUnknownVariableType=false
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
-# pyright: reportUnknownMemberType=false
+
 # pyright: reportUnknownArgumentType=false
-# pyright: reportGeneralTypeIssues=false
 
 
 # -*- coding: utf-8 -*-

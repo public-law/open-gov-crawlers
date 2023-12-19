@@ -1,4 +1,4 @@
-# pyright: reportUnknownMemberType=false
+
 
 from itertools import takewhile, dropwhile
 from typing import Any

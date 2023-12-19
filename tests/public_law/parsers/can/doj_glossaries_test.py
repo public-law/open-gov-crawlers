@@ -1,6 +1,6 @@
 # pyright: reportUnknownParameterType=false
 # pyright: reportMissingParameterType=false
-# pyright: reportUnknownMemberType=false
+
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownVariableType=false
 
@@ -36,9 +36,7 @@ def p11() -> GlossaryParseResult:
     )
 
 
-@pytest.fixture
-def glos() -> GlossaryParseResult:
-    return glossary_fixture(
+GLOS = glossary_fixture(
         "glos.html",
         "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
         parse_glossary,
@@ -69,9 +67,9 @@ def p18() -> GlossaryParseResult:
 
 
 class TestDctermsTitle:
-    def test_when_it_contains_an_anchor(self, glos):
+    def test_when_it_contains_an_anchor(self):
         assert (
-            glos.metadata.dcterms_title
+            GLOS.metadata.dcterms_title
             == "Glossary - Managing Contact Difficulties: A Child-Centred Approach (2003-FCY-5E)"
         )
 

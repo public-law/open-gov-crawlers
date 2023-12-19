@@ -41,12 +41,14 @@ typeCheckingMode                    = "strict"
 reportCallInDefaultInitializer      = "error"
 reportImplicitStringConcatenation   = "error"
 reportMissingSuperCall              = "error"
-reportMissingTypeStubs              = false
 reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
 reportUnnecessaryTypeIgnoreComment  = "error"
 reportUnusedCallResult              = "error"
-reportUnusedImport                  = "warning"
+
+reportUnusedImport                  = "information"
+reportMissingTypeStubs              = false  # I don't know the purpose. Scrapy does better w/out type stubs.
+reportUnknownMemberType             = false  # False positives that can't be corrected.
 
 
 [tool.pytest.ini_options]
