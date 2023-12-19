@@ -19,7 +19,7 @@ def second(x: list[Any]) -> Any:
     return x[1]
 
 class Logger(Protocol):
-    def warn(self, msg: str) -> None: ...
+    def warn(self, message: str) -> None: ...
 
 
 
