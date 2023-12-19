@@ -46,7 +46,7 @@ reportUninitializedInstanceVariable = "error"
 reportUnnecessaryTypeIgnoreComment  = "error"
 reportUnusedCallResult              = "error"
 
-reportUnusedImport                  = "information"
+reportUnusedImport                  = false
 reportMissingTypeStubs              = false  # I don't know the purpose. Scrapy does better w/out type stubs.
 
 
