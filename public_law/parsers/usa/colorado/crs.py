@@ -7,7 +7,7 @@ from toolz.functoolz import curry, flip
 from ....exceptions    import ParseException
 from ....flow          import pipe_to_string
 from ....selector_util import xpath_get
-from ....text          import NonemptyString, URL, titleize
+from ....text          import NonemptyString, URL
 
 import public_law.text as text
 from public_law.items.crs import Article, Division, Title
@@ -36,15 +36,15 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = pipe_to_string(
-            "//TITLE-TEXT/text()",
-            xpath_get(dom),
-            titleize
+            "//TITLE-TEXT/text()"
+            , xpath_get(dom)
+            , text.titleize
         )
         number = pipe_to_string(
-            "//TITLE-NUM/text()",
-            xpath_get(dom),
-            text.split_on_space,
-            second
+            "//TITLE-NUM/text()"
+            , xpath_get(dom)
+            , text.split_on_space
+            , second
         )
         children = _parse_divisions_or_articles(number, dom, logger)
         url      = source_url(number)
