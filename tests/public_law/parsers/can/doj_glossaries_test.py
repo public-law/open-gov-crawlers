@@ -108,8 +108,8 @@ class TestDcTermsSubject:
             ),
         )
 
-    def test_subject_glos(self, glos):
-        assert subj_strings(glos) == (
+    def test_subject_glos(self):
+        assert subj_strings(GLOS) == (
             (
                 "http://id.loc.gov/authorities/subjects/sh98001029",
                 "Parental alienation syndrome",
@@ -121,8 +121,8 @@ class TestDcTermsSubject:
         )
 
 
-def test_phrase_does_not_end_with_colon(glos):
-    assert first(glos.entries).phrase == "Alienated Parent"
+def test_phrase_does_not_end_with_colon():
+    assert first(GLOS.entries).phrase == "Alienated Parent"
 
 
 def test_parses_emphasized_text(p11):
