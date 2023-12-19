@@ -41,7 +41,7 @@ class RomeStatute(Spider):
 
 
 def start_page_urls(response: Response) -> list[str]:
-    anchors = response.css("h2#coreICCtexts + p + div").css("a").getall()[:4]  # type: ignore
+    anchors = response.css("h2#coreICCtexts + p + div").css("a").getall()[:4]
     relative_urls = [re.findall(r'"(.+)"', a)[0] for a in anchors]  # type: ignore
     absolute_urls = ["https://www.icc-cpi.int" + url for url in relative_urls]
 

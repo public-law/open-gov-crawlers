@@ -71,11 +71,11 @@ def opinion_date_to_iso8601(date: str) -> str:
 
 
 def get_all(node: Union[Response, Selector], css: str) -> List[str]:
-    return node.css(css).getall() # type: ignore
+    return node.css(css).getall()
 
 
 def first(node: Response | Selector, css: str, expected: str) -> str:
-    match node.css(css).get(): # type: ignore
+    match node.css(css).get():
         case str(result):
             return result
         case _:

@@ -48,18 +48,18 @@ class OregonRegs(Spider):
         numbers, and internal id's.
         """
         for option in response.css("#browseForm option"):  # type: ignore
-            db_id: Any = option.xpath("@value").get()  # type: ignore
+            db_id: Any = option.xpath("@value").get()
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1)) # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType]
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1)) # pyright: ignore[reportUnknownArgumentType]
             chapter = new_chapter(db_id, number, name)
 
             new_chapter_index = len(self.oar["chapters"])  # type: ignore
-            self.oar["chapters"].append(chapter)  # type: ignore
+            self.oar["chapters"].append(chapter)
 
             request = Request(chapter["url"], callback=self.parse_chapter_page) # pyright: ignore[reportUnknownArgumentType]
-            request.meta["chapter_index"] = new_chapter_index  # type: ignore
+            request.meta["chapter_index"] = new_chapter_index
             yield request
 
     def parse_chapter_page(self, response: Response):
@@ -68,20 +68,20 @@ class OregonRegs(Spider):
         A Chapter's page contains a hierarchical list of all its Divisions
         along with their contained Rules.
         """
-        chapter: Chapter = cast(Chapter, self.oar["chapters"][response.meta["chapter_index"]]) # pyright: ignore[reportUnknownMemberType]
+        chapter: Chapter = cast(Chapter, self.oar["chapters"][response.meta["chapter_index"]])
 
         # Collect the Divisions
         anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):  # type: ignore
-            db_id: str = cast(str, anchor.xpath("@href").get().split("selectedDivision=")[1]) # pyright: ignore[reportUnknownMemberType, reportOptionalMemberAccess]
+            db_id: str = cast(str, anchor.xpath("@href").get().split("selectedDivision=")[1]) # pyright: ignore[reportOptionalMemberAccess]
             raw_number, raw_name = map(
-                str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType, reportOptionalMemberAccess]
+                str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportUnknownArgumentType, reportOptionalMemberAccess]
             )
             number: str = raw_number.split(" ")[1]
             name: str = titleize(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter["divisions"].append(division) # pyright: ignore[reportUnknownMemberType]
+            chapter["divisions"].append(division)
 
             # Request a scrape of the Division page
             request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
@@ -93,7 +93,7 @@ class OregonRegs(Spider):
         chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
         division: Division = chapter["divisions"][response.meta["division_index"]]  # type: ignore
 
-        division["rules"].extend(parse_division(response))  # type: ignore
+        division["rules"].extend(parse_division(response))
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -118,7 +118,7 @@ class OregonRegs(Spider):
         # submit data _without_ also triggering a scrape. So I provide a URL
         # to a simple site that we're going to ignore.
         null_request = Request(
-            "https://www.public.law/about-us", callback=self.submit_data  # type: ignore
+            "https://www.public.law/about-us", callback=self.submit_data
         )
         self.crawler.engine.schedule(null_request, spider)  # type: ignore
         raise scrapy.exceptions.DontCloseSpider
