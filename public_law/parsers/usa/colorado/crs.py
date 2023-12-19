@@ -30,7 +30,7 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
         return Title(
             name       = name,
             number     = number,
-            source_url = title_source_url(number),
+            source_url = source_url(number),
             children   = children
         )
 
@@ -48,12 +48,12 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     elif len(article_nodes) > 0:
         parse_fun = parse_articles
     else:
-        msg = f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found."
+        msg = f"Neither T-DIV nor TA-LIST nodes were found in Title {title_number}."
         raise ParseException(msg)
 
     return parse_fun(title_number, dom, logger)
 
 
-def title_source_url(title_number: NonemptyString) -> URL:
+def source_url(title_number: NonemptyString) -> URL:
     url_number = title_number.rjust(2, "0")
     return URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
