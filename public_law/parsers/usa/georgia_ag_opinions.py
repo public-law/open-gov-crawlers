@@ -37,9 +37,9 @@ class OpinionParseResult(NamedTuple):
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
-    summary = first(html, css=".page-top__subtitle--re p::text", expected="summary")
-    title = first(html, css="h1.page-top__title--opinion::text", expected="title")
-    date = first(html, css="time::text", expected="date")
+    summary = first(html, css=".page-top__subtitle--re p::text",   expected="summary")
+    title   = first(html, css="h1.page-top__title--opinion::text", expected="title")
+    date    = first(html, css="time::text",                        expected="date")
     full_text = cast(
         str,
         pipe(

@@ -4,14 +4,18 @@ from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
 from typing import Any, Optional
-from public_law.exceptions import ParseException
+from toolz.functoolz import curry, flip, pipe # type: ignore
 
+from public_law.exceptions import ParseException
 from public_law.selector_util import xpath_get
 from public_law.text import NonemptyString, URL, titleize
 from public_law.items.crs import Article, Division, Title
 from public_law.parsers.usa.colorado.crs_articles  import parse_articles
 from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
 
+split       = curry(flip(str.split))
+second: str = lambda x: x[1] # type: ignore
+xpath_get   = curry(xpath_get)
 
 def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
     match parse_title(dom, logger):
@@ -23,8 +27,19 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     try:
-        name     = NonemptyString(titleize(xpath_get(dom, "//TITLE-TEXT/text()")))
-        number   = NonemptyString(xpath_get(dom, "//TITLE-NUM/text()").split(" ")[1])    
+        name: NonemptyString = pipe(                                       # type: ignore
+            "//TITLE-TEXT/text()",
+            xpath_get(dom),
+            titleize,
+            NonemptyString
+        )
+        number: NonemptyString = pipe(                                     # type: ignore
+            "//TITLE-NUM/text()",
+            xpath_get(dom),
+            split(" "),
+            second,
+            NonemptyString
+        )
         children = _parse_divisions_or_articles(number, dom, logger)
 
         return Title(
