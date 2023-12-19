@@ -1,22 +1,23 @@
-
-
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from typing import Any, Optional
+from typing import Any, Optional, cast
 from toolz.functoolz import curry, flip, pipe # type: ignore
 
 from public_law.exceptions import ParseException
 from public_law.selector_util import xpath_get
-from public_law.text import NonemptyString as S, URL, titleize
+from public_law.text import NonemptyString, URL, titleize
 import public_law.text as text
 from public_law.items.crs import Article, Division, Title
 from public_law.parsers.usa.colorado.crs_articles  import parse_articles
 from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
 
-split       = curry(flip(str.split))
-second: str = lambda x: x[1] # type: ignore
-xpath_get   = curry(xpath_get)
+split     = curry(flip(str.split))
+xpath_get = curry(xpath_get)
+
+def second(x: list[Any]) -> Any:
+    return x[1]
+
 
 
 def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
@@ -29,18 +30,18 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     try:
-        name: S = pipe(               # type: ignore    
+        name = string_pipe(
             "//TITLE-TEXT/text()",
             xpath_get(dom),
             titleize,
-            S
+            NonemptyString
         )
-        number: S = pipe(             # type: ignore
+        number = string_pipe(
             "//TITLE-NUM/text()",
             xpath_get(dom),
             text.split_on_space,
             second,
-            S
+            NonemptyString
         )
         children = _parse_divisions_or_articles(number, dom, logger)
         url      = source_url(number)
@@ -50,7 +51,13 @@ def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
         logger.warn(f"Could not parse the title: {e}")
         return None
     
-def _parse_divisions_or_articles(title_number: S, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
+
+def string_pipe(*args: Any) -> NonemptyString:
+    """A wrapper around pipe() that casts the result to a NonemptyString."""
+    return cast(NonemptyString, pipe(*args))
+    
+
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
@@ -65,6 +72,6 @@ def _parse_divisions_or_articles(title_number: S, dom: Selector | XmlResponse, l
     return parse_fun(title_number, dom, logger)
 
 
-def source_url(title_number: S) -> URL:
+def source_url(title_number: NonemptyString) -> URL:
     url_number = title_number.rjust(2, "0")
     return URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
