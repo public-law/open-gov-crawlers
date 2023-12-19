@@ -3,7 +3,7 @@
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from typing import Any
+from typing import Any, Optional
 
 from public_law.text import NonemptyString, URL, titleize
 from public_law.items.crs import Article, Division, Title
@@ -19,7 +19,7 @@ def parse_title_bang(dom: XmlResponse, logger: Any) -> Title:
             return title
 
 
-def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
+def parse_title(dom: XmlResponse, logger: Any) -> Optional[Title]:
     match(dom.xpath("//TITLE-TEXT/text()").get()):
         case str(raw_name):
             name = NonemptyString(titleize(raw_name))
@@ -33,19 +33,23 @@ def parse_title(dom: XmlResponse, logger: Any) -> Title | None:
         case None:
             logger.warn(f"Could not the parse title number in {dom.url}")
             return None
+    
+    match _parse_divisions_or_articles(number, dom, logger):
+        case None:
+            logger.warn(f"Could not parse divisions or articles in Title {number}")
+            return None
+        case children:
+            url_number = number.rjust(2, "0")
+            source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
+            return Title(
+                name       = name,
+                number     = number,
+                source_url = URL(source_url),
+                children   = children
+            )
 
-    url_number = number.rjust(2, "0")
-    source_url = URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")
 
-    return Title(
-        name       = name,
-        number     = number,
-        source_url = URL(source_url),
-        children   = _parse_divisions_or_articles(number, dom, logger)
-    )
-
-
-def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> list[Division] | list[Article]:
+def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | XmlResponse, logger: Any) -> Optional[list[Division] | list[Article]]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
@@ -54,6 +58,9 @@ def _parse_divisions_or_articles(title_number: NonemptyString, dom: Selector | X
     elif len(article_nodes) > 0:
         func = parse_articles
     else:
-        raise Exception(f"Could not parse divisions or articles in Title {title_number}. Neither T-DIV nor TA-LIST nodes were found.")
+        msg = f"""Could not parse divisions or articles in Title {title_number}.
+            Neither T-DIV nor TA-LIST nodes were found."""
+        logger.warn(msg)
+        return None
 
     return func(title_number, dom, logger)
