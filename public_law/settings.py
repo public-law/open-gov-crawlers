@@ -117,6 +117,7 @@ AUTOTHROTTLE_DEBUG = False
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 # HTTPCACHE_POLICY = "scrapy.extensions.httpcache.DummyPolicy"
 
+LOG_FILE_APPEND = False
 
 #
 # In development mode only, set the sensitive and environment-
