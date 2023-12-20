@@ -9,16 +9,15 @@ from ....flow          import pipe_to_string
 from ....selector_util import xpath_get
 from ....text          import NonemptyString, URL
 
-import public_law.text as text
+import public_law.html  as html
+import public_law.lists as lists
+import public_law.text  as text
+
 from public_law.items.crs import Article, Division, Title
 from .crs_articles  import parse_articles
 from .crs_divisions import parse_divisions
 
 split     = curry(flip(str.split))
-xpath_get = curry(xpath_get)
-
-def second(x: list[Any]) -> Any:
-    return x[1]
 
 class Logger(Protocol):
     def warn(self, message: str) -> None: ...
@@ -44,14 +43,14 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
 def parse_title_or_raise(dom: XmlResponse) -> Title:
     name = pipe_to_string(
         "//TITLE-TEXT/text()"
-        , xpath_get(dom)
+        , html.xpath_get(dom)
         , text.titleize
     )
     number = pipe_to_string(
         "//TITLE-NUM/text()"
-        , xpath_get(dom)
+        , html.xpath_get(dom)
         , text.split_on_space
-        , second
+        , lists.second
     )
     children = _parse_divisions_or_articles(number, dom)
     url      = source_url(number)

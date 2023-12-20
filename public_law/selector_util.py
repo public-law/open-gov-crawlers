@@ -1,5 +1,5 @@
-
 from typing import Any
+from toolz.functoolz import curry
 
 from scrapy.selector.unified import Selector, SelectorList
 from scrapy.http.response.xml import XmlResponse
@@ -20,3 +20,4 @@ def xpath_get(dom: XmlResponse, xpath: str) -> str:
             return value
         case None:
             raise ParseException(f"Could not find {xpath} in {dom.url}")
+            
