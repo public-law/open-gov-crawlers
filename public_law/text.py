@@ -4,11 +4,14 @@ String functions and types.
 
 import re
 from typing import Any, Callable, cast
+from toolz.functoolz import curry, flip
 
 import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
+
+split: Callable[[str], str] = curry(flip(str.split))  # type: ignore
 
 
 def titleize(text: str) -> str:

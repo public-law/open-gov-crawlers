@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
-from public_law.selector_util import just_text
+from public_law.html import just_text
 from public_law.items.crs import Section
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
 

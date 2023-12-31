@@ -1,7 +1,8 @@
-from dataclasses import dataclass
 import dataclasses
+from dataclasses import dataclass
 from functools import cache
-from typing import Any, Iterable, Callable, TypeAlias
+from typing import Any, Callable, Iterable, TypeAlias
+
 from scrapy.http.response.html import HtmlResponse
 
 from ..metadata import Metadata

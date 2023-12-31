@@ -5,7 +5,7 @@ from typing import Any
 from itertools import takewhile, dropwhile
 
 
-from public_law.selector_util import just_text
+from public_law.html import just_text
 from public_law.text import NonemptyString
 from public_law.items.crs import Division, Subdivision
 from public_law.parsers.usa.colorado.crs_articles import div_name_text, parse_articles_from_division
