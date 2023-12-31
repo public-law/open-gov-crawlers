@@ -12,7 +12,7 @@ from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
 
 
 class Logger(Protocol):
-    """Define a simple shape-based logger interface."""
+    """Defines a simple shape-based logger interface."""
     def warn(self, message: str) -> None: ...
 
 
@@ -29,12 +29,12 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = pipe(
             dom
-            , html.xpath("//TITLE-TEXT/text()")                                # type: ignore
+            , html.xpath("//TITLE-TEXT")                                       # type: ignore
             , text.titleize
         )
         number = pipe(
             dom
-            , html.xpath("//TITLE-NUM/text()")                                 # type: ignore
+            , html.xpath("//TITLE-NUM")                                        # type: ignore
             , text.split(" ")                                                  # type: ignore
             , seq.get(1)                                                       # type: ignore
         )
