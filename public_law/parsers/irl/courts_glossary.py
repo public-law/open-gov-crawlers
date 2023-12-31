@@ -10,8 +10,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, WikidataTopic, capitalize_first_char,
-                     ensure_ends_with_period, normalize_nonempty)
+from ...text import (Sentence, WikidataTopic)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -50,23 +49,22 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     functions for cleaning up the definitions and phrases.
     """
 
-    def cleanup_definition(defn: str) -> Sentence:
+    def cleanup_definition(definition: str) -> Sentence:
         return pipe(
-            defn,
-            normalize_nonempty,
-            text.lstrip(":"),  # type: ignore
-            ensure_ends_with_period,
-            normalize_nonempty,
-            capitalize_first_char,
-            Sentence,
+            definition
+            , text.normalize_nonempty
+            , text.lstrip(":")                                              # type: ignore
+            , text.ensure_ends_with_period
+            , text.normalize_nonempty
+            , text.capitalize_first_char
+            , Sentence
         )
 
     def cleanup_phrase(phrase: str) -> String:
-        return pipe(
-            phrase,
-            text.rstrip(":"),  # type: ignore
-            normalize_nonempty,
-            String,
+        return text.pipe(
+            phrase
+            , text.rstrip(":")                                             # type: ignore
+            , text.normalize_nonempty
         )
 
     for phrase, defn in _raw_entries(html):
