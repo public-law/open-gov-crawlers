@@ -4,11 +4,9 @@ from more_itertools import first, last
 from public_law.dates import today
 from public_law.metadata import Subject
 from public_law.models.glossary import glossary_fixture
-from public_law.text import URL, NonemptyString
-
 # The System Under Test
 from public_law.parsers.aus.dv_glossary import parse_glossary
-
+from public_law.text import URL, NonemptyString
 
 GLOSSARY_URL = URL(
     "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"

@@ -62,3 +62,11 @@ testpaths        = ["tests", "public_law"]
 [build-system]
 requires      = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.pylint.main]
+disable = [
+    "missing-function-docstring", 
+    "missing-module-docstring", 
+    "no-value-for-parameter",
+    "too-few-public-methods",
+    ]

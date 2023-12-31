@@ -11,6 +11,7 @@ from ...text import (
     capitalize_first_char,
     normalize_nonempty,
 )
+from public_law import text
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -64,12 +65,11 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     def cleanup_phrase(phrase: str) -> String:
         assert isinstance(phrase, str)
 
-        return pipe(
-            phrase,
-            normalize_nonempty,
-            String,
-        ) # type: ignore
-
+        return text.pipe(
+            phrase
+            , normalize_nonempty
+        )
+    
     for phrase, defn in _raw_entries(html):
         assert isinstance(phrase, str)
         assert isinstance(defn, str)

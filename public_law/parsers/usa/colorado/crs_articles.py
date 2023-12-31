@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
 
-from public_law.selector_util import node_name
+from public_law.html import node_name
 from public_law.items.crs import *
 from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
 

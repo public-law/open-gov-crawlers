@@ -1,12 +1,16 @@
 from typing import Any, Iterable, cast
-from toolz.functoolz import pipe  # type: ignore
-from public_law.flipped import rstrip
+
 from scrapy.http.response.html import HtmlResponse
+from toolz.functoolz import pipe  # type: ignore
+
+from public_law import text
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import URL, LoCSubject
+from ...text import NonemptyString as String
+from ...text import (Sentence, ensure_ends_with_period, make_soup,
+                     normalize_nonempty)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -44,7 +48,10 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
     for phrase, defn in __raw_entries(html):
-        fixed_phrase: String = cast(Sentence, pipe(phrase, rstrip(": "), String))  # type: ignore
+        fixed_phrase = text.pipe(
+            phrase
+            , text.rstrip(": ")                             # type: ignore
+        )
 
         fixed_definition: Sentence = cast(Sentence, pipe(defn, ensure_ends_with_period, normalize_nonempty, Sentence))
 
