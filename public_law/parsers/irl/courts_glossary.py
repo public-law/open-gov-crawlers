@@ -5,15 +5,13 @@ from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
 from public_law import text
+
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
-from ...text import (
-    Sentence,
-    capitalize_first_char,
-    ensure_ends_with_period,
-    normalize_nonempty,
-)
+from ...text import URL, LoCSubject
+from ...text import NonemptyString as String
+from ...text import (Sentence, WikidataTopic, capitalize_first_char,
+                     ensure_ends_with_period, normalize_nonempty)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

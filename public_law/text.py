@@ -4,22 +4,21 @@ String functions and types.
 
 import re
 from typing import Any, Callable, cast
-from toolz.functoolz import curry, flip
 
 import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
-
+from toolz.functoolz import curry, flip
 
 split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
 
 
 """ Return a copy of the string with leading characters removed. """
-lstrip: Callable[[str, str], str] = flip(str.lstrip) # type: ignore
+lstrip: Callable[[str, str], str] = curry(flip(str.lstrip)) # type: ignore
 
 
 """ Return a copy of the string with trailing characters removed. """
-rstrip: Callable[[str, str], str] = flip(str.rstrip) # type: ignore
+rstrip: Callable[[str, str], str] = curry(flip(str.rstrip)) # type: ignore
 
 
 def titleize(text: str) -> str:
