@@ -4,7 +4,7 @@ from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from ...flipped import lstrip, rstrip
+from public_law import text
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic
@@ -56,7 +56,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         return pipe(
             defn,
             normalize_nonempty,
-            lstrip(":"),  # type: ignore
+            text.lstrip(":"),  # type: ignore
             ensure_ends_with_period,
             normalize_nonempty,
             capitalize_first_char,
@@ -66,7 +66,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     def cleanup_phrase(phrase: str) -> String:
         return pipe(
             phrase,
-            rstrip(":"),  # type: ignore
+            text.rstrip(":"),  # type: ignore
             normalize_nonempty,
             String,
         )

@@ -14,6 +14,14 @@ from scrapy.http.response.html import HtmlResponse
 split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
 
 
+""" Return a copy of the string with leading characters removed. """
+lstrip: Callable[[str, str], str] = flip(str.lstrip) # type: ignore
+
+
+""" Return a copy of the string with trailing characters removed. """
+rstrip: Callable[[str, str], str] = flip(str.rstrip) # type: ignore
+
+
 def titleize(text: str) -> str:
     """
     Capitalize the first letter of each word in a string.
