@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 
 
-split: Callable[[str], str] = curry(flip(str.split))  # type: ignore
+split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
 
 
 def titleize(text: str) -> str:
@@ -34,8 +34,6 @@ def titleize(text: str) -> str:
 
     # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
     return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore
-
-
 
 
 class NonemptyString(str):
@@ -67,15 +65,11 @@ class URI(NonemptyString):
     See: https://blog.hubspot.com/website/uri-vs-url
     """
 
-    pass
-
 
 class URL(URI):
     """
     A Uniform Resource Locator
     """
-
-    pass
 
 
 class LoCSubject(URL):

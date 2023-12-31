@@ -4,15 +4,11 @@ from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 from toolz import functoolz
 
-from public_law import html, text
+from public_law import html, seq, text
 from public_law.exceptions import ParseException
 from public_law.items.crs import Article, Division, Title
 from public_law.parsers.usa.colorado.crs_articles import parse_articles
 from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
-
-
-def second(x: list[Any]) -> Any:
-    return x[1]
 
 
 class Logger(Protocol):
@@ -24,7 +20,7 @@ class Logger(Protocol):
 def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
     match parse_title(dom, logger):
         case None:
-            raise Exception("Could not parse title")
+            raise ParseException("Could not parse title")
         case title:
             return title
 
@@ -32,18 +28,18 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = pipe(
-            "//TITLE-TEXT/text()"
-            , html.xpath(dom)  # type: ignore
+            dom
+            , html.xpath("//TITLE-TEXT/text()")                                # type: ignore
             , text.titleize
         )
         number = pipe(
-            "//TITLE-NUM/text()"
-            , html.xpath(dom)  # type: ignore
-            , text.split(" ")
-            , second
+            dom
+            , html.xpath("//TITLE-NUM/text()")                                 # type: ignore
+            , text.split(" ")                                                  # type: ignore
+            , seq.get(1)                                                       # type: ignore
         )
         children = _parse_divisions_or_articles(number, dom, logger)
-        url      = source_url(number)
+        url      = _source_url(number)
 
         return Title(name, number, children, url)
 
@@ -76,6 +72,6 @@ def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: Selecto
     return parse_fun(title_number, dom, logger)
 
 
-def source_url(title_number: text.NonemptyString) -> text.URL:
+def _source_url(title_number: text.NonemptyString) -> text.URL:
     url_number = title_number.rjust(2, "0")
     return text.URL(f"https://leg.colorado.gov/sites/default/files/images/olls/crs2022-title-{url_number}.pdf")

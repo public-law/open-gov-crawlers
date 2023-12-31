@@ -13,8 +13,8 @@ def node_name(node: Selector) -> str | None:
 def just_text(node: Selector | SelectorList | Any) -> str | None:
     return node.xpath("text()").get()
 
-def xpath(dom: XmlResponse, xpath: str) -> str:
-    match dom.xpath(xpath).get():
+def xpath(selector: str, dom: XmlResponse) -> str:
+    match dom.xpath(selector).get():
         case str(value):
             return value
         case None:
