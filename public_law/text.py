@@ -8,39 +8,8 @@ from typing import Any, Callable, cast
 import titlecase
 from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
+from toolz import functoolz
 from toolz.functoolz import curry, flip
-
-split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
-
-
-""" Return a copy of the string with leading characters removed. """
-lstrip: Callable[[str, str], str] = curry(flip(str.lstrip)) # type: ignore
-
-
-""" Return a copy of the string with trailing characters removed. """
-rstrip: Callable[[str, str], str] = curry(flip(str.rstrip)) # type: ignore
-
-
-def titleize(text: str) -> str:
-    """
-    Capitalize the first letter of each word in a string.
-    This is a wrapper around the `titlecase` library.
-
-    >>> titleize("hello world")
-    'Hello World'
-
-    >>> titleize("title iii")
-    'Title III'
-
-    >>> titleize("CORPORATIONS - Continued")
-    'Corporations - Continued'
-    """
-    def titlecase_special_cases(word: str, **kwargs) -> str | None:  # type: ignore
-        if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
-            return word.upper()
-
-    # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
-    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore
 
 
 class NonemptyString(str):
@@ -236,5 +205,42 @@ def remove_trailing_period(text: str) -> str:
     return text
 
 
-def split_on_space(s: str) -> list[str]:
-    return s.split(" ")
+def pipe(*args: Any) -> NonemptyString:
+    """
+    A wrapper around pipe() that casts the result.
+    """
+    args_with_string: Any = args + (NonemptyString,)
+
+    return cast(NonemptyString, functoolz.pipe(*args_with_string))  # type: ignore
+
+split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
+
+
+""" Return a copy of the string with leading characters removed. """
+lstrip: Callable[[str, str], str] = curry(flip(str.lstrip)) # type: ignore
+
+
+""" Return a copy of the string with trailing characters removed. """
+rstrip: Callable[[str, str], str] = curry(flip(str.rstrip)) # type: ignore
+
+
+def titleize(text: str) -> str:
+    """
+    Capitalize the first letter of each word in a string.
+    This is a wrapper around the `titlecase` library.
+
+    >>> titleize("hello world")
+    'Hello World'
+
+    >>> titleize("title iii")
+    'Title III'
+
+    >>> titleize("CORPORATIONS - Continued")
+    'Corporations - Continued'
+    """
+    def titlecase_special_cases(word: str, **kwargs) -> str | None:  # type: ignore
+        if re.fullmatch(r'[IVXC]+', word, re.IGNORECASE):
+            return word.upper()
+
+    # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
+    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore

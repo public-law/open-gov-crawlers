@@ -1,8 +1,7 @@
-from typing import Any, Optional, Protocol, cast
+from typing import Optional, Protocol
 
 from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
-from toolz import functoolz
 
 from public_law import html, seq, text
 from public_law.exceptions import ParseException
@@ -27,12 +26,12 @@ def parse_title_bang(dom: XmlResponse, logger: Logger) -> Title:
 
 def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
-        name = pipe(
+        name = text.pipe(
             dom
             , html.xpath("//TITLE-TEXT")                                       # type: ignore
             , text.titleize
         )
-        number = pipe(
+        number = text.pipe(
             dom
             , html.xpath("//TITLE-NUM")                                        # type: ignore
             , text.split(" ")                                                  # type: ignore
@@ -46,15 +45,6 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     except ParseException as e:
         logger.warn(f"Could not parse the title: {e}")
         return None
-
-
-def pipe(*args: Any) -> text.NonemptyString:
-    """
-    A wrapper around pipe() that casts the result.
-    """
-    args_with_string: Any = args + (text.NonemptyString,)
-
-    return cast(text.NonemptyString, functoolz.pipe(*args_with_string))  # type: ignore
 
 
 def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
