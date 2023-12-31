@@ -48,7 +48,10 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
     for phrase, defn in __raw_entries(html):
-        fixed_phrase: String = cast(Sentence, pipe(phrase, text.rstrip(": "), String))  # type: ignore
+        fixed_phrase = text.pipe(
+            phrase
+            , text.rstrip(": ")                             # type: ignore
+        )
 
         fixed_definition: Sentence = cast(Sentence, pipe(defn, ensure_ends_with_period, normalize_nonempty, Sentence))
 
