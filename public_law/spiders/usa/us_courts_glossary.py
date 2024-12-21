@@ -13,7 +13,7 @@ class USACourtsGlossary(Spider):
 
     start_urls = ["https://www.uscourts.gov/glossary"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
         @url https://www.uscourts.gov/glossary

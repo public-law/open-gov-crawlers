@@ -1,6 +1,7 @@
 # pyright: reportPrivateUsage=false
 # pyright: reportUnknownVariableType=false
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportArgumentType=false
 
 from scrapy.selector.unified import Selector
 from typing import Any, IO
@@ -10,7 +11,7 @@ from public_law.parsers.usa.oregon_regs import (
     _meta_sections,
     parse_division,
 )
- 
+
 
 def fixture(filename: str) -> IO[Any]:
     return open(f"tests/fixtures/usa/oar/{filename}", encoding="utf8")
@@ -110,6 +111,7 @@ class TestTheFixture:
 
 
 class TestParseDivision:
+
     def test_number_of_rules(self):
         assert len(parse_division(DIV_450)) == 2
 

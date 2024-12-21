@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, cast
 
 from scrapy import Spider
-from scrapy.selector.unified import Selector
 from scrapy.crawler import Crawler
 import scrapy.exceptions
 from scrapy.http.response import Response
@@ -25,7 +24,7 @@ class OregonRegs(Spider):
 
 
     def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
-        super().__init__(*args, **kwargs)  # type: ignore
+        super().__init__(*args, **kwargs) # type: ignore
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
@@ -53,13 +52,13 @@ class OregonRegs(Spider):
             if db_id == "-1":  # Ignore the heading
                 continue
 
-            number, name = map(str.strip, option.xpath("text()").get().split("-", 1))  # type: ignore # FIXME
+            number, name = map(str.strip, option.xpath("text()").get().split("-", 1)) # pyright: ignore[reportOptionalMemberAccess]
             chapter = new_chapter(db_id, number, name)
 
-            new_chapter_index = len(self.oar["chapters"])  # type: ignore
-            self.oar["chapters"].append(chapter)           # type: ignore
+            new_chapter_index = len(self.oar["chapters"])
+            self.oar["chapters"].append(chapter)         
 
-            request = Request(chapter["url"], callback=self.parse_chapter_page) # pyright: ignore[reportUnknownArgumentType]
+            request = Request(chapter["url"], callback=self.parse_chapter_page)
             request.meta["chapter_index"] = new_chapter_index
             yield request
 
@@ -72,8 +71,7 @@ class OregonRegs(Spider):
         chapter: Chapter = cast(Chapter, self.oar["chapters"][response.meta["chapter_index"]])
 
         # Collect the Divisions
-        anchor: Selector
-        for anchor in response.css("#accordion > h3 > a"):  # type: ignore
+        for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("selectedDivision=")[1] # pyright: ignore[reportOptionalMemberAccess]
             raw_number, raw_name = map(
                 str.strip, anchor.xpath("text()").get().split("-", 1) # pyright: ignore[reportOptionalMemberAccess]
@@ -82,19 +80,19 @@ class OregonRegs(Spider):
             name: str = titleize(raw_name)
             division = new_division(db_id, number, name)
 
-            chapter["divisions"].append(division)  # type: ignore
+            chapter["divisions"].append(division)
 
             # Request a scrape of the Division page
-            request = Request(division["url"], callback=self.parse_division_page)  # type: ignore
-            request.meta["division_index"] = len(chapter["divisions"]) - 1  # type: ignore
+            request = Request(division["url"], callback=self.parse_division_page)
+            request.meta["division_index"] = len(chapter["divisions"]) - 1
             request.meta["chapter_index"] = response.meta["chapter_index"]
             yield request
 
     def parse_division_page(self, response: Response):
-        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]  # type: ignore
-        division: Division = chapter["divisions"][response.meta["division_index"]]  # type: ignore
+        chapter: Chapter = self.oar["chapters"][response.meta["chapter_index"]]
+        division: Division = chapter["divisions"][response.meta["division_index"]]
 
-        division["rules"].extend(parse_division(response))   # type: ignore
+        division["rules"].extend(parse_division(response)) 
 
     #
     # Output a single object: a JSON tree containing all the scraped data. This
@@ -121,7 +119,7 @@ class OregonRegs(Spider):
         null_request = Request(
             "https://www.public.law/about-us", callback=self.submit_data
         )
-        self.crawler.engine.schedule(null_request, spider)  # type: ignore
+        self.crawler.engine.schedule(null_request, spider) # type: ignore
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _: Any):

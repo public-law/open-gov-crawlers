@@ -15,7 +15,7 @@ class NZLJusticeGlossary(Spider):
     name       = "nzl_justice_glossary"
     start_urls = ["https://www.justice.govt.nz/about/glossary/"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
         @url https://www.justice.govt.nz/about/glossary/

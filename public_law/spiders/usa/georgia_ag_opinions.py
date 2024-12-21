@@ -53,7 +53,7 @@ class GeorgiaAgOpinions(Spider):
             ).getall()
 
         for url in [response.urljoin(p) for p in opinion_paths]:
-            yield Request(url, callback=self.parse_opinion_page)
+            yield Request(url, callback=self.parse_opinion_page) # type: ignore
 
         #
         # 2. Go to the next index page, if there is one.
@@ -64,7 +64,7 @@ class GeorgiaAgOpinions(Spider):
 
         if next_page_path is not None:
             yield Request(
-                response.urljoin(next_page_path), callback=self.parse_index_page
+                response.urljoin(next_page_path), callback=self.parse_index_page # type: ignore
             )
 
 

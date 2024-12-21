@@ -1,4 +1,10 @@
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportCallIssue=false
+# pyright: reportInvalidTypeForm=false
+# pyright: reportAssignmentType=false
+# pyright: reportRedeclaration=false
+# pyright: reportArgumentType=false
+
 
 import re
 from functools import cache
