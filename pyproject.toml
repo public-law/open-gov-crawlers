@@ -16,12 +16,12 @@ progressbar2    = "*"
 pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
-scrapy          = {git = "https://github.com/scrapy/scrapy.git", branch = "master"}
-scrapy-crawlera = "*"
+scrapy          = "*"
 tika            = "^1.24"
 titlecase       = "*"
 toolz           = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
+scrapy-zyte-smartproxy = "^2.3.5"
 
 [tool.poetry.group.dev.dependencies]
 pyright      = "^1.1"
