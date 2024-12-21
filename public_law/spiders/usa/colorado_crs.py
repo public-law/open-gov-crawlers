@@ -26,10 +26,10 @@ class ColoradoCRS(Spider):
 
     def start_requests(self):
         """Read the files from a local directory."""
-        try:
-            dir = cast(str, self.crsdata_dir)
-        except:
+        if hasattr(self, "crsdata_dir") == False:
             raise Exception("No crsdata_dir specified with the -a command line option.")
+        
+        dir = cast(str, self.crsdata_dir) # pyright: ignore[reportAttributeAccessIssue]
 
         DIR      = f"{os.getcwd()}/{dir}"
         XML_DIR  = f"{DIR}/TITLES"
@@ -58,7 +58,7 @@ class ColoradoCRS(Spider):
         """Framework callback which parses one XML file."""
         self.logger.debug(f"Parsing {response.url}...")
 
-        yield parse_title(response, self.logger)
+        yield parse_title(response, self.logger) # type: ignore
 
-        for s in parse_sections(response, self.logger):
+        for s in parse_sections(response, self.logger): # type: ignore
             yield s
