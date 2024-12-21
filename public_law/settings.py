@@ -13,7 +13,6 @@ import os
 #     https://spidermon.readthedocs.io/
 
 
-REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 SPIDERMON_ENABLED = False
 
 # TODO: Re-enable after fixing to be aware of different spiders.
