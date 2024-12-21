@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, cast
 
 from scrapy import Spider
-from scrapy.selector.unified import Selector
 from scrapy.crawler import Crawler
 import scrapy.exceptions
 from scrapy.http.response import Response
@@ -25,7 +24,7 @@ class OregonRegs(Spider):
 
 
     def __init__(self, *args: List[str], **kwargs: Dict[str, Any]):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs) # type: ignore
 
         # A flag, set after post-processing is finished, to avoid an infinite
         # loop.
@@ -72,7 +71,6 @@ class OregonRegs(Spider):
         chapter: Chapter = cast(Chapter, self.oar["chapters"][response.meta["chapter_index"]])
 
         # Collect the Divisions
-        anchor: Selector
         for anchor in response.css("#accordion > h3 > a"):
             db_id = anchor.xpath("@href").get().split("selectedDivision=")[1] # pyright: ignore[reportOptionalMemberAccess]
             raw_number, raw_name = map(
@@ -121,7 +119,7 @@ class OregonRegs(Spider):
         null_request = Request(
             "https://www.public.law/about-us", callback=self.submit_data
         )
-        self.crawler.engine.schedule(null_request, spider)
+        self.crawler.engine.schedule(null_request, spider) # type: ignore
         raise scrapy.exceptions.DontCloseSpider
 
     def submit_data(self, _: Any):
