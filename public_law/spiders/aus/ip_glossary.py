@@ -15,7 +15,7 @@ class IPGlossary(Spider):
         "https://raw.githubusercontent.com/public-law/datasets/master/Australia/ip-glossary.html"
     ]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]): # type: ignore[override]
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
         @url https://raw.githubusercontent.com/public-law/datasets/master/Australia/ip-glossary.html
