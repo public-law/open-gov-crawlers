@@ -29,7 +29,7 @@ class Division(scrapy.Item):
 
     def number_in_rule_format(self) -> str:
         """Rules use zero-padded Division numbers"""
-        number = self["number"] # type: ignore
+        number = self["number"]
 
         if isinstance(number, str):
             return number.zfill(3)
@@ -50,7 +50,7 @@ class Rule(scrapy.Item):
     history = scrapy.Field()  # str
 
     def division_number(self) -> str:
-        number = self["number"] # type: ignore
+        number = self["number"]
 
         if isinstance(number, str):
             return number.split("-")[1]
