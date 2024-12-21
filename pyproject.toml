@@ -16,7 +16,7 @@ progressbar2    = "*"
 pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
-scrapy          = {git = "https://github.com/scrapy/scrapy.git", branch = "master"}
+scrapy          = "*"
 scrapy-crawlera = "*"
 tika            = "^1.24"
 titlecase       = "*"

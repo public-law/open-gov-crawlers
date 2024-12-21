@@ -1328,13 +1328,15 @@ files = [
 requests = ">=1.0.0"
 
 [[package]]
-name = "Scrapy"
+name = "scrapy"
 version = "2.12.0"
 description = "A high-level Web Crawling and Web Scraping framework"
 optional = false
 python-versions = ">=3.9"
-files = []
-develop = false
+files = [
+    {file = "Scrapy-2.12.0-py2.py3-none-any.whl", hash = "sha256:c33e2dc7da42e727390bacb32dd9938a54ac210fa71972b5c392754f478669cd"},
+    {file = "scrapy-2.12.0.tar.gz", hash = "sha256:d66d6e76009b12447604196875a463b61d10721140032a8084a0a52df7f4788f"},
+]
 
 [package.dependencies]
 cryptography = ">=37.0.0"
@@ -1350,17 +1352,11 @@ PyDispatcher = {version = ">=2.0.5", markers = "platform_python_implementation =
 pyOpenSSL = ">=22.0.0"
 PyPyDispatcher = {version = ">=2.1.0", markers = "platform_python_implementation == \"PyPy\""}
 queuelib = ">=1.4.2"
-service_identity = ">=18.1.0"
+service-identity = ">=18.1.0"
 tldextract = "*"
 Twisted = ">=21.7.0"
 w3lib = ">=1.17.0"
 "zope.interface" = ">=5.1.0"
-
-[package.source]
-type = "git"
-url = "https://github.com/scrapy/scrapy.git"
-reference = "master"
-resolved_reference = "ba33a40365f91aee20ebb8ce73c435687234c8cd"
 
 [[package]]
 name = "scrapy-crawlera"
@@ -1889,4 +1885,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "0328cf35e5b39649de8631c87965f4fabd39704403a536b76a0a9961100dd75b"
+content-hash = "1d6641b40a28d6d665edcfe25b78d2bb94fd5e1a9a0182527332b09362900490"
