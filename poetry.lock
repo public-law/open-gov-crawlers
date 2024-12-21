@@ -1359,18 +1359,18 @@ w3lib = ">=1.17.0"
 "zope.interface" = ">=5.1.0"
 
 [[package]]
-name = "scrapy-crawlera"
-version = "1.7.2"
-description = "Crawlera middleware for Scrapy"
+name = "scrapy-zyte-smartproxy"
+version = "2.3.5"
+description = "Scrapy middleware for Zyte Smart Proxy Manager"
 optional = false
 python-versions = "*"
 files = [
-    {file = "scrapy-crawlera-1.7.2.tar.gz", hash = "sha256:e54f64d2c933498c4aa2dd9278973e41f3e0912f728253ff007ce0e4b00183dd"},
-    {file = "scrapy_crawlera-1.7.2-py2.py3-none-any.whl", hash = "sha256:2a658c53d802aeee8c7109a92843423cbd206b9789903ada537d45e8cd007f78"},
+    {file = "scrapy_zyte_smartproxy-2.3.5-py2.py3-none-any.whl", hash = "sha256:eccf903cb02749c7b855facd9266fb804b0317176fe70c56b184c8255e60a1d4"},
+    {file = "scrapy_zyte_smartproxy-2.3.5.tar.gz", hash = "sha256:06fd296236ae0063b4edefeaf4b9a54a58d4a6b065e1bcba951ab3c429c2aa69"},
 ]
 
 [package.dependencies]
-scrapy = ">=1.0.0"
+scrapy = ">=1.4.0"
 six = "*"
 w3lib = "*"
 
@@ -1885,4 +1885,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "1d6641b40a28d6d665edcfe25b78d2bb94fd5e1a9a0182527332b09362900490"
+content-hash = "7320060785f3a326d621e9897879e393aa46aeab4871bb1b6d9230aa13752938"

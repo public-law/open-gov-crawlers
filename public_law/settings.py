@@ -73,13 +73,14 @@ TELNETCONSOLE_ENABLED = False
 DOWNLOADER_MIDDLEWARES = {
     #   'public_law.middlewares.OarDownloaderMiddleware': 543,
     "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 1,
-    "scrapy_crawlera.CrawleraMiddleware": 610,
+    'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610,
 }
 
-CRAWLERA_ENABLED = True
-VAR = "CRAWLERA_APIKEY"
+ZYTE_SMARTPROXY_ENABLED = True
+VAR = "ZYTE_SMARTPROXY_APIKEY"
 if VAR in os.environ:
-    CRAWLERA_APIKEY = os.environ[VAR]
+    ZYTE_SMARTPROXY_APIKEY = os.environ[VAR]
+ZYTE_SMARTPROXY_URL = "http://api.zyte.com:8011"
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
