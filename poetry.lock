@@ -1442,12 +1442,12 @@ files = [
 
 [[package]]
 name = "tika"
-version = "1.25"
+version = "2.6.0"
 description = "Apache Tika Python library"
 optional = false
 python-versions = "*"
 files = [
-    {file = "tika-1.25.tar.gz", hash = "sha256:6f5623b34bf08154611f84e6359e0c09f022c30ba34223abf3caca29c7af35f7"},
+    {file = "tika-2.6.0.tar.gz", hash = "sha256:56670eb812944eb25ed73f1b3b075aa41e7a135b74b240822f28b819e5b373da"},
 ]
 
 [package.dependencies]
@@ -1567,13 +1567,13 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "urllib3"
-version = "2.2.3"
+version = "2.3.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "urllib3-2.2.3-py3-none-any.whl", hash = "sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac"},
-    {file = "urllib3-2.2.3.tar.gz", hash = "sha256:e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9"},
+    {file = "urllib3-2.3.0-py3-none-any.whl", hash = "sha256:1cee9ad369867bfdbbb48b7dd50374c0967a0bb7710050facf0dd6911440e3df"},
+    {file = "urllib3-2.3.0.tar.gz", hash = "sha256:f8c5449b3cf0861679ce7e0503c7b44b5ec981bec0d1d3795a07f1ba96f0204d"},
 ]
 
 [package.extras]
@@ -1885,4 +1885,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "7320060785f3a326d621e9897879e393aa46aeab4871bb1b6d9230aa13752938"
+content-hash = "0001bb8b949101248d46cc828a6fe9a472edf081432ba1818e1cec43464e6703"
