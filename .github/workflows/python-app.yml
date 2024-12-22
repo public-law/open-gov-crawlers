@@ -28,6 +28,8 @@ jobs:
         poetry install --no-interaction
 
     - name: Pytest
+      env:
+        ZYTE_SMARTPROXY_APIKEY: ${{ secrets.ZYTE_SMARTPROXY_APIKEY }}
       run: poetry run pytest
 
     - name: Pyright
