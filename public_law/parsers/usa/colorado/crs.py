@@ -1,3 +1,5 @@
+# pyright: reportCallIssue=false
+
 from typing import Optional, Protocol
 
 from scrapy.http.response.xml import XmlResponse
@@ -28,14 +30,14 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = text.pipe(
             dom
-            , html.xpath("//TITLE-TEXT")                                       # type: ignore
+            , html.xpath("//TITLE-TEXT")
             , text.titleize
         )
         number = text.pipe(
             dom
-            , html.xpath("//TITLE-NUM")                                        # type: ignore
-            , text.split(" ")                                                  # type: ignore
-            , seq.get(1)                                                       # type: ignore
+            , html.xpath("//TITLE-NUM")                                        
+            , text.split(" ")
+            , seq.get(1)
         )
         children = _parse_divisions_or_articles(number, dom, logger)
         url      = _source_url(number)
@@ -47,20 +49,20 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
         return None
 
 
-def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
+def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: XmlResponse, logger: Logger) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
-    if len(division_nodes) > 0:
-        parse_fun = parse_divisions
-    elif len(article_nodes) > 0:
-        parse_fun = parse_articles
-    else:
-        msg = f"Neither T-DIV nor TA-LIST nodes were found in Title {title_number}."
+    if len(division_nodes) == 0 and len(article_nodes) == 0:
+        msg = f"Neither T-DIV nor TA-LIST nodes were found in {dom.url}"
         raise ParseException(msg)
 
-    return parse_fun(title_number, dom, logger)
+    if len(division_nodes) > 0:
+        parse_fun = parse_divisions
+    else:
+        parse_fun = parse_articles
 
+    return parse_fun(title_number, dom, logger)
 
 def _source_url(title_number: text.NonemptyString) -> text.URL:
     url_number = title_number.rjust(2, "0")

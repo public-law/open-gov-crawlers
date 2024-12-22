@@ -13,7 +13,6 @@ import os
 #     https://spidermon.readthedocs.io/
 
 
-REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 SPIDERMON_ENABLED = False
 
 # TODO: Re-enable after fixing to be aware of different spiders.
@@ -77,10 +76,8 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ZYTE_SMARTPROXY_ENABLED = True
-VAR = "ZYTE_SMARTPROXY_APIKEY"
-if VAR in os.environ:
-    ZYTE_SMARTPROXY_APIKEY = os.environ[VAR]
-ZYTE_SMARTPROXY_URL = "http://api.zyte.com:8011"
+ZYTE_SMARTPROXY_APIKEY  = os.environ["ZYTE_SMARTPROXY_APIKEY"]
+ZYTE_SMARTPROXY_URL     = "http://api.zyte.com:8011"
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
