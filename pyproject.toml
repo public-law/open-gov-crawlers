@@ -17,7 +17,7 @@ pydantic        = "^2.5"
 python          = "^3.12"
 pytz            = "*"
 scrapy          = "*"
-tika            = "^1.24"
+tika            = "*"
 titlecase       = "*"
 toolz           = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
