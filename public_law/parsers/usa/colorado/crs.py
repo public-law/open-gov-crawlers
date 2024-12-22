@@ -47,20 +47,20 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
         return None
 
 
-def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: Selector | XmlResponse, logger: Logger) -> list[Division] | list[Article]:
+def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: XmlResponse, logger: Logger) -> list[Division] | list[Article]:
     division_nodes = dom.xpath("//T-DIV")
     article_nodes  = dom.xpath("//TA-LIST")
 
-    if len(division_nodes) > 0:
-        parse_fun = parse_divisions
-    elif len(article_nodes) > 0:
-        parse_fun = parse_articles
-    else:
-        msg = f"Neither T-DIV nor TA-LIST nodes were found in Title {title_number}."
+    if len(division_nodes) == 0 and len(article_nodes) == 0:
+        msg = f"Neither T-DIV nor TA-LIST nodes were found in {dom.url}"
         raise ParseException(msg)
 
-    return parse_fun(title_number, dom, logger)
+    if len(division_nodes) > 0:
+        parse_fun = parse_divisions
+    else:
+        parse_fun = parse_articles
 
+    return parse_fun(title_number, dom, logger)
 
 def _source_url(title_number: text.NonemptyString) -> text.URL:
     url_number = title_number.rjust(2, "0")
