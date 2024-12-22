@@ -1,3 +1,5 @@
+# pyright: reportCallIssue=false
+
 from typing import Optional, Protocol
 
 from scrapy.http.response.xml import XmlResponse
@@ -28,14 +30,14 @@ def parse_title(dom: XmlResponse, logger: Logger) -> Optional[Title]:
     try:
         name = text.pipe(
             dom
-            , html.xpath("//TITLE-TEXT")                                       # type: ignore
+            , html.xpath("//TITLE-TEXT")
             , text.titleize
         )
         number = text.pipe(
             dom
-            , html.xpath("//TITLE-NUM")                                        # type: ignore
-            , text.split(" ")                                                  # type: ignore
-            , seq.get(1)                                                       # type: ignore
+            , html.xpath("//TITLE-NUM")                                        
+            , text.split(" ")
+            , seq.get(1)
         )
         children = _parse_divisions_or_articles(number, dom, logger)
         url      = _source_url(number)
