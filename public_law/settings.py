@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv  # type: ignore
 
-load_dotenv()
+_ = load_dotenv()  # type: ignore
 
 # Scrapy settings for oar project
 #
