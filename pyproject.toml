@@ -30,6 +30,10 @@ pytest-watch = "*"
 vcrpy        = "*"
 
 
+
+[tool.poetry.group.development.dependencies]
+python-dotenv = "^1.0.1"
+
 [tool.pyright]
 pythonVersion = "3.12"
 include       = ["public_law", "tests"]
