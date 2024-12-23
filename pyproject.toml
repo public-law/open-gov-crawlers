@@ -1,72 +1,72 @@
 [tool.poetry]
-authors     = ["Robb Shecter <robb@public.law>"]
+authors = ["Robb Shecter <robb@public.law>"]
 description = "Open-gov spiders written with Python"
-name        = "open-gov-crawlers"
-packages    = [ { include = "public_law" } ]
-repository  = "https://github.com/public-law/open-gov-crawlers"
-version     = "1.1.2"
+name = "open-gov-crawlers"
+packages = [{ include = "public_law" }]
+repository = "https://github.com/public-law/open-gov-crawlers"
+version = "1.1.2"
 
 
 [tool.poetry.dependencies]
-beautifulsoup4  = "^4.10"
-cryptography    = "*"
-lxml            = "*"
-more-itertools  = "*"
-progressbar2    = "*"
-pydantic        = "^2.5"
-python          = "^3.12"
-pytz            = "*"
-scrapy          = "*"
-tika            = "*"
-titlecase       = "*"
-toolz           = "*"
+beautifulsoup4 = "^4.10"
+cryptography = "*"
+lxml = "*"
+more-itertools = "*"
+progressbar2 = "*"
+pydantic = "^2.5"
+python = "^3.12"
+pytz = "*"
+scrapy = "*"
+tika = "*"
+titlecase = "*"
+toolz = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 scrapy-zyte-smartproxy = "^2.3.5"
+python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
-pyright      = "^1.1"
-pytest       = "*"
+pyright = "^1.1"
+pytest = "*"
 pytest-watch = "*"
-vcrpy        = "*"
-
+vcrpy = "*"
 
 [tool.pyright]
 pythonVersion = "3.12"
-include       = ["public_law", "tests"]
-ignore        = ["**/typings"]
+include = ["public_law", "tests"]
+ignore = ["**/typings"]
 
 # As strict as possible: strict mode plus the optional strict checks.
-typeCheckingMode                    = "strict"
+typeCheckingMode = "strict"
 
-reportCallInDefaultInitializer      = "error"
-reportImplicitStringConcatenation   = "error"
-reportMissingSuperCall              = "error"
-reportPropertyTypeMismatch          = "error"
+reportCallInDefaultInitializer = "error"
+reportImplicitStringConcatenation = "error"
+reportMissingSuperCall = "error"
+reportPropertyTypeMismatch = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment  = "error"
-reportUnusedCallResult              = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportUnusedCallResult = "error"
 
-reportUnusedImport                  = false
-reportMissingTypeStubs              = false  # I don't know the purpose. Scrapy does better w/out type stubs.
+reportUnusedImport = false
+reportMissingTypeStubs = false # I don't know the purpose. Scrapy does better w/out type stubs.
 
 
 [tool.pytest.ini_options]
-addopts          = "-q --no-header --doctest-modules -p no:pastebin"
-minversion       = "7.1"
-pythonpath       = "."
-python_files     = ["*_test.py",]
-python_classes   = ["Test", "Describe"]
+addopts = "-q --no-header --doctest-modules -p no:pastebin"
+minversion = "7.1"
+pythonpath = "."
+python_files = ["*_test.py"]
+python_classes = ["Test", "Describe"]
 python_functions = ["test_", "it_", "and_", "but_", "they_"]
-testpaths        = ["tests", "public_law"]
+testpaths = ["tests", "public_law"]
 
 [build-system]
-requires      = ["poetry>=0.12"]
+requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.pylint.main]
 disable = [
-    "missing-function-docstring", 
-    "missing-module-docstring", 
-    "no-value-for-parameter",
-    "too-few-public-methods",
-    ]
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "no-value-for-parameter",
+  "too-few-public-methods",
+]
