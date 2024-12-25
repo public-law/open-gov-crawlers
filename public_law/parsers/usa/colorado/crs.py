@@ -55,7 +55,8 @@ def _parse_divisions_or_articles(title_number: text.NonemptyString, dom: XmlResp
 
     if len(division_nodes) == 0 and len(article_nodes) == 0:
         msg = f"Neither T-DIV nor TA-LIST nodes were found in {dom.url}"
-        raise ParseException(msg)
+        logger.warn(msg)
+        return []
 
     if len(division_nodes) > 0:
         parse_fun = parse_divisions
