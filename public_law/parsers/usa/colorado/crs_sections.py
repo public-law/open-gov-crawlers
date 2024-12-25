@@ -1,5 +1,3 @@
-
-
 from typing import Any
 
 from bs4 import BeautifulSoup
@@ -13,7 +11,11 @@ from public_law.text import remove_trailing_period, normalize_whitespace, Nonemp
 
 
 def parse_sections(dom: XmlResponse, logger: Any) -> list[Section]:
-    section_nodes = dom.selector.xpath("//SECTION-TEXT")
+    # Filter out empty section nodes first
+    section_nodes = [
+        node for node in dom.selector.xpath("//SECTION-TEXT")
+        if node.get().strip() != "<SECTION-TEXT/>"
+    ]
 
     sections: list[Section] = []
     for node in section_nodes:
