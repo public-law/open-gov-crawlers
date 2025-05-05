@@ -3,7 +3,6 @@ from typing import Any, cast
 from public_law.models.glossary import glossary_fixture
 from public_law.parsers.can import doj_glossaries
 
-
 GLOSSARY = glossary_fixture(
     "index.html",
     "https://laws-lois.justice.gc.ca/eng/glossary/",

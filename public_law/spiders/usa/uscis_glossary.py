@@ -1,8 +1,8 @@
-from scrapy import Spider
-from scrapy.http.response.html import HtmlResponse
-from scrapy.http.response import Response
-
 from typing import Any, cast
+
+from scrapy import Spider
+from scrapy.http.response import Response
+from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.usa.uscis_glossary import parse_glossary
 

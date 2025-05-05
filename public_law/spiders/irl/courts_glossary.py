@@ -1,8 +1,9 @@
 # fmt: off
 
+from typing import Any
+
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
-from typing import Any
 
 from ...parsers.irl.courts_glossary import parse_glossary
 

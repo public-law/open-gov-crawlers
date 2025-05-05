@@ -4,7 +4,8 @@ from typing import Any, Literal, TypeAlias
 
 import more_itertools
 
-from .text import NonemptyString as String, truncate_words
+from .text import NonemptyString as String
+from .text import truncate_words
 
 CODE_REPO_BASE_URL = "https://github.com/public-law/open-gov-crawlers/blob/master"
 DATA_REPO_BASE_URL = "https://github.com/public-law/datasets/blob/master"
@@ -192,7 +193,8 @@ from .spiders.can import doj_glossaries, parliamentary_glossary
 from .spiders.int import rome_statute
 from .spiders.irl import courts_glossary
 from .spiders.nzl import justice_glossary
-from .spiders.usa import georgia_ag_opinions, oregon_regs, us_courts_glossary, uscis_glossary
+from .spiders.usa import (georgia_ag_opinions, oregon_regs, us_courts_glossary,
+                          uscis_glossary)
 
 TABLE = MarkdownTable(
     (

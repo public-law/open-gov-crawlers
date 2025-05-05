@@ -1,9 +1,11 @@
 from typing import Any
-from public_law.metadata import Metadata, Subject
-from public_law.text import URI, NonemptyString as S
-from public_law.dates import today
 
 import pytest
+
+from public_law.dates import today
+from public_law.metadata import Metadata, Subject
+from public_law.text import URI
+from public_law.text import NonemptyString as S
 
 
 @pytest.fixture

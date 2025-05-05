@@ -3,15 +3,14 @@ from typing import Any, Iterable
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
+from public_law import text
+
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, NonemptyString as String, WikidataTopic, make_soup
-from ...text import (
-    Sentence,
-    capitalize_first_char,
-    normalize_nonempty,
-)
-from public_law import text
+from ...text import URL, LoCSubject
+from ...text import NonemptyString as String
+from ...text import (Sentence, WikidataTopic, capitalize_first_char, make_soup,
+                     normalize_nonempty)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

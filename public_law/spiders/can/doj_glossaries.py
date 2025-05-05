@@ -1,6 +1,7 @@
+from typing import Any
+
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
-from typing import Any
 
 import public_law.parsers.can.doj_glossaries as parser
 

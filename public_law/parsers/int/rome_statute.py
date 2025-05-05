@@ -15,7 +15,8 @@ from pydantic import BaseModel, Field, conint
 from tika import parser
 
 from public_law.metadata import Metadata
-from public_law.text import NonemptyString as S, normalize_whitespace, titleize
+from public_law.text import NonemptyString as S
+from public_law.text import normalize_whitespace, titleize
 
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",

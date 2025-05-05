@@ -3,17 +3,14 @@
 # pyright: reportUnusedImport=false
 
 from more_itertools import first, last
-
-from scrapy.http.response.html import HtmlResponse
 from pytest import fixture, mark
+from scrapy.http.response.html import HtmlResponse
 
 from public_law.dates import today
 from public_law.metadata import Subject
 from public_law.models.glossary import GlossaryParseResult
-from public_law.text import URL, NonemptyString
-
 from public_law.parsers.usa.uscis_glossary import parse_glossary
-
+from public_law.text import URL, NonemptyString
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:

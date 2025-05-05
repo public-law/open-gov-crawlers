@@ -1,11 +1,12 @@
 import re
 from typing import Any, Dict, cast
 
-from public_law.parsers.int.rome_statute import articles, footnotes, new_metadata, parts
 from scrapy import Spider
 from scrapy.http.response import Response
 from scrapy.http.response.html import HtmlResponse
 
+from public_law.parsers.int.rome_statute import (articles, footnotes,
+                                                 new_metadata, parts)
 
 JD_VERBOSE_NAME = "Intergovernmental"
 PUBLICATION_NAME = "Rome Statute"

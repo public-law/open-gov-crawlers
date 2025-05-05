@@ -1,16 +1,16 @@
 
 
-from itertools import takewhile, dropwhile
+from itertools import dropwhile, takewhile
 from typing import Any
 
 from bs4 import BeautifulSoup
-
-from scrapy.selector.unified import Selector
 from scrapy.http.response.xml import XmlResponse
+from scrapy.selector.unified import Selector
 
 from public_law.html import node_name
 from public_law.items.crs import *
-from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
+from public_law.text import (NonemptyString, normalize_whitespace,
+                             remove_trailing_period)
 
 
 def parse_articles_from_division(

@@ -6,10 +6,7 @@
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.parsers.usa.georgia_ag_opinions import (
-    opinion_date_to_iso8601,
-    parse_ag_opinion,
-    OpinionParseResult,
-)
+    OpinionParseResult, opinion_date_to_iso8601, parse_ag_opinion)
 
 
 def parsed_opinion_fixture() -> OpinionParseResult:

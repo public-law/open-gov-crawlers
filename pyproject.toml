@@ -29,6 +29,7 @@ pyright = "^1.1"
 pytest = "*"
 pytest-watch = "*"
 vcrpy = "*"
+isort = "^6.0.1"
 
 [tool.pyright]
 pythonVersion = "3.12"

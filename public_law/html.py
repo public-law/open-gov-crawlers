@@ -1,8 +1,8 @@
 from typing import Any
-from toolz.functoolz import curry
 
-from scrapy.selector.unified import Selector, SelectorList
 from scrapy.http.response.xml import XmlResponse
+from scrapy.selector.unified import Selector, SelectorList
+from toolz.functoolz import curry
 
 from .exceptions import ParseException
 

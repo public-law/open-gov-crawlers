@@ -1,6 +1,7 @@
+from typing import Any
+
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
-from typing import Any
 
 from ...parsers.aus.ip_glossary import parse_glossary
 

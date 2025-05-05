@@ -1,15 +1,16 @@
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownVariableType=false
 
-from datetime import datetime
 import re
+from datetime import datetime
 from typing import List, NamedTuple, Union, cast
-from scrapy.selector.unified import Selector
+
 from scrapy.http.response import Response
+from scrapy.selector.unified import Selector
 from toolz.functoolz import curry, pipe
 
-from ...text import normalize_whitespace
 from ...exceptions import ParseException
+from ...text import normalize_whitespace
 
 join = curry(str.join)
 map  = curry(map)

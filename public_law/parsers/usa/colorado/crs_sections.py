@@ -6,8 +6,8 @@ from scrapy.selector.unified import Selector
 
 from public_law.html import just_text
 from public_law.items.crs import Section
-from public_law.text import remove_trailing_period, normalize_whitespace, NonemptyString
-
+from public_law.text import (NonemptyString, normalize_whitespace,
+                             remove_trailing_period)
 
 
 def parse_sections(dom: XmlResponse, logger: Any) -> list[Section]:

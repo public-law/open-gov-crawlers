@@ -1,11 +1,10 @@
 from typing import cast
+
 from scrapy.http.response.xml import XmlResponse
 
-from public_law.test_util import *
-from public_law.items.crs import Division, Article, Subdivision
+from public_law.items.crs import Article, Division, Subdivision
 from public_law.parsers.usa.colorado.crs import parse_title_bang
-
-
+from public_law.test_util import *
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")

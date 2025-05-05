@@ -3,14 +3,12 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportArgumentType=false
 
-from scrapy.selector.unified import Selector
-from typing import Any, IO
+from typing import IO, Any
 
-from public_law.parsers.usa.oregon_regs import (
-    _statute_meta,
-    _meta_sections,
-    parse_division,
-)
+from scrapy.selector.unified import Selector
+
+from public_law.parsers.usa.oregon_regs import (_meta_sections, _statute_meta,
+                                                parse_division)
 
 
 def fixture(filename: str) -> IO[Any]:
