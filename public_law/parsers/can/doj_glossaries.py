@@ -11,15 +11,9 @@ from scrapy.selector.unified import Selector, SelectorList
 from ...exceptions import ParseException
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import (
-    LoCSubject,
-    URL,
-    NonemptyString,
-    Sentence,
-    capitalize_first_char,
-    ensure_ends_with_period,
-    normalize_nonempty,
-)
+from ...text import (URL, LoCSubject, NonemptyString, Sentence,
+                     capitalize_first_char, ensure_ends_with_period,
+                     normalize_nonempty)
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 

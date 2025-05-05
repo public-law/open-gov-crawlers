@@ -8,7 +8,6 @@ from public_law.models.glossary import glossary_fixture
 from public_law.parsers.irl.courts_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 
-
 ORIG_URL = "https://www.courts.ie/glossary"
 GLOSSARY = glossary_fixture("irl/ie.courts-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata

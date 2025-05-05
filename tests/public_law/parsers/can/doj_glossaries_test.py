@@ -9,12 +9,10 @@ from typing import cast
 
 import pytest
 from more_itertools import first, nth
+
 from public_law.dates import today
-from public_law.models.glossary import (
-    GlossaryEntry,
-    GlossaryParseResult,
-    glossary_fixture,
-)
+from public_law.models.glossary import (GlossaryEntry, GlossaryParseResult,
+                                        glossary_fixture)
 from public_law.parsers.can.doj_glossaries import parse_glossary
 
 

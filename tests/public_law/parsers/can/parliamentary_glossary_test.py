@@ -4,11 +4,9 @@ from more_itertools import first, last, nth
 from public_law.dates import today
 from public_law.metadata import Subject
 from public_law.models.glossary import glossary_fixture
-from public_law.text import URL, NonemptyString
-
 # The System Under Test
 from public_law.parsers.can.parliamentary_glossary import parse_glossary
-
+from public_law.text import URL, NonemptyString
 
 ORIG_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"

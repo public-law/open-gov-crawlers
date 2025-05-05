@@ -1,8 +1,8 @@
 """Provide date-related functions."""
 
+from datetime import date, datetime
 from typing import Protocol
 
-from datetime import datetime, date
 import pytz
 
 

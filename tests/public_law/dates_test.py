@@ -1,5 +1,5 @@
-from subprocess import check_output
 import re
+from subprocess import check_output
 
 from public_law.dates import todays_date
 

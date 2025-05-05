@@ -10,7 +10,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, WikidataTopic)
+from ...text import Sentence, WikidataTopic
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

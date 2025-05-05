@@ -8,7 +8,6 @@ from public_law.models.glossary import glossary_fixture
 from public_law.parsers.usa.us_courts_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 
-
 ORIG_URL = "https://www.uscourts.gov/glossary"
 GLOSSARY = glossary_fixture("usa/gov.uscourts-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata

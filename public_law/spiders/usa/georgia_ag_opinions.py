@@ -6,11 +6,12 @@
 # pyright: reportGeneralTypeIssues=false
 
 
+from typing import Any, Dict
+
 from scrapy import Spider
 from scrapy.http.request import Request
 from scrapy.http.response import Response
 from scrapy.http.response.html import HtmlResponse
-from typing import Any, Dict
 
 from ...parsers.usa.georgia_ag_opinions import parse_ag_opinion
 
