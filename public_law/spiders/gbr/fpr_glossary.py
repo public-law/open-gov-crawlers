@@ -1,9 +1,8 @@
-from typing import Generator
+from typing import Any
 
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from ...models.glossary import GlossaryParseResult
 from ...parsers.gbr.fpr_glossary import parse_glossary
 
 
@@ -16,8 +15,8 @@ class FPRGlossarySpider(Spider):
         "https://www.justice.gov.uk/courts/procedure-rules/family/backmatter/fpr_glossary"
     ]
 
-    def parse(self, response: HtmlResponse) -> Generator[GlossaryParseResult, None, None]:
+    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """
         Parse the glossary page and yield the parsed entries.
         """
-        yield parse_glossary(response)
+        yield parse_glossary(response).asdict()
