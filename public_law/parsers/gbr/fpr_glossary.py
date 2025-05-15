@@ -7,7 +7,7 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject
+from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
 
@@ -27,7 +27,7 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     source_url = URL(html.url)
     subjects = (
         Subject(LoCSubject("sh85033571"), String("Courts")),
-        Subject(LoCSubject("sh85033572"), String("Family courts")),
+        Subject(WikidataTopic("Q41487"),  String("Court")),
     )
 
     return Metadata(
