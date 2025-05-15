@@ -45,13 +45,16 @@ def _parse_mod_date(html: HtmlResponse) -> date:
     Parse the modification date from the footer.
     Format: "Monday, 30 January 2017"
     """
-    soup = make_soup(html)
-    date_text = soup.find_all("p")[-2].text  # Second to last paragraph
-    date_str = date_text.replace("Updated: ", "").strip()
+    try:
+        soup = make_soup(html)
+        date_text = soup.find_all("p")[-2].text  # Second to last paragraph
+        date_str = date_text.replace("Updated: ", "").strip()
 
-    # Parse the date string
-    from datetime import datetime
-    return datetime.strptime(date_str, "%A, %d %B %Y").date()
+        # Parse the date string
+        from datetime import datetime
+        return datetime.strptime(date_str, "%A, %d %B %Y").date()
+    except Exception:
+        return date.today()
 
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
