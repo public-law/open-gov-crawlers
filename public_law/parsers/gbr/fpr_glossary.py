@@ -2,7 +2,7 @@ from datetime import date
 from typing import cast
 from datetime import datetime
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
