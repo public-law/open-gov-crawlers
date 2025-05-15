@@ -1,5 +1,6 @@
 from datetime import date
 from typing import cast
+from datetime import datetime
 
 from scrapy.http.response.html import HtmlResponse
 
@@ -51,10 +52,9 @@ def _parse_mod_date(html: HtmlResponse) -> date:
         date_str = date_text.replace("Updated: ", "").strip()
 
         # Parse the date string
-        from datetime import datetime
         return datetime.strptime(date_str, "%A, %d %B %Y").date()
     except Exception:
-        return date.today()
+        return datetime.now().date()
 
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
