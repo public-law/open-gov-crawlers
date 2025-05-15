@@ -2,6 +2,7 @@ from datetime import date
 from typing import cast
 from datetime import datetime
 
+from bs4 import BeautifulSoup, Tag
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
@@ -43,15 +44,18 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 
 def _parse_mod_date(html: HtmlResponse) -> date:
     """
-    Parse the modification date from the footer.
+    Parse the modification date from the HTML.
     Format: "Monday, 30 January 2017"
     """
     try:
         soup = make_soup(html)
-        date_text = soup.find_all("p")[-2].text  # Second to last paragraph
+        date_span = soup.find("span", class_="right")
+        if not date_span:
+            return datetime.now().date()
+
+        date_text = date_span.text
         date_str = date_text.replace("Updated: ", "").strip()
 
-        # Parse the date string
         return datetime.strptime(date_str, "%A, %d %B %Y").date()
     except Exception:
         return datetime.now().date()
@@ -60,20 +64,29 @@ def _parse_mod_date(html: HtmlResponse) -> date:
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     Parse the glossary entries from the HTML response.
-    The entries are in a table with two columns: Expression and Meaning.
+    The entries are in a definition list (<dl>) with <dt> for terms and <dd> for definitions.
     """
     soup = make_soup(html)
-    rows = soup.find_all("tr")[1:]  # Skip header row
+    dl = soup.find("dl", class_="wp-block-simple-definition-list-blocks-list")
+    if not dl or not isinstance(dl, Tag):
+        return tuple()
+
+    # Skip the header row (first dt/dd pair)
+    terms = list(dl.find_all("dt"))[1:]  # Skip first dt
+    definitions = list(dl.find_all("dd"))[1:]  # Skip first dd
+
+    if not terms or not definitions or len(terms) != len(definitions):
+        return tuple()
 
     return tuple(
         GlossaryEntry(
-            phrase=normalize_nonempty(row.find("td").text),
+            phrase=normalize_nonempty(term.text),
             definition=Sentence(
                 ensure_ends_with_period(
-                    normalize_nonempty(row.find_all("td")[1].text)
+                    normalize_nonempty(defn.text.replace(
+                        "“", '"').replace("”", '"'))
                 )
             ),
         )
-        for row in rows
-        if row.find("td") and len(row.find_all("td")) >= 2
+        for term, defn in zip(terms, definitions)
     )
