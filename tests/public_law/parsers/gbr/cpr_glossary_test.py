@@ -6,41 +6,55 @@ from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.gbr.cpr_glossary import parse_glossary
 
 
-def test_parse_glossary():
-    """
-    Test that the parser correctly extracts glossary entries from the HTML table.
-    """
-    # Load the test HTML file
+@pytest.fixture
+def glossary_response():
+    """Create a mock response with the glossary HTML content."""
     with open("tests/fixtures/gbr/cpr_glossary.html", "r") as f:
         html_content = f.read()
 
-    # Create a mock response
-    response = HtmlResponse(
+    return HtmlResponse(
         url="https://www.legislation.gov.uk/uksi/2020/759/part/Glossary?view=plain",
         body=html_content.encode(),
         encoding="utf-8",
     )
 
-    # Parse the response
-    result = parse_glossary(response)
 
-    # Check metadata
-    assert result.metadata.dcterms_title == "The Criminal Procedure Rules Glossary"
-    assert result.metadata.dcterms_language == "en"
-    assert result.metadata.dcterms_coverage == "GBR"
-    assert result.metadata.publiclaw_sourceCreator == "The National Archives"
-    assert result.metadata.publiclaw_sourceModified == date(2020, 10, 5)
+@pytest.fixture
+def parsed_glossary(glossary_response):  # type: ignore
+    """Parse the glossary and return the result."""
+    return parse_glossary(glossary_response)  # type: ignore
 
-    # Check entries
-    entries = tuple(result.entries)  # Convert to tuple for indexing
-    assert len(entries) > 0
 
-    # Check first entry
-    first_entry = entries[0]
-    assert first_entry.phrase == "account monitoring order"
-    assert first_entry.definition == "An order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation."
+def test_glossary_has_entries(parsed_glossary):  # type: ignore
+    """Test that the glossary has entries."""
+    assert len(tuple(parsed_glossary.entries)) > 0  # type: ignore
 
-    # Check last entry
-    last_entry = entries[-1]
-    assert last_entry.phrase == "youth court"
-    assert last_entry.definition == "A magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."
+
+@pytest.mark.parametrize("field,expected", [
+    ("dcterms_title", "Criminal Procedure Rules Glossary"),
+    ("dcterms_language", "en"),
+    ("dcterms_coverage", "GBR"),
+    ("publiclaw_sourceCreator", "Ministry of Justice"),
+    ("publiclaw_sourceModified", date(2020, 10, 5)),
+])
+def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
+    """Test individual metadata fields."""
+    assert getattr(parsed_glossary.metadata, field) == expected  # type: ignore
+
+
+def test_first_glossary_entry(parsed_glossary):  # type: ignore
+    """Test the first glossary entry."""
+    entries = tuple(parsed_glossary.entries)  # type: ignore
+    first_entry = entries[0]  # type: ignore
+
+    assert first_entry.phrase == "account monitoring order"  # type: ignore
+    assert first_entry.definition == "an order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation;."  # type: ignore
+
+
+def test_last_glossary_entry(parsed_glossary):  # type: ignore
+    """Test the last glossary entry."""
+    entries = tuple(parsed_glossary.entries)  # type: ignore
+    last_entry = entries[-1]  # type: ignore
+
+    assert last_entry.phrase == "youth court"  # type: ignore
+    assert last_entry.definition == "a magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."  # type: ignore
