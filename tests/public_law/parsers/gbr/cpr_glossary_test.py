@@ -47,8 +47,8 @@ def test_first_glossary_entry(parsed_glossary):  # type: ignore
     entries = tuple(parsed_glossary.entries)  # type: ignore
     first_entry = entries[0]  # type: ignore
 
-    assert first_entry.phrase == "account monitoring order"  # type: ignore
-    assert first_entry.definition == "an order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation;."  # type: ignore
+    assert first_entry.phrase == "Account monitoring order"  # type: ignore
+    assert first_entry.definition == "An order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation."  # type: ignore
 
 
 def test_last_glossary_entry(parsed_glossary):  # type: ignore
@@ -56,5 +56,5 @@ def test_last_glossary_entry(parsed_glossary):  # type: ignore
     entries = tuple(parsed_glossary.entries)  # type: ignore
     last_entry = entries[-1]  # type: ignore
 
-    assert last_entry.phrase == "youth court"  # type: ignore
-    assert last_entry.definition == "a magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."  # type: ignore
+    assert last_entry.phrase == "Youth court"  # type: ignore
+    assert last_entry.definition == "A magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."  # type: ignore
