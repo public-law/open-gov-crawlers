@@ -34,7 +34,7 @@ def test_glossary_has_entries(parsed_glossary):  # type: ignore
     ("dcterms_title", "Criminal Procedure Rules Glossary"),
     ("dcterms_language", "en"),
     ("dcterms_coverage", "GBR"),
-    ("publiclaw_sourceCreator", "Ministry of Justice"),
+    ("publiclaw_sourceCreator", "The National Archives"),
     ("publiclaw_sourceModified", date(2020, 10, 5)),
 ])
 def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore

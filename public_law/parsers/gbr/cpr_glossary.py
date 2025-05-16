@@ -28,6 +28,8 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     subjects = (
         Subject(LoCSubject("sh85033571"), String("Courts")),
         Subject(WikidataTopic("Q41487"),  String("Court")),
+        Subject(LoCSubject("sh85034086"), String("Criminal Procedure")),
+        Subject(WikidataTopic("Q146071"), String("Criminal Procedure")),
     )
 
     return Metadata(
@@ -37,7 +39,7 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
         # Info about original source
         dcterms_source=source_url,
         publiclaw_sourceModified=_parse_mod_date(html),
-        publiclaw_sourceCreator=String("Ministry of Justice"),
+        publiclaw_sourceCreator=String("The National Archives"),
         dcterms_subject=subjects,
     )
 
@@ -60,6 +62,38 @@ def _parse_mod_date(html: HtmlResponse) -> date:
         return datetime.now().date()
 
 
+def _capitalize_first(text: str) -> str:
+    """Capitalize the first letter of a string."""
+    if not text:
+        return text
+    return text[0].upper() + text[1:]
+
+
+def _normalize_definition(text: str) -> str:
+    """Normalize a definition: capitalize first letter and ensure it ends with a period."""
+    text = text.strip()
+    if not text:
+        return text
+
+    # Capitalize first letter
+    text = _capitalize_first(text)
+
+    # Replace semicolon with period if it's the last character
+    if text.endswith(';'):
+        text = text[:-1] + '.'
+
+    # Ensure it ends with a period
+    if not text.endswith('.'):
+        text += '.'
+
+    return text
+
+
+def _normalize_apostrophes(text: str) -> str:
+    """Normalize curly apostrophes to straight ones."""
+    return text.replace("’", "'").replace("‘", "'")
+
+
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     Parse the glossary entries from the HTML response.
@@ -76,17 +110,16 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
         if len(cells) != 2:
             continue
 
-        phrase = normalize_nonempty(cells[0].text.strip().replace("’", "'"))
+        phrase = normalize_nonempty(
+            _normalize_apostrophes(cells[0].text.strip()))
         definition = normalize_nonempty(
-            cells[1].text.strip().replace("’", "'"))
+            _normalize_apostrophes(cells[1].text.strip()))
 
         if phrase and definition:
             entries.append(
                 GlossaryEntry(
-                    phrase=phrase,
-                    definition=Sentence(
-                        ensure_ends_with_period(definition)
-                    ),
+                    phrase=String(_capitalize_first(phrase)),
+                    definition=Sentence(_normalize_definition(definition)),
                 )
             )
 
