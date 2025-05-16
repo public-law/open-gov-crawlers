@@ -25,10 +25,10 @@ def test_parse_glossary():
     result = parse_glossary(response)
 
     # Check metadata
-    assert result.metadata.dcterms_title == "Criminal Procedure Rules Glossary"
+    assert result.metadata.dcterms_title == "The Criminal Procedure Rules Glossary"
     assert result.metadata.dcterms_language == "en"
     assert result.metadata.dcterms_coverage == "GBR"
-    assert result.metadata.publiclaw_sourceCreator == "Ministry of Justice"
+    assert result.metadata.publiclaw_sourceCreator == "The National Archives"
     assert result.metadata.publiclaw_sourceModified == date(2020, 10, 5)
 
     # Check entries
@@ -38,9 +38,9 @@ def test_parse_glossary():
     # Check first entry
     first_entry = entries[0]
     assert first_entry.phrase == "account monitoring order"
-    assert first_entry.definition == "an order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation;."
+    assert first_entry.definition == "An order requiring certain types of financial institution to provide certain information held by them relating to a customer for the purposes of an investigation."
 
     # Check last entry
     last_entry = entries[-1]
     assert last_entry.phrase == "youth court"
-    assert last_entry.definition == "a magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."
+    assert last_entry.definition == "A magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."
