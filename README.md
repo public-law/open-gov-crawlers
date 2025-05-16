@@ -136,3 +136,15 @@ pytest
 ### Dependencies; helpful links
 
 * [The Scrapy Playbook](https://thepythonscrapyplaybook.com)
+
+## Contributing
+
+To add a new glossary crawler:
+
+1. Pick a source and add a new spider under `public_law/spiders/`.
+2. Write a parser in `public_law/parsers/` that extracts terms and metadata.
+3. Add a test case under `tests/public_law/parsers/`.
+4. Run the spider using `scrapy crawl --overwrite-output tmp/output.json`.
+
+Need help? Just ask in GitHub Issues or ping @robb.
+
