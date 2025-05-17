@@ -3,7 +3,9 @@ from datetime import date
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
+from public_law.metadata import Subject
 from public_law.parsers.gbr.cpr_glossary import parse_glossary
+from public_law.text import LoCSubject, NonemptyString
 
 
 @pytest.fixture
@@ -58,3 +60,12 @@ def test_last_glossary_entry(parsed_glossary):  # type: ignore
 
     assert last_entry.phrase == "Youth court"  # type: ignore
     assert last_entry.definition == "A magistrates' court exercising jurisdiction over offences committed by, and other matters related to, children and young persons."  # type: ignore
+
+
+def test_subjects(parsed_glossary):  # type: ignore
+    """Test that we only have Library of Congress subjects."""
+    assert parsed_glossary.metadata.dcterms_subject == (  # type: ignore
+        Subject(LoCSubject("sh85033571"), NonemptyString("Courts")),
+        Subject(LoCSubject("sh85034086"),
+                NonemptyString("Criminal Procedure")),
+    )
