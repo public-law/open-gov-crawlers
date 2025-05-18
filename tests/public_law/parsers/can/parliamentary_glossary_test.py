@@ -16,11 +16,9 @@ from public_law.models.glossary import glossary_fixture
 from public_law.parsers.can.parliamentary_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 
-ORIG_URL = URL(
-    "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
-)
+ORIG_URL = URL("https://www.ourcommons.ca/procedure/glossary/index-e.html")
 GLOSSARY = glossary_fixture(
-    "can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
+    "can/procedure-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 
@@ -29,7 +27,7 @@ class TestTheMetadata:
     def test_the_name(_):
         assert (
             METADATA.dcterms_title
-            == "Glossary of Parliamentary Terms for Intermediate Students"
+            == "Glossary of Parliamentary Procedure"
         )
 
     def test_the_url(_):
@@ -42,7 +40,7 @@ class TestTheMetadata:
         assert METADATA.dcterms_coverage == "CAN"
 
     def test_creator(_):
-        assert METADATA.publiclaw_sourceCreator == "Parliament of Canada"
+        assert METADATA.publiclaw_sourceCreator == "House of Commons"
 
     def test_the_source_modified_date(_):
         assert METADATA.publiclaw_sourceModified == "unknown"
@@ -65,41 +63,35 @@ class TestTheMetadata:
 
 class TestTheEntries:
     def test_phrase(_):
-        assert first(ENTRIES).phrase == "adjournment proceedings"
+        assert first(ENTRIES).phrase == "abstention"
 
     def test_definition(_):
         assert first(ENTRIES).definition == (
-            "A 30-minute period before the end of a daily sitting in the "
-            "House of Commons when Members of Parliament can debate matters "
-            "raised in Question Period or written questions that have not "
-            "been answered within 45 days."
+            "The act of refraining from voting either for or against a motion. Members are not obliged to vote, and the records of the House take no official notice of an abstention; a list of paired members is appended, if necessary, to every division list in the Journals and Debates. "
         )
 
     def test_proper_number_of_entries(_):
-        assert len(tuple(ENTRIES)) == 86
+        assert len(tuple(ENTRIES)) == 526
 
     def test_the_last_entry(_):
         last_entry = last(ENTRIES)
 
-        assert last_entry.phrase == "whip"
+        assert last_entry.phrase == "Written question"
         assert last_entry.definition == (
-            "The Member who is responsible for keeping other "
-            "members of the same party informed about House "
-            "business and ensuring their attendance in the "
-            "Chamber, especially when a vote is anticipated."
+            "See: Questions on the Order Paper"
         )
 
     def test_the_third_to_the_last_entry(_):
-        entry = nth(ENTRIES, 83)
+        entry = nth(ENTRIES, 523)
 
         assert entry
-        assert entry.phrase == "Usher of the Black Rod"
+        assert entry.phrase == "Witness"
 
 
 @pytest.fixture
 def glossary_response():
     """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/can/parliamentary_glossary.html", "r") as f:
+    with open("tests/fixtures/can/procedure-glossary.html", "r") as f:
         html_content = f.read()
 
     return HtmlResponse(
@@ -138,7 +130,7 @@ def test_first_glossary_entry(parsed_glossary):  # type: ignore
     first_entry = entries[0]  # type: ignore
 
     assert first_entry.phrase == "Abstention"
-    assert first_entry.definition == "The practice of refraining from voting on a motion or bill."  # type: ignore
+    assert first_entry.definition == "The practice of refraining from voting on a motion or bill."
 
 
 def test_last_glossary_entry(parsed_glossary):  # type: ignore
@@ -147,4 +139,4 @@ def test_last_glossary_entry(parsed_glossary):  # type: ignore
     last_entry = entries[-1]  # type: ignore
 
     assert last_entry.phrase == "Whip"
-    assert last_entry.definition == "A Member of Parliament who is responsible for ensuring party discipline and attendance in the House of Commons."  # type: ignore
+    assert last_entry.definition == "A Member of Parliament who is responsible for ensuring party discipline and attendance in the House of Commons."

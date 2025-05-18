@@ -1,6 +1,6 @@
-from typing import Any, Iterable, List
+from typing import Any, Iterable, List, cast
 
-from bs4 import Tag
+from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
@@ -47,20 +47,40 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     Parse the glossary entries from the HTML response.
-    The entries are in a definition list (<dl>) with <dt> for terms and <dd> for definitions.
+    The entries are in a <dl> inside .glossary-terms-intermediate, with <dt> for terms and <dd> for definitions.
+    Robustly pair each <dt> with the next <dd>, skipping non-term elements and handling malformed HTML.
     """
     entries: list[GlossaryEntry] = []
-    dl = html.css("dl")
-    if not dl:
+    soup = make_soup(html)
+    container = soup.find("div", class_="glossary-terms-intermediate")
+    if not container or not isinstance(container, Tag):
         return tuple()
-
-    for dt, dd in zip(dl.css("dt"), dl.css("dd")):
-        phrase = dt.get().strip()
-        definition = dd.get().strip()
-        if phrase and definition:
-            # Preserve the original case of the phrase
-            entries.append(GlossaryEntry(phrase=phrase, definition=definition))
-
-    # Sort entries by phrase to ensure consistent order
+    dl = container.find("dl")
+    if not dl or not isinstance(dl, Tag):
+        return tuple()
+    children = list(dl.children)
+    i = 0
+    while i < len(children):
+        dt = children[i]
+        if isinstance(dt, Tag) and dt.name == "dt":
+            # Find the next <dd>
+            j = i + 1
+            while j < len(children):
+                dd = children[j]
+                if isinstance(dd, Tag) and dd.name == "dd":
+                    phrase = dt.get_text(strip=True)
+                    definition = dd.get_text(strip=True)
+                    if phrase and definition:
+                        entries.append(
+                            GlossaryEntry(
+                                phrase=String(phrase),
+                                definition=Sentence(
+                                    ensure_ends_with_period(definition))
+                            )
+                        )
+                    break
+                j += 1
+            i = j
+        i += 1
     entries.sort(key=lambda e: e.phrase.lower())
     return tuple(entries)

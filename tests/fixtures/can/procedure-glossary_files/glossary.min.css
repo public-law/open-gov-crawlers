@@ -1,0 +1,197 @@
+.glossary-content-container {
+  margin-bottom: 20px;
+  /* Collapsible Letters */
+}
+.glossary-content-container .articleNav.affix-top,
+.glossary-content-container .articleNav.affix,
+.glossary-content-container .article-nav.affix-top,
+.glossary-content-container .article-nav.affix {
+  max-width: 200px;
+}
+.glossary-content-container ul.nav-stacked li {
+  display: inline-block;
+  float: left;
+  width: 20%;
+  margin: 0;
+  -webkit-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
+  transition: background-color 0.5s;
+}
+.glossary-content-container #sidebar ul.nav-stacked li {
+  width: 20%;
+}
+.glossary-content-container .bs-docs-sidebar .nav > .active > a, .glossary-content-container .bs-docs-sidebar .nav > li > a {
+  background-color: #fff;
+}
+.glossary-content-container .bs-docs-sidebar .nav > li > a:hover,
+.glossary-content-container .bs-docs-sidebar .nav > li > a:focus,
+.glossary-content-container .bs-docs-sidebar .nav > li.active > a {
+  background-color: #f2f2f2;
+  border-color: transparent;
+  text-decoration: none;
+}
+.glossary-content-container .bs-docs-sidebar .nav > li > a.disabled:hover,
+.glossary-content-container .bs-docs-sidebar .nav > li > a.disabled {
+  background-color: #fff;
+  opacity: 0.5;
+  cursor: default;
+}
+.glossary-content-container #sidebar.affix,
+.glossary-content-container #sidebar {
+  max-width: 200px;
+  padding: 15px;
+  top: inherit;
+  bottom: unset;
+  position: absolute;
+}
+.glossary-content-container ul.nav-stacked li a {
+  display: block;
+  width: 100%;
+}
+.glossary-content-container .letters-alphabet {
+  font-family: "Martel", serif;
+  text-align: center;
+  font-size: 3em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.glossary-content-container .letters-alphabet:before,
+.glossary-content-container .letters-alphabet:after {
+  content: " - ";
+}
+.glossary-content-container .term-1 {
+  margin-top: 2em;
+}
+.glossary-content-container .definition-1 {
+  padding-left: 1em;
+}
+.glossary-content-container .term-2-en,
+.glossary-content-container .term-2-fr {
+  margin: 0px 0px 0px 1em;
+}
+.glossary-content-container .term-2-en h4,
+.glossary-content-container .term-2-fr h4 {
+  margin: 5px 0 0 0;
+}
+.glossary-content-container .term-2-en h4 a,
+.glossary-content-container .term-2-fr h4 a {
+  background-color: #fff;
+  display: block;
+  padding: 10px;
+  position: relative;
+  padding-right: 30px;
+  text-decoration: none;
+}
+.glossary-content-container .term-2-en h4 a:before,
+.glossary-content-container .term-2-fr h4 a:before {
+  opacity: 0.7;
+  padding-right: 5px;
+  text-decoration: none;
+}
+.glossary-content-container .term-2-en h4 a:before {
+  content: "Anglais :";
+}
+.glossary-content-container .term-2-fr h4 a:before {
+  content: "French:";
+}
+.glossary-content-container .term-2-en h4 a:before:hover,
+.glossary-content-container .term-2-fr h4 a:before:hover {
+  text-decoration: none;
+}
+.glossary-content-container .term-2-en h4 a:after,
+.glossary-content-container .term-2-fr h4 a:after {
+  content: "\e923";
+  font-family: hoc-icons;
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 9px);
+}
+.glossary-content-container .term-2-en h4 .collapsed:after,
+.glossary-content-container .term-2-fr h4 .collapsed:after {
+  content: "\e925";
+}
+.glossary-content-container .term-2-en h4 a .hoc-icon.icon-down,
+.glossary-content-container dt.term-2-fr h4 a .hoc-icon.icon-down {
+  display: inline-block;
+  text-align: right;
+  padding-left: 5px;
+}
+.glossary-content-container .definition-2 {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-left: 1em;
+  padding: 0.5em 0.5em 0.5em 2em;
+  background-color: #fff;
+}
+.glossary-content-container .glossary-tooltip {
+  text-decoration: none;
+}
+.glossary-content-container .glossary-tooltip:hover {
+  cursor: help;
+}
+.glossary-content-container .ce-hoc-body-content .bs-docs-sidebar .nav > .active > a,
+.glossary-content-container .ce-hoc-body-content .bs-docs-sidebar .nav > li > a:hover,
+.glossary-content-container .ce-hoc-body-content .bs-docs-sidebar .nav > li > a:focus {
+  border: none;
+}
+@media print {
+  .glossary-content-container .term-2-en h4 a:after,
+  .glossary-content-container .term-2-fr h4 a:after,
+  .glossary-content-container .term-2-en h4 .collapsed:after,
+  .glossary-content-container .term-2-fr h4 .collapsed:after {
+    content: "";
+    display: none;
+  }
+}
+.glossary-content-container .panel-default {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.glossary-content-container .panel-default > .panel-collapse.collapse,
+.glossary-content-container .panel,
+.glossary-content-container .panel-default > .panel-heading {
+  background-color: transparent;
+}
+@media only screen and (max-width: 991px) {
+  .glossary-content-container .sidebarContainer,
+  .glossary-content-container .sidebar-container {
+    display: none;
+  }
+}
+.glossary-content-container .panel-accordion .panel-heading {
+  border-bottom: 1px solid #ddd;
+}
+.glossary-content-container .panel-accordion .panel-heading .accordion-toggle::after {
+  font-family: "hoc-icons";
+  content: "\e923";
+  color: gray;
+  position: absolute;
+  top: calc(50% - 10px);
+  right: 10px;
+}
+.glossary-content-container .panel-accordion .panel-heading .accordion-toggle.collapsed::after {
+  content: "\e925";
+}
+.glossary-content-container .panel-accordion .panel-heading a {
+  display: block;
+  padding: 10px 15px;
+  padding-right: 30px;
+  position: relative;
+  text-decoration: none;
+}
+.glossary-content-container .panel-group .panel {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+.glossary-content-container .panel-default {
+  border-color: #ddd;
+}
+.glossary-content-container .panel {
+  border: 1px solid #ddd;
+}
+.glossary-content-container .panel-group .panel + .panel {
+  margin-top: 5px;
+}
+.glossary-content-container .panel-body {
+  padding: 15px;
+}
