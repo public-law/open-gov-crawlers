@@ -1,6 +1,9 @@
 # pyright: reportSelfClsParameterName=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportUnknownParameterType=false
+# pyright: reportMissingParameterType=false
+# pyright: reportUnknownVariableType=false
 
 
 from more_itertools import first, last, nth
@@ -102,12 +105,12 @@ def glossary_response():
 
 
 @pytest.fixture
-def parsed_glossary(glossary_response):  # type: ignore
+def parsed_glossary(glossary_response):
     """Parse the glossary and return the result."""
     return parse_glossary(glossary_response)
 
 
-def test_glossary_has_entries(parsed_glossary):  # type: ignore
+def test_glossary_has_entries(parsed_glossary):
     """Test that the glossary has entries."""
     assert len(tuple(parsed_glossary.entries)) > 0
 
@@ -119,24 +122,24 @@ def test_glossary_has_entries(parsed_glossary):  # type: ignore
     ("publiclaw_sourceCreator", "House of Commons of Canada"),
     ("publiclaw_sourceModified", "unknown"),
 ])
-def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
+def test_glossary_metadata(parsed_glossary, field, expected):
     """Test individual metadata fields."""
     assert getattr(parsed_glossary.metadata, field) == expected
 
 
-def test_first_glossary_entry(parsed_glossary):  # type: ignore
+def test_first_glossary_entry(parsed_glossary):
     """Test the first glossary entry."""
-    entries = tuple(parsed_glossary.entries)  # type: ignore
-    first_entry = entries[0]  # type: ignore
+    entries = tuple(parsed_glossary.entries)
+    first_entry = entries[0]
 
     assert first_entry.phrase == "Abstention"
     assert first_entry.definition == "The practice of refraining from voting on a motion or bill."
 
 
-def test_last_glossary_entry(parsed_glossary):  # type: ignore
+def test_last_glossary_entry(parsed_glossary):
     """Test the last glossary entry."""
-    entries = tuple(parsed_glossary.entries)  # type: ignore
-    last_entry = entries[-1]  # type: ignore
+    entries = tuple(parsed_glossary.entries)
+    last_entry = entries[-1]
 
     assert last_entry.phrase == "Whip"
     assert last_entry.definition == "A Member of Parliament who is responsible for ensuring party discipline and attendance in the House of Commons."
