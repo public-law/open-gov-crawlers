@@ -3,21 +3,22 @@ from typing import Any
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from ...parsers.can.parliamentary_glossary import parse_glossary
+from ...parsers.usa.courts_glossary import parse_glossary
 
-JD_VERBOSE_NAME = "Canada"
-PUBLICATION_NAME = "Glossary of Parliamentary Terms"
+JD_VERBOSE_NAME = "USA"
+PUBLICATION_NAME = "US Courts Glossary"
 
 
-class ParliamentaryGlossary(Spider):
-    name = "can_parliamentary_glossary"
+class USCourtsGlossary(Spider):
+    name = "usa_courts_glossary"
 
-    start_urls = ["https://www.ourcommons.ca/procedure/glossary/index-e.html"]
+    start_urls = [
+        "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"]
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
-        @url https://www.ourcommons.ca/procedure/glossary/index-e.html
+        @url https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary
         @returns items 1 1
         @returns requests 0 0
         @scrapes metadata entries

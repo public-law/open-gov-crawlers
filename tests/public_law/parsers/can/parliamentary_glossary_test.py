@@ -1,5 +1,13 @@
 # pyright: reportSelfClsParameterName=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportUnknownMemberType=false
+
+
 from more_itertools import first, last, nth
+from datetime import date
+
+import pytest
+from scrapy.http.response.html import HtmlResponse
 
 from public_law.dates import today
 from public_law.metadata import Subject
@@ -11,7 +19,8 @@ from public_law.text import URL, NonemptyString
 ORIG_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 )
-GLOSSARY = glossary_fixture("can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
+GLOSSARY = glossary_fixture(
+    "can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 
@@ -85,3 +94,57 @@ class TestTheEntries:
 
         assert entry
         assert entry.phrase == "Usher of the Black Rod"
+
+
+@pytest.fixture
+def glossary_response():
+    """Create a mock response with the glossary HTML content."""
+    with open("tests/fixtures/can/parliamentary_glossary.html", "r") as f:
+        html_content = f.read()
+
+    return HtmlResponse(
+        url="https://www.ourcommons.ca/procedure/glossary/index-e.html",
+        body=html_content.encode(),
+        encoding="utf-8",
+    )
+
+
+@pytest.fixture
+def parsed_glossary(glossary_response):  # type: ignore
+    """Parse the glossary and return the result."""
+    return parse_glossary(glossary_response)
+
+
+def test_glossary_has_entries(parsed_glossary):  # type: ignore
+    """Test that the glossary has entries."""
+    assert len(tuple(parsed_glossary.entries)) > 0
+
+
+@pytest.mark.parametrize("field,expected", [
+    ("dcterms_title", "Glossary of Parliamentary Terms"),
+    ("dcterms_language", "en"),
+    ("dcterms_coverage", "CAN"),
+    ("publiclaw_sourceCreator", "House of Commons of Canada"),
+    ("publiclaw_sourceModified", "unknown"),
+])
+def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
+    """Test individual metadata fields."""
+    assert getattr(parsed_glossary.metadata, field) == expected
+
+
+def test_first_glossary_entry(parsed_glossary):  # type: ignore
+    """Test the first glossary entry."""
+    entries = tuple(parsed_glossary.entries)  # type: ignore
+    first_entry = entries[0]  # type: ignore
+
+    assert first_entry.phrase == "Abstention"
+    assert first_entry.definition == "The practice of refraining from voting on a motion or bill."  # type: ignore
+
+
+def test_last_glossary_entry(parsed_glossary):  # type: ignore
+    """Test the last glossary entry."""
+    entries = tuple(parsed_glossary.entries)  # type: ignore
+    last_entry = entries[-1]  # type: ignore
+
+    assert last_entry.phrase == "Whip"
+    assert last_entry.definition == "A Member of Parliament who is responsible for ensuring party discipline and attendance in the House of Commons."  # type: ignore

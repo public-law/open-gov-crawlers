@@ -1,10 +1,7 @@
-from typing import Any, Iterable, List
+from typing import Any, List
 
 from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import pipe  # type: ignore
-
-from public_law import text
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
@@ -27,40 +24,44 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 def _make_metadata(html: HtmlResponse) -> Metadata:
     source_url = URL(html.url)
     subjects = (
-        Subject(LoCSubject("sh85075807"), String("Legislative bodies")),
-        Subject(WikidataTopic("Q35749"), String("Parliament")),
+        Subject(LoCSubject("sh85033571"), String("Courts")),
+        Subject(WikidataTopic("Q41487"), String("Court")),
     )
 
     return Metadata(
-        dcterms_title=String(
-            "Glossary of Parliamentary Terms for Intermediate Students"),
+        dcterms_title=String("US Courts Glossary"),
         dcterms_language="en",
-        dcterms_coverage="CAN",
+        dcterms_coverage="USA",
         # Info about original source
         dcterms_source=source_url,
         publiclaw_sourceModified="unknown",
-        publiclaw_sourceCreator=String("Parliament of Canada"),
+        publiclaw_sourceCreator=String("San Diego Superior Court"),
         dcterms_subject=subjects,
     )
 
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    """
-    Parse the glossary entries from the HTML response.
-    The entries are in a definition list (<dl>) with <dt> for terms and <dd> for definitions.
+    """Parse the glossary entries from the HTML response.
+
+    The entries are in a table, with each <tr> containing two <td>s: the first is the phrase, the second is the definition.
     """
     entries: list[GlossaryEntry] = []
-    dl = html.css("dl")
-    if not dl:
+    soup = make_soup(html)
+    table = soup.find("table")
+    if not table:
         return tuple()
 
-    for dt, dd in zip(dl.css("dt"), dl.css("dd")):
-        phrase = dt.get().strip()
-        definition = dd.get().strip()
+    for row in table.find_all("tr"):
+        cells = row.find_all("td")
+        if len(cells) < 2:
+            continue
+        phrase = cells[0].get_text(strip=True)
+        definition = cells[1].get_text(strip=True)
         if phrase and definition:
-            # Preserve the original case of the phrase
-            entries.append(GlossaryEntry(phrase=phrase, definition=definition))
-
-    # Sort entries by phrase to ensure consistent order
-    entries.sort(key=lambda e: e.phrase.lower())
+            entries.append(
+                GlossaryEntry(
+                    phrase=String(phrase),
+                    definition=Sentence(ensure_ends_with_period(definition)),
+                )
+            )
     return tuple(entries)
