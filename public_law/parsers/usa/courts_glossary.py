@@ -29,13 +29,14 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
     return Metadata(
-        dcterms_title=String("US Courts Glossary"),
+        dcterms_title=String("Criminal Glossary"),
         dcterms_language="en",
         dcterms_coverage="USA",
         # Info about original source
         dcterms_source=source_url,
         publiclaw_sourceModified="unknown",
-        publiclaw_sourceCreator=String("San Diego Superior Court"),
+        publiclaw_sourceCreator=String(
+            "Superior Court of California, County of San Diego"),
         dcterms_subject=subjects,
     )
 
