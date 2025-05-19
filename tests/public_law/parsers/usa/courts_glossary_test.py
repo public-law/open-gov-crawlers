@@ -32,10 +32,10 @@ def test_glossary_has_entries(parsed_glossary):  # type: ignore
 
 
 @pytest.mark.parametrize("field,expected", [
-    ("dcterms_title", "US Courts Glossary"),
+    ("dcterms_title", "Criminal Glossary"),
     ("dcterms_language", "en"),
     ("dcterms_coverage", "USA"),
-    ("publiclaw_sourceCreator", "San Diego Superior Court"),
+    ("publiclaw_sourceCreator", "Superior Court of California, County of San Diego"),
     ("publiclaw_sourceModified", "unknown"),
 ])
 def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
