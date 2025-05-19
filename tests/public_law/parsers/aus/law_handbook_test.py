@@ -21,26 +21,26 @@ def glossary_response():
 
 
 @pytest.fixture
-def parsed_glossary(glossary_response):  # type: ignore
+def parsed_glossary(glossary_response):
     """Parse the glossary and return the result."""
-    return parse_glossary(glossary_response)  # type: ignore
+    return parse_glossary(glossary_response)
 
 
-def test_glossary_has_entries(parsed_glossary):  # type: ignore
+def test_glossary_has_entries(parsed_glossary):
     """Test that the glossary has entries."""
-    assert len(tuple(parsed_glossary.entries)) > 0  # type: ignore
+    assert len(tuple(parsed_glossary.entries)) > 0
 
 
 @pytest.mark.parametrize("field,expected", [
-    ("dcterms_title", "Law Handbook Glossary"),
-    ("dcterms_language", "en"),
-    ("dcterms_coverage", "AUS"),
-    ("publiclaw_sourceCreator", "Legal Services Commission of South Australia"),
+    ("dcterms_title",            "Law Handbook Glossary"),
+    ("dcterms_language",         "en"),
+    ("dcterms_coverage",         "AUS"),
+    ("publiclaw_sourceCreator",  "Legal Services Commission of South Australia"),
     ("publiclaw_sourceModified", "unknown"),
 ])
-def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
+def test_glossary_metadata(parsed_glossary, field, expected):
     """Test individual metadata fields."""
-    assert getattr(parsed_glossary.metadata, field) == expected  # type: ignore
+    assert getattr(parsed_glossary.metadata, field) == expected
 
 
 def test_first_glossary_entry(parsed_glossary: GlossaryParseResult):

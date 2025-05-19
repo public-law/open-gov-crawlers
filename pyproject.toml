@@ -33,8 +33,8 @@ isort = "^6.0.1"
 
 [tool.pyright]
 pythonVersion = "3.12"
-include = ["public_law", "tests"]
-ignore = ["**/typings"]
+include = ["public_law"]
+ignore = ["**/typings", "tests"]
 
 # As strict as possible: strict mode plus the optional strict checks.
 typeCheckingMode = "strict"
