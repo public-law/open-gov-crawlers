@@ -1,6 +1,6 @@
-from typing import Any, List
+from typing import Any, List, cast
 
-from bs4 import Tag
+from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
@@ -48,11 +48,12 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     entries: list[GlossaryEntry] = []
     soup = make_soup(html)
     table = soup.find("table")
-    if not table:
+    if not table or not isinstance(table, Tag):
         return tuple()
 
-    for row in table.find_all("tr"):
-        cells = row.find_all("td")
+    rows: ResultSet[Tag] = table.find_all("tr")
+    for row in rows:
+        cells: ResultSet[Tag] = row.find_all("td")
         if len(cells) < 2:
             continue
         phrase = cells[0].get_text(strip=True)
