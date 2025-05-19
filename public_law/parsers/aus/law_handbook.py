@@ -22,10 +22,23 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def _make_metadata(html: HtmlResponse) -> Metadata:
+    """
+    This Glossary defies the planned subject tagging scheme
+    because it has terms from a wide variety of areas of law.
+
+    TODO: Figure out a way to appropriately choose subjects
+    for it.
+    """
     source_url = URL(html.url)
     subjects = (
-        Subject(LoCSubject("sh85075119"), String("Law")),
-        Subject(WikidataTopic("Q7748"), String("Law")),
+        Subject(
+            uri=LoCSubject("sh85075720"),
+            rdfs_label=String("Legal aid"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q707748"),
+            rdfs_label=String("Legal aid"),
+        ),
     )
 
     return Metadata(

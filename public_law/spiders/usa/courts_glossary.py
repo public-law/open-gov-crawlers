@@ -6,11 +6,11 @@ from scrapy.http.response.html import HtmlResponse
 from ...parsers.usa.courts_glossary import parse_glossary
 
 JD_VERBOSE_NAME = "USA"
-PUBLICATION_NAME = "US Courts Glossary"
+PUBLICATION_NAME = "Criminal Glossary"
 
 
 class USCourtsGlossary(Spider):
-    name = "usa_courts_glossary"
+    name = "usa_ca_criminal_glossary"
 
     start_urls = [
         "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"]
