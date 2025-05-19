@@ -21,7 +21,6 @@ tika = "*"
 titlecase = "*"
 toolz = "*"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
-scrapy-zyte-smartproxy = "^2.3.5"
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
