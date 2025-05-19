@@ -24,8 +24,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 def _make_metadata(html: HtmlResponse) -> Metadata:
     source_url = URL(html.url)
     subjects = (
-        Subject(LoCSubject("sh85033571"), String("Courts")),
-        Subject(WikidataTopic("Q41487"), String("Court")),
+        Subject(LoCSubject("sh85034086"), String("Criminal Procedure")),
+        Subject(WikidataTopic("Q146071"), String("Criminal Procedure")),
     )
 
     return Metadata(
