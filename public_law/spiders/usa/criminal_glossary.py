@@ -3,7 +3,7 @@ from typing import Any
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from ...parsers.usa.courts_glossary import parse_glossary
+from ...parsers.usa.criminal_glossary import parse_glossary
 
 JD_VERBOSE_NAME = "USA"
 PUBLICATION_NAME = "Criminal Glossary"
