@@ -8,7 +8,7 @@ from ...models.glossary import GlossaryParseResult
 
 
 class PatentsGlossarySpider(Spider):
-    name = "can-patents-glossary"
+    name = "can_patents_glossary"
     allowed_domains = ["ised-isde.canada.ca"]
     start_urls = [
         "https://ised-isde.canada.ca/site/canadian-intellectual-property-office/en/patents/glossary"
