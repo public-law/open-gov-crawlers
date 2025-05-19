@@ -9,7 +9,7 @@ JD_VERBOSE_NAME = "USA"
 PUBLICATION_NAME = "Criminal Glossary"
 
 
-class USCourtsGlossary(Spider):
+class CriminalGlossary(Spider):
     name = "usa_ca_criminal_glossary"
 
     start_urls = [
