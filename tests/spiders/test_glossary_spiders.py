@@ -6,26 +6,37 @@ from scrapy.http.response.html import HtmlResponse
 
 from public_law.spiders.aus.dv_glossary import DVGlossary
 from public_law.spiders.aus.ip_glossary import IPGlossary
+
 from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
+from public_law.spiders.can.doj_glossaries import DojGlossaries
+from public_law.spiders.can.parliamentary_glossary import ParliamentaryGlossary
+
 from public_law.spiders.gbr.cpr_glossary import CPRGlossarySpider
 from public_law.spiders.gbr.fpr_glossary import FPRGlossarySpider
+
 from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
+
 from public_law.spiders.nzl.justice_glossary import NZLJusticeGlossary
+
 from public_law.spiders.usa.uscis_glossary import USCISGlossary
-from public_law.spiders.usa.us_courts_glossary import USACourtsGlossary
+from public_law.spiders.usa.courts_glossary import CourtsGlossary
+from public_law.spiders.usa.ca_criminal_glossary import CaCriminalGlossary
 
 
 # List of all glossary spiders to test
 GLOSSARY_SPIDERS = [
+    PatentsGlossarySpider,
+    DojGlossaries,
+    ParliamentaryGlossary,
     DVGlossary,
     IPGlossary,
-    PatentsGlossarySpider,
     CPRGlossarySpider,
     FPRGlossarySpider,
     IRLCourtsGlossary,
     NZLJusticeGlossary,
     USCISGlossary,
-    USACourtsGlossary,
+    CourtsGlossary,
+    CaCriminalGlossary,
 ]
 
 
@@ -42,7 +53,7 @@ def mock_response(spider_class: Any) -> HtmlResponse:
 
     if not fixture_path.exists():
         pytest.skip(
-            f"No fixture file found for {spider_name}")
+            f"Fixture file not found for {spider_name}: {fixture_path}")
 
     with open(fixture_path, "rb") as f:
         html_content = f.read()
