@@ -112,3 +112,12 @@ def test_last_entry(glossary_response: HtmlResponse) -> None:
     assert entries[-1].phrase == String("WIPO")
     assert entries[-1].definition == Sentence(
         "World Intellectual Property Organization")
+
+
+def test_no_date_modified_entry_anywhere(glossary_response: HtmlResponse) -> None:
+    """Test that 'Date modified:' is not present as any glossary entry."""
+    result = parse_glossary(glossary_response)
+    phrases = [str(entry.phrase) for entry in result.entries]
+    assert "Date modified:" not in phrases, (
+        "'Date modified:' should not be present in any glossary entry"
+    )
