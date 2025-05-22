@@ -30,7 +30,6 @@ pytest = "*"
 pytest-watch = "*"
 vcrpy = "*"
 isort = "^6.0.1"
-pylint = "^3.3.7"
 
 [tool.pyright]
 pythonVersion = "3.12"
@@ -67,4 +66,3 @@ build-backend = "poetry.masonry.api"
 
 [tool.pylint.main]
 disable = ["missing-function-docstring","missing-module-docstring","no-value-for-parameter","too-few-public-methods"]
-load-plugins = ["tools.pylint_plugins.test_naming"]
