@@ -10,7 +10,7 @@ from public_law.text import URL, NonemptyString
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
 GLOSSARY = glossary_fixture(
-    "nzl/nz.govt.justice-glossary.html",
+    "nzl/justice-glossary.html",
     ORIG_URL,
     parse_glossary,
 )
