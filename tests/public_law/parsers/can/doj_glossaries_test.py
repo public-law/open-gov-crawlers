@@ -19,7 +19,7 @@ from public_law.parsers.can.doj_glossaries import parse_glossary
 @pytest.fixture
 def p7g() -> GlossaryParseResult:
     return glossary_fixture(
-        "p7g.html",
+        "can/p7g.html",
         "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html",
         parse_glossary,
     )
@@ -28,23 +28,23 @@ def p7g() -> GlossaryParseResult:
 @pytest.fixture
 def p11() -> GlossaryParseResult:
     return glossary_fixture(
-        "p11.html",
+        "can/p11.html",
         "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html",
         parse_glossary,
     )
 
 
 GLOS = glossary_fixture(
-        "glos.html",
-        "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
-        parse_glossary,
-    )
+    "can/glos.html",
+    "https://www.justice.gc.ca/eng/rp-pr/fl-lf/famil/2003_5/glos.html",
+    parse_glossary,
+)
 
 
 @pytest.fixture
 def index() -> GlossaryParseResult:
     return glossary_fixture(
-        "index.html",
+        "can/index.html",
         "https://laws-lois.justice.gc.ca/eng/glossary/",
         parse_glossary,
     )

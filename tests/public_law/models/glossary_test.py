@@ -4,7 +4,7 @@ from public_law.models.glossary import glossary_fixture
 from public_law.parsers.can import doj_glossaries
 
 GLOSSARY = glossary_fixture(
-    "index.html",
+    "can/index.html",
     "https://laws-lois.justice.gc.ca/eng/glossary/",
     doj_glossaries.parse_glossary,
 )
