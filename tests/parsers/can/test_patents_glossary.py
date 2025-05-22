@@ -154,3 +154,27 @@ def test_parse_real_glossary_handles_date_modified() -> None:
 
     # Verify the total number of entries is correct (should be 2, not 3)
     assert len(result.entries) == 2
+
+
+def test_date_modified_without_strong_tag() -> None:
+    """Test that Date modified is skipped even when it appears without a strong tag.
+    This matches the production HTML structure where Date modified appears as plain text."""
+    html_content = """
+    <dl>
+        <dt>Date modified:</dt>
+        <dd>2021-06-28</dd>
+    </dl>
+    """
+
+    response = HtmlResponse(
+        url=URL,
+        body=html_content.encode('utf-8'),
+        encoding="utf-8",
+    )
+
+    result = parse_glossary(response)
+
+    # The result should have no entries since Date modified should be skipped
+    assert len(result.entries) == 0, (
+        "Parser should skip 'Date modified:' entry even when it appears without a strong tag"
+    )
