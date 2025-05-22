@@ -3,7 +3,6 @@ from typing import Any
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.spiders.base import BaseGlossarySpider
-
 from ...parsers.can.parliamentary_glossary import parse_glossary
 
 JD_VERBOSE_NAME = "Canada"
@@ -11,7 +10,7 @@ PUBLICATION_NAME = "Glossary of Parliamentary Terms for Intermediate Students"
 
 
 class ParliamentaryGlossary(BaseGlossarySpider):
-    name = "parliamentary_glossary"
+    name = "can_parliamentary_glossary"
     start_urls = [
         "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"]
 

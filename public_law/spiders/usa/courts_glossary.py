@@ -11,7 +11,7 @@ PUBLICATION_NAME = "US Courts Glossary"
 
 
 class CourtsGlossary(BaseGlossarySpider):
-    name = "courts_glossary"
+    name = "usa_courts_glossary"
 
     start_urls = ["https://www.uscourts.gov/glossary"]
 
