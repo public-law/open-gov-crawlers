@@ -53,7 +53,7 @@ def mock_response(spider_class: Any) -> HtmlResponse:
 
     if not fixture_path.exists():
         pytest.skip(
-            f"No fixture file found for {spider_name}")
+            f"Fixture file not found for {spider_name}: {fixture_path}")
 
     with open(fixture_path, "rb") as f:
         html_content = f.read()

@@ -13,7 +13,7 @@ PUBLICATION_NAME = "Criminal Glossary"
 
 
 class CaCriminalGlossary(BaseGlossarySpider):
-    name = "ca_criminal_glossary"
+    name = "usa_criminal_glossary"
 
     start_urls = [
         "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"]
