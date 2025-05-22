@@ -1,12 +1,13 @@
 from typing import Any
 
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.gbr.fpr_glossary import parse_glossary
+from ...models.glossary import GlossaryParseResult
+from ..base import BaseGlossarySpider
 
 
-class FPRGlossarySpider(Spider):
+class FPRGlossarySpider(BaseGlossarySpider):
     """
     Spider for the UK Family Procedure Rules glossary.
     """
@@ -15,8 +16,8 @@ class FPRGlossarySpider(Spider):
         "https://www.justice.gov.uk/courts/procedure-rules/family/backmatter/fpr_glossary"
     ]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """
-        Parse the glossary page and yield the parsed entries.
+        Parse the glossary page and return the parsed entries.
         """
-        yield parse_glossary(response).asdict()
+        return parse_glossary(response)

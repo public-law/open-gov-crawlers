@@ -1,12 +1,13 @@
 from typing import Any
 
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.gbr.cpr_glossary import parse_glossary
+from ...models.glossary import GlossaryParseResult
+from ..base import BaseGlossarySpider
 
 
-class CPRGlossarySpider(Spider):
+class CPRGlossarySpider(BaseGlossarySpider):
     """
     Spider for the UK Criminal Procedure Rules glossary.
     """
@@ -15,8 +16,8 @@ class CPRGlossarySpider(Spider):
         "https://www.legislation.gov.uk/uksi/2020/759/part/Glossary?view=plain"
     ]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """
-        Parse the glossary page and yield the parsed entries.
+        Parse the glossary page and return the parsed entries.
         """
-        yield parse_glossary(response).asdict()
+        return parse_glossary(response)
