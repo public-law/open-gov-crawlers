@@ -27,35 +27,35 @@ def glossary_response() -> HtmlResponse:
     )
 
 
-def test_parse_glossary_returns_glossary_parse_result(glossary_response: HtmlResponse) -> None:
+@pytest.fixture
+def parsed_glossary(glossary_response: HtmlResponse) -> GlossaryParseResult:
+    """Parse the glossary response into a GlossaryParseResult."""
+    return parse_glossary(glossary_response)
+
+
+def test_parse_glossary_returns_glossary_parse_result(parsed_glossary: GlossaryParseResult) -> None:
     """Test that parse_glossary returns a GlossaryParseResult."""
-    result = parse_glossary(glossary_response)
-    assert isinstance(result, GlossaryParseResult)
+    assert isinstance(parsed_glossary, GlossaryParseResult)
 
 
-def test_parse_glossary_metadata(glossary_response: HtmlResponse) -> None:
+def test_parse_glossary_metadata(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the metadata is correctly parsed."""
-    result = parse_glossary(glossary_response)
-
-    assert result.metadata.dcterms_title == String("Patents Glossary")
-    assert result.metadata.dcterms_language == "en"
-    assert result.metadata.dcterms_coverage == "CAN"
-    assert result.metadata.publiclaw_sourceCreator == String(
+    assert parsed_glossary.metadata.dcterms_title == String("Patents Glossary")
+    assert parsed_glossary.metadata.dcterms_language == "en"
+    assert parsed_glossary.metadata.dcterms_coverage == "CAN"
+    assert parsed_glossary.metadata.publiclaw_sourceCreator == String(
         "Canadian Intellectual Property Office")
 
 
-def test_parse_glossary_has_entries(glossary_response: HtmlResponse) -> None:
+def test_parse_glossary_has_entries(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the glossary has entries."""
-    result = parse_glossary(glossary_response)
-    entries = list(result.entries)
+    entries = list(parsed_glossary.entries)
     assert len(entries) > 0
 
 
-def test_parse_glossary_entry_types(glossary_response: HtmlResponse) -> None:
+def test_parse_glossary_entry_types(parsed_glossary: GlossaryParseResult) -> None:
     """Test that all entries have the correct types and non-empty content."""
-    result = parse_glossary(glossary_response)
-
-    for entry in result.entries:
+    for entry in parsed_glossary.entries:
         assert isinstance(entry, GlossaryEntry)
         assert isinstance(entry.phrase, String)
         assert isinstance(entry.definition, Sentence)
@@ -63,20 +63,20 @@ def test_parse_glossary_entry_types(glossary_response: HtmlResponse) -> None:
         assert len(entry.definition) > 0
 
 
-def test_abstract_entry(glossary_response: HtmlResponse) -> None:
+def test_abstract_entry(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the Abstract entry is correctly parsed."""
-    result = parse_glossary(glossary_response)
-    entries_dict = {entry.phrase: entry.definition for entry in result.entries}
+    entries_dict = {
+        entry.phrase: entry.definition for entry in parsed_glossary.entries}
 
     assert String("Abstract") in entries_dict
     assert entries_dict[String("Abstract")] == Sentence(
         "A brief summary of your invention.")
 
 
-def test_claims_entry(glossary_response: HtmlResponse) -> None:
+def test_claims_entry(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the Claims entry is correctly parsed."""
-    result = parse_glossary(glossary_response)
-    entries_dict = {entry.phrase: entry.definition for entry in result.entries}
+    entries_dict = {
+        entry.phrase: entry.definition for entry in parsed_glossary.entries}
 
     assert String("Claims") in entries_dict
     assert entries_dict[String("Claims")] == Sentence(
@@ -84,10 +84,10 @@ def test_claims_entry(glossary_response: HtmlResponse) -> None:
     )
 
 
-def test_patent_entry(glossary_response: HtmlResponse) -> None:
+def test_patent_entry(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the Patent entry is correctly parsed."""
-    result = parse_glossary(glossary_response)
-    entries_dict = {entry.phrase: entry.definition for entry in result.entries}
+    entries_dict = {
+        entry.phrase: entry.definition for entry in parsed_glossary.entries}
 
     assert String("Patent") in entries_dict
     assert entries_dict[String("Patent")] == Sentence(
@@ -95,30 +95,27 @@ def test_patent_entry(glossary_response: HtmlResponse) -> None:
     )
 
 
-def test_first_entry(glossary_response: HtmlResponse) -> None:
+def test_first_entry(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the first entry is 'Abstract'."""
-    result = parse_glossary(glossary_response)
-    entries = list(result.entries)
+    entries = list(parsed_glossary.entries)
 
     assert entries[0].phrase == String("Abstract")
     assert entries[0].definition == Sentence(
         "A brief summary of your invention.")
 
 
-def test_last_entry(glossary_response: HtmlResponse) -> None:
+def test_last_entry(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the last entry is 'WIPO'."""
-    result = parse_glossary(glossary_response)
-    entries = list(result.entries)
+    entries = list(parsed_glossary.entries)
 
     assert entries[-1].phrase == String("WIPO")
     assert entries[-1].definition == Sentence(
         "World Intellectual Property Organization")
 
 
-def test_no_date_modified_entry_anywhere(glossary_response: HtmlResponse) -> None:
+def test_no_date_modified_entry_anywhere(parsed_glossary: GlossaryParseResult) -> None:
     """Test that 'Date modified:' is not present as any glossary entry."""
-    result = parse_glossary(glossary_response)
-    phrases = [str(entry.phrase) for entry in result.entries]
+    phrases = [str(entry.phrase) for entry in parsed_glossary.entries]
     assert "Date modified:" not in phrases, (
         "'Date modified:' should not be present in any glossary entry"
     )
