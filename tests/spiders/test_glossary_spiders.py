@@ -55,7 +55,7 @@ def mock_response(spider_class: Any) -> HtmlResponse:
 
 
 @pytest.mark.parametrize("spider_class", GLOSSARY_SPIDERS)
-def test_spider_output_format(spider_class: Any, mock_response: HtmlResponse):
+def test_dublin_core_naming(spider_class: Any, mock_response: HtmlResponse):
     """Test that all glossary spiders use Dublin Core naming format."""
     spider = spider_class()
     result = next(spider.parse(mock_response))
