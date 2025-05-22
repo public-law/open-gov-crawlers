@@ -40,7 +40,8 @@ def test_parse_glossary_returns_glossary_parse_result(parsed_glossary: GlossaryP
 
 def test_parse_glossary_metadata(parsed_glossary: GlossaryParseResult) -> None:
     """Test that the metadata is correctly parsed."""
-    assert parsed_glossary.metadata.dcterms_title == String("Patents Glossary")
+    assert parsed_glossary.metadata.dcterms_title == String(
+        "Canadian Patent Glossary")
     assert parsed_glossary.metadata.dcterms_language == "en"
     assert parsed_glossary.metadata.dcterms_coverage == "CAN"
     assert parsed_glossary.metadata.publiclaw_sourceCreator == String(
@@ -110,7 +111,7 @@ def test_last_entry(parsed_glossary: GlossaryParseResult) -> None:
 
     assert entries[-1].phrase == String("WIPO")
     assert entries[-1].definition == Sentence(
-        "World Intellectual Property Organization")
+        "World Intellectual Property Organization.")
 
 
 def test_no_date_modified_entry_anywhere(parsed_glossary: GlossaryParseResult) -> None:
@@ -119,3 +120,37 @@ def test_no_date_modified_entry_anywhere(parsed_glossary: GlossaryParseResult) -
     assert "Date modified:" not in phrases, (
         "'Date modified:' should not be present in any glossary entry"
     )
+
+
+def test_parse_real_glossary_handles_date_modified() -> None:
+    """Test that parsing a real glossary response handles the Date modified entry correctly."""
+    # Create a response with the actual HTML structure
+    html_content = """
+    <dl>
+        <dt><strong>Abstract</strong></dt>
+        <dd>A brief summary of your invention.</dd>
+        <dt>Date modified:</dt>
+        <dd>2024-03-21</dd>
+        <dt><strong>Claims</strong></dt>
+        <dd>The parts of a patent that define the boundaries of patent protection.</dd>
+    </dl>
+    """
+
+    response = HtmlResponse(
+        url=URL,
+        body=html_content.encode('utf-8'),
+        encoding="utf-8",
+    )
+
+    result = parse_glossary(response)
+
+    # Verify that Date modified is not included in the entries
+    phrases = [str(entry.phrase) for entry in result.entries]
+    assert "Date modified:" not in phrases
+
+    # Verify that we still get the other entries
+    assert String("Abstract") in phrases
+    assert String("Claims") in phrases
+
+    # Verify the total number of entries is correct (should be 2, not 3)
+    assert len(result.entries) == 2

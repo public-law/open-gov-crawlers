@@ -69,7 +69,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             phrase_elem = dt.find("strong") or dt
             phrase = phrase_elem.get_text(strip=True)
             if phrase == "Date modified:":
-                raise Exception(f"Phrase: {phrase}")
+                continue
 
             # Get the definition from the dd
             definition = dd.get_text(strip=True)

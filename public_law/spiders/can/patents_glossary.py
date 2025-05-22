@@ -14,6 +14,18 @@ class PatentsGlossarySpider(Spider):
     allowed_domains = ["ised-isde.canada.ca"]
     start_urls = [URL]
 
-    def parse(self, response: HtmlResponse):
+    def parse(self, response: HtmlResponse) -> Generator[GlossaryParseResult, None, None]:
         """Parse the glossary page and yield the glossary entries."""
-        yield parse_glossary(response).asdict()
+        # Debug: Print the URL and content length
+        print(f"Spider parsing URL: {response.url}")
+        print(f"Content length: {len(response.text)}")
+
+        # Debug: Print first 500 chars of content
+        print(f"Content preview: {response.text[:500]}")
+
+        result: GlossaryParseResult = parse_glossary(response)
+
+        # Debug: Print number of entries found
+        print(f"Found {len(result.entries)} entries")
+
+        yield result
