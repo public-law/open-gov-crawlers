@@ -1,55 +1,13 @@
 from pathlib import Path
 from typing import Any
 
-import importlib
-import inspect
-import pkgutil
-
 import pytest
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.spiders.base import BaseGlossarySpider
-
-# --------------------------------------------------------------------------------
-# Automatic discovery of glossary spiders
-# --------------------------------------------------------------------------------
-
-
-def _discover_glossary_spiders() -> list[type[Spider]]:
-    """Dynamically discover all glossary spider classes.
-
-    We import every module in the ``public_law.spiders`` package tree and
-    collect classes that:
-
-    1. Inherit from ``scrapy.Spider`` (excluding the base class itself)
-    2. Have a ``name`` attribute containing the substring ``glossar``
-
-    This captures both *glossary* and *glossaries* variations.
-    """
-
-    import public_law.spiders as spiders_pkg  # Local import to avoid cycles
-
-    spiders: list[type[Spider]] = []
-
-    for module_info in pkgutil.walk_packages(spiders_pkg.__path__, prefix=f"{spiders_pkg.__name__}."):
-        module = importlib.import_module(module_info.name)
-
-        for obj in module.__dict__.values():
-            if (
-                inspect.isclass(obj)
-                and issubclass(obj, BaseGlossarySpider)
-                and obj is not BaseGlossarySpider
-                and "glossar" in getattr(obj, "name", "")
-            ):
-                spiders.append(obj)  # type: ignore[arg-type]
-
-    # Ensure deterministic ordering for pytest collection stability
-    return sorted(spiders, key=lambda cls: cls.__name__)
-
+from public_law.spiders.utils import discover_glossary_spiders
 
 # List of all glossary spiders to test (auto-generated)
-GLOSSARY_SPIDERS = _discover_glossary_spiders()
+GLOSSARY_SPIDERS = discover_glossary_spiders()
 
 assert GLOSSARY_SPIDERS, "No glossary spiders were discovered."
 
