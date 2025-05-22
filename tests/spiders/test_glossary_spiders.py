@@ -19,7 +19,7 @@ from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
 from public_law.spiders.nzl.justice_glossary import NZLJusticeGlossary
 
 from public_law.spiders.usa.uscis_glossary import USCISGlossary
-from public_law.spiders.usa.us_courts_glossary import USACourtsGlossary
+from public_law.spiders.usa.courts_glossary import CourtsGlossary
 from public_law.spiders.usa.ca_criminal_glossary import CaCriminalGlossary
 
 
@@ -35,7 +35,7 @@ GLOSSARY_SPIDERS = [
     IRLCourtsGlossary,
     NZLJusticeGlossary,
     USCISGlossary,
-    USACourtsGlossary,
+    CourtsGlossary,
     CaCriminalGlossary,
 ]
 

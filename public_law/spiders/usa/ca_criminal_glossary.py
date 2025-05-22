@@ -3,6 +3,7 @@ from typing import Any
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
+from public_law.models.glossary import GlossaryParseResult
 from public_law.spiders.base import BaseGlossarySpider
 
 from ...parsers.usa.criminal_glossary import parse_glossary
@@ -17,7 +18,7 @@ class CaCriminalGlossary(BaseGlossarySpider):
     start_urls = [
         "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"]
 
-    def parse_glossary(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """Framework callback which begins the parsing.
 
         @url https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary
