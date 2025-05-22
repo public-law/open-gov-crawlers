@@ -186,16 +186,15 @@ def test_spider_output_format(glossary_response: HtmlResponse):
 
     spider = PatentsGlossarySpider()
     result = next(spider.parse(glossary_response))
-    print("GOT RESULT:", result)
 
     # Verify that keys use Dublin Core format (with colons)
-    assert "dcterms:title" in result
-    assert "dcterms:language" in result
-    assert "dcterms:coverage" in result
-    assert "dcterms:subject" in result
+    assert "dcterms:title" in result["metadata"]
+    assert "dcterms:language" in result["metadata"]
+    assert "dcterms:coverage" in result["metadata"]
+    assert "dcterms:subject" in result["metadata"]
 
     # Verify that no keys use underscore format
-    assert "dcterms_title" not in result
-    assert "dcterms_language" not in result
-    assert "dcterms_coverage" not in result
-    assert "dcterms_subject" not in result
+    assert "dcterms_title" not in result["metadata"]
+    assert "dcterms_language" not in result["metadata"]
+    assert "dcterms_coverage" not in result["metadata"]
+    assert "dcterms_subject" not in result["metadata"]
