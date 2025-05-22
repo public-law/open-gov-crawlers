@@ -85,17 +85,21 @@ def test_parse_glossary_specific_entries(glossary_response: HtmlResponse) -> Non
     )
 
 
-def test_parse_glossary_entry_order(glossary_response: HtmlResponse) -> None:
-    """Test that entries are in the correct order."""
+def test_parse_glossary_first_entry(glossary_response: HtmlResponse) -> None:
+    """Test that the first entry is 'Abstract'."""
     result = parse_glossary(glossary_response)
     entries = list(result.entries)
 
-    # Test first entry
     assert entries[0].phrase == String("Abstract")
     assert entries[0].definition == Sentence(
         "A brief summary of your invention.")
 
-    # Test last entry
+
+def test_parse_glossary_last_entry(glossary_response: HtmlResponse) -> None:
+    """Test that the last entry is 'WIPO'."""
+    result = parse_glossary(glossary_response)
+    entries = list(result.entries)
+
     assert entries[-1].phrase == String("WIPO")
     assert entries[-1].definition == Sentence(
         "World Intellectual Property Organization")
