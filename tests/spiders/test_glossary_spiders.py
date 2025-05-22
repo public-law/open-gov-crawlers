@@ -6,7 +6,11 @@ from scrapy.http.response.html import HtmlResponse
 
 from public_law.spiders.aus.dv_glossary import DVGlossary
 from public_law.spiders.aus.ip_glossary import IPGlossary
+
 from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
+from public_law.spiders.can.doj_glossaries import DojGlossaries
+from public_law.spiders.can.parliamentary_glossary import ParliamentaryGlossary
+
 from public_law.spiders.gbr.cpr_glossary import CPRGlossarySpider
 from public_law.spiders.gbr.fpr_glossary import FPRGlossarySpider
 from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
@@ -21,6 +25,8 @@ GLOSSARY_SPIDERS = [
     DVGlossary,
     IPGlossary,
     PatentsGlossarySpider,
+    DojGlossaries,
+    ParliamentaryGlossary,
     CPRGlossarySpider,
     FPRGlossarySpider,
     IRLCourtsGlossary,

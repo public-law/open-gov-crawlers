@@ -5,13 +5,14 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.can.parliamentary_glossary import parse_glossary
 
-JD_VERBOSE_NAME  = "Canada"
+JD_VERBOSE_NAME = "Canada"
 PUBLICATION_NAME = "Glossary of Parliamentary Terms for Intermediate Students"
 
 
-class USACourtsGlossary(Spider):
-    name       = "can_parliamentary_glossary"
-    start_urls = ["https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"]
+class ParliamentaryGlossary(Spider):
+    name = "can_parliamentary_glossary"
+    start_urls = [
+        "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"]
 
     def parse(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
