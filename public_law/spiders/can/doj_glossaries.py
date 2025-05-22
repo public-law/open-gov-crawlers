@@ -10,7 +10,7 @@ PUBLICATION_NAME = "Dept. of Justice Legal Glossaries"
 
 
 class DojGlossaries(BaseGlossarySpider):
-    name = "doj_glossaries"
+    name = "can_doj_glossaries"
     start_urls = parser.configured_urls()
 
     def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
