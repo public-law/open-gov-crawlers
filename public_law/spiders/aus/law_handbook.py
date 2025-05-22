@@ -1,20 +1,21 @@
 from typing import Any
 
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.aus.law_handbook import parse_glossary
+from public_law.models.glossary import GlossaryParseResult
+from public_law.spiders.base import BaseGlossarySpider
 
 JD_VERBOSE_NAME = "Australia"
 PUBLICATION_NAME = "Law Handbook Glossary"
 
 
-class LawHandbookGlossary(Spider):
-    name = "aus_law_handbook"
+class LawHandbookGlossary(BaseGlossarySpider):
+    name = "aus_handbook_glossary"
 
     start_urls = ["https://lawhandbook.sa.gov.au/go01.php"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """Framework callback which begins the parsing.
 
         @url https://lawhandbook.sa.gov.au/go01.php
@@ -22,4 +23,4 @@ class LawHandbookGlossary(Spider):
         @returns requests 0 0
         @scrapes metadata entries
         """
-        yield parse_glossary(response).asdict()
+        return parse_glossary(response)
