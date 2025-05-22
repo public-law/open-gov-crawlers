@@ -4,40 +4,12 @@ from typing import Any
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.spiders.aus.dv_glossary import DVGlossary
-from public_law.spiders.aus.ip_glossary import IPGlossary
+from public_law.spiders.utils import discover_glossary_spiders
 
-from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
-from public_law.spiders.can.doj_glossaries import DojGlossaries
-from public_law.spiders.can.parliamentary_glossary import ParliamentaryGlossary
+# List of all glossary spiders to test (auto-generated)
+GLOSSARY_SPIDERS = discover_glossary_spiders()
 
-from public_law.spiders.gbr.cpr_glossary import CPRGlossarySpider
-from public_law.spiders.gbr.fpr_glossary import FPRGlossarySpider
-
-from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
-
-from public_law.spiders.nzl.justice_glossary import NZLJusticeGlossary
-
-from public_law.spiders.usa.uscis_glossary import USCISGlossary
-from public_law.spiders.usa.courts_glossary import CourtsGlossary
-from public_law.spiders.usa.ca_criminal_glossary import CaCriminalGlossary
-
-
-# List of all glossary spiders to test
-GLOSSARY_SPIDERS = [
-    PatentsGlossarySpider,
-    DojGlossaries,
-    ParliamentaryGlossary,
-    DVGlossary,
-    IPGlossary,
-    CPRGlossarySpider,
-    FPRGlossarySpider,
-    IRLCourtsGlossary,
-    NZLJusticeGlossary,
-    USCISGlossary,
-    CourtsGlossary,
-    CaCriminalGlossary,
-]
+assert GLOSSARY_SPIDERS, "No glossary spiders were discovered."
 
 
 def get_fixture_path(spider_name: str) -> Path:
