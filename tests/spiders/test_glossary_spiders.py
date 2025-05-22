@@ -13,6 +13,7 @@ from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
 from public_law.spiders.nzl.justice_glossary import NZLJusticeGlossary
 from public_law.spiders.usa.uscis_glossary import USCISGlossary
 from public_law.spiders.usa.us_courts_glossary import USACourtsGlossary
+from public_law.spiders.usa.criminal_glossary import CriminalGlossary
 
 
 # List of all glossary spiders to test
@@ -26,6 +27,7 @@ GLOSSARY_SPIDERS = [
     NZLJusticeGlossary,
     USCISGlossary,
     USACourtsGlossary,
+    CriminalGlossary,
 ]
 
 

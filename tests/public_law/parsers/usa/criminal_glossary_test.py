@@ -10,7 +10,7 @@ from public_law.models.glossary import GlossaryParseResult
 @pytest.fixture
 def glossary_response():
     """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/usa/criminal_glossary.html", "r") as f:
+    with open("tests/fixtures/usa/criminal-glossary.html", "r") as f:
         html_content = f.read()
 
     return HtmlResponse(
