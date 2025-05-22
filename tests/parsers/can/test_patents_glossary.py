@@ -62,30 +62,39 @@ def test_parse_glossary_entry_types(glossary_response: HtmlResponse) -> None:
         assert len(entry.definition) > 0
 
 
-def test_parse_glossary_specific_entries(glossary_response: HtmlResponse) -> None:
-    """Test that specific key entries are correctly parsed."""
+def test_abstract_entry(glossary_response: HtmlResponse) -> None:
+    """Test that the Abstract entry is correctly parsed."""
     result = parse_glossary(glossary_response)
     entries_dict = {entry.phrase: entry.definition for entry in result.entries}
 
-    # Test Abstract entry
     assert String("Abstract") in entries_dict
     assert entries_dict[String("Abstract")] == Sentence(
         "A brief summary of your invention.")
 
-    # Test Claims entry
+
+def test_claims_entry(glossary_response: HtmlResponse) -> None:
+    """Test that the Claims entry is correctly parsed."""
+    result = parse_glossary(glossary_response)
+    entries_dict = {entry.phrase: entry.definition for entry in result.entries}
+
     assert String("Claims") in entries_dict
     assert entries_dict[String("Claims")] == Sentence(
         "The parts of a patent that define the boundaries of patent protection."
     )
 
-    # Test Patent entry
+
+def test_patent_entry(glossary_response: HtmlResponse) -> None:
+    """Test that the Patent entry is correctly parsed."""
+    result = parse_glossary(glossary_response)
+    entries_dict = {entry.phrase: entry.definition for entry in result.entries}
+
     assert String("Patent") in entries_dict
     assert entries_dict[String("Patent")] == Sentence(
         "A government grant giving the right to exclude others from making, using, or selling an invention."
     )
 
 
-def test_parse_glossary_first_entry(glossary_response: HtmlResponse) -> None:
+def test_first_entry(glossary_response: HtmlResponse) -> None:
     """Test that the first entry is 'Abstract'."""
     result = parse_glossary(glossary_response)
     entries = list(result.entries)
@@ -95,7 +104,7 @@ def test_parse_glossary_first_entry(glossary_response: HtmlResponse) -> None:
         "A brief summary of your invention.")
 
 
-def test_parse_glossary_last_entry(glossary_response: HtmlResponse) -> None:
+def test_last_entry(glossary_response: HtmlResponse) -> None:
     """Test that the last entry is 'WIPO'."""
     result = parse_glossary(glossary_response)
     entries = list(result.entries)
