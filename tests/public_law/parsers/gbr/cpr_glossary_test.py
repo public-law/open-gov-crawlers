@@ -9,7 +9,7 @@ from public_law.parsers.gbr.cpr_glossary import parse_glossary
 @pytest.fixture
 def glossary_response():
     """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/gbr/cpr_glossary.html", "r") as f:
+    with open("tests/fixtures/gbr/cpr-glossary.html", "r") as f:
         html_content = f.read()
 
     return HtmlResponse(

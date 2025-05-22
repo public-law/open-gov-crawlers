@@ -11,7 +11,7 @@ def test_parse_glossary():
     Test that the parser correctly extracts glossary entries from the HTML.
     """
     # Load the test HTML file
-    with open("tests/fixtures/gbr/fpr_glossary.html", "r") as f:
+    with open("tests/fixtures/gbr/fpr-glossary.html", "r") as f:
         html_content = f.read()
 
     # Create a mock response
