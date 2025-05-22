@@ -51,7 +51,7 @@ reportMissingTypeStubs = false # I don't know the purpose. Scrapy does better w/
 
 
 [tool.pytest.ini_options]
-addopts = "-q --no-header --doctest-modules -p no:pastebin"
+addopts = "-v --no-header --doctest-modules -p no:pastebin"
 minversion = "7.1"
 pythonpath = "."
 python_files = ["*_test.py", "test_*.py"]

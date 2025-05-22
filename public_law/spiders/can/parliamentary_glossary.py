@@ -1,7 +1,8 @@
 from typing import Any
 
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
+
+from public_law.spiders.base import BaseGlossarySpider
 
 from ...parsers.can.parliamentary_glossary import parse_glossary
 
@@ -9,12 +10,12 @@ JD_VERBOSE_NAME = "Canada"
 PUBLICATION_NAME = "Glossary of Parliamentary Terms for Intermediate Students"
 
 
-class ParliamentaryGlossary(Spider):
-    name = "can_parliamentary_glossary"
+class ParliamentaryGlossary(BaseGlossarySpider):
+    name = "parliamentary_glossary"
     start_urls = [
         "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"]
 
-    def parse(self, response: HtmlResponse, **_: dict[str, Any]):
+    def parse_glossary(self, response: HtmlResponse, **_: dict[str, Any]):
         """Framework callback which begins the parsing.
 
         @url https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html
@@ -22,4 +23,4 @@ class ParliamentaryGlossary(Spider):
         @returns requests 0 0
         @scrapes metadata entries
         """
-        yield parse_glossary(response).asdict()
+        return parse_glossary(response)
