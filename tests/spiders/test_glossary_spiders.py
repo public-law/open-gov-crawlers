@@ -31,7 +31,7 @@ GLOSSARY_SPIDERS = [
 
 def get_fixture_path(spider_name: str) -> Path:
     """Get the path to the fixture file for a given spider."""
-    return Path(__file__).parent.parent / "parsers" / "fixtures" / spider_name.split("_")[0] / f"{spider_name.split('_')[1]}-glossary.html"
+    return Path(__file__).parent.parent / "fixtures" / spider_name.split("_")[0] / f"{spider_name.split('_')[1]}-glossary.html"
 
 
 @pytest.fixture
@@ -41,7 +41,8 @@ def mock_response(spider_class: Any) -> HtmlResponse:
     fixture_path = get_fixture_path(spider_name)
 
     if not fixture_path.exists():
-        pytest.skip(f"No fixture file found for {spider_name}")
+        pytest.skip(
+            f"No fixture file found for {spider_name}")
 
     with open(fixture_path, "rb") as f:
         html_content = f.read()

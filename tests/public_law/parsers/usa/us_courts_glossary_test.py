@@ -9,7 +9,8 @@ from public_law.parsers.usa.us_courts_glossary import parse_glossary
 from public_law.text import URL, NonemptyString
 
 ORIG_URL = "https://www.uscourts.gov/glossary"
-GLOSSARY = glossary_fixture("usa/gov.uscourts-glossary.html", ORIG_URL, parse_glossary)
+GLOSSARY = glossary_fixture(
+    "usa/courts-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 
