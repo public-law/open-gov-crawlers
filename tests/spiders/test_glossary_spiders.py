@@ -13,27 +13,30 @@ from public_law.spiders.can.parliamentary_glossary import ParliamentaryGlossary
 
 from public_law.spiders.gbr.cpr_glossary import CPRGlossarySpider
 from public_law.spiders.gbr.fpr_glossary import FPRGlossarySpider
+
 from public_law.spiders.irl.courts_glossary import IRLCourtsGlossary
+
 from public_law.spiders.nzl.justice_glossary import NZLJusticeGlossary
+
 from public_law.spiders.usa.uscis_glossary import USCISGlossary
 from public_law.spiders.usa.us_courts_glossary import USACourtsGlossary
-from public_law.spiders.usa.criminal_glossary import CriminalGlossary
+from public_law.spiders.usa.ca_criminal_glossary import CaCriminalGlossary
 
 
 # List of all glossary spiders to test
 GLOSSARY_SPIDERS = [
-    DVGlossary,
-    IPGlossary,
     PatentsGlossarySpider,
     DojGlossaries,
     ParliamentaryGlossary,
+    DVGlossary,
+    IPGlossary,
     CPRGlossarySpider,
     FPRGlossarySpider,
     IRLCourtsGlossary,
     NZLJusticeGlossary,
     USCISGlossary,
     USACourtsGlossary,
-    CriminalGlossary,
+    CaCriminalGlossary,
 ]
 
 
