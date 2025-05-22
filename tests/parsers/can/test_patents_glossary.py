@@ -178,3 +178,24 @@ def test_date_modified_without_strong_tag() -> None:
     assert len(result.entries) == 0, (
         "Parser should skip 'Date modified:' entry even when it appears without a strong tag"
     )
+
+
+def test_spider_output_format(glossary_response: HtmlResponse):
+    """Test that the spider output uses Dublin Core naming format."""
+    from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
+
+    spider = PatentsGlossarySpider()
+    result = next(spider.parse(glossary_response))
+    print("GOT RESULT:", result)
+
+    # Verify that keys use Dublin Core format (with colons)
+    assert "dcterms:title" in result
+    assert "dcterms:language" in result
+    assert "dcterms:coverage" in result
+    assert "dcterms:subject" in result
+
+    # Verify that no keys use underscore format
+    assert "dcterms_title" not in result
+    assert "dcterms_language" not in result
+    assert "dcterms_coverage" not in result
+    assert "dcterms_subject" not in result
