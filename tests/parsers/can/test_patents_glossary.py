@@ -6,6 +6,7 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.parsers.can.patents_glossary import parse_glossary
+from public_law.spiders.can.patents_glossary import URL
 from public_law.models.glossary import GlossaryEntry, GlossaryParseResult
 from public_law.text import NonemptyString as String
 from public_law.text import Sentence
@@ -20,7 +21,7 @@ def glossary_response() -> HtmlResponse:
         html_content = f.read()
 
     return HtmlResponse(
-        url="https://ised-isde.canada.ca/site/canadian-intellectual-property-office/en/patents/glossary",
+        url=URL,
         body=html_content,
         encoding="utf-8",
     )
