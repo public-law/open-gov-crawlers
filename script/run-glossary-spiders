@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+OUTPUT_DIR="../glossary-datasets"
+
+SPIDERS=`poetry run scrapy list | grep glossar`
+
+for spider in $SPIDERS; do
+    poetry run scrapy crawl --overwrite-output $OUTPUT_DIR/$spider.json $spider
+done
