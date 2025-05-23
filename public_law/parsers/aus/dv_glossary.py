@@ -18,7 +18,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=String("Family, domestic and sexual violence glossary"),
+            dcterms_title=String(
+                "Family, domestic and sexual violence glossary"),
             dcterms_language="en",
             dcterms_coverage="AUS",
             # Info about original source
@@ -49,11 +50,12 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
     for phrase, defn in __raw_entries(html):
         fixed_phrase = text.pipe(
-            phrase
-            , text.rstrip(": ")                             # type: ignore
+            # type: ignore
+            phrase, text.rstrip(": ")
         )
 
-        fixed_definition: Sentence = cast(Sentence, pipe(defn, ensure_ends_with_period, normalize_nonempty, Sentence))
+        fixed_definition: Sentence = cast(Sentence, pipe(
+            defn, ensure_ends_with_period, normalize_nonempty, Sentence))
 
         yield GlossaryEntry(fixed_phrase, fixed_definition)
 
