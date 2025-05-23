@@ -1,3 +1,7 @@
+# pyright: reportUnknownVariableType=false
+# pyright: reportCallIssue=false
+# pyright: reportUnknownMemberType=false
+
 """
 String functions and types.
 """
@@ -31,7 +35,8 @@ class NonemptyString(str):
             case str(content) if len(content) > 0:
                 return super().__new__(cls, content)
             case _:
-                raise ValueError(f"Content is empty or not a string: {content}")
+                raise ValueError(
+                    f"Content is empty or not a string: {content}")
 
 
 class URI(NonemptyString):
@@ -87,7 +92,7 @@ class WikidataTopic(URL):
 class Sentence(NonemptyString):
     """
     Currently NOP.
-    
+
     A str subclass that generally begins with a capital letter
     and ends with a period.
 
@@ -116,13 +121,26 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
             return NonemptyString(s + ".")
 
 
+def ensure_starts_with_capital(text: str) -> str:
+    """
+    Ensure that the string starts with a capital letter.
+    """
+    match (text):
+        case "":
+            return ""
+        case s if s[0].isupper():
+            return NonemptyString(text)
+        case s:
+            return NonemptyString(s[0].upper() + s[1:])
+
+
 def make_soup(html: HtmlResponse) -> BeautifulSoup:
     """
     Create a BeautifulSoup object from the Response body.
     """
     return BeautifulSoup(
         cast(str, html.body), "html.parser"
-    )  
+    )
 
 
 def title_case(text: str) -> str:
@@ -163,7 +181,7 @@ def normalize_whitespace(text: str) -> str:
     Remove extra whitespace from around and within the string
     """
     assert isinstance(text, str)
-    
+
     no_newlines = text.replace("\n", " ")
     return " ".join(no_newlines.strip().split())
 
@@ -211,17 +229,18 @@ def pipe(*args: Any) -> NonemptyString:
     """
     args_with_string: Any = args + (NonemptyString,)
 
-    return cast(NonemptyString, functoolz.pipe(*args_with_string))  # type: ignore
+    return cast(NonemptyString, functoolz.pipe(*args_with_string))
+
 
 split: Callable[[str, str], list[str]] = curry(flip(str.split))  # type: ignore
 
 
 """ Return a copy of the string with leading characters removed. """
-lstrip: Callable[[str, str], str] = curry(flip(str.lstrip)) # type: ignore
+lstrip: Callable[[str, str], str] = curry(flip(str.lstrip))  # type: ignore
 
 
 """ Return a copy of the string with trailing characters removed. """
-rstrip: Callable[[str, str], str] = curry(flip(str.rstrip)) # type: ignore
+rstrip: Callable[[str, str], str] = curry(flip(str.rstrip))  # type: ignore
 
 
 def titleize(text: str) -> str:
@@ -243,4 +262,4 @@ def titleize(text: str) -> str:
             return word.upper()
 
     # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
-    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases) # type: ignore
+    return titlecase.titlecase(text.lower(), callback=titlecase_special_cases)
