@@ -63,13 +63,17 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
 
             # Extract the definition by removing the <strong> tag and its contents
             strong.decompose()
-            definition = normalize_whitespace(
-                p.get_text().strip()).removeprefix("– ")
+            definition = normalize_whitespace(p.get_text().strip())
+            # Remove em dash prefix if present
+            definition = definition.removeprefix("– ")
+            # Remove zero-width space characters (both Unicode and HTML entity)
+            definition = definition.replace(
+                "\u200b", "").replace("&ZeroWidthSpace;", "")
+            # Ensure proper capitalization
             definition = ensure_starts_with_capital(definition)
 
             # Skip empty entries
             if phrase and definition:
-
                 entries.append(
                     GlossaryEntry(
                         phrase=String(phrase),
