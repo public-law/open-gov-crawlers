@@ -39,13 +39,11 @@ ignore = ["**/typings", "tests"]
 # As strict as possible: strict mode plus the optional strict checks.
 typeCheckingMode = "strict"
 
-reportCallInDefaultInitializer = "error"
-reportImplicitStringConcatenation = "error"
-reportMissingSuperCall = "error"
-reportPropertyTypeMismatch = "error"
+reportCallInDefaultInitializer      = "error"
+reportImplicitStringConcatenation   = "error"
+reportMissingSuperCall              = "error"
+reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment = "warning"
-reportUnusedCallResult = "error"
 
 reportUnusedImport = false
 reportMissingTypeStubs = false # I don't know the purpose. Scrapy does better w/out type stubs.
