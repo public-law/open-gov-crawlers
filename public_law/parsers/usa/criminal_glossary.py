@@ -44,26 +44,35 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse the glossary entries from the HTML response.
 
-    The entries are in a table, with each <tr> containing two <td>s: the first is the phrase, the second is the definition.
+    The entries are in a table, with each <tr> containing two <td>s: 
+    the first is the phrase, the second is the definition.
     """
-    entries: list[GlossaryEntry] = []
     soup = make_soup(html)
     table = soup.find("table")
     if not table or not isinstance(table, Tag):
         return tuple()
 
-    rows: ResultSet[Tag] = table.find_all("tr")
-    for row in rows:
-        cells: ResultSet[Tag] = row.find_all("td")
+    def process_row(row: Tag) -> GlossaryEntry | None:
+        cells = row.find_all("td")
         if len(cells) < 2:
-            continue
+            return None
+
         phrase = cells[0].get_text(strip=True)
         definition = cells[1].get_text(strip=True)
-        if phrase and definition:
-            entries.append(
-                GlossaryEntry(
-                    phrase=String(phrase),
-                    definition=Sentence(ensure_ends_with_period(definition)),
-                )
-            )
+
+        if not phrase or not definition:
+            return None
+
+        return GlossaryEntry(
+            phrase=String(phrase),
+            definition=Sentence(ensure_ends_with_period(definition)),
+        )
+
+    # Use list comprehension with filter to process rows
+    entries = [
+        entry for row in table.find_all("tr")
+        if isinstance(row, Tag)
+        if (entry := process_row(row)) is not None
+    ]
+
     return tuple(entries)
