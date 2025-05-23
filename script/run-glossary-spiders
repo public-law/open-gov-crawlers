@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 OUTPUT_DIR="../glossary-datasets"
-
 SPIDERS=`poetry run scrapy list | grep glossar`
 
 for spider in $SPIDERS; do
-    poetry run scrapy crawl --overwrite-output $OUTPUT_DIR/$spider.json $spider
+    OUTPUT_FILE="${OUTPUT_DIR}/${spider}.json"
+
+    # Skip if the output file already exists
+    if [ -f ${OUTPUT_FILE} ]; then
+        echo "Skipping ${spider} because it already exists."
+        continue
+    fi
+
+    echo "Running ${spider}..."
+    poetry run scrapy crawl --output ${OUTPUT_FILE} $spider
 done
