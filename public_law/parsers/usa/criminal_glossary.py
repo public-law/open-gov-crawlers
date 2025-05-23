@@ -45,15 +45,14 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    soup = parse_html(html)
-    table = soup.find("table")
-    if not table:
-        return tuple()
-
-    return tuple(
-        entry for row in table.find_all("tr")
-        if (entry := _process_row(row)) is not None
-    )
+    match(parse_html(html).find("table")):
+        case None:
+            return tuple()
+        case table:
+            return tuple(
+                entry for row in table.find_all("tr")
+                if (entry := _process_row(row)) is not None
+            )
 
 
 def _process_row(row: TypedSoup) -> GlossaryEntry | None:
