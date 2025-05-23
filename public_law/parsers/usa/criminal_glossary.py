@@ -1,6 +1,3 @@
-from typing import Any, List, cast
-
-from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
