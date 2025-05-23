@@ -1,6 +1,3 @@
-
-# pyright: reportUnknownVariableType=false
-
 import re
 from datetime import date
 from typing import Any, TypeAlias
@@ -121,7 +118,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             case str(result):
                 # Get the inner text and preserve inner HTML.
                 definition = capitalize_first_char(
-                    (result.replace("<dd>", "").replace("</dd>", "").replace("  ", " "))
+                    (result.replace("<dd>", "").replace(
+                        "</dd>", "").replace("  ", " "))
                 )
             case _:
                 raise ParseException("Could not parse the definition")
@@ -175,7 +173,8 @@ def first_match(node: SelectorLike, css: str, expected: str) -> str:
         case str(result):
             return normalize_nonempty(result)
         case _:
-            raise ParseException(f'Could not parse the {expected} using "{css}"')
+            raise ParseException(
+                f'Could not parse the {expected} using "{css}"')
 
 
 def fix_title_case(text: str) -> str:

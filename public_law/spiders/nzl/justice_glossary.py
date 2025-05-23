@@ -1,7 +1,3 @@
-# fmt: off
-
-from typing import Any
-
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.nzl.justice_glossary import parse_glossary

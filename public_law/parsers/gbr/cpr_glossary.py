@@ -1,15 +1,14 @@
-from datetime import date
-from typing import cast, List
-from datetime import datetime
+from datetime import date, datetime
+from typing import Iterable
 
-from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, normalize_nonempty
+from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -50,11 +49,11 @@ def _parse_mod_date(html: HtmlResponse) -> date:
     The date is in the commencement information section.
     """
     try:
-        soup = make_soup(html)
+        soup = parse_html(html)
         # Look for text containing "in force at"
         for p in soup.find_all("p"):
-            if "in force at" in p.text:
-                date_str = p.text.split("in force at")[
+            if "in force at" in p.get_text():
+                date_str = p.get_text().split("in force at")[
                     1].strip().split(",")[0].strip()
                 return datetime.strptime(date_str, "%d.%m.%Y").date()
         return datetime.now().date()
@@ -95,32 +94,42 @@ def _normalize_apostrophes(text: str) -> str:
 
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    """
-    Parse the glossary entries from the HTML response.
-    The entries are in a table with two columns: phrase and definition.
-    """
-    soup = make_soup(html)
-    table = soup.find("table")
-    if not table or not isinstance(table, Tag):
-        return tuple()
+    """Parse entries from the HTML response."""
+    soup = parse_html(html)
+    return tuple(
+        _process_entry(phrase, defn)
+        for phrase, defn in _raw_entries(soup)
+        if phrase and defn
+    )
 
-    entries: List[GlossaryEntry] = []
-    for row in table.find_all("tr")[1:]:  # Skip header row
+
+def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
+    """Process a single glossary entry."""
+    return GlossaryEntry(
+        phrase=String(_capitalize_first(phrase)),
+        definition=Sentence(_normalize_definition(defn)),
+    )
+
+
+def _raw_entries(soup: TypedSoup) -> Iterable[tuple[str, str]]:
+    """
+    Extract raw entries from the soup.
+    Returns an iterable of (phrase, definition) pairs.
+    """
+    table = soup.find("table")
+    if not table:
+        return
+
+    rows = table.find_all("tr")[1:]  # Skip header row
+    for row in rows:
         cells = row.find_all("td")
         if len(cells) != 2:
             continue
 
         phrase = normalize_nonempty(
-            _normalize_apostrophes(cells[0].text.strip()))
+            _normalize_apostrophes(cells[0].get_text(strip=True)))
         definition = normalize_nonempty(
-            _normalize_apostrophes(cells[1].text.strip()))
+            _normalize_apostrophes(cells[1].get_text(strip=True)))
 
         if phrase and definition:
-            entries.append(
-                GlossaryEntry(
-                    phrase=String(_capitalize_first(phrase)),
-                    definition=Sentence(_normalize_definition(definition)),
-                )
-            )
-
-    return tuple(entries)
+            yield (phrase, definition)

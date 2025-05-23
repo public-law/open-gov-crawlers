@@ -1,5 +1,3 @@
-from typing import Generator
-
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.can.patents_glossary import parse_glossary

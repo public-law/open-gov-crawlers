@@ -1,6 +1,3 @@
-from typing import Any
-
-from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.models.glossary import GlossaryParseResult

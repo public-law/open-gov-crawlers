@@ -1,4 +1,4 @@
-from typing import Any, Iterable
+from typing import Iterable
 
 from scrapy.http.response.html import HtmlResponse
 
@@ -6,12 +6,13 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, ensure_ends_with_period, make_soup,
+from ...text import (Sentence, ensure_ends_with_period,
                      normalize_nonempty)
+from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = tuple(__parse_entries(html))
+    entries = _parse_entries(html)
 
     return GlossaryParseResult(
         metadata=Metadata(
@@ -19,7 +20,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             dcterms_language="en",
             dcterms_coverage="NZL",
             # Info about original source
-            dcterms_source=String("https://www.justice.govt.nz/about/glossary/"),
+            dcterms_source=String(
+                "https://www.justice.govt.nz/about/glossary/"),
             publiclaw_sourceModified="unknown",
             publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
             dcterms_subject=(
@@ -33,25 +35,47 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                 ),
             ),
         ),
-        entries=parsed_entries,
+        entries=entries,
     )
 
 
-def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    """TODO: Refactor into a parent class"""
+def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    """Parse entries from the HTML response."""
+    soup = parse_html(html)
+    return tuple(
+        _process_entry(phrase, defn)
+        for phrase, defn in _raw_entries(soup)
+        if defn is not None
+    )
 
-    for phrase, defn in __raw_entries(html):
-        yield GlossaryEntry(
-            phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(normalize_nonempty(ensure_ends_with_period(defn.text))),
-        )
+
+def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> GlossaryEntry:
+    """Process a single glossary entry."""
+    return GlossaryEntry(
+        phrase=normalize_nonempty(phrase.get_text()),
+        definition=Sentence(normalize_nonempty(
+            ensure_ends_with_period(defn.get_text()))),
+    )
 
 
-def __raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def _raw_entries(soup: TypedSoup) -> Iterable[tuple[TypedSoup, TypedSoup | None]]:
     """
-    The core of this parser.
-
-    TODO: Refactor all the glossary parsers to need only this function.
+    Extract raw entries from the soup.
+    Returns an iterable of (phrase, definition) pairs.
     """
-    soup = make_soup(html)
-    return ((phrase, phrase.parent.next_sibling) for phrase in soup.find_all("strong"))
+    for p in soup.find_all("p"):
+        children = p.children()
+        if len(children) == 1 and children[0].tag_name() == "strong":
+            phrase = children[0]
+            defn = _get_next_sibling(phrase)
+            yield (phrase, defn)
+
+
+def _get_next_sibling(tag: TypedSoup) -> TypedSoup | None:
+    parent = tag.parent()
+    if not parent:
+        return None
+    sibling = parent.next_sibling()
+    if sibling and sibling.tag_name() == "p":
+        return sibling
+    return None

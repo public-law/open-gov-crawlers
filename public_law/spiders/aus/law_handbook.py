@@ -1,5 +1,3 @@
-from typing import Any
-
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.aus.law_handbook import parse_glossary

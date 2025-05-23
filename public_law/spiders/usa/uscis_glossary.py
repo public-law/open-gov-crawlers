@@ -1,6 +1,3 @@
-from typing import Any, cast
-
-from scrapy.http.response import Response
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.usa.uscis_glossary import parse_glossary
@@ -16,6 +13,6 @@ class USCISGlossary(BaseGlossarySpider):
 
     start_urls = ["https://www.uscis.gov/tools/glossary"]
 
-    def parse_glossary(self, response: Response) -> GlossaryParseResult:
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """Framework callback which begins the parsing."""
-        return parse_glossary(cast(HtmlResponse, response))
+        return parse_glossary(response)

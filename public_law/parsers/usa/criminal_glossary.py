@@ -1,13 +1,11 @@
-from typing import Any, List, cast
-
-from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period
+from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -44,26 +42,32 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse the glossary entries from the HTML response.
 
-    The entries are in a table, with each <tr> containing two <td>s: the first is the phrase, the second is the definition.
+    The entries are in a table, with each <tr> containing two <td>s: 
+    the first is the phrase, the second is the definition.
     """
-    entries: list[GlossaryEntry] = []
-    soup = make_soup(html)
-    table = soup.find("table")
-    if not table or not isinstance(table, Tag):
-        return tuple()
-
-    rows: ResultSet[Tag] = table.find_all("tr")
-    for row in rows:
-        cells: ResultSet[Tag] = row.find_all("td")
-        if len(cells) < 2:
-            continue
-        phrase = cells[0].get_text(strip=True)
-        definition = cells[1].get_text(strip=True)
-        if phrase and definition:
-            entries.append(
-                GlossaryEntry(
-                    phrase=String(phrase),
-                    definition=Sentence(ensure_ends_with_period(definition)),
-                )
+    match(parse_html(html).find("table")):
+        case None:
+            return tuple()
+        case table:
+            return tuple(
+                entry for row in table.find_all("tr")
+                if (entry := _process_row(row)) is not None
             )
-    return tuple(entries)
+
+
+def _process_row(row: TypedSoup) -> GlossaryEntry | None:
+    cells = row.find_all("td")
+    if len(cells) < 2:
+        return None
+
+    phrase = cells[0].get_text()
+    definition = cells[1].get_text()
+
+    if not phrase or not definition:
+        return None
+
+    return GlossaryEntry(
+        phrase=String(phrase),
+        definition=Sentence(
+            ensure_ends_with_period(definition)),
+    )

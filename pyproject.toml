@@ -2,6 +2,7 @@
 authors = ["Robb Shecter <robb@public.law>"]
 description = "Open-gov spiders written with Python"
 name = "open-gov-crawlers"
+package-mode = false
 packages = [{ include = "public_law" }]
 repository = "https://github.com/public-law/open-gov-crawlers"
 version = "1.1.2"
@@ -38,20 +39,18 @@ ignore = ["**/typings", "tests"]
 # As strict as possible: strict mode plus the optional strict checks.
 typeCheckingMode = "strict"
 
-reportCallInDefaultInitializer = "error"
-reportImplicitStringConcatenation = "error"
-reportMissingSuperCall = "error"
-reportPropertyTypeMismatch = "error"
+reportCallInDefaultInitializer      = "error"
+reportImplicitStringConcatenation   = "error"
+reportMissingSuperCall              = "error"
+reportPropertyTypeMismatch          = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportUnusedCallResult = "error"
 
 reportUnusedImport = false
 reportMissingTypeStubs = false # I don't know the purpose. Scrapy does better w/out type stubs.
 
 
 [tool.pytest.ini_options]
-addopts = "-v --no-header --doctest-modules -p no:pastebin"
+addopts = "--no-header --doctest-modules -p no:pastebin"
 minversion = "7.1"
 pythonpath = "."
 python_files = ["*_test.py", "test_*.py"]
@@ -64,4 +63,8 @@ requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.pylint.main]
-disable = ["missing-function-docstring","missing-module-docstring","no-value-for-parameter","too-few-public-methods"]
+disable = [
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "no-value-for-parameter",
+  "too-few-public-methods"]

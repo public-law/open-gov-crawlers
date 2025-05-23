@@ -1,15 +1,14 @@
-from typing import Any, Iterable, cast
+from typing import Iterable, List
 
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import pipe  # type: ignore
 
-from public_law import text
+from public_law.html import TypedSoup, parse_html
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, ensure_ends_with_period, make_soup,
+from ...text import (Sentence, ensure_ends_with_period,
                      normalize_nonempty)
 
 
@@ -18,7 +17,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=String("Family, domestic and sexual violence glossary"),
+            dcterms_title=String(
+                "Family, domestic and sexual violence glossary"),
             dcterms_language="en",
             dcterms_coverage="AUS",
             # Info about original source
@@ -48,26 +48,42 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     """TODO: Refactor into a parent class"""
 
     for phrase, defn in __raw_entries(html):
-        fixed_phrase = text.pipe(
-            phrase
-            , text.rstrip(": ")                             # type: ignore
-        )
+        # Clean up the phrase by removing trailing ": " and creating a NonemptyString
+        cleaned_phrase = phrase.rstrip(": ")
+        fixed_phrase = String(cleaned_phrase)
 
-        fixed_definition: Sentence = cast(Sentence, pipe(defn, ensure_ends_with_period, normalize_nonempty, Sentence))
+        # Process the definition
+        fixed_definition: Sentence = Sentence(
+            normalize_nonempty(ensure_ends_with_period(defn)))
 
         yield GlossaryEntry(fixed_phrase, fixed_definition)
 
 
-def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def __raw_entries(response: HtmlResponse) -> Iterable[tuple[str, str]]:
     """
     The core of this parser.
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup = make_soup(response)
-
+    soup = parse_html(response)
     paragraphs = soup.find_all("p")
-    strongs = filter(lambda s: s is not None, (p.strong for p in paragraphs))
-    strongs: filter[Any] = filter(lambda s: s.string != "Indigenous", strongs)
 
-    return ((phrase.string, "".join(map(str, phrase.next_siblings))) for phrase in strongs)
+    # Get all strong elements from paragraphs that have content
+    strongs: List[TypedSoup] = []
+    for p in paragraphs:
+        strong = p.find("strong")
+        if strong is not None and strong.string is not None:
+            strongs.append(strong)
+
+    # Filter out "Indigenous" entries
+    strongs = [
+        s for s in strongs
+        if s.string != "Indigenous"
+    ]
+
+    # Extract phrase and definition
+    for s in strongs:
+        phrase = s.string or ""
+        definition = s.get_content_after_element()
+
+        yield (phrase, definition)
