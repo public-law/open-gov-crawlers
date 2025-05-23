@@ -28,7 +28,7 @@ def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
 def _make_metadata(response: HtmlResponse) -> Metadata:
     """Create metadata for the Design IP glossary."""
     return Metadata(
-        dcterms_title=String("Design IP Glossary"),
+        dcterms_title=String("Design Examiners Manual Glossary"),
         dcterms_language="en",
         dcterms_coverage="AUS",
         dcterms_source=String(response.url),
@@ -62,7 +62,8 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
 
             # Extract the definition by removing the <strong> tag and its contents
             strong.decompose()
-            definition = normalize_whitespace(p.get_text().strip())
+            definition = normalize_whitespace(
+                p.get_text().strip()).removeprefix("– ")
 
             # Skip empty entries
             if phrase and definition:
