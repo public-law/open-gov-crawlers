@@ -14,6 +14,7 @@ from public_law.text import (
     ensure_ends_with_period,
     make_soup,
     normalize_whitespace,
+    ensure_starts_with_capital,
 )
 
 
@@ -64,9 +65,11 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
             strong.decompose()
             definition = normalize_whitespace(
                 p.get_text().strip()).removeprefix("– ")
+            definition = ensure_starts_with_capital(definition)
 
             # Skip empty entries
             if phrase and definition:
+
                 entries.append(
                     GlossaryEntry(
                         phrase=String(phrase),
