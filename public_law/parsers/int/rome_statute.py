@@ -1,21 +1,13 @@
-# pyright: reportGeneralTypeIssues=false
-# pyright: reportCallIssue=false
-# pyright: reportInvalidTypeForm=false
-# pyright: reportAssignmentType=false
-# pyright: reportRedeclaration=false
-# pyright: reportArgumentType=false
-
-
 import re
 from functools import cache
-from typing import Any, List, cast
+from typing import Annotated, Any, List, cast
 
 from bs4 import BeautifulSoup
-from pydantic import BaseModel, Field, conint
+from pydantic import BaseModel, Field
 from tika import parser
 
-from public_law.metadata import Metadata
-from public_law.text import NonemptyString as S
+from public_law.metadata import Metadata, Subject
+from public_law.text import NonemptyString as S, URI
 from public_law.text import normalize_whitespace, titleize
 
 LANGUAGE_MAP = {
@@ -40,7 +32,7 @@ class Part(FrozenModel):
     """Represents a 'Part' in the text of the Rome Statute.
     It's basically like a chapter. A Part has many Articles."""
 
-    number: conint(ge=1, le=13)
+    number: Annotated[int, Field(ge=1, le=13)]
     name: str = Field(pattern=r"^[ a-zA-Z,]+$")
 
 
@@ -49,22 +41,16 @@ class Article(FrozenModel):
     section of the statute. An Article belongs to one Part."""
 
     number: str  # Is string because of numbers like "8 bis".
-    part_number: conint(ge=1, le=13)  
-    name: str = Field(pattern=r"^[ a-zA-Z0-9,:\-\(\)]*$")  
+    part_number: Annotated[int, Field(ge=1, le=13)]
+    name: str = Field(pattern=r"^[ a-zA-Z0-9,:\-\(\)]*$")
     text: str
-
-    def name(self) -> str:
-        return cast(str, self.name)
-
-    def part_number(self) -> int:
-        return cast(int, self.part_number)
 
 
 class Footnote(FrozenModel):
     """Represents a footnote in the document. Each one belongs
     to an Article. There are 10 in the English version."""
 
-    number: conint(ge=1, le=10)
+    number: Annotated[int, Field(ge=1, le=10)]
     article_number: S
     text: S
 
@@ -147,11 +133,26 @@ def footnotes() -> list[Footnote]:
 def new_metadata(pdf_url: str) -> Metadata:
     # pdf_data = metadata(pdf_url)
 
+    # Define appropriate subjects for the Rome Statute
+    subjects = (
+        Subject(
+            uri=URI("http://id.loc.gov/authorities/subjects/sh98006095"),
+            rdfs_label=S("International criminal law")
+        ),
+        Subject(
+            uri=URI("https://www.wikidata.org/wiki/Q756830"),
+            rdfs_label=S("International Criminal Court")
+        ),
+    )
+
     return Metadata(
-        dc_identifier=S(JSON_OUTPUT_URL_EN),
-        dc_source=S(pdf_url),
-        dc_title=S(title(pdf_url)),
-        dc_language=S(language(pdf_url)),
+        dcterms_title=S(title(pdf_url)),
+        dcterms_language="en",  # Default to English, could be made dynamic
+        dcterms_coverage="USA",  # Placeholder for international coverage
+        dcterms_subject=subjects,
+        dcterms_source=S(pdf_url),
+        publiclaw_sourceModified="unknown",
+        publiclaw_sourceCreator=S("International Criminal Court"),
     )
 
 
@@ -294,7 +295,8 @@ def _remove_annotations(article: Article, number: str) -> Article:
             text = name_text[1].strip()
         annotations = [int(x) for x in annotation.split()]
         for annotation in annotations:
-            text = re.sub(rf"^{annotation}\s.*\n?", "", text, flags=re.MULTILINE)
+            text = re.sub(rf"^{annotation}\s.*\n?",
+                          "", text, flags=re.MULTILINE)
     return Article(
         name=name,
         number=number,
