@@ -1,7 +1,6 @@
 from typing import Iterable
 
 from scrapy.http.response.html import HtmlResponse
-from toolz.functoolz import pipe  # type: ignore
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
