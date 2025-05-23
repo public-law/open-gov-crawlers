@@ -14,11 +14,10 @@ from ...text import NonemptyString as String
 from ...text import (Sentence, ensure_ends_with_period, make_soup,
                      normalize_nonempty)
 from ...html import parse_html, TypedSoup
-from ...result import Result, Ok, Err, cat_oks
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = cat_oks(_parse_entries(html))
+    entries = _parse_entries(html)
 
     return GlossaryParseResult(
         metadata=Metadata(
@@ -45,27 +44,23 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     )
 
 
-def _parse_entries(html: HtmlResponse) -> list[Result[GlossaryEntry]]:
+def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
-    match parse_html(html):
-        case Ok(soup):
-            return [_process_entry(phrase, defn)
-                    for phrase, defn in _raw_entries(soup)
-                    if defn is not None]
-        case Err(_):
-            return []
+    soup = parse_html(html)
+    return tuple(
+        _process_entry(phrase, defn)
+        for phrase, defn in _raw_entries(soup)
+        if defn is not None
+    )
 
 
-def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> Result[GlossaryEntry]:
+def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> GlossaryEntry:
     """Process a single glossary entry."""
-    try:
-        return Ok(GlossaryEntry(
-            phrase=normalize_nonempty(phrase.get_text()),
-            definition=Sentence(normalize_nonempty(
-                ensure_ends_with_period(defn.get_text()))),
-        ))
-    except Exception as e:
-        return Err(f"Failed to process entry: {e}")
+    return GlossaryEntry(
+        phrase=normalize_nonempty(phrase.get_text()),
+        definition=Sentence(normalize_nonempty(
+            ensure_ends_with_period(defn.get_text()))),
+    )
 
 
 def _raw_entries(soup: TypedSoup) -> Iterable[tuple[TypedSoup, TypedSoup | None]]:

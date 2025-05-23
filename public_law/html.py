@@ -18,12 +18,12 @@ class TypedSoup:
     def __init__(self, element: Tag | BeautifulSoup) -> None:  # type: ignore
         self._element = element
 
-    def find(self, name: str) -> Result['TypedSoup']:
-        """Find a single element, returning Err if not found or not a Tag."""
+    def find(self, name: str) -> 'TypedSoup | None':
+        """Find a single element, returning None if not found or not a Tag."""
         result = self._element.find(name)
         if not result or not isinstance(result, Tag):
-            return Err(f"Could not find {name} or result was not a Tag")
-        return Ok(TypedSoup(result))
+            return None
+        return TypedSoup(result)
 
     def find_all(self, name: str) -> List['TypedSoup']:
         """Find all elements, filtering out non-Tag results."""
@@ -93,9 +93,6 @@ def xpath(selector: str, dom: XmlResponse) -> str:
 xpath = curry(xpath)  # type: ignore
 
 
-def parse_html(html: HtmlResponse) -> Result[TypedSoup]:
+def parse_html(html: HtmlResponse) -> TypedSoup:
     """Create a type-safe BeautifulSoup wrapper from an HTML response."""
-    try:
-        return Ok(TypedSoup(make_soup(html)))
-    except Exception as e:
-        return Err(f"Failed to parse HTML: {e}")
+    return TypedSoup(make_soup(html))

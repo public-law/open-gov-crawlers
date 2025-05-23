@@ -6,7 +6,6 @@ from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period
 from ...html import parse_html, TypedSoup
-from ...result import Result, Ok, Err, cat_oks
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -15,7 +14,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     complete parse of the HTTP response.
     """
     metadata = _make_metadata(html)
-    entries = cat_oks(_parse_entries(html))
+    entries = _parse_entries(html)
 
     return GlossaryParseResult(metadata, entries)
 
@@ -40,39 +39,36 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_entries(html: HtmlResponse) -> list[Result[GlossaryEntry]]:
+def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse the glossary entries from the HTML response.
 
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    def process_table(table: TypedSoup) -> list[Result[GlossaryEntry]]:
-        return [_process_row(row) for row in table.find_all("tr")]
+    soup = parse_html(html)
+    table = soup.find("table")
+    if not table:
+        return tuple()
 
-    def find_table(soup: TypedSoup) -> Result[TypedSoup]:
-        return soup.find("table")
-
-    return (
-        parse_html(html)
-        .and_then(find_table)
-        .map(process_table)
-        .unwrap_or([])
+    return tuple(
+        entry for row in table.find_all("tr")
+        if (entry := _process_row(row)) is not None
     )
 
 
-def _process_row(row: TypedSoup) -> Result[GlossaryEntry]:
+def _process_row(row: TypedSoup) -> GlossaryEntry | None:
     cells = row.find_all("td")
     if len(cells) < 2:
-        return Err("Row does not have enough cells")
+        return None
 
     phrase = cells[0].get_text()
     definition = cells[1].get_text()
 
     if not phrase or not definition:
-        return Err("Empty phrase or definition")
+        return None
 
-    return Ok(GlossaryEntry(
+    return GlossaryEntry(
         phrase=String(phrase),
         definition=Sentence(
             ensure_ends_with_period(definition)),
-    ))
+    )
