@@ -11,10 +11,10 @@ from .text import make_soup
 T = TypeVar('T')
 
 
-class TypedSoup:
+class TypedSoup(object):
     """A type-safe wrapper around BeautifulSoup results."""
 
-    def __init__(self, element: Tag | BeautifulSoup) -> None:
+    def __init__(self, element: Tag | BeautifulSoup) -> None:  # type: ignore
         self._element = element
 
     def find(self, name: str) -> Optional['TypedSoup']:
