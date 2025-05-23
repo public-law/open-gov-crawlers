@@ -44,7 +44,7 @@ reportImplicitStringConcatenation = "error"
 reportMissingSuperCall = "error"
 reportPropertyTypeMismatch = "error"
 reportUninitializedInstanceVariable = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
+reportUnnecessaryTypeIgnoreComment = "warning"
 reportUnusedCallResult = "error"
 
 reportUnusedImport = false

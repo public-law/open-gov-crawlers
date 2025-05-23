@@ -1,13 +1,12 @@
-from typing import Any, List, cast, Iterable
+from typing import Iterable
 
-from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period
 from ...html import parse_html, TypedSoup
 
 

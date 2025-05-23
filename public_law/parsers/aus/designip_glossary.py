@@ -1,7 +1,7 @@
 from datetime import date
-from typing import Tuple, cast
+from typing import Tuple
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.metadata import Metadata, Subject

@@ -2,7 +2,7 @@ from typing import List
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.html import TypedSoup, parse_html
+from public_law.html import parse_html
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
