@@ -7,22 +7,23 @@ from toolz.functoolz import curry
 
 from .exceptions import ParseException
 from .text import make_soup
+from .result import Result, Ok, Err
 
 T = TypeVar('T')
 
 
-class TypedSoup(object):
+class TypedSoup:
     """A type-safe wrapper around BeautifulSoup results."""
 
     def __init__(self, element: Tag | BeautifulSoup) -> None:  # type: ignore
         self._element = element
 
-    def find(self, name: str) -> Optional['TypedSoup']:
-        """Find a single element, returning None if not found or not a Tag."""
+    def find(self, name: str) -> Result['TypedSoup']:
+        """Find a single element, returning Err if not found or not a Tag."""
         result = self._element.find(name)
         if not result or not isinstance(result, Tag):
-            return None
-        return TypedSoup(result)
+            return Err(f"Could not find {name} or result was not a Tag")
+        return Ok(TypedSoup(result))
 
     def find_all(self, name: str) -> List['TypedSoup']:
         """Find all elements, filtering out non-Tag results."""
@@ -74,6 +75,9 @@ def xpath(selector: str, dom: XmlResponse) -> str:
 xpath = curry(xpath)  # type: ignore
 
 
-def parse_html(html: HtmlResponse) -> TypedSoup:
+def parse_html(html: HtmlResponse) -> Result[TypedSoup]:
     """Create a type-safe BeautifulSoup wrapper from an HTML response."""
-    return TypedSoup(make_soup(html))
+    try:
+        return Ok(TypedSoup(make_soup(html)))
+    except Exception as e:
+        return Err(f"Failed to parse HTML: {e}")

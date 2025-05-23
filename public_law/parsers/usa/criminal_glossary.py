@@ -4,8 +4,9 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period
 from ...html import parse_html, TypedSoup
+from ...result import Result, Ok, Err
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -45,31 +46,36 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    soup = parse_html(html)
-    table = soup.find("table")
-    if not table:
-        return tuple()
+    match parse_html(html):
+        case Ok(soup):
+            match soup.find("table"):
+                case Ok(table):
 
-    def process_row(row: TypedSoup) -> GlossaryEntry | None:
-        cells = row.find_all("td")
-        if len(cells) < 2:
-            return None
+                    # Use list comprehension with filter to process rows
+                    entries = [
+                        entry.value for row in table.find_all("tr")
+                        if isinstance(entry := _process_row(row), Ok)
+                    ]
+                    return tuple(entries)
+                case Err(_):
+                    return tuple()
+        case Err(_):
+            return tuple()
 
-        phrase = cells[0].get_text()
-        definition = cells[1].get_text()
 
-        if not phrase or not definition:
-            return None
+def _process_row(row: TypedSoup) -> Result[GlossaryEntry]:
+    cells = row.find_all("td")
+    if len(cells) < 2:
+        return Err("Row does not have enough cells")
 
-        return GlossaryEntry(
-            phrase=String(phrase),
-            definition=Sentence(ensure_ends_with_period(definition)),
-        )
+    phrase = cells[0].get_text()
+    definition = cells[1].get_text()
 
-    # Use list comprehension with filter to process rows
-    entries = [
-        entry for row in table.find_all("tr")
-        if (entry := process_row(row)) is not None
-    ]
+    if not phrase or not definition:
+        return Err("Empty phrase or definition")
 
-    return tuple(entries)
+    return Ok(GlossaryEntry(
+        phrase=String(phrase),
+        definition=Sentence(
+            ensure_ends_with_period(definition)),
+    ))
