@@ -72,4 +72,4 @@ def test_last_glossary_entry(parsed_glossary: GlossaryParseResult):
     last_entry = entries[-1]
 
     assert last_entry.phrase == "Withdraw (as in withdraw a design)"
-    assert last_entry.definition == "Where an applicant elects to discontinue their application under s 32 of the Act.​​​​​​​"
+    assert last_entry.definition == "Where an applicant elects to discontinue their application under s 32 of the Act."
