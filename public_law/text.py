@@ -1,3 +1,7 @@
+# pyright: reportUnknownVariableType=false
+# pyright: reportCallIssue=false
+# pyright: reportUnknownMemberType=false
+
 """
 String functions and types.
 """
@@ -225,7 +229,6 @@ def pipe(*args: Any) -> NonemptyString:
     """
     args_with_string: Any = args + (NonemptyString,)
 
-    # type: ignore
     return cast(NonemptyString, functoolz.pipe(*args_with_string))
 
 
@@ -259,5 +262,4 @@ def titleize(text: str) -> str:
             return word.upper()
 
     # Needs text.lower() because titlecase incorrectly sees all caps as an acronym.
-    # type: ignore
     return titlecase.titlecase(text.lower(), callback=titlecase_special_cases)
