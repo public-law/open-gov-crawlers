@@ -1,19 +1,16 @@
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownVariableType=false
-
 import re
 from datetime import datetime
 from typing import List, NamedTuple, Union, cast
 
 from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
-from toolz.functoolz import curry, pipe
+from toolz.functoolz import curry, pipe  # type: ignore
 
 from ...exceptions import ParseException
 from ...text import normalize_whitespace
 
 join = curry(str.join)
-map  = curry(map)
+map = curry(map)
 
 
 class CitationSet(NamedTuple):
@@ -38,9 +35,12 @@ class OpinionParseResult(NamedTuple):
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
-    summary = first(html, css=".page-top__subtitle--re p::text",   expected="summary")
-    title   = first(html, css="h1.page-top__title--opinion::text", expected="title")
-    date    = first(html, css="time::text",                        expected="date")
+    summary = first(html, css=".page-top__subtitle--re p::text",
+                    expected="summary")
+    title = first(html, css="h1.page-top__title--opinion::text",
+                  expected="title")
+    date = first(html, css="time::text",
+                 expected="date")
     full_text = cast(
         str,
         pipe(
@@ -50,7 +50,8 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
         ),
     )
     citation_set = cast(CitationSet, pipe(
-        re.findall(r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text),
+        re.findall(
+            r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text),
         set,
         sorted,
         CitationSet,

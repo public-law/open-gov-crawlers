@@ -1,5 +1,3 @@
-from typing import Any
-
 from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.gbr.cpr_glossary import parse_glossary
