@@ -18,7 +18,7 @@ from ...result import Result, Ok, Err, cat_oks
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = tuple(__parse_entries(html))
+    entries = cat_oks(_parse_entries(html))
 
     return GlossaryParseResult(
         metadata=Metadata(
@@ -41,37 +41,50 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                 ),
             ),
         ),
-        entries=parsed_entries,
+        entries=entries,
     )
 
 
-def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    """TODO: Refactor into a parent class"""
+def _parse_entries(html: HtmlResponse) -> list[Result[GlossaryEntry]]:
+    """Parse entries from the HTML response."""
+    match parse_html(html):
+        case Ok(soup):
+            return [_process_entry(phrase, defn)
+                    for phrase, defn in _raw_entries(soup)
+                    if defn is not None]
+        case Err(_):
+            return []
 
-    for phrase, defn in __raw_entries(html):
-        yield GlossaryEntry(
-            phrase=normalize_nonempty(phrase.text),
+
+def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> Result[GlossaryEntry]:
+    """Process a single glossary entry."""
+    try:
+        return Ok(GlossaryEntry(
+            phrase=normalize_nonempty(phrase.get_text()),
             definition=Sentence(normalize_nonempty(
-                ensure_ends_with_period(defn.text))),
-        )
+                ensure_ends_with_period(defn.get_text()))),
+        ))
+    except Exception as e:
+        return Err(f"Failed to process entry: {e}")
 
 
-def __raw_entries(response: HtmlResponse) -> Iterable[tuple[Any, Any]]:
+def _raw_entries(soup: TypedSoup) -> Iterable[tuple[TypedSoup, TypedSoup | None]]:
     """
-    The core of this parser.
-
-    TODO: Refactor all the glossary parsers to need only this function.
+    Extract raw entries from the soup.
+    Returns an iterable of (phrase, definition) pairs.
     """
-    soup = make_soup(response)
-
-    def get_next_sibling(tag: Tag) -> Tag | None:
-        if not tag.parent:
+    def get_next_sibling(tag: TypedSoup) -> TypedSoup | None:
+        parent = tag.parent()
+        if not parent:
             return None
-        sibling = tag.parent.next_sibling
-        if isinstance(sibling, Tag):
+        sibling = parent.next_sibling()
+        if sibling and sibling.tag_name() == "p":
             return sibling
         return None
 
-    return ((phrase, get_next_sibling(phrase))
-            for phrase in soup.find_all("strong")
-            if isinstance(phrase, Tag))
+    for p in soup.find_all("p"):
+        children = p.children()
+        if len(children) == 1 and children[0].tag_name() == "strong":
+            phrase = children[0]
+            defn = get_next_sibling(phrase)
+            yield (phrase, defn)

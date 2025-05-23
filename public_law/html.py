@@ -40,6 +40,24 @@ class TypedSoup:
         """Allow using the wrapper in boolean contexts."""
         return bool(self._element)
 
+    def children(self) -> list['TypedSoup']:
+        return [TypedSoup(child) for child in self._element.children if isinstance(child, Tag)]
+
+    def tag_name(self) -> str | None:
+        return self._element.name
+
+    def parent(self) -> 'TypedSoup | None':
+        parent = self._element.parent
+        if isinstance(parent, Tag):
+            return TypedSoup(parent)
+        return None
+
+    def next_sibling(self) -> 'TypedSoup | None':
+        sibling = self._element.next_sibling
+        if isinstance(sibling, Tag):
+            return TypedSoup(sibling)
+        return None
+
 
 def node_name(node: Selector) -> str | None:
     return node.xpath("name()").get()
