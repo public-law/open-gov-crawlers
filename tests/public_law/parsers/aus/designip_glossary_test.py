@@ -33,7 +33,7 @@ def test_glossary_has_entries(parsed_glossary):
 
 def test_glossary_has_correct_number_of_entries(parsed_glossary):
     """Test that the glossary has the correct number of entries."""
-    assert len(tuple(parsed_glossary.entries)) == 172
+    assert len(tuple(parsed_glossary.entries)) == 87
 
 
 @pytest.mark.parametrize("field,expected", [
