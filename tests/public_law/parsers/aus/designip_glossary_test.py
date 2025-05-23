@@ -57,6 +57,15 @@ def test_first_glossary_entry(parsed_glossary: GlossaryParseResult):
     assert first_entry.definition == "Administrative Review Tribunal."
 
 
+def test_second_glossary_entry(parsed_glossary: GlossaryParseResult):
+    """Test the second glossary entry."""
+    entries = tuple(parsed_glossary.entries)
+    second_entry = entries[1]
+
+    assert second_entry.phrase == "Address for correspondence"
+    assert second_entry.definition == "An additional address to which IP Australia may forward correspondence. Note that this is not a requirement, whereas an address for service is a requirement."
+
+
 def test_last_glossary_entry(parsed_glossary: GlossaryParseResult):
     """Test the last glossary entry."""
     entries = tuple(parsed_glossary.entries)
