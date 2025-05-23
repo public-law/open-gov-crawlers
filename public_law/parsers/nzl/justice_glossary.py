@@ -73,18 +73,19 @@ def _raw_entries(soup: TypedSoup) -> Iterable[tuple[TypedSoup, TypedSoup | None]
     Extract raw entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    def get_next_sibling(tag: TypedSoup) -> TypedSoup | None:
-        parent = tag.parent()
-        if not parent:
-            return None
-        sibling = parent.next_sibling()
-        if sibling and sibling.tag_name() == "p":
-            return sibling
-        return None
-
     for p in soup.find_all("p"):
         children = p.children()
         if len(children) == 1 and children[0].tag_name() == "strong":
             phrase = children[0]
-            defn = get_next_sibling(phrase)
+            defn = _get_next_sibling(phrase)
             yield (phrase, defn)
+
+
+def _get_next_sibling(tag: TypedSoup) -> TypedSoup | None:
+    parent = tag.parent()
+    if not parent:
+        return None
+    sibling = parent.next_sibling()
+    if sibling and sibling.tag_name() == "p":
+        return sibling
+    return None
