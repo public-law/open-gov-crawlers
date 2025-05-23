@@ -34,3 +34,16 @@ class Err:
 
 
 Result: TypeAlias = Ok[T] | Err
+
+
+def cat_oks(results: list[Result[T]]) -> list[T]:
+    """
+    Concatenate a list of Results into a list of their values.
+
+    Args:
+        results: A list of Results.
+
+    Returns:
+        A list of the values of the Ok Results.
+    """
+    return [result.value for result in results if isinstance(result, Ok)]
