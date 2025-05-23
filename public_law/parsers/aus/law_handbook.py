@@ -1,13 +1,14 @@
-from typing import Any, List, Optional
+from typing import List
 
-from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
+
+from public_law.html import TypedSoup, parse_html
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, WikidataTopic
+from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -60,18 +61,27 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     The entries are in a definition list (<dl>) with <dt> containing <span class="glossterm"> for terms 
     and <dd class="glossdef"> containing <p> for definitions.
     """
-    entries: list[GlossaryEntry] = []
-    soup = make_soup(html)
+    entries: List[GlossaryEntry] = []
+    soup = parse_html(html)
 
     # Find all dt/dd pairs in the glossary
-    for dt, dd in zip(soup.find_all("dt"), soup.find_all("dd", class_="glossdef")):
+    dts = soup.find_all("dt")
+    dds = soup.find_all("dd", class_="glossdef")
+
+    for dt, dd in zip(dts, dds):
         # Extract the text content from the span.glossterm element
         phrase_elem = dt.find("span", class_="glossterm")
         if not phrase_elem:
             continue
 
-        phrase = phrase_elem.get_text().strip()
-        definition = dd.find("p").get_text().strip()
+        phrase = phrase_elem.get_text(strip=True)
+
+        # Find the definition paragraph
+        p_elem = dd.find("p")
+        if not p_elem:
+            continue
+
+        definition = p_elem.get_text(strip=True)
 
         if phrase and definition:
             entries.append(

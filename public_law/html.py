@@ -1,4 +1,4 @@
-from typing import TypeVar, Optional, List, Iterator, Any
+from typing import TypeVar, Optional, List, Iterator, Any, Dict, Union
 from bs4 import BeautifulSoup, Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
 from scrapy.http.response.xml import XmlResponse
@@ -18,17 +18,36 @@ class TypedSoup:
     def __init__(self, element: Tag | BeautifulSoup) -> None:  # type: ignore
         self._element = element
 
-    def find(self, name: str) -> 'TypedSoup | None':
+    def find(self, name: str, class_: Optional[str] = None, attrs: Optional[Dict[str, Any]] = None) -> 'TypedSoup | None':
         """Find a single element, returning None if not found or not a Tag."""
-        result = self._element.find(name)
+        # Build the attrs dict from class_ parameter if provided
+        search_attrs = attrs or {}
+        if class_ is not None:
+            search_attrs["class"] = class_
+
+        if search_attrs:
+            result = self._element.find(name, attrs=search_attrs)
+        else:
+            result = self._element.find(name)
+
         if not result or not isinstance(result, Tag):
             return None
         return TypedSoup(result)
 
-    def find_all(self, name: str) -> List['TypedSoup']:
+    def find_all(self, name: str, class_: Optional[str] = None, attrs: Optional[Dict[str, Any]] = None) -> List['TypedSoup']:
         """Find all elements, filtering out non-Tag results."""
+        # Build the attrs dict from class_ parameter if provided
+        search_attrs = attrs or {}
+        if class_ is not None:
+            search_attrs["class"] = class_
+
+        if search_attrs:
+            results = self._element.find_all(name, attrs=search_attrs)
+        else:
+            results = self._element.find_all(name)
+
         return [
-            TypedSoup(tag) for tag in self._element.find_all(name)
+            TypedSoup(tag) for tag in results
             if isinstance(tag, Tag)
         ]
 
