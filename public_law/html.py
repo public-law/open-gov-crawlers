@@ -58,6 +58,23 @@ class TypedSoup:
             return TypedSoup(sibling)
         return None
 
+    def get_content_after_element(self) -> str:
+        """Get all content (as HTML string) after this element within its parent."""
+        if not self._element.parent:
+            return ""
+
+        # Get all siblings after this element
+        siblings: List[str] = []
+        for sibling in self._element.next_siblings:
+            siblings.append(str(sibling))
+
+        return "".join(siblings)
+
+    @property
+    def string(self) -> str | None:
+        """Get the string content of the element (similar to BeautifulSoup's .string)."""
+        return self._element.string
+
 
 def node_name(node: Selector) -> str | None:
     return node.xpath("name()").get()
