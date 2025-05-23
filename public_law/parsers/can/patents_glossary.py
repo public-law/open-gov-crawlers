@@ -1,4 +1,4 @@
-from typing import Any, List, cast
+from typing import Any, List, cast, Iterable
 
 from bs4 import Tag, ResultSet
 from scrapy.http.response.html import HtmlResponse
@@ -7,7 +7,8 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period, normalize_nonempty
+from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -42,18 +43,32 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    """Parse the glossary entries from the HTML response.
+    """Parse entries from the HTML response."""
+    soup = parse_html(html)
+    return tuple(
+        _process_entry(phrase, defn)
+        for phrase, defn in _raw_entries(soup)
+        if phrase and defn
+    )
 
-    The entries are in definition lists (<dl>), with each <dt> containing the phrase
-    and each <dd> containing the definition.
+
+def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
+    """Process a single glossary entry."""
+    return GlossaryEntry(
+        phrase=String(phrase),
+        definition=Sentence(ensure_ends_with_period(defn)),
+    )
+
+
+def _raw_entries(soup: TypedSoup) -> Iterable[tuple[str, str]]:
     """
-    entries: list[GlossaryEntry] = []
-    soup = make_soup(html)
-
+    Extract raw entries from the soup.
+    Returns an iterable of (phrase, definition) pairs.
+    """
     # Find all definition lists
     dls = soup.find_all("dl")
     if not dls:
-        return tuple()
+        return
 
     for dl in dls:
         # Each dl contains dt/dd pairs
@@ -75,12 +90,4 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             definition = dd.get_text(strip=True)
 
             if phrase and definition:
-                entries.append(
-                    GlossaryEntry(
-                        phrase=String(phrase),
-                        definition=Sentence(
-                            ensure_ends_with_period(definition)),
-                    )
-                )
-
-    return tuple(entries)
+                yield (phrase, definition)
