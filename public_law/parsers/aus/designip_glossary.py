@@ -1,7 +1,7 @@
 from datetime import date
-from typing import Tuple
+from typing import Tuple, cast
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.metadata import Metadata, Subject
@@ -53,33 +53,39 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
     """Parse glossary entries from the HTML response."""
     soup = make_soup(response)
 
-    # Find all <p> tags that contain a <strong> tag
-    entries: list[GlossaryEntry] = []
-    for p in soup.find_all("p"):
+    def process_paragraph(p: Tag) -> GlossaryEntry | None:
         strong = p.find("strong")
-        if strong:
-            # Extract the phrase from the <strong> tag
-            phrase = strong.get_text().strip()
+        if not strong or not isinstance(strong, Tag):
+            return None
 
-            # Extract the definition by removing the <strong> tag and its contents
-            strong.decompose()
-            definition = normalize_whitespace(p.get_text().strip())
-            # Remove em dash prefix if present
-            definition = definition.removeprefix("– ")
-            # Remove zero-width space characters (both Unicode and HTML entity)
-            definition = definition.replace(
-                "\u200b", "").replace("&ZeroWidthSpace;", "")
-            # Ensure proper capitalization
-            definition = ensure_starts_with_capital(definition)
+        # Extract the phrase from the <strong> tag
+        phrase = strong.get_text().strip()
 
-            # Skip empty entries
-            if phrase and definition:
-                entries.append(
-                    GlossaryEntry(
-                        phrase=String(phrase),
-                        definition=Sentence(
-                            ensure_ends_with_period(definition)),
-                    )
-                )
+        # Extract the definition by removing the <strong> tag and its contents
+        strong.decompose()
+        definition = normalize_whitespace(p.get_text().strip())
+        # Remove em dash prefix if present
+        definition = definition.removeprefix("– ")
+        # Remove zero-width space characters (both Unicode and HTML entity)
+        definition = definition.replace(
+            "\u200b", "").replace("&ZeroWidthSpace;", "")
+        # Ensure proper capitalization
+        definition = ensure_starts_with_capital(definition)
+
+        # Skip empty entries
+        if not phrase or not definition:
+            return None
+
+        return GlossaryEntry(
+            phrase=String(phrase),
+            definition=Sentence(ensure_ends_with_period(definition)),
+        )
+
+    # Use list comprehension with filter to process paragraphs
+    entries = [
+        entry for p in soup.find_all("p")
+        if isinstance(p, Tag)
+        if (entry := process_paragraph(p)) is not None
+    ]
 
     return tuple(entries)
