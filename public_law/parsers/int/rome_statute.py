@@ -1,6 +1,6 @@
 import re
 from functools import cache
-from typing import Annotated, Any, List, cast
+from typing import Annotated, Any, List
 
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field
