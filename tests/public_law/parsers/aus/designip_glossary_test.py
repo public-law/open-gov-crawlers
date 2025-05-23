@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.aus.law_handbook import parse_glossary
+from public_law.parsers.aus.designip_glossary import parse_glossary
 from public_law.models.glossary import GlossaryParseResult
 
 
@@ -14,7 +14,7 @@ def glossary_response():
         html_content = f.read()
 
     return HtmlResponse(
-        url="https://lawhandbook.sa.gov.au/go01.php",
+        url="http://manuals.ipaustralia.gov.au/design/glossary",
         body=html_content.encode(),
         encoding="utf-8",
     )
@@ -41,7 +41,7 @@ def test_glossary_has_correct_number_of_entries(parsed_glossary):
     ("dcterms_language",         "en"),
     ("dcterms_coverage",         "AUS"),
     ("publiclaw_sourceCreator",  "IP Australia"),
-    ("publiclaw_sourceModified", "2024-10-14"),
+    ("publiclaw_sourceModified", date(2024, 10, 14)),
 ])
 def test_glossary_metadata(parsed_glossary, field, expected):
     """Test individual metadata fields."""
