@@ -1,15 +1,13 @@
-from datetime import date
-from typing import cast, List, Iterable
-from datetime import datetime
+from datetime import date, datetime
+from typing import Iterable
 
-from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, normalize_nonempty
+from ...text import Sentence, normalize_nonempty
 from ...html import parse_html, TypedSoup
 
 

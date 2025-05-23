@@ -1,6 +1,4 @@
-from datetime import date
-from typing import cast
-from datetime import datetime
+from datetime import date, datetime
 
 from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
