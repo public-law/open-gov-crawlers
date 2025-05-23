@@ -8,6 +8,7 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -47,18 +48,18 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    soup = make_soup(html)
+    soup = parse_html(html)
     table = soup.find("table")
-    if not table or not isinstance(table, Tag):
+    if not table:
         return tuple()
 
-    def process_row(row: Tag) -> GlossaryEntry | None:
+    def process_row(row: TypedSoup) -> GlossaryEntry | None:
         cells = row.find_all("td")
         if len(cells) < 2:
             return None
 
-        phrase = cells[0].get_text(strip=True)
-        definition = cells[1].get_text(strip=True)
+        phrase = cells[0].get_text()
+        definition = cells[1].get_text()
 
         if not phrase or not definition:
             return None
@@ -71,7 +72,6 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     # Use list comprehension with filter to process rows
     entries = [
         entry for row in table.find_all("tr")
-        if isinstance(row, Tag)
         if (entry := process_row(row)) is not None
     ]
 
