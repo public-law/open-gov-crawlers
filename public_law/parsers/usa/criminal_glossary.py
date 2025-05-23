@@ -6,7 +6,7 @@ from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period
 from ...html import parse_html, TypedSoup
-from ...result import Result, Ok, Err
+from ...result import Result, Ok, Err, cat_oks
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -15,7 +15,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     complete parse of the HTTP response.
     """
     metadata = _make_metadata(html)
-    entries = _parse_entries(html)
+    entries = cat_oks(_parse_entries(html))
 
     return GlossaryParseResult(metadata, entries)
 
@@ -40,27 +40,24 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def _parse_entries(html: HtmlResponse) -> list[Result[GlossaryEntry]]:
     """Parse the glossary entries from the HTML response.
 
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    match parse_html(html):
-        case Ok(soup):
-            match soup.find("table"):
-                case Ok(table):
+    def process_table(table: TypedSoup) -> list[Result[GlossaryEntry]]:
+        return [_process_row(row) for row in table.find_all("tr")]
 
-                    # Use list comprehension with filter to process rows
-                    entries = [
-                        entry.value for row in table.find_all("tr")
-                        if isinstance(entry := _process_row(row), Ok)
-                    ]
-                    return tuple(entries)
-                case Err(_):
-                    return tuple()
-        case Err(_):
-            return tuple()
+    def find_table(soup: TypedSoup) -> Result[TypedSoup]:
+        return soup.find("table")
+
+    return (
+        parse_html(html)
+        .and_then(find_table)
+        .map(process_table)
+        .unwrap_or([])
+    )
 
 
 def _process_row(row: TypedSoup) -> Result[GlossaryEntry]:
