@@ -53,8 +53,7 @@ def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> GlossaryEntry:
     """Process a single glossary entry."""
     return GlossaryEntry(
         phrase=normalize_nonempty(phrase.get_text()),
-        definition=Sentence(normalize_nonempty(
-            ensure_ends_with_period(defn.get_text()))),
+        definition=Sentence(defn.get_text()),
     )
 
 
