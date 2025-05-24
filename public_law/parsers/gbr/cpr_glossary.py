@@ -50,18 +50,19 @@ def _parse_mod_date(response: HtmlResponse) -> date:
     Parse the modification date from the HTML.
     The date is in the commencement information section.
     """
-    try:
-        soup = typed_soup.from_response(response)
+    soup = typed_soup.from_response(response)
 
-        # Look for text containing "in force at"
-        for p in soup.find_all("p"):
-            if "in force at" in p.get_text():
+    # Look for text following "in force at"
+    for p in soup.find_all("p"):
+        if "in force at" in p.get_text():
+            try:
                 date_str = p.get_text().split("in force at")[
                     1].strip().split(",")[0].strip()
                 return datetime.strptime(date_str, "%d.%m.%Y").date()
-        return datetime.now().date()
-    except Exception:
-        return datetime.now().date()
+            except ValueError:
+                continue
+
+    return datetime.now().date()
 
 
 def _capitalize_first(text: str) -> str:
