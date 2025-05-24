@@ -130,10 +130,15 @@ def _raw_entries(soup: TypedSoup) -> Iterable[tuple[NonemptyString, NonemptyStri
     Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    for row in soup.find_all("tbody")[0].find_all("tr"):
-        phrase, definition = map(_cleanup_cell, row.find_all("td"))
+    tbody = soup.find_all("tbody")[0]
+    for row in tbody.find_all("tr"):
+        yield parse_row(row)
 
-        yield (phrase, definition)
+
+def parse_row(row: TypedSoup) -> tuple[NonemptyString, NonemptyString]:
+    """Parse a row of the table."""
+    phrase, definition = map(_cleanup_cell, row.find_all("td"))
+    return phrase, definition
 
 
 def _cleanup_cell(cell: TypedSoup) -> NonemptyString:
