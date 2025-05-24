@@ -1,6 +1,8 @@
 from datetime import date, datetime
 from typing import Iterable
 
+import typed_soup
+from typed_soup import TypedSoup
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
@@ -8,7 +10,7 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, normalize_nonempty
-from ...html import parse_html, TypedSoup
+# from ...html import parse_html, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -43,13 +45,14 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_mod_date(html: HtmlResponse) -> date:
+def _parse_mod_date(response: HtmlResponse) -> date:
     """
     Parse the modification date from the HTML.
     The date is in the commencement information section.
     """
     try:
-        soup = parse_html(html)
+        soup = typed_soup.from_response(response)
+
         # Look for text containing "in force at"
         for p in soup.find_all("p"):
             if "in force at" in p.get_text():
@@ -95,7 +98,7 @@ def _normalize_apostrophes(text: str) -> str:
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
-    soup = parse_html(html)
+    soup = typed_soup.from_response(html)
     return tuple(
         _process_entry(phrase, defn)
         for phrase, defn in _raw_entries(soup)
