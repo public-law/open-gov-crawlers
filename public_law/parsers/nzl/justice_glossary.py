@@ -6,8 +6,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, ensure_ends_with_period,
-                     normalize_nonempty)
+from ...text import Sentence, normalize_nonempty
 from typed_soup import from_response, TypedSoup
 
 
