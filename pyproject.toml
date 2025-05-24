@@ -21,6 +21,7 @@ scrapy = "*"
 tika = "*"
 titlecase = "*"
 toolz = "*"
+typed-soup = "^0.1.2"
 # spidermon = {extras = ["monitoring", "validation"], version = "^1.16.2"}
 python-dotenv = "^1.0.1"
 

@@ -1,14 +1,19 @@
-from datetime import date, datetime
-from typing import Iterable
+from datetime import datetime
+from typing import Final
 
+from bs4 import Tag
+import typed_soup
+from typed_soup import TypedSoup
 from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, WikidataTopic
+from ...text import URL, LoCSubject, NonemptyString, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, normalize_nonempty
-from ...html import parse_html, TypedSoup
+
+# Tag with empty string.
+empty_tag: Final = Tag(None, None, "")
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -43,22 +48,31 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_mod_date(html: HtmlResponse) -> date:
+def _parse_mod_date(response: HtmlResponse):
     """
     Parse the modification date from the HTML.
-    The date is in the commencement information section.
     """
+    soup = typed_soup.from_response(response)
+
+    # Find first paragraph containing "in force at"
+    matching_paragraph = next(
+        (p for p in soup.find_all("p") if "in force at" in p.get_text()),
+        empty_tag
+    )
+
+    date_str = (
+        matching_paragraph
+        .get_text()
+        .split("in force at")[1]
+        .strip()
+        .split(",")[0]
+        .strip()
+    )
+
     try:
-        soup = parse_html(html)
-        # Look for text containing "in force at"
-        for p in soup.find_all("p"):
-            if "in force at" in p.get_text():
-                date_str = p.get_text().split("in force at")[
-                    1].strip().split(",")[0].strip()
-                return datetime.strptime(date_str, "%d.%m.%Y").date()
-        return datetime.now().date()
-    except Exception:
-        return datetime.now().date()
+        return datetime.strptime(date_str, "%d.%m.%Y").date()
+    except ValueError:
+        return "unknown"
 
 
 def _capitalize_first(text: str) -> str:
@@ -95,7 +109,7 @@ def _normalize_apostrophes(text: str) -> str:
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
-    soup = parse_html(html)
+    soup = typed_soup.from_response(html)
     return tuple(
         _process_entry(phrase, defn)
         for phrase, defn in _raw_entries(soup)
@@ -111,25 +125,25 @@ def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
     )
 
 
-def _raw_entries(soup: TypedSoup) -> Iterable[tuple[str, str]]:
+def _raw_entries(soup: TypedSoup):
     """
-    Extract raw entries from the soup.
+    Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    table = soup.find("table")
-    if not table:
-        return
+    if not (table := soup.find("table")):
+        return ()
 
     rows = table.find_all("tr")[1:]  # Skip header row
-    for row in rows:
+
+    for row in [r for r in rows if len(r.find_all("td")) == 2]:
         cells = row.find_all("td")
-        if len(cells) != 2:
-            continue
+        phrase = _cleanup_cell(cells[0])
+        definition = _cleanup_cell(cells[1])
 
-        phrase = normalize_nonempty(
-            _normalize_apostrophes(cells[0].get_text(strip=True)))
-        definition = normalize_nonempty(
-            _normalize_apostrophes(cells[1].get_text(strip=True)))
+        yield (phrase, definition)
 
-        if phrase and definition:
-            yield (phrase, definition)
+
+def _cleanup_cell(cell: TypedSoup) -> NonemptyString:
+    """Cleanup a cell: strip whitespace and normalize apostrophes."""
+    return normalize_nonempty(
+        _normalize_apostrophes(cell.get_text(strip=True)))
