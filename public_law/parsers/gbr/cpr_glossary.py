@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import Iterable
+from typing import Iterable, Literal
 
 import typed_soup
 from typed_soup import TypedSoup
@@ -45,24 +45,28 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_mod_date(response: HtmlResponse) -> date:
+def _parse_mod_date(response: HtmlResponse) -> date | Literal["unknown"]:
     """
     Parse the modification date from the HTML.
     The date is in the commencement information section.
     """
     soup = typed_soup.from_response(response)
 
-    # Look for text following "in force at"
-    for p in soup.find_all("p"):
-        if "in force at" in p.get_text():
-            try:
-                date_str = p.get_text().split("in force at")[
-                    1].strip().split(",")[0].strip()
-                return datetime.strptime(date_str, "%d.%m.%Y").date()
-            except ValueError:
-                continue
+    # Find first paragraph containing "in force at"
+    matching_para = next(
+        (p for p in soup.find_all("p") if "in force at" in p.get_text()),
+        None
+    )
 
-    return datetime.now().date()
+    if matching_para:
+        try:
+            date_str = matching_para.get_text().split(
+                "in force at")[1].strip().split(",")[0].strip()
+            return datetime.strptime(date_str, "%d.%m.%Y").date()
+        except ValueError:
+            pass
+
+    return "unknown"
 
 
 def _capitalize_first(text: str) -> str:
