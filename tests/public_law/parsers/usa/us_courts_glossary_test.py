@@ -1,5 +1,3 @@
-# pyright: reportSelfClsParameterName=false
-
 from more_itertools import first, last
 
 from public_law.dates import today

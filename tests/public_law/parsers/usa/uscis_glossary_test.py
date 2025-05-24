@@ -1,7 +1,3 @@
-# pyright: reportUntypedFunctionDecorator=false
-# pyright: reportOptionalMemberAccess=false
-# pyright: reportUnusedImport=false
-
 from more_itertools import first, last
 from pytest import fixture, mark
 from scrapy.http.response.html import HtmlResponse
@@ -50,8 +46,10 @@ def test_gets_the_url():
 def test_gets_the_author():
     assert METADATA.dcterms_creator == "https://public.law"
 
+
 def test_the_original_creator():
     assert METADATA.publiclaw_sourceCreator == "U.S. Citizenship and Immigration Services"
+
 
 def test_gets_coverage():
     assert METADATA.dcterms_coverage == "USA"

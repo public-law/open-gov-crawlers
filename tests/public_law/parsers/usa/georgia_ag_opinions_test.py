@@ -1,8 +1,3 @@
-# pyright: reportUninitializedInstanceVariable=false
-# pyright: reportPrivateUsage=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportGeneralTypeIssues=false
-
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.parsers.usa.georgia_ag_opinions import (
