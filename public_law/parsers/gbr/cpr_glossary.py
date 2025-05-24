@@ -1,6 +1,7 @@
 from datetime import date, datetime
-from typing import Iterable, Literal
+from typing import Final, Iterable, Literal
 
+from bs4 import Tag
 import typed_soup
 from typed_soup import TypedSoup
 from scrapy.http.response.html import HtmlResponse
@@ -10,7 +11,9 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, normalize_nonempty
-# from ...html import parse_html, TypedSoup
+
+# Tag with empty string.
+empty_tag: Final = Tag(None, None, "")
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -53,16 +56,13 @@ def _parse_mod_date(response: HtmlResponse) -> date | Literal["unknown"]:
     soup = typed_soup.from_response(response)
 
     # Find first paragraph containing "in force at"
-    matching_para = next(
+    matching_paragraph = next(
         (p for p in soup.find_all("p") if "in force at" in p.get_text()),
-        None
+        empty_tag
     )
 
-    if not matching_para:
-        return "unknown"
-
     date_str = (
-        matching_para
+        matching_paragraph
         .get_text()
         .split("in force at")[1]
         .strip()
