@@ -125,15 +125,16 @@ def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
     )
 
 
-def _raw_entries(soup: TypedSoup):
+def _raw_entries(soup: BeautifulSoup):
     """
-    Extract raw entries from the soup.
+    Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
     if not (table := soup.find("table")):
-        return
+        return ()
 
     rows = table.find_all("tr")[1:]  # Skip header row
+
     for row in [r for r in rows if len(r.find_all("td")) == 2]:
         cells = row.find_all("td")
         phrase = _cleanup_cell(cells[0])
