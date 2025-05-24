@@ -17,14 +17,14 @@ def test_factory_approach():
 
 
 def test_auto_spider_approach():
-    """Test the automatic parser resolution approach."""
-    from public_law.spiders.aus.dv_glossary_auto import DVGlossaryAuto
+    """Test the automatic parser resolution approach (now the main DVGlossary)."""
+    from public_law.spiders.aus.dv_glossary import DVGlossary
 
     # Check that the spider has the correct attributes
-    assert DVGlossaryAuto.name == "aus_dv_glossary"
-    assert len(DVGlossaryAuto.start_urls) == 1
+    assert DVGlossary.name == "aus_dv_glossary"
+    assert len(DVGlossary.start_urls) == 1
 
-    print("✓ Auto-spider approach works")
+    print("✓ Auto-spider approach works (main DVGlossary)")
 
 
 def test_config_approach():
@@ -48,24 +48,17 @@ def compare_line_counts():
     # Original approach (estimated from pattern)
     original_lines = 18  # From the original dv_glossary.py
 
-    # Factory approach
-    factory_lines = 9  # From new dv_glossary.py
-
-    # Auto-spider approach
-    auto_lines = 8  # From dv_glossary_auto.py
+    # New main approach (was DV2 auto)
+    main_lines = 9  # From new dv_glossary.py
 
     print(f"\nLine count comparison:")
     print(f"Original approach: {original_lines} lines")
     print(
-        f"Factory approach:  {factory_lines} lines ({factory_lines/original_lines:.1%} of original)")
-    print(
-        f"Auto approach:     {auto_lines} lines ({auto_lines/original_lines:.1%} of original)")
+        f"New main approach: {main_lines} lines ({main_lines/original_lines:.1%} of original)")
 
     print(f"\nBoilerplate reduction:")
     print(
-        f"Factory approach: {original_lines - factory_lines} lines saved ({(original_lines - factory_lines)/original_lines:.1%} reduction)")
-    print(
-        f"Auto approach:    {original_lines - auto_lines} lines saved ({(original_lines - auto_lines)/original_lines:.1%} reduction)")
+        f"New approach: {original_lines - main_lines} lines saved ({(original_lines - main_lines)/original_lines:.1%} reduction)")
 
 
 if __name__ == "__main__":
