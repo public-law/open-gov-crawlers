@@ -51,7 +51,6 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
 def _parse_mod_date(response: HtmlResponse) -> date | Literal["unknown"]:
     """
     Parse the modification date from the HTML.
-    The date is in the commencement information section.
     """
     soup = typed_soup.from_response(response)
 
