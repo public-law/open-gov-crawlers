@@ -1,0 +1,13 @@
+on: [push]
+name: Mirror to personal
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Push to dogweather/open-gov-crawlers
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: public-law/open-gov-crawlers
+          destination_repo: dogweather/open-gov-crawlers
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
