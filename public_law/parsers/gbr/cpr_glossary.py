@@ -58,15 +58,22 @@ def _parse_mod_date(response: HtmlResponse) -> date | Literal["unknown"]:
         None
     )
 
-    if matching_para:
-        try:
-            date_str = matching_para.get_text().split(
-                "in force at")[1].strip().split(",")[0].strip()
-            return datetime.strptime(date_str, "%d.%m.%Y").date()
-        except ValueError:
-            pass
+    if not matching_para:
+        return "unknown"
 
-    return "unknown"
+    date_str = (
+        matching_para
+        .get_text()
+        .split("in force at")[1]
+        .strip()
+        .split(",")[0]
+        .strip()
+    )
+
+    try:
+        return datetime.strptime(date_str, "%d.%m.%Y").date()
+    except ValueError:
+        return "unknown"
 
 
 def _capitalize_first(text: str) -> str:
