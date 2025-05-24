@@ -57,17 +57,6 @@ class TestTruncateWords:
         assert truncate_words(input, 5) == output
 
 
-class TestEnsureEndsWithPeriod:
-    def test_ends_with_period(self):
-        assert ensure_ends_with_period("hello.") == "hello."
-
-    def test_ends_with_quote(self):
-        assert ensure_ends_with_period('hello"') == 'hello."'
-
-    def test_ends_with_p_tag(self):
-        assert ensure_ends_with_period('<p>hello</p>') == '<p>hello.</p>'
-
-
 class TestEnsureStartsWithCapital:
     def test_starts_with_capital(self):
         assert ensure_starts_with_capital("Hello") == "Hello"

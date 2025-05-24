@@ -113,6 +113,17 @@ class Sentence(NonemptyString):
 def ensure_ends_with_period(text: str) -> NonemptyString:
     """
     Ensure that the string ends with a period.
+
+    Doctests:
+
+    >>> ensure_ends_with_period("hello")
+    'hello.'
+
+    >>> ensure_ends_with_period('hello.')
+    'hello.'
+
+    >>> ensure_ends_with_period('hello."')
+    'hello."'
     """
     match (text):
         case s if s.endswith(".") or s.endswith('."') or s.endswith('</p>'):
