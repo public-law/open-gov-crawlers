@@ -135,6 +135,23 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
 def ensure_starts_with_capital(text: str) -> str:
     """
     Ensure that the string starts with a capital letter.
+
+    Doctests:
+
+    >>> ensure_starts_with_capital("hello")
+    'Hello'
+
+    >>> ensure_starts_with_capital("123")
+    '123'
+
+    >>> ensure_starts_with_capital('hello')
+    'Hello'
+
+    >>> ensure_starts_with_capital('Hello')
+    'Hello'
+
+    >>> ensure_starts_with_capital('hello.')
+    'Hello.'
     """
     match (text):
         case "":

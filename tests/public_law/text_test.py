@@ -55,14 +55,3 @@ class TestTruncateWords:
         output = input
 
         assert truncate_words(input, 5) == output
-
-
-class TestEnsureStartsWithCapital:
-    def test_starts_with_capital(self):
-        assert ensure_starts_with_capital("Hello") == "Hello"
-
-    def test_starts_with_number(self):
-        assert ensure_starts_with_capital("123") == "123"
-
-    def test_lowercase(self):
-        assert ensure_starts_with_capital('hello') == 'Hello'
