@@ -48,7 +48,7 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
     )
 
 
-def _parse_mod_date(response: HtmlResponse) -> date | Literal["unknown"]:
+def _parse_mod_date(response: HtmlResponse):
     """
     Parse the modification date from the HTML.
     """
