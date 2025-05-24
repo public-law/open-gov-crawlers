@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Final
+from typing import Final, Iterable
 
 from bs4 import Tag
 import typed_soup
@@ -125,17 +125,13 @@ def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
     )
 
 
-def _raw_entries(soup: TypedSoup):
+def _raw_entries(soup: TypedSoup) -> Iterable[tuple[NonemptyString, NonemptyString]]:
     """
     Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    tbody = soup.find_all("tbody")[0]
-
-    for row in tbody.find_all("tr"):
-        cells = row.find_all("td")
-        phrase = _cleanup_cell(cells[0])
-        definition = _cleanup_cell(cells[1])
+    for row in soup.find_all("tbody")[0].find_all("tr"):
+        phrase, definition = map(_cleanup_cell, row.find_all("td"))
 
         yield (phrase, definition)
 
