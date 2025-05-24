@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Final, Iterable, Literal
 
-from bs4 import Tag
+from bs4 import BeautifulSoup, Tag
 import typed_soup
 from typed_soup import TypedSoup
 from scrapy.http.response.html import HtmlResponse
@@ -125,7 +125,7 @@ def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
     )
 
 
-def _raw_entries(soup: TypedSoup) -> Iterable[tuple[str, str]]:
+def _raw_entries(soup: TypedSoup):
     """
     Extract raw entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
