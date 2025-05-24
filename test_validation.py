@@ -9,7 +9,7 @@ def test_missing_name():
     try:
         from public_law.spiders.enhanced_base import AutoGlossarySpider
 
-        class MissingNameSpider(AutoGlossarySpider):
+        class MissingNameSpider(AutoGlossarySpider):  # type: ignore
             start_urls = ["https://example.com/glossary"]
 
         assert False, "Should have raised TypeError for missing name"
@@ -23,7 +23,7 @@ def test_missing_urls():
     try:
         from public_law.spiders.enhanced_base import AutoGlossarySpider
 
-        class MissingUrlsSpider(AutoGlossarySpider):
+        class MissingUrlsSpider(AutoGlossarySpider):  # type: ignore
             name = "aus_missing_urls_glossary"
 
         assert False, "Should have raised TypeError for missing start_urls"
@@ -37,7 +37,7 @@ def test_invalid_name_format():
     try:
         from public_law.spiders.enhanced_base import AutoGlossarySpider
 
-        class InvalidNameSpider(AutoGlossarySpider):
+        class InvalidNameSpider(AutoGlossarySpider):  # type: ignore
             name = "invalid-name-format"
             start_urls = ["https://example.com/glossary"]
 
