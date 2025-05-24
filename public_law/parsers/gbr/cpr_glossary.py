@@ -8,7 +8,7 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, WikidataTopic
+from ...text import URL, LoCSubject, NonemptyString, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, normalize_nonempty
 
@@ -147,7 +147,7 @@ def _raw_entries(soup: TypedSoup):
             yield (phrase, definition)
 
 
-def _cleanup_cell(cell: TypedSoup) -> str:
+def _cleanup_cell(cell: TypedSoup) -> NonemptyString:
     """Cleanup a cell: strip whitespace and normalize apostrophes."""
     return normalize_nonempty(
         _normalize_apostrophes(cell.get_text(strip=True)))
