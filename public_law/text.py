@@ -91,23 +91,33 @@ class WikidataTopic(URL):
 
 class Sentence(NonemptyString):
     """
-    Currently NOP.
-
     A str subclass that generally begins with a capital letter
-    and ends with a period.
+    and ends with a period. Whitespace is normalized.
 
-    It can actually end in a few ways, due to punction style. E.g.,
+    Doctests:
 
-        He said, "This is a sentence."
+    >>> Sentence("Hello")
+    'Hello.'
 
-    It can also start with a number or open quote.
+    >>> Sentence("Hello.")
+    'Hello.'
+
+    >>> Sentence("Hello, world.")
+    'Hello, world.'
+
+    >>> Sentence("Hello, world")
+    'Hello, world.'
+
+    >>> Sentence("Hello,    world ")
+    'Hello, world.'
     """
-
     def __new__(cls, content: Any):
         """
         Create a new Sentence.
         """
-        return super().__new__(cls, content)
+        new_content = normalize_whitespace(content)
+        new_content = ensure_ends_with_period(new_content)
+        return super().__new__(cls, new_content)
 
 
 def ensure_ends_with_period(text: str) -> NonemptyString:
