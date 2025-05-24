@@ -27,7 +27,6 @@ class GlossaryParseResult:
     metadata: Metadata
     entries: Iterable[GlossaryEntry]
 
-    @cache
     def asdict(self):
         return {
             "metadata": self.metadata.asdict(),
