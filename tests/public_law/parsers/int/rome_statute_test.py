@@ -108,7 +108,7 @@
 # # the PDF. It might be very useful to remove these page divs
 # # like so, using Beautiful Soup:
 # #
-# #   for page_div in soup.find_all('div', class_='page'):
+# #   for page_div in soup('div', class_='page'):
 # #     page_div.unwrap()
 # #
 

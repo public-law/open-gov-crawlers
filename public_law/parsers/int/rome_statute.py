@@ -162,7 +162,7 @@ def parts(pdf_url: str) -> list[Part]:
     soup = BeautifulSoup(tika_pdf(pdf_url)["content"], "html.parser")
     part_paragraphs = [
         normalize_whitespace(p.get_text())
-        for p in soup.find_all("p")
+        for p in soup("p")
         if p.get_text().startswith("PART")
     ]
 

@@ -65,8 +65,8 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     soup = from_response(html)
 
     # Find all dt/dd pairs in the glossary
-    dts = soup.find_all("dt")
-    dds = soup.find_all("dd", class_="glossdef")
+    dts = soup("dt")
+    dds = soup("dd", class_="glossdef")
 
     for dt, dd in zip(dts, dds):
         # Extract the text content from the span.glossterm element

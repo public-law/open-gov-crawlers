@@ -50,13 +50,13 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             return tuple()
         case table:
             return tuple(
-                entry for row in table.find_all("tr")
+                entry for row in table("tr")
                 if (entry := _process_row(row)) is not None
             )
 
 
 def _process_row(row: TypedSoup) -> GlossaryEntry | None:
-    cells = row.find_all("td")
+    cells = row("td")
     if len(cells) < 2:
         return None
 

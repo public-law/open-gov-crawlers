@@ -11,7 +11,7 @@ In Python, I prefer match/case over if/return, e.g., this style is prefered:
             return tuple()
         case table:
             return tuple(
-                entry for row in table.find_all("tr")
+                entry for row in table("tr")
                 if (entry := _process_row(row)) is not None
             )
 ```
