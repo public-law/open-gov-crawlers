@@ -48,8 +48,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     return tuple(
         GlossaryEntry(
             phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(ensure_ends_with_period(
-                normalize_nonempty(defn.text))),
+            definition=Sentence(defn.text),
         )
         for phrase, defn in raw_entries
     )

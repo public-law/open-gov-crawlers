@@ -50,11 +50,9 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     for phrase, defn in __raw_entries(html):
         # Clean up the phrase by removing trailing ": " and creating a NonemptyString
         cleaned_phrase = phrase.rstrip(": ")
-        fixed_phrase = String(cleaned_phrase)
 
-        # Process the definition
-        fixed_definition: Sentence = Sentence(
-            normalize_nonempty(ensure_ends_with_period(defn)))
+        fixed_phrase = String(cleaned_phrase)
+        fixed_definition = Sentence(defn)
 
         yield GlossaryEntry(fixed_phrase, fixed_definition)
 

@@ -87,7 +87,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             entries.append(
                 GlossaryEntry(
                     phrase=String(phrase),
-                    definition=Sentence(ensure_ends_with_period(definition)),
+                    definition=Sentence(definition),
                 )
             )
 

@@ -55,7 +55,7 @@ def _process_entry(phrase: str, defn: str) -> GlossaryEntry:
     """Process a single glossary entry."""
     return GlossaryEntry(
         phrase=String(phrase),
-        definition=Sentence(ensure_ends_with_period(defn)),
+        definition=Sentence(defn),
     )
 
 
