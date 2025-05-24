@@ -1,6 +1,6 @@
 import pytest
 
-from public_law.text import NonemptyString, titleize, truncate_words
+from public_law.text import NonemptyString, titleize, truncate_words, ensure_ends_with_period, ensure_starts_with_capital
 
 
 class TestTitleize:
@@ -55,3 +55,25 @@ class TestTruncateWords:
         output = input
 
         assert truncate_words(input, 5) == output
+
+
+class TestEnsureEndsWithPeriod:
+    def test_ends_with_period(self):
+        assert ensure_ends_with_period("hello.") == "hello."
+
+    def test_ends_with_quote(self):
+        assert ensure_ends_with_period('hello"') == 'hello."'
+
+    def test_ends_with_p_tag(self):
+        assert ensure_ends_with_period('<p>hello</p>') == '<p>hello.</p>'
+
+
+class TestEnsureStartsWithCapital:
+    def test_starts_with_capital(self):
+        assert ensure_starts_with_capital("Hello") == "Hello"
+
+    def test_starts_with_number(self):
+        assert ensure_starts_with_capital("123") == "123"
+
+    def test_lowercase(self):
+        assert ensure_starts_with_capital('hello') == 'Hello'
