@@ -3,14 +3,14 @@ from datetime import date
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.aus.law_handbook import parse_glossary
+from public_law.parsers.aus.lawhandbook_glossary import parse_glossary
 from public_law.models.glossary import GlossaryParseResult
 
 
 @pytest.fixture
 def glossary_response():
     """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/aus/handbook-glossary.html", "r") as f:
+    with open("tests/fixtures/aus/lawhandbook-glossary.html", "r") as f:
         html_content = f.read()
 
     return HtmlResponse(
