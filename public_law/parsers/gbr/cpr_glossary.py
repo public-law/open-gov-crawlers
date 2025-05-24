@@ -130,12 +130,9 @@ def _raw_entries(soup: TypedSoup):
     Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    if not (table := soup.find("table")):
-        return ()
+    tbody = soup.find_all("tbody")[0]
 
-    rows = table.find_all("tr")[1:]  # Skip header row
-
-    for row in [r for r in rows if len(r.find_all("td")) == 2]:
+    for row in tbody.find_all("tr"):
         cells = row.find_all("td")
         phrase = _cleanup_cell(cells[0])
         definition = _cleanup_cell(cells[1])
