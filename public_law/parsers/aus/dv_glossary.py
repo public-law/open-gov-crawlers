@@ -2,7 +2,7 @@ from typing import Iterable, List
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.html import TypedSoup, parse_html
+from typed_soup import from_response, TypedSoup
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
@@ -65,7 +65,7 @@ def __raw_entries(response: HtmlResponse) -> Iterable[tuple[str, str]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup = parse_html(response)
+    soup = from_response(response)
     paragraphs = soup.find_all("p")
 
     # Get all strong elements from paragraphs that have content

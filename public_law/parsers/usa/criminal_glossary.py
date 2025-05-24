@@ -5,7 +5,7 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
 from ...text import Sentence, ensure_ends_with_period
-from ...html import parse_html, TypedSoup
+from typed_soup import from_response, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -45,7 +45,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     The entries are in a table, with each <tr> containing two <td>s: 
     the first is the phrase, the second is the definition.
     """
-    match(parse_html(html).find("table")):
+    match(from_response(html).find("table")):
         case None:
             return tuple()
         case table:
