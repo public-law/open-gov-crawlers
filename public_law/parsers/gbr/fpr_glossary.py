@@ -70,8 +70,8 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
         return tuple()
 
     # Skip the header row (first dt/dd pair)
-    terms = list(dl.find_all("dt"))[1:]  # Skip first dt
-    definitions = list(dl.find_all("dd"))[1:]  # Skip first dd
+    terms = list(dl("dt"))[1:]  # Skip first dt
+    definitions = list(dl("dd"))[1:]  # Skip first dd
 
     if not terms or not definitions or len(terms) != len(definitions):
         return tuple()

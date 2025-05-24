@@ -64,7 +64,7 @@ def __raw_entries(response: HtmlResponse) -> Iterable[tuple[str, str]]:
     TODO: Refactor all the glossary parsers to need only this function.
     """
     soup = from_response(response)
-    paragraphs = soup.find_all("p")
+    paragraphs = soup("p")
 
     # Get all strong elements from paragraphs that have content
     strongs: List[TypedSoup] = []

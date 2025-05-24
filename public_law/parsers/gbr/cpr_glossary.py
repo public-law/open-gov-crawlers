@@ -56,7 +56,7 @@ def _parse_mod_date(response: HtmlResponse):
 
     # Find first paragraph containing "in force at"
     matching_paragraph = next(
-        (p for p in soup.find_all("p") if "in force at" in p.get_text()),
+        (p for p in soup("p") if "in force at" in p.get_text()),
         empty_tag
     )
 
@@ -130,14 +130,14 @@ def _raw_entries(soup: TypedSoup) -> Iterable[tuple[NonemptyString, NonemptyStri
     Extract raw glossary entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    tbody = soup.find_all("tbody")[0]
-    for row in tbody.find_all("tr"):
+    tbody = soup("tbody")[0]
+    for row in tbody("tr"):
         yield parse_row(row)
 
 
 def parse_row(row: TypedSoup) -> tuple[NonemptyString, NonemptyString]:
     """Parse a row of the table."""
-    phrase, definition = map(_cleanup_cell, row.find_all("td"))
+    phrase, definition = map(_cleanup_cell, row("td"))
     return phrase, definition
 
 

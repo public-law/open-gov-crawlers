@@ -82,7 +82,7 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
 
     # Use list comprehension with filter to process paragraphs
     entries = [
-        entry for p in soup.find_all("p")
+        entry for p in soup("p")
         if isinstance(p, Tag)
         if (entry := process_paragraph(p)) is not None
     ]

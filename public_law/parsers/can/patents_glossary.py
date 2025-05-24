@@ -65,14 +65,14 @@ def _raw_entries(soup: TypedSoup) -> Iterable[tuple[str, str]]:
     Returns an iterable of (phrase, definition) pairs.
     """
     # Find all definition lists
-    dls = soup.find_all("dl")
+    dls = soup("dl")
     if not dls:
         return
 
     for dl in dls:
         # Each dl contains dt/dd pairs
-        dts = dl.find_all("dt")
-        dds = dl.find_all("dd")
+        dts = dl("dt")
+        dds = dl("dd")
 
         # Ensure we have matching pairs
         if len(dts) != len(dds):

@@ -61,7 +61,7 @@ def _raw_entries(soup: TypedSoup) -> Iterable[tuple[TypedSoup, TypedSoup | None]
     Extract raw entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    for p in soup.find_all("p"):
+    for p in soup("p"):
         children = p.children()
         if len(children) == 1 and children[0].tag_name() == "strong":
             phrase = children[0]
