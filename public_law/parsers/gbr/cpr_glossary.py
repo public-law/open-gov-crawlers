@@ -140,10 +140,14 @@ def _raw_entries(soup: TypedSoup):
         if len(cells) != 2:
             continue
 
-        phrase = normalize_nonempty(
-            _normalize_apostrophes(cells[0].get_text(strip=True)))
-        definition = normalize_nonempty(
-            _normalize_apostrophes(cells[1].get_text(strip=True)))
+        phrase = _cleanup_cell(cells[0])
+        definition = _cleanup_cell(cells[1])
 
         if phrase and definition:
             yield (phrase, definition)
+
+
+def _cleanup_cell(cell: TypedSoup) -> str:
+    """Cleanup a cell: strip whitespace and normalize apostrophes."""
+    return normalize_nonempty(
+        _normalize_apostrophes(cell.get_text(strip=True)))
