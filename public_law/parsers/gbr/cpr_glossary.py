@@ -52,7 +52,7 @@ def _parse_mod_date(response: HtmlResponse):
     """
     Parse the modification date from the HTML.
     """
-    soup = typed_soup.from_response(response)
+    soup = BeautifulSoup(response.body, "html.parser")
 
     # Find first paragraph containing "in force at"
     matching_paragraph = next(
