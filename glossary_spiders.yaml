@@ -1,0 +1,28 @@
+spiders:
+  aus_dv_glossary:
+    name: "aus_dv_glossary"
+    description: "Family, domestic and sexual violence glossary from AIHW"
+    start_urls:
+      - "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
+    parser_module: "public_law.parsers.aus.dv_glossary"
+
+  aus_ip_glossary:
+    name: "aus_ip_glossary"
+    description: "Intellectual Property glossary from IP Australia"
+    start_urls:
+      - "https://www.ipaustralia.gov.au/understanding-ip/ip-glossary"
+    parser_module: "public_law.parsers.aus.ip_glossary"
+
+  usa_uscis_glossary:
+    name: "usa_uscis_glossary"
+    description: "USCIS immigration glossary"
+    start_urls:
+      - "https://www.uscis.gov/tools/glossary"
+    parser_module: "public_law.parsers.usa.uscis_glossary"
+
+  gbr_fpr_glossary:
+    name: "gbr_fpr_glossary"
+    description: "UK Family Procedure Rules glossary"
+    start_urls:
+      - "https://www.justice.gov.uk/courts/procedure-rules/family/backmatter/fpr_glossary"
+    parser_module: "public_law.parsers.gbr.fpr_glossary"
