@@ -1,4 +1,3 @@
-# pyright: reportSelfClsParameterName=false
 from more_itertools import first, last
 
 from public_law.dates import today
@@ -11,7 +10,8 @@ from public_law.text import URL, NonemptyString
 GLOSSARY_URL = URL(
     "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
 )
-GLOSSARY = glossary_fixture("aus/dv-glossary.html", GLOSSARY_URL, parse_glossary)
+GLOSSARY = glossary_fixture("aus/dv-glossary.html",
+                            GLOSSARY_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 
 

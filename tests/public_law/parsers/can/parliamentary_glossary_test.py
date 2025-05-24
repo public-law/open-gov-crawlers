@@ -1,4 +1,3 @@
-# pyright: reportSelfClsParameterName=false
 from more_itertools import first, last, nth
 
 from public_law.dates import today
@@ -11,7 +10,8 @@ from public_law.text import URL, NonemptyString
 ORIG_URL = URL(
     "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 )
-GLOSSARY = glossary_fixture("can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
+GLOSSARY = glossary_fixture(
+    "can/parliamentary-glossary.html", ORIG_URL, parse_glossary)
 METADATA = GLOSSARY.metadata
 ENTRIES = tuple(GLOSSARY.entries)
 

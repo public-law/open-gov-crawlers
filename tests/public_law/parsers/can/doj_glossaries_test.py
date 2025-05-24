@@ -1,9 +1,3 @@
-# pyright: reportUnknownParameterType=false
-# pyright: reportMissingParameterType=false
-
-# pyright: reportUnknownArgumentType=false
-# pyright: reportUnknownVariableType=false
-
 from datetime import date
 from typing import cast
 
