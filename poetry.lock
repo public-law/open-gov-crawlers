@@ -1632,14 +1632,14 @@ windows-platform = ["appdirs (>=1.4.0)", "appdirs (>=1.4.0)", "bcrypt (>=3.1.3)"
 
 [[package]]
 name = "typed-soup"
-version = "0.1.2"
+version = "0.1.5"
 description = "A type-safe wrapper around BeautifulSoup and related HTML parsing utilities"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "typed_soup-0.1.2-py3-none-any.whl", hash = "sha256:2bb65f6f0b5f45ab1e3f3021386fa500ef5208ba54bbaaad3e2c0829a4307378"},
-    {file = "typed_soup-0.1.2.tar.gz", hash = "sha256:ebc4a7e697dd56053a313c0275ea86fc45b596b0f3b913b3b07241d97ed93c90"},
+    {file = "typed_soup-0.1.5-py3-none-any.whl", hash = "sha256:9e6cf898de4d3bc06ccfe573c71b0d986ea6229df6dd1439f6825760cfc1223d"},
+    {file = "typed_soup-0.1.5.tar.gz", hash = "sha256:b4cd4ec0d2938b0e3dc9da21e54f7f659f3adef513192ed481754705bb953994"},
 ]
 
 [package.dependencies]
