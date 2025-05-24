@@ -1,0 +1,40 @@
+Title	Structure	Country	Difficulty	Interesting Topic	Size	Status
+https://www.ourcommons.ca/procedure/glossary/index-e.html	dl > dt/dd	CA	High		Big	
+https://www.fintrac-canafe.gc.ca/guidance-directives/glossary-glossaire/1-eng	dl > dt/dd	CA		Financial Crimes	Big	
+https://kids-clerk.house.gov/young-learners/glossary.html	dl > dt/dd	US	Simplified		Tiny	
+https://www.ic.gc.ca/eic/siTe/cipointernet-internetopic.nsf/eng/wr00837.html	dl > dt/dd	CA				
+https://www.ic.gc.ca/eic/site/bsf-osb.nsf/eng/br01467.html	dl > dt/dd	CA		IP		
+https://www.ic.gc.ca/eic/site/cd-dgc.nsf/eng/cs04975.html	dl > dt/dd	CA		IP		
+https://www.ic.gc.ca/eic/site/cipointernet-internetopic.nsf/eng/wr01460.html	dl > dt/dd	CA				
+https://www.justice.gov.uk/courts/procedure-rules/civil/glossary	dl > dt/dd	UK		Civ Pro		
+https://kids-clerk.house.gov/grade-school/glossary.html	dl > dt/dd	US	Simplified			
+https://www.congress.gov/help/legislative-glossary	dl > dt/dd	US				
+https://lop.parl.ca/About/Parliament/Education/billonthehill/glossary-e.asp	table	CA	Simplified			
+https://www.judiciary.gov.sg/news-and-resources/glossary	table	SG	Simplified			
+https://courts.alaska.gov/shc/family/glossary.htm	table	US		Family Law		
+https://www.childwelfare.gov/glossary/glossarya/	p > strong	US		Child Welfare	Big	
+https://www.justice.gov/ovw/domestic-violence	p > strong	US	Simplified	DV	Tiny	
+https://www.cps.gov.uk/publication/glossary	p > strong	UK	Simplified		Tiny	
+https://www.justice.gov/usao/justice-101/glossary	p > strong	US	Simplified			
+https://fedcourt.gov.au/digital-law-library/glossary-of-legal-terms	p > strong	AU				
+https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary	p > strong	AU		DV		
+https://nycourts.gov/CourtHelp/GoingToCourt/glossary.shtml	p > strong	US	Simplified			
+https://www.sos.nd.gov/notaries-public/notary-terms-and-definitions.html	p > strong	US		Public Notary		
+https://www.justice.gov/usao/justice-101/glossary	p > strong	US	Simplified			
+https://www.sos.nd.gov/notaries-public/notary-terms-and-definitions.html	p > strong	US		Public Notary		
+https://bensguide.gpo.gov/glossary	p > strong	US	Simplified			
+https://lawhandbook.sa.gov.au/go01.php	(other)	AU	Simplified		Big	
+https://www.courts.oregon.gov/programs/family/terms/Pages/default.aspx	(other)	US			Big	
+https://www.eac.gov/sites/default/files/glossary_files/Glossary_of_Election_Terms_EAC.pdf	(other)	US			Big	
+https://www.healthcare.gov/glossary/	(other)	US			Big	
+https://www.gov.uk/guidance/civil-procedure-rules-glossary	(other)	UK		Civ Pro		
+https://www.parliament.uk/site-information/glossary/	(other)	UK				
+https://www.courts.state.co.us/Glossary.cfm	(other)	US				
+https://www1.nyc.gov/site/oath/about/glossary-of-legal-terms.page	(other)	US				
+https://www.saccourt.ca.gov/general/legal-glossaries/docs/spanish-legal-glossary.pdf	(other)	US				
+https://www.dccourts.gov/services/legal-glossary	(other)	US				
+https://www.irs.gov/statistics/soi-tax-stats-income-from-trusts-and-estates-study-terms-and-concepts	(other)	US		Financial Crimes		
+https://www.americanbar.org/groups/legal_services/flh-home/flh-glossary/	(other)	US				
+https://seconddistrictcourt.nmcourts.gov/home/glossary-of-legal-terms/	(other)	US				
+https://www.justice.gov/usao/justice-101/glossary	(other)	US				
+https://adcogov.org/glossary-terms	ul > li > strong	US				
