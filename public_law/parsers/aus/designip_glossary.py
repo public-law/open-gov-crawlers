@@ -11,7 +11,6 @@ from public_law.text import (
     NonemptyString as String,
     Sentence,
     URL,
-    ensure_ends_with_period,
     make_soup,
     normalize_whitespace,
     ensure_starts_with_capital,
@@ -78,7 +77,7 @@ def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
 
         return GlossaryEntry(
             phrase=String(phrase),
-            definition=Sentence(ensure_ends_with_period(definition)),
+            definition=Sentence(definition),
         )
 
     # Use list comprehension with filter to process paragraphs

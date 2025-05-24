@@ -1,8 +1,3 @@
-# pyright: reportPrivateUsage=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportGeneralTypeIssues=false
-# pyright: reportArgumentType=false
-
 from typing import IO, Any
 
 from scrapy.selector.unified import Selector
@@ -44,14 +39,16 @@ class TestStatuteMeta:
 
     def test_a_mix_of_ranges_and_single_cites(self):
         raw_text = "ORS 183.310 - 183.550, 192.660, 243.061 - 243.302 &amp; 292.05"
-        expected = ["ORS 183.310 - 183.550", "192.660", "243.061 - 243.302", "292.05"]
+        expected = ["ORS 183.310 - 183.550",
+                    "192.660", "243.061 - 243.302", "292.05"]
         assert _statute_meta(raw_text) == expected
 
     def test_citations_to_the_OR_constitution(self):
         raw_text = (
             "ORS 273.045, 273.775 - 273.79 &amp; OR Const., Art. VIII &amp; Sec. 5"
         )
-        expected = ["ORS 273.045", "273.775 - 273.79", "OR Const., Art. VIII", "Sec. 5"]
+        expected = ["ORS 273.045", "273.775 - 273.79",
+                    "OR Const., Art. VIII", "Sec. 5"]
         assert _statute_meta(raw_text) == expected
 
     def test_const_cite_without_comma(self):

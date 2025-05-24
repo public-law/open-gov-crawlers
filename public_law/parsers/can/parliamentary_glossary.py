@@ -13,7 +13,8 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
     return GlossaryParseResult(
         metadata=Metadata(
-            dcterms_title=String("Glossary of Parliamentary Terms for Intermediate Students"),
+            dcterms_title=String(
+                "Glossary of Parliamentary Terms for Intermediate Students"),
             dcterms_language="en",
             dcterms_coverage="CAN",
             # Info about original source
@@ -43,14 +44,15 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
 
     # Fix the "Usher..." entry.
     raw_phrases = [t.text for t in terms]
-    phrases = ["Usher of the Black Rod" if p.startswith("Usher") else p for p in raw_phrases]
+    phrases = ["Usher of the Black Rod" if p.startswith(
+        "Usher") else p for p in raw_phrases]
 
     raw_entries = zip(phrases, soup("dd"))
 
     return tuple(
         GlossaryEntry(
             phrase=String(normalize_whitespace(phrase)),
-            definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text)).strip("> ")),
+            definition=Sentence(defn.text),
         )
         for phrase, defn in raw_entries
     )

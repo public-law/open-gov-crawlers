@@ -4,7 +4,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, ensure_ends_with_period, make_soup,
+from ...text import (Sentence, make_soup,
                      normalize_nonempty)
 
 
@@ -42,7 +42,7 @@ def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     return tuple(
         GlossaryEntry(
             phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(ensure_ends_with_period(normalize_nonempty(defn.text))),
+            definition=Sentence(defn.text),
         )
         for phrase, defn in raw_entries
     )

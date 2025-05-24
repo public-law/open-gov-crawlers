@@ -2,7 +2,7 @@ from typing import Iterable, List
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.html import TypedSoup, parse_html
+from typed_soup import from_response, TypedSoup
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
@@ -50,11 +50,9 @@ def __parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     for phrase, defn in __raw_entries(html):
         # Clean up the phrase by removing trailing ": " and creating a NonemptyString
         cleaned_phrase = phrase.rstrip(": ")
-        fixed_phrase = String(cleaned_phrase)
 
-        # Process the definition
-        fixed_definition: Sentence = Sentence(
-            normalize_nonempty(ensure_ends_with_period(defn)))
+        fixed_phrase = String(cleaned_phrase)
+        fixed_definition = Sentence(defn)
 
         yield GlossaryEntry(fixed_phrase, fixed_definition)
 
@@ -65,7 +63,7 @@ def __raw_entries(response: HtmlResponse) -> Iterable[tuple[str, str]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup = parse_html(response)
+    soup = from_response(response)
     paragraphs = soup.find_all("p")
 
     # Get all strong elements from paragraphs that have content

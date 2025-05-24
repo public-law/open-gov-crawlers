@@ -6,9 +6,8 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
-from ...text import (Sentence, ensure_ends_with_period,
-                     normalize_nonempty)
-from ...html import parse_html, TypedSoup
+from ...text import Sentence, normalize_nonempty
+from typed_soup import from_response, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -41,7 +40,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
-    soup = parse_html(html)
+    soup = from_response(html)
     return tuple(
         _process_entry(phrase, defn)
         for phrase, defn in _raw_entries(soup)
@@ -53,8 +52,7 @@ def _process_entry(phrase: TypedSoup, defn: TypedSoup) -> GlossaryEntry:
     """Process a single glossary entry."""
     return GlossaryEntry(
         phrase=normalize_nonempty(phrase.get_text()),
-        definition=Sentence(normalize_nonempty(
-            ensure_ends_with_period(defn.get_text()))),
+        definition=Sentence(defn.get_text()),
     )
 
 

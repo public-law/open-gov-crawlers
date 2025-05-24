@@ -1,6 +1,6 @@
 import pytest
 
-from public_law.text import NonemptyString, titleize, truncate_words
+from public_law.text import NonemptyString, titleize, truncate_words, ensure_ends_with_period, ensure_starts_with_capital
 
 
 class TestTitleize:

@@ -91,28 +91,49 @@ class WikidataTopic(URL):
 
 class Sentence(NonemptyString):
     """
-    Currently NOP.
-
     A str subclass that generally begins with a capital letter
-    and ends with a period.
+    and ends with a period. Whitespace is normalized.
 
-    It can actually end in a few ways, due to punction style. E.g.,
+    Doctests:
 
-        He said, "This is a sentence."
+    >>> Sentence("Hello")
+    'Hello.'
 
-    It can also start with a number or open quote.
+    >>> Sentence("Hello.")
+    'Hello.'
+
+    >>> Sentence("Hello, world.")
+    'Hello, world.'
+
+    >>> Sentence("Hello, world")
+    'Hello, world.'
+
+    >>> Sentence("Hello,    world ")
+    'Hello, world.'
     """
-
     def __new__(cls, content: Any):
         """
         Create a new Sentence.
         """
-        return super().__new__(cls, content)
+        new_content = normalize_whitespace(content)
+        new_content = ensure_ends_with_period(new_content)
+        return super().__new__(cls, new_content)
 
 
 def ensure_ends_with_period(text: str) -> NonemptyString:
     """
     Ensure that the string ends with a period.
+
+    Doctests:
+
+    >>> ensure_ends_with_period("hello")
+    'hello.'
+
+    >>> ensure_ends_with_period('hello.')
+    'hello.'
+
+    >>> ensure_ends_with_period('hello."')
+    'hello."'
     """
     match (text):
         case s if s.endswith(".") or s.endswith('."') or s.endswith('</p>'):
@@ -124,6 +145,23 @@ def ensure_ends_with_period(text: str) -> NonemptyString:
 def ensure_starts_with_capital(text: str) -> str:
     """
     Ensure that the string starts with a capital letter.
+
+    Doctests:
+
+    >>> ensure_starts_with_capital("hello")
+    'Hello'
+
+    >>> ensure_starts_with_capital("123")
+    '123'
+
+    >>> ensure_starts_with_capital('hello')
+    'Hello'
+
+    >>> ensure_starts_with_capital('Hello')
+    'Hello'
+
+    >>> ensure_starts_with_capital('hello.')
+    'Hello.'
     """
     match (text):
         case "":

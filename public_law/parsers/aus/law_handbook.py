@@ -2,7 +2,7 @@ from typing import List
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.html import parse_html
+from typed_soup import from_response, TypedSoup
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
@@ -62,7 +62,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     and <dd class="glossdef"> containing <p> for definitions.
     """
     entries: List[GlossaryEntry] = []
-    soup = parse_html(html)
+    soup = from_response(html)
 
     # Find all dt/dd pairs in the glossary
     dts = soup.find_all("dt")
@@ -87,7 +87,7 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             entries.append(
                 GlossaryEntry(
                     phrase=String(phrase),
-                    definition=Sentence(ensure_ends_with_period(definition)),
+                    definition=Sentence(definition),
                 )
             )
 
