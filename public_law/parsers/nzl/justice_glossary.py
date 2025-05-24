@@ -8,7 +8,7 @@ from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
 from ...text import (Sentence, ensure_ends_with_period,
                      normalize_nonempty)
-from ...html import parse_html, TypedSoup
+from typed_soup import from_response, TypedSoup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -41,7 +41,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
-    soup = parse_html(html)
+    soup = from_response(html)
     return tuple(
         _process_entry(phrase, defn)
         for phrase, defn in _raw_entries(soup)
