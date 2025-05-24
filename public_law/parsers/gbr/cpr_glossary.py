@@ -130,21 +130,16 @@ def _raw_entries(soup: TypedSoup):
     Extract raw entries from the soup.
     Returns an iterable of (phrase, definition) pairs.
     """
-    table = soup.find("table")
-    if not table:
+    if not (table := soup.find("table")):
         return
 
     rows = table.find_all("tr")[1:]  # Skip header row
-    for row in rows:
+    for row in [r for r in rows if len(r.find_all("td")) == 2]:
         cells = row.find_all("td")
-        if len(cells) != 2:
-            continue
-
         phrase = _cleanup_cell(cells[0])
         definition = _cleanup_cell(cells[1])
 
-        if phrase and definition:
-            yield (phrase, definition)
+        yield (phrase, definition)
 
 
 def _cleanup_cell(cell: TypedSoup) -> NonemptyString:
