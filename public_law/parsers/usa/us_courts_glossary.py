@@ -21,9 +21,9 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import (
     URL,
     LoCSubject,
+    make_soup,
     NonemptyString as String,
     Sentence,
-    make_soup,
     normalize_nonempty,
 )
 
@@ -34,7 +34,7 @@ def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
     Returns a GlossaryParseResult containing all parsed entries and metadata.
     """
     entries  = __parse_entries(response)
-    metadata = __parse_metadata(response)
+    metadata = __build_metadata()
 
     return GlossaryParseResult(
         entries=entries,
@@ -60,7 +60,7 @@ def __parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     )
 
 
-def __parse_metadata(response: HtmlResponse) -> Metadata:
+def __build_metadata() -> Metadata:
     """
     Returns static metadata about the glossary source.
     This is mostly hardcoded, as the source is known and stable.
