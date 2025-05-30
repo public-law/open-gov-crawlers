@@ -1,16 +1,18 @@
 # This parser is a simple, clear example for onboarding new developers.
-# It demonstrates how to extract a glossary from a <dl> (definition list) HTML structure.
-# The code is intentionally straightforward and well-commented for learning purposes.
+# It demonstrates how to extract a glossary from a <dl> (definition list) HTML
+# structure. The code is intentionally straightforward and well-commented for
+# learning purposes.
 #
 # How execution reaches this code:
 #   - Scrapy first runs the paired us_courts_glossary Spider.
 #   - The Spider is responsible for downloading the glossary web page.
-#   - Once the page is downloaded, the Spider calls the parse_glossary function below to extract structured data.
+#   - Once the page is downloaded, the Spider calls the parse_glossary function
+#     below to extract structured data.
 #
 # The glossary source: https://www.uscourts.gov/glossary
 #
-# The <dl> element contains <dt> (term) and <dd> (definition) pairs.
-# We parse these into structured GlossaryEntry objects.
+# The <dl> element contains <dt> (term) and <dd> (definition) pairs. We parse
+# these into structured GlossaryEntry objects.
 
 from scrapy.http.response.html import HtmlResponse
 
