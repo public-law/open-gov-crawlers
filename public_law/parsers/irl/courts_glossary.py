@@ -52,10 +52,10 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     def cleanup_definition(definition: str) -> Sentence:
         return pipe(
             definition
-            , text.normalize_nonempty
+            , text.cleanup
             , text.lstrip(":")                                              # type: ignore
             , text.ensure_ends_with_period
-            , text.normalize_nonempty
+            , text.cleanup
             , text.capitalize_first_char
             , Sentence
         )
@@ -64,7 +64,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
         return text.pipe(
             phrase
             , text.rstrip(":")                                             # type: ignore
-            , text.normalize_nonempty
+            , text.cleanup
         )
 
     for phrase, defn in _raw_entries(html):

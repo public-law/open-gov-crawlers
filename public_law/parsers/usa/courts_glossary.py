@@ -20,7 +20,7 @@ from ...glossary_metadata import us_courts_glossary_metadata
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import (
     make_soup,
-    normalize_nonempty,
+    cleanup,
     Sentence,
 )
 
@@ -44,10 +44,8 @@ def _parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     assert len(dt_list) == len(dd_list)          # Ensure each term has a definition
     list_of_pairs = zip(dt_list, dd_list)        # Pair each <dt> with its corresponding <dd>
 
+    # Convert the list of pairs into a tuple of GlossaryEntry objects
     return tuple(
-        GlossaryEntry(
-            phrase=normalize_nonempty(dt.text),  # Normalize and validate the term text
-            definition=Sentence(dd.text),        # Wrap the definition text as a Sentence object
-        )
-        for dt, dd in list_of_pairs              # Loop over the list of pairs
+        GlossaryEntry(phrase=cleanup(dt.text), definition=Sentence(dd.text))
+        for dt, dd in list_of_pairs
     )

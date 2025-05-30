@@ -10,7 +10,7 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
 from ...text import (Sentence, WikidataTopic, capitalize_first_char, make_soup,
-                     normalize_nonempty)
+                     cleanup)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -55,8 +55,8 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
         return pipe(
             defn,
-            normalize_nonempty,
-            normalize_nonempty,
+            cleanup,
+            cleanup,
             capitalize_first_char,
             Sentence,
         ) # type: ignore
@@ -66,7 +66,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
         return text.pipe(
             phrase
-            , normalize_nonempty
+            , cleanup
         )
     
     for phrase, defn in _raw_entries(html):

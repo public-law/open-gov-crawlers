@@ -5,7 +5,7 @@ from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject
 from ...text import NonemptyString as String
 from ...text import (Sentence, ensure_ends_with_period, make_soup,
-                     normalize_nonempty, normalize_whitespace)
+                     cleanup, normalize_whitespace)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

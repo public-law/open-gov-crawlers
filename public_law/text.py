@@ -226,7 +226,7 @@ def normalize_whitespace(text: str|TypedSoup) -> str:
     return " ".join(no_newlines.strip().split())
 
 
-def normalize_nonempty(text: str|TypedSoup) -> NonemptyString:
+def cleanup(text: str|TypedSoup) -> NonemptyString:
     """
     Remove extra whitespace from around and within the string,
     combined with instantiation of a NonemptyString.
