@@ -71,7 +71,7 @@ Here's a snippet of the output:
 Development Environment Notes
 -----------------------------
 
-### Python 3.10 or greater
+### Python 3.12
 
 I'm using [asdf](https://asdf-vm.com/#/) because the Homebrew distribution
 is more up-to-date than pyenv.
