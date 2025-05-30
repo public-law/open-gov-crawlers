@@ -19,12 +19,12 @@ from scrapy.http.response.html import HtmlResponse
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import (
-    URL,
     LoCSubject,
     make_soup,
     NonemptyString as String,
-    Sentence,
     normalize_nonempty,
+    Sentence,
+    URL,
 )
 
 
@@ -49,6 +49,7 @@ def __parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     soup = make_soup(response)
     # Pair up each <dt> (term) with its corresponding <dd> (definition)
+    assert len(soup("dt")) == len(soup("dd")), "Mismatched <dt> and <dd> count"
     raw_entries = zip(soup("dt"), soup("dd"))
 
     return tuple(
