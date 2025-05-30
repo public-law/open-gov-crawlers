@@ -29,7 +29,7 @@ def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
     """
     Parses the US Courts glossary page and returns a GlossaryParseResult.
     """
-    entries = _parse_entries(response)
+    entries  = _parse_entries(response)
     metadata = us_courts_glossary_metadata()
     return GlossaryParseResult(entries=entries, metadata=metadata)
 
@@ -39,13 +39,15 @@ def _parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     Parses the <dl> definition list into a tuple of GlossaryEntry objects.
     Each <dt> is a term, and each <dd> is its definition.
     """
-    soup = make_soup(response)
-    dt_list, dd_list = soup("dt"), soup("dd")
-    assert len(dt_list) == len(dd_list), "Mismatched <dt> and <dd> count"
+    soup = make_soup(response)                   # Parse the HTML response into a BeautifulSoup object
+    dt_list, dd_list = soup("dt"), soup("dd")    # Extract all <dt> (terms) and <dd> (definitions)
+    assert len(dt_list) == len(dd_list)          # Ensure each term has a definition
+    list_of_pairs = zip(dt_list, dd_list)        # Pair each <dt> with its corresponding <dd>
+
     return tuple(
         GlossaryEntry(
-            phrase=normalize_nonempty(dt.text),
-            definition=Sentence(dd.text),
+            phrase=normalize_nonempty(dt.text),  # Normalize and validate the term text
+            definition=Sentence(dd.text),        # Wrap the definition text as a Sentence object
         )
-        for dt, dd in zip(dt_list, dd_list)
+        for dt, dd in list_of_pairs              # Loop over the list of pairs
     )
