@@ -4,7 +4,7 @@
 # learning purposes.
 #
 # How execution reaches this code:
-#   - Scrapy first runs the paired us_courts_glossary Spider.
+#   - Scrapy first runs the paired `usa_courts_glossary` Spider.
 #   - The Spider is responsible for downloading the glossary web page.
 #   - Once the page is downloaded, the Spider calls the parse_glossary function
 #     below to extract structured data.
@@ -17,12 +17,8 @@
 from scrapy.http.response.html import HtmlResponse
 
 from ...glossary_metadata import us_courts_glossary_metadata
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import (
-    make_soup,
-    cleanup,
-    Sentence,
-)
+from ...models.glossary   import GlossaryEntry, GlossaryParseResult
+from ...text              import make_soup, cleanup, Sentence
 
 
 def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
