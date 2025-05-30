@@ -4,10 +4,12 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.parsers.can.patents_glossary import parse_glossary
-from public_law.spiders.can.patents_glossary import URL
+from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
 from public_law.models.glossary import GlossaryEntry, GlossaryParseResult
 from public_law.text import NonemptyString as String
 from public_law.text import Sentence
+
+URL = PatentsGlossarySpider.start_urls[0]
 
 
 @pytest.fixture
