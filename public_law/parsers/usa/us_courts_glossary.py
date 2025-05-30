@@ -18,10 +18,14 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject
-from ...text import NonemptyString as String
-from ...text import (Sentence, make_soup,
-                     normalize_nonempty)
+from ...text import (
+    URL,
+    LoCSubject,
+    NonemptyString as String,
+    Sentence,
+    make_soup,
+    normalize_nonempty,
+)
 
 
 def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
