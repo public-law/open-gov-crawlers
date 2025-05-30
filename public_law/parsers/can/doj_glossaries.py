@@ -10,7 +10,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import (URL, LoCSubject, NonemptyString, Sentence,
                      capitalize_first_char, ensure_ends_with_period,
-                     normalize_nonempty)
+                     cleanup)
 
 SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
@@ -134,7 +134,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             GlossaryEntry(
                 phrase=phrase,
                 definition=Sentence(
-                    ensure_ends_with_period(normalize_nonempty(definition))
+                    ensure_ends_with_period(cleanup(definition))
                 ),
             )
         )
@@ -171,7 +171,7 @@ def parse_name(html: SelectorLike) -> str:
 def first_match(node: SelectorLike, css: str, expected: str) -> str:
     match node.css(css).get():
         case str(result):
-            return normalize_nonempty(result)
+            return cleanup(result)
         case _:
             raise ParseException(
                 f'Could not parse the {expected} using "{css}"')

@@ -1,5 +1,4 @@
 import importlib
-from abc import ABC
 from typing import Any, Generator
 
 from scrapy import Spider
@@ -20,7 +19,7 @@ class AutoGlossarySpider(Spider):
 
     Example:
         class DVGlossary(AutoGlossarySpider):
-            name = "aus_dv_glossary"
+            name       = "aus_dv_glossary"
             start_urls = ["https://example.com/glossary"]
 
     This class validates required attributes at class definition time, providing

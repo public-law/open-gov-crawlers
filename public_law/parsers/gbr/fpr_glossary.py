@@ -7,7 +7,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, normalize_nonempty
+from ...text import Sentence, ensure_ends_with_period, make_soup, cleanup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -78,10 +78,10 @@ def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
 
     return tuple(
         GlossaryEntry(
-            phrase=normalize_nonempty(term.text),
+            phrase=cleanup(term.text),
             definition=Sentence(
                 ensure_ends_with_period(
-                    normalize_nonempty(defn.text.replace(
+                    cleanup(defn.text.replace(
                         "“", '"').replace("”", '"'))
                 )
             ),

@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 from scrapy.http.response.html import HtmlResponse
 from toolz import functoolz
 from toolz.functoolz import curry, flip
+from typed_soup import TypedSoup
 
 
 class NonemptyString(str):
@@ -214,22 +215,24 @@ def delete(text: str, fragment: str) -> str:
     return text.replace(fragment, "")
 
 
-def normalize_whitespace(text: str) -> str:
+def normalize_whitespace(text: str|TypedSoup) -> str:
     """
     Remove extra whitespace from around and within the string
     """
-    assert isinstance(text, str)
+    if isinstance(text, TypedSoup):
+        text = text.get_text()
 
     no_newlines = text.replace("\n", " ")
     return " ".join(no_newlines.strip().split())
 
 
-def normalize_nonempty(text: str) -> NonemptyString:
+def cleanup(text: str|TypedSoup) -> NonemptyString:
     """
     Remove extra whitespace from around and within the string,
     combined with instantiation of a NonemptyString.
     """
-    assert isinstance(text, str)
+    if isinstance(text, TypedSoup):
+        text = text.get_text()
 
     return NonemptyString(normalize_whitespace(text))
 

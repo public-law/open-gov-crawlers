@@ -28,7 +28,7 @@ python-dotenv = "^1.0.1"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1"
 pytest = "*"
-pytest-watch = "*"
+pytest-watcher = "*"
 vcrpy = "*"
 isort = "^6.0.1"
 
@@ -58,6 +58,9 @@ python_files = ["*_test.py", "test_*.py"]
 python_classes = ["Test", "Describe"]
 python_functions = ["test_", "it_", "and_", "but_", "they_"]
 testpaths = ["tests", "public_law"]
+filterwarnings = [
+  "ignore:pkg_resources is deprecated as an API",
+]
 
 [build-system]
 requires = ["poetry>=0.12"]

@@ -15,9 +15,6 @@ from scrapy.http.response.html import HtmlResponse
 
 from ...parsers.usa.georgia_ag_opinions import parse_ag_opinion
 
-JD_VERBOSE_NAME = "USA / Georgia"
-PUBLICATION_NAME = "Attorney General Opinions"
-
 
 class GeorgiaAgOpinions(Spider):
     """Scrape the Georgia Attorney General Opinions
@@ -26,7 +23,7 @@ class GeorgiaAgOpinions(Spider):
     producing one JSON object per opinion (page).
     """
 
-    name = "usa_ga_attorney_general_opinions"
+    name       = "usa_ga_attorney_general_opinions"
     start_urls = [
         "https://law.georgia.gov/opinions/official",
         "https://law.georgia.gov/opinions/unofficial",

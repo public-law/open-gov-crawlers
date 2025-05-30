@@ -12,9 +12,6 @@ from public_law.items.oar import OAR, Chapter, Division
 from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
 from public_law.text import titleize
 
-JD_VERBOSE_NAME  = "USA / Oregon"
-PUBLICATION_NAME = "Oregon Administrative Rules"
-
 
 class OregonRegs(Spider):
     name            = "usa_or_regs"

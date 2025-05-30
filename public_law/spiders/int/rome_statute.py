@@ -8,15 +8,10 @@ from scrapy.http.response.html import HtmlResponse
 from public_law.parsers.int.rome_statute import (articles, footnotes,
                                                  new_metadata, parts)
 
-JD_VERBOSE_NAME = "Intergovernmental"
-PUBLICATION_NAME = "Rome Statute"
-
 
 class RomeStatute(Spider):
-    name = "int_rome_statute"
-    start_urls = [
-        "https://www.icc-cpi.int/resource-library",
-    ]
+    name       = "int_rome_statute"
+    start_urls = ["https://www.icc-cpi.int/resource-library"]
 
     def parse(self, response: Response, **_kwargs: Dict[str, Any]):
         """Scrapy framework callback which begins the parsing."""

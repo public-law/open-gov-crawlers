@@ -10,7 +10,7 @@ from ...metadata import Metadata, Subject
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 from ...text import URL, LoCSubject, NonemptyString, WikidataTopic
 from ...text import NonemptyString as String
-from ...text import Sentence, normalize_nonempty
+from ...text import Sentence, cleanup
 
 # Tag with empty string.
 empty_tag: Final = Tag(None, None, "")
@@ -143,5 +143,5 @@ def parse_row(row: TypedSoup) -> tuple[NonemptyString, NonemptyString]:
 
 def _cleanup_cell(cell: TypedSoup) -> NonemptyString:
     """Cleanup a cell: strip whitespace and normalize apostrophes."""
-    return normalize_nonempty(
+    return cleanup(
         _normalize_apostrophes(cell.get_text(strip=True)))
