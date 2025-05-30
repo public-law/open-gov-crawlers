@@ -93,11 +93,17 @@ The pytest tests run easily:
 poetry run pytest
 ```
 
+I run them automatically when a file changes using pytest-watcher.
+It's automatically installed with the project:
+
+```bash
+poetry run ptw .
+```
+
 ## Other tools
 
 * Java is required by the Python Tika package.
 * Pylance/Pyright for type-checking
-* Black for formatting
 
 
 ### Dependencies; helpful links
