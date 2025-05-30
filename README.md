@@ -22,11 +22,12 @@ Crawlers and parsers for extracting legal glossary and regulation data from offi
 | USA / Oregon      | [Oregon Administrative Rules](https://oregon.public.law/rules)                                                                                                    | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/oregon_regs.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/spiders/usa/oregon_regs.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/public_law/parsers/usa/oregon_regs_test.py)                                  |                                                                                                             |
 
 
-
+> [!TIP]
 > The [USA Courts Glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/courts_glossary.py)
 > is the best example of our coding style.
 > See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a deep dive explanation
 > of our parsing strategy. 
+
 
 
 ## Example: USA Courts Glossary Parser
