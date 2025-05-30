@@ -28,7 +28,7 @@ python-dotenv = "^1.0.1"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1"
 pytest = "*"
-pytest-watch = "*"
+pytest-watcher = "*"
 vcrpy = "*"
 isort = "^6.0.1"
 
