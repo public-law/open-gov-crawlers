@@ -1,6 +1,6 @@
-# This parser is a simple, clear example for onboarding new developers.
+# This parser is a simple, clean example for onboarding new developers.
 # It demonstrates how to extract a glossary from a <dl> (definition list) HTML
-# structure. The code is intentionally straightforward and well-commented for
+# structure. The code is intentionally straightforward and commented for
 # learning purposes.
 #
 # How execution reaches this code:
