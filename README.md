@@ -23,13 +23,16 @@ Crawlers and parsers for extracting legal glossary and regulation data from offi
 
 
 
-> The [Ireland glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/irl/courts_glossary.py) is the best example of our coding style.
-> See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a technical explanation
+> The [USA Courts Glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/courts_glossary.py)
+> is the best example of our coding style.
+> See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a deep dive explanation
 > of our parsing strategy. 
 
 
-## Example: Oregon Administrative Rules Parser
-The spiders retrieve HTML pages and output well formed JSON. It represents the source's structure.
+## Example: USA Courts Glossary Parser
+The spiders retrieve HTML pages and output well formed JSON. Glossary parsers
+all output the same JSON format.
+
 First, we can see which spiders are available:
 
 ```bash
@@ -41,76 +44,44 @@ int_rome_statute
 ...
 ```
 
-Then we can run one of the spiders:
+Then we can run one of the spiders, e.g. the USA Courts Glossary:
 
 ```bash
-$ scrapy crawl --overwrite-output tmp/output.json usa_or_regs
+$ scrapy crawl --overwrite-output tmp/output.json usa_courts_glossary
 ```
 
 This produces:
 
 ```json
-{
-  "date_accessed": "2019-03-21",
-  "chapters": [
-    {
-      "kind": "Chapter",
-      "db_id": "36",
-      "number": "101",
-      "name": "Oregon Health Authority, Public Employees' Benefit Board",
-      "url": "https://secure.sos.state.or.us/oard/displayChapterRules.action?selectedChapter=36",
-      "divisions": [
-        {
-          "kind": "Division",
-          "db_id": "1",
-          "number": "1",
-          "name": "Procedural Rules",
-          "url": "https://secure.sos.state.or.us/oard/displayDivisionRules.action?selectedDivision=1",
-          "rules": [
-            {
-              "kind": "Rule",
-              "number": "101-001-0000",
-              "name": "Notice of Proposed Rule Changes",
-              "url": "https://secure.sos.state.or.us/oard/view.action?ruleNumber=101-001-0000",
-              "authority": [
-                "ORS 243.061 - 243.302"
-              ],
-              "implements": [
-                "ORS 183.310 - 183.550",
-                "192.660",
-                "243.061 - 243.302",
-                "292.05"
-              ],
-              "history": "PEBB 2-2009, f. 7-29-09, cert. ef. 8-1-09<br>PEBB 1-2009(Temp), f. &amp; cert. ef. 2-24-09 thru 8-22-09<br>PEBB 1-2004, f. &amp; cert. ef. 7-2-04<br>PEBB 1-1999, f. 12-8-99, cert. ef. 1-1-00",
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+[
+  ...
+  {
+    "phrase": "Sentence",
+    "definition": "The punishment ordered by a court for a defendant convicted of a crime."
+  },
+  {
+    "phrase": "Sentencing guidelines",
+    "definition": "A set of rules and principles established by the United States Sentencing Commission that trial judges use to determine the sentence for a convicted defendant."
+  },
+  {
+    "phrase": "Sequester",
+    "definition": "To separate. Sometimes juries are sequestered from outside influences during their deliberations."
+  },
+  ...
+]
 ```
-(etc.)
-
-[The Wiki](https://github.com/public-law/open-gov-crawlers/wiki) explains the JSON strategy.
 
 
 Development Environment Notes
 -----------------------------
 
-### Python 3.10
+### Python 3.10 or greater
 
 I'm using [asdf](https://asdf-vm.com/#/) because the Homebrew distribution
 is more up-to-date than pyenv.
 
 
 ### [Poetry](https://python-poetry.org/) for dependency management
-
-So before I start working, I go into the virtual environment:
-
-```bash
-poetry shell
-```
 
 Making sure I have the current deps installed is always good to do:
 
@@ -123,7 +94,7 @@ poetry install
 The pytest tests run easily:
 
 ```bash
-pytest
+poetry run pytest
 ```
 
 ## Other tools
@@ -147,4 +118,3 @@ To add a new glossary crawler:
 4. Run the spider using `scrapy crawl --overwrite-output tmp/output.json`.
 
 Need help? Just ask in GitHub Issues or ping @robb.
-
