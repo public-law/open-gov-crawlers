@@ -16,13 +16,13 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.text import (
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ...text import (
     make_soup,
     normalize_nonempty,
     Sentence,
 )
-from public_law.glossary_metadata import us_courts_glossary_metadata
+from ...glossary_metadata import us_courts_glossary_metadata
 
 
 def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
