@@ -50,25 +50,21 @@ Then we can run one of the spiders, e.g. the USA Courts Glossary:
 $ scrapy crawl --overwrite-output tmp/output.json usa_courts_glossary
 ```
 
-This produces:
+Here's a snippet of the output:
 
 ```json
-[
-  ...
-  {
-    "phrase": "Sentence",
-    "definition": "The punishment ordered by a court for a defendant convicted of a crime."
-  },
-  {
-    "phrase": "Sentencing guidelines",
-    "definition": "A set of rules and principles established by the United States Sentencing Commission that trial judges use to determine the sentence for a convicted defendant."
-  },
-  {
-    "phrase": "Sequester",
-    "definition": "To separate. Sometimes juries are sequestered from outside influences during their deliberations."
-  },
-  ...
-]
+{
+  "phrase": "Sentence",
+  "definition": "The punishment ordered by a court for a defendant convicted of a crime."
+},
+{
+  "phrase": "Sentencing guidelines",
+  "definition": "A set of rules and principles established by the United States Sentencing Commission that trial judges use to determine the sentence for a convicted defendant."
+},
+{
+  "phrase": "Sequester",
+  "definition": "To separate. Sometimes juries are sequestered from outside influences during their deliberations."
+},
 ```
 
 
