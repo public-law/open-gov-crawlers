@@ -27,10 +27,17 @@ from ...text import (
 
 def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
     """
-    Parses the US Courts glossary page and returns a GlossaryParseResult.
+    Parses the US Courts glossary page and returns a GlossaryParseResult
+    to the Spider.
     """
-    entries  = _parse_entries(response)
-    metadata = us_courts_glossary_metadata()
+    # A GlossaryParseResult is a class with just two attributes:
+    # the entries and metadata.
+
+    # 1. Create the two pieces of the GlossaryParseResult.
+    entries  = _parse_entries(response)       # Parse the entries from the HTML response
+    metadata = us_courts_glossary_metadata()  # Call the metadata function
+
+    # 2. Create and return a new GlossaryParseResult object that wraps them up.
     return GlossaryParseResult(entries=entries, metadata=metadata)
 
 
