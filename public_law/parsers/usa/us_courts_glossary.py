@@ -8,11 +8,31 @@ from ...text import (Sentence, make_soup,
                      normalize_nonempty)
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = __parse_entries(html)
+def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
+    entries  = __parse_entries(response)
+    metadata = __parse_metadata(response)
 
     return GlossaryParseResult(
-        metadata=Metadata(
+        entries=entries,
+        metadata=metadata,
+    )
+
+
+def __parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    soup = make_soup(response)
+    raw_entries = zip(soup("dt"), soup("dd"))
+
+    return tuple(
+        GlossaryEntry(
+            phrase=normalize_nonempty(phrase.text),
+            definition=Sentence(defn.text),
+        )
+        for phrase, defn in raw_entries
+    )
+
+
+def __parse_metadata(response: HtmlResponse) -> Metadata:
+    return Metadata(
             dcterms_title=String("Glossary of Legal Terms"),
             dcterms_language="en",
             dcterms_coverage="USA",
@@ -30,19 +50,4 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
                     rdfs_label=String("United States federal courts"),
                 ),
             ),
-        ),
-        entries=parsed_entries,
-    )
-
-
-def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    soup = make_soup(html)
-    raw_entries = zip(soup("dt"), soup("dd"))
-
-    return tuple(
-        GlossaryEntry(
-            phrase=normalize_nonempty(phrase.text),
-            definition=Sentence(defn.text),
         )
-        for phrase, defn in raw_entries
-    )
