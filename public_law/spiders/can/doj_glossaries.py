@@ -5,13 +5,11 @@ from public_law.spiders.base import BaseGlossarySpider
 
 import public_law.parsers.can.doj_glossaries as parser
 
-JD_VERBOSE_NAME = "Canada"
-PUBLICATION_NAME = "Dept. of Justice Legal Glossaries"
-
 
 class DojGlossaries(BaseGlossarySpider):
-    name = "can_doj_glossaries"
+    name       = "can_doj_glossaries"
     start_urls = parser.configured_urls()
+
 
     def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
         """Framework callback which begins the parsing.
