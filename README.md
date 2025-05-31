@@ -25,9 +25,6 @@ Crawlers and parsers for extracting legal glossary and regulation data from offi
 > [!TIP]
 > The [USA Courts Glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/parsers/usa/courts_glossary.py)
 > is the best example of our coding style.
-> See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a deep dive explanation
-> of our parsing strategy. 
-
 
 
 ## Example: USA Courts Glossary Parser
@@ -67,6 +64,10 @@ Here's a snippet of the output:
   "definition": "To separate. Sometimes juries are sequestered from outside influences during their deliberations."
 },
 ```
+
+> [!NOTE]
+> See [the wiki](https://github.com/public-law/open-gov-crawlers/wiki) for a deep dive explanation
+> of our parsing strategy. 
 
 
 Development Environment Notes
