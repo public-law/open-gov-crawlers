@@ -14,7 +14,7 @@ assert GLOSSARY_SPIDERS, "No glossary spiders were discovered."
 
 def get_fixture_path(spider_name: str) -> Path:
     """Get the path to the fixture file for a given spider."""
-    return Path(__file__).parent.parent / "fixtures" / spider_name.split("_")[0] / f"{spider_name.split('_')[1]}-glossary.html"
+    return Path(__file__).parent.parent.parent / "fixtures" / spider_name.split("_")[0] / f"{spider_name.split('_')[1]}-glossary.html"
 
 
 @pytest.fixture
