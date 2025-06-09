@@ -1,11 +1,12 @@
+from typed_soup import from_response, TypedSoup
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import Sentence, ensure_ends_with_period
-from typed_soup import from_response, TypedSoup
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ....shared.models.metadata import Metadata, Subject
+from ....shared.utils.text import (
+    URL, LoCSubject, WikidataTopic, NonemptyString as String,
+    Sentence, ensure_ends_with_period,
+)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -14,7 +15,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     complete parse of the HTTP response.
     """
     metadata = _make_metadata(html)
-    entries = _parse_entries(html)
+    entries =  _parse_entries(html)
 
     return GlossaryParseResult(metadata, entries)
 
