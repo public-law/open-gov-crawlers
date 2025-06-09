@@ -13,19 +13,19 @@ The repository is organized by business domain rather than technology:
 ```
 public_law/
 ├── glossaries/          # Legal glossary crawlers
-│   ├── models/          # Data models for glossary entries
-│   ├── parsers/         # HTML parsing logic by jurisdiction
-│   ├── spiders/         # Scrapy spiders by jurisdiction
-│   └── utils/           # Shared utilities
+│   ├── models/            # Data models for glossary entries
+│   ├── parsers/           # HTML parsing logic by jurisdiction
+│   ├── spiders/           # Scrapy spiders by jurisdiction
+│   └── utils/             # Shared utilities
 ├── legal_texts/         # Legal document crawlers
-│   ├── models/          # Data models for legal documents
-│   ├── parsers/         # Document parsing logic
-│   └── spiders/         # Document crawling spiders
+│   ├── models/            # Data models for legal documents
+│   ├── parsers/           # Document parsing logic
+│   └── spiders/           # Document crawling spiders
 └── shared/              # Shared components
-    ├── exceptions/      # Custom exceptions
-    ├── models/          # Base data models
-    ├── spiders/         # Base spider classes
-    └── utils/           # Common utilities
+    ├── exceptions/        # Custom exceptions
+    ├── models/            # Base data models
+    ├── spiders/           # Base spider classes
+    └── utils/             # Common utilities
 ```
 
 ## Data Sources
