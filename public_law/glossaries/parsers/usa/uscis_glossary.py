@@ -3,14 +3,11 @@ from typing import Any, Iterable
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from public_law.shared.utils import text
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import (Sentence, WikidataTopic, capitalize_first_char, make_soup,
-                     cleanup)
+from ....shared.models.metadata import Metadata, Subject
+from ....shared.utils           import text
+from ....shared.utils.text      import NonemptyString as String
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -25,11 +22,11 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
 
 
 def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)
+    source_url = text.URL(html.url)
 
     subjects = (
-                Subject(LoCSubject("sh85042790"), String("Emigration and immigration law")),
-                Subject(WikidataTopic("Q231147"),  String("immigration law")), 
+                Subject(text.LoCSubject("sh85042790"), String("Emigration and immigration law")),
+                Subject(text.WikidataTopic("Q231147"),  String("immigration law")), 
             )
     
     return Metadata(
@@ -50,15 +47,15 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
     functions for cleaning up the definitions and phrases.
     """
 
-    def cleanup_definition(defn: str) -> Sentence:
+    def cleanup_definition(defn: str) -> text.Sentence:
         assert isinstance(defn, str)
 
         return pipe(
             defn,
-            cleanup,
-            cleanup,
-            capitalize_first_char,
-            Sentence,
+            text.cleanup,
+            text.cleanup,
+            text.capitalize_first_char,
+            text.Sentence,
         ) # type: ignore
 
     def cleanup_phrase(phrase: str) -> String:
@@ -66,7 +63,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
         return text.pipe(
             phrase
-            , cleanup
+            , text.cleanup
         )
     
     for phrase, defn in _raw_entries(html):
@@ -85,7 +82,7 @@ def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
 
     TODO: Refactor all the glossary parsers to need only this function.
     """
-    soup    = make_soup(html)
+    soup    = text.make_soup(html)
     phrases = [d.string for d in soup.select('div.accordion__header')]
     phrases = [maybe_fix(p) for p in phrases]
 
