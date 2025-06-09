@@ -1,4 +1,4 @@
-from ..enhanced_base import AutoGlossarySpider
+from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
 
 class DVGlossary(AutoGlossarySpider):

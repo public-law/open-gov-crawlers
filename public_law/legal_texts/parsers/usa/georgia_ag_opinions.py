@@ -6,8 +6,8 @@ from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
 from toolz.functoolz import curry, pipe  # type: ignore
 
-from ...exceptions import ParseException
-from ...text import normalize_whitespace
+from public_law.shared.exceptions.parse_exception import ParseException
+from public_law.shared.utils.text import normalize_whitespace
 
 join = curry(str.join)
 map = curry(map)

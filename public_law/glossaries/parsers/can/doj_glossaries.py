@@ -5,10 +5,10 @@ from typing import Any, TypeAlias
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import Selector, SelectorList
 
-from ...exceptions import ParseException
-from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import (URL, LoCSubject, NonemptyString, Sentence,
+from public_law.shared.exceptions import ParseException
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import (URL, LoCSubject, NonemptyString, Sentence,
                      capitalize_first_char, ensure_ends_with_period,
                      cleanup)
 

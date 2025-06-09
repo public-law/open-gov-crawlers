@@ -1,7 +1,7 @@
 import re
 from subprocess import check_output
 
-from public_law.dates import todays_date
+from public_law.shared.utils.dates import todays_date
 
 
 class TestTodaysDate:

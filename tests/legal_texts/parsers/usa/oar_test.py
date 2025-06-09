@@ -2,7 +2,7 @@ from typing import IO, Any
 
 from scrapy.selector.unified import Selector
 
-from public_law.parsers.usa.oregon_regs import (_meta_sections, _statute_meta,
+from public_law.legal_texts.parsers.usa.oregon_regs import (_meta_sections, _statute_meta,
                                                 parse_division)
 
 

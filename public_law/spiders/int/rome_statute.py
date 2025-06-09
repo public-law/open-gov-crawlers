@@ -5,7 +5,7 @@ from scrapy import Spider
 from scrapy.http.response import Response
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.int.rome_statute import (articles, footnotes,
+from public_law.legal_texts.parsers.int.rome_statute import (articles, footnotes,
                                                  new_metadata, parts)
 
 

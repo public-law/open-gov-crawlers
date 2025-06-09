@@ -1,6 +1,6 @@
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.usa.georgia_ag_opinions import (
+from public_law.legal_texts.parsers.usa.georgia_ag_opinions import (
     OpinionParseResult, opinion_date_to_iso8601, parse_ag_opinion)
 
 

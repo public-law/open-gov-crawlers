@@ -6,11 +6,11 @@ import typed_soup
 from typed_soup import TypedSoup
 from scrapy.http.response.html import HtmlResponse
 
-from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, NonemptyString, WikidataTopic
-from ...text import NonemptyString as String
-from ...text import Sentence, cleanup
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import URL, LoCSubject, NonemptyString, WikidataTopic
+from public_law.shared.utils.text import NonemptyString as String
+from public_law.shared.utils.text import Sentence, cleanup
 
 # Tag with empty string.
 empty_tag: Final = Tag(None, None, "")

@@ -4,13 +4,13 @@ from more_itertools import chunked
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from public_law import text
+from public_law.shared.utils import text
 
-from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject
-from ...text import NonemptyString as String
-from ...text import Sentence, WikidataTopic
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import URL, LoCSubject
+from public_law.shared.utils.text import NonemptyString as String
+from public_law.shared.utils.text import Sentence, WikidataTopic
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

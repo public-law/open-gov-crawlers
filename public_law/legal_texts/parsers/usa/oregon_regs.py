@@ -3,9 +3,9 @@ import re
 from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
 
-from ...exceptions import ParseException
-from ...items.oar import Rule
-from ...text import delete_all
+from public_law.shared.exceptions.parse_exception import ParseException
+from public_law.items.oar import Rule
+from public_law.shared.utils.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")
 DOMAIN = "secure.sos.state.or.us"

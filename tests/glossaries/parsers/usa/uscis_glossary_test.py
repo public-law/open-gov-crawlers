@@ -2,11 +2,11 @@ from more_itertools import first, last
 from pytest import fixture, mark
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.dates import today
-from public_law.metadata import Subject
-from public_law.models.glossary import GlossaryParseResult
-from public_law.parsers.usa.uscis_glossary import parse_glossary
-from public_law.text import URL, NonemptyString
+from public_law.shared.utils.dates import today
+from public_law.shared.models.metadata import Subject
+from public_law.glossaries.models.glossary import GlossaryParseResult
+from public_law.glossaries.parsers.usa.uscis_glossary import parse_glossary
+from public_law.shared.utils.text import URL, NonemptyString
 
 
 def parsed_fixture(filename: str, url: str) -> GlossaryParseResult:

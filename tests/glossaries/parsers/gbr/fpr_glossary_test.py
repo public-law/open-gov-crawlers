@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.gbr.fpr_glossary import parse_glossary
+from public_law.glossaries.parsers.gbr.fpr_glossary import parse_glossary
 
 
 def test_parse_glossary():

@@ -3,8 +3,8 @@ from datetime import date
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.aus.lawhandbook_glossary import parse_glossary
-from public_law.models.glossary import GlossaryParseResult
+from public_law.glossaries.parsers.aus.lawhandbook_glossary import parse_glossary
+from public_law.glossaries.models.glossary import GlossaryParseResult
 
 
 @pytest.fixture

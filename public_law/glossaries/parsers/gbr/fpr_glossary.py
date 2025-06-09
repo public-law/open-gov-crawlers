@@ -3,11 +3,11 @@ from datetime import date, datetime
 from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
-from ...metadata import Metadata, Subject
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ...text import URL, LoCSubject, WikidataTopic
-from ...text import NonemptyString as String
-from ...text import Sentence, ensure_ends_with_period, make_soup, cleanup
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic
+from public_law.shared.utils.text import NonemptyString as String
+from public_law.shared.utils.text import Sentence, ensure_ends_with_period, make_soup, cleanup
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:

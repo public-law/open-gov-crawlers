@@ -3,11 +3,11 @@ from pathlib import Path
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.parsers.can.patents_glossary import parse_glossary
-from public_law.spiders.can.patents_glossary import PatentsGlossarySpider
-from public_law.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.text import NonemptyString as String
-from public_law.text import Sentence
+from public_law.glossaries.parsers.can.patents_glossary import parse_glossary
+from public_law.glossaries.spiders.can.patents_glossary import PatentsGlossarySpider
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import NonemptyString as String
+from public_law.shared.utils.text import Sentence
 
 URL = PatentsGlossarySpider.start_urls[0]
 

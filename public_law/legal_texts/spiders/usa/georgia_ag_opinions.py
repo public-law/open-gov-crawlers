@@ -13,7 +13,7 @@ from scrapy.http.request import Request
 from scrapy.http.response import Response
 from scrapy.http.response.html import HtmlResponse
 
-from ...parsers.usa.georgia_ag_opinions import parse_ag_opinion
+from public_law.legal_texts.parsers.usa.georgia_ag_opinions import parse_ag_opinion
 
 
 class GeorgiaAgOpinions(Spider):
