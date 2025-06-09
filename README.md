@@ -12,7 +12,7 @@ The repository is organized by business domain rather than technology:
 
 ```
 public_law/
-├── glossaries/           # Legal glossary crawlers
+├── glossaries/          # Legal glossary crawlers
 │   ├── models/          # Data models for glossary entries
 │   ├── parsers/         # HTML parsing logic by jurisdiction
 │   ├── spiders/         # Scrapy spiders by jurisdiction
