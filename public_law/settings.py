@@ -24,11 +24,9 @@ SPIDERMON_ENABLED = False
 
 BOT_NAME = "public_law"
 SPIDER_MODULES = [
-    "public_law.spiders",           # Legacy spiders
     "public_law.glossaries.spiders", # Glossary spiders
     "public_law.legal_texts.spiders" # Legal text spiders
 ]
-NEWSPIDER_MODULE = "public_law.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
