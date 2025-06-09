@@ -3,14 +3,14 @@ from typing import Any, Iterable
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from public_law.shared.utils import text
+from ...models.glossary import GlossaryEntry, GlossaryParseResult
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import (Sentence, WikidataTopic, capitalize_first_char, make_soup,
-                     cleanup)
+from ....shared.models.metadata import Metadata, Subject
+from ....shared.utils import text
+from ....shared.utils.text import URL, LoCSubject, NonemptyString as String
+from ....shared.utils.text import (
+    Sentence, WikidataTopic, capitalize_first_char, make_soup,
+)
 
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
@@ -55,9 +55,9 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
         return pipe(
             defn,
-            cleanup,
-            cleanup,
-            capitalize_first_char,
+            text.cleanup,
+            text.cleanup,
+            text.capitalize_first_char,
             Sentence,
         ) # type: ignore
 
@@ -66,7 +66,7 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
 
         return text.pipe(
             phrase
-            , cleanup
+            , text.cleanup
         )
     
     for phrase, defn in _raw_entries(html):
