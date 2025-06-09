@@ -6,8 +6,9 @@ from toolz.functoolz import pipe  # type: ignore
 from ...models.glossary import GlossaryEntry, GlossaryParseResult
 
 from ....shared.models.metadata import Metadata, Subject
-from ....shared.utils import text
-from ....shared.utils.text import NonemptyString as String
+from ....shared.utils           import text
+from ....shared.utils.text      import NonemptyString as String
+
 
 def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
     """
