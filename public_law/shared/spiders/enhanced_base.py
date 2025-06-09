@@ -4,7 +4,7 @@ from typing import Any, Generator
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from ..models.glossary import GlossaryParseResult
+from public_law.glossaries.models.glossary import GlossaryParseResult
 
 
 class AutoGlossarySpider(Spider):
@@ -103,4 +103,4 @@ class AutoGlossarySpider(Spider):
             )
 
         country, topic = parts
-        return f"public_law.parsers.{country}.{topic}_glossary"
+        return f"public_law.glossaries.parsers.{country}.{topic}_glossary"

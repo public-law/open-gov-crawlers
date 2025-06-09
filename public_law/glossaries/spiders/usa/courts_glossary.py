@@ -1,4 +1,4 @@
-from public_law.spiders.enhanced_base import AutoGlossarySpider
+from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
 class CourtsGlossary(AutoGlossarySpider):
     name       = "usa_courts_glossary"

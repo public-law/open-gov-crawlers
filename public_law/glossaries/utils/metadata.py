@@ -1,5 +1,5 @@
-from .metadata import Metadata, Subject
-from .text import (
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.shared.utils.text import (
     LoCSubject,
     NonemptyString as String,
     URL,

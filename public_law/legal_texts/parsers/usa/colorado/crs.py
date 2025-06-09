@@ -5,11 +5,11 @@ from typing import Optional, Protocol
 from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
-from public_law import html, seq, text
-from public_law.exceptions import ParseException
+from public_law.shared.utils import html, seq, text
+from public_law.shared.exceptions import ParseException
 from public_law.items.crs import Article, Division, Title
-from public_law.parsers.usa.colorado.crs_articles import parse_articles
-from public_law.parsers.usa.colorado.crs_divisions import parse_divisions
+from public_law.legal_texts.parsers.usa.colorado.crs_articles import parse_articles
+from public_law.legal_texts.parsers.usa.colorado.crs_divisions import parse_divisions
 
 
 class Logger(Protocol):

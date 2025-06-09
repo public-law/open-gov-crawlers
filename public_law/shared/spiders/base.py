@@ -3,7 +3,7 @@ from typing import Any, Generator
 from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
-from ..models.glossary import GlossaryParseResult
+from public_law.glossaries.models.glossary import GlossaryParseResult
 
 
 class BaseGlossarySpider(Spider):

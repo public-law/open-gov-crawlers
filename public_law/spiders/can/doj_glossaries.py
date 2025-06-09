@@ -1,9 +1,9 @@
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.models.glossary import GlossaryParseResult
-from public_law.spiders.base import BaseGlossarySpider
+from public_law.glossaries.models.glossary import GlossaryParseResult
+from public_law.shared.spiders.base import BaseGlossarySpider
 
-import public_law.parsers.can.doj_glossaries as parser
+import public_law.glossaries.parsers.can.doj_glossaries as parser
 
 
 class DojGlossaries(BaseGlossarySpider):

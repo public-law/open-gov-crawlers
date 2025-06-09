@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
-from public_law.html import node_name
+from public_law.shared.utils.html import node_name
 from public_law.items.crs import *
-from public_law.text import (NonemptyString, normalize_whitespace,
+from public_law.shared.utils.text import (NonemptyString, normalize_whitespace,
                              remove_trailing_period)
 
 

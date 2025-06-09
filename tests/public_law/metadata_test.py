@@ -2,10 +2,10 @@ from typing import Any
 
 import pytest
 
-from public_law.dates import today
-from public_law.metadata import Metadata, Subject
-from public_law.text import URI
-from public_law.text import NonemptyString as S
+from public_law.shared.utils.dates import today
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.shared.utils.text import URI
+from public_law.shared.utils.text import NonemptyString as S
 
 
 @pytest.fixture

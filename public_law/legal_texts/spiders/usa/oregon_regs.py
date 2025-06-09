@@ -7,10 +7,10 @@ from scrapy.crawler import Crawler
 from scrapy.http.request import Request
 from scrapy.http.response import Response
 
-from public_law.dates import todays_date
+from public_law.shared.utils.dates import todays_date
 from public_law.items.oar import OAR, Chapter, Division
-from public_law.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
-from public_law.text import titleize
+from public_law.legal_texts.parsers.usa.oregon_regs import DOMAIN, oar_url, parse_division
+from public_law.shared.utils.text import titleize
 
 
 class OregonRegs(Spider):

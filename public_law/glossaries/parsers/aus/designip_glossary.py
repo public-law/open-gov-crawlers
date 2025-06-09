@@ -4,9 +4,9 @@ from typing import Tuple
 from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.metadata import Metadata, Subject
-from public_law.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.text import (
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import (
     LoCSubject,
     NonemptyString as String,
     Sentence,

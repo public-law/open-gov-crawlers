@@ -1,4 +1,4 @@
-from public_law.spiders.enhanced_base import AutoGlossarySpider
+from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
 class CaCriminalGlossary(AutoGlossarySpider):
     name       = "usa_criminal_glossary"

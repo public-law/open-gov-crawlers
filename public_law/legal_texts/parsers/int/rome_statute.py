@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field
 from tika import parser
 
-from public_law.metadata import Metadata, Subject
-from public_law.text import NonemptyString as S, URI
-from public_law.text import normalize_whitespace, titleize
+from public_law.shared.models.metadata import Metadata, Subject
+from public_law.shared.utils.text import NonemptyString as S, URI
+from public_law.shared.utils.text import normalize_whitespace, titleize
 
 LANGUAGE_MAP = {
     "Rome Statute of the International Criminal Court": "en-US",

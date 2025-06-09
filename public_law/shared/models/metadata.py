@@ -2,8 +2,8 @@ from dataclasses import asdict, dataclass
 from datetime import date
 from typing import Any, Literal
 
-from public_law.dates import today
-from public_law.text import URI, NonemptyString
+from public_law.shared.utils.dates import today
+from public_law.shared.utils.text import URI, NonemptyString
 
 
 @dataclass(frozen=True)

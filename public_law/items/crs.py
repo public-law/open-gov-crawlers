@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from public_law.text import *
+from public_law.shared.utils.text import *
 
 #
 # Items for the Colorado Revised Statutes.

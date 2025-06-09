@@ -5,8 +5,8 @@ from typing import Any, Callable, Iterable, TypeAlias
 
 from scrapy.http.response.html import HtmlResponse
 
-from ..metadata import Metadata
-from ..text import NonemptyString, Sentence
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import NonemptyString, Sentence
 
 
 @dataclass(frozen=True)

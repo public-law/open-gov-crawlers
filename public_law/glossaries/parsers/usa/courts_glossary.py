@@ -16,9 +16,9 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from ...glossary_metadata import us_courts_glossary_metadata
-from ...models.glossary   import GlossaryEntry, GlossaryParseResult
-from ...text              import make_soup, cleanup, Sentence
+from public_law.glossaries.utils.metadata import us_courts_glossary_metadata
+from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.utils.text import make_soup, cleanup, Sentence
 
 
 def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:

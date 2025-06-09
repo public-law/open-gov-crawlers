@@ -5,9 +5,9 @@ from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector, SelectorList
 from toolz.functoolz import curry
 
-from .exceptions import ParseException
-from .text import make_soup
-from .result import Result, Ok, Err
+from public_law.shared.exceptions import ParseException
+from public_law.shared.utils.text import make_soup
+from public_law.shared.models.result import Result, Ok, Err
 
 T = TypeVar('T')
 

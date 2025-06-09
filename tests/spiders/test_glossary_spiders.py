@@ -4,7 +4,7 @@ from typing import Any
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.spiders.utils import discover_glossary_spiders
+from public_law.shared.spiders.utils import discover_glossary_spiders
 
 # List of all glossary spiders to test (auto-generated)
 GLOSSARY_SPIDERS = discover_glossary_spiders()
