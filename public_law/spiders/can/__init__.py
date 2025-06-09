@@ -1,3 +1,0 @@
-"""
-Spiders for Canadian sources.
-"""

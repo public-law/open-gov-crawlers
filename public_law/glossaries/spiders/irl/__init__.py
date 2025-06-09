@@ -1,0 +1,1 @@
+"""Irish glossary spiders.""" 

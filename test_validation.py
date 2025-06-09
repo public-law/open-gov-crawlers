@@ -7,7 +7,7 @@ Test the validation system for AutoGlossarySpider.
 def test_missing_name():
     """Test that missing name attribute raises TypeError at class definition."""
     try:
-        from public_law.spiders.enhanced_base import AutoGlossarySpider
+        from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
         class MissingNameSpider(AutoGlossarySpider):  # type: ignore
             start_urls = ["https://example.com/glossary"]
@@ -21,7 +21,7 @@ def test_missing_name():
 def test_missing_urls():
     """Test that missing start_urls raises TypeError at class definition."""
     try:
-        from public_law.spiders.enhanced_base import AutoGlossarySpider
+        from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
         class MissingUrlsSpider(AutoGlossarySpider):  # type: ignore
             name = "aus_missing_urls_glossary"
@@ -35,7 +35,7 @@ def test_missing_urls():
 def test_invalid_name_format():
     """Test that invalid name format raises ValueError."""
     try:
-        from public_law.spiders.enhanced_base import AutoGlossarySpider
+        from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
         class InvalidNameSpider(AutoGlossarySpider):  # type: ignore
             name = "invalid-name-format"
@@ -49,7 +49,7 @@ def test_invalid_name_format():
 
 def test_valid_spider():
     """Test that valid spider creates successfully."""
-    from public_law.spiders.enhanced_base import AutoGlossarySpider
+    from public_law.shared.spiders.enhanced_base import AutoGlossarySpider
 
     class ValidSpider(AutoGlossarySpider):
         name = "aus_valid_glossary"
