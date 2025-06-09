@@ -7,7 +7,7 @@ from scrapy.selector.unified import Selector
 
 from public_law.shared.utils import html, seq, text
 from public_law.shared.exceptions import ParseException
-from public_law.items.crs import Article, Division, Title
+from public_law.legal_texts.models.crs import Article, Division, Title
 from public_law.legal_texts.parsers.usa.colorado.crs_articles import parse_articles
 from public_law.legal_texts.parsers.usa.colorado.crs_divisions import parse_divisions
 

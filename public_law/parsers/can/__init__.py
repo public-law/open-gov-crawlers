@@ -1,3 +1,0 @@
-"""
-Parsers for Canadian sources.
-"""

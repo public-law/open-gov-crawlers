@@ -4,7 +4,7 @@ from scrapy.http.response import Response
 from scrapy.selector.unified import Selector
 
 from public_law.shared.exceptions.parse_exception import ParseException
-from public_law.items.oar import Rule
+from public_law.legal_texts.models.oar import Rule
 from public_law.shared.utils.text import delete_all
 
 SEPARATOR = re.compile(r"(?<=\d),|&amp;")

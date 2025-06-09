@@ -5,7 +5,7 @@ from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
 from public_law.shared.utils.html import just_text
-from public_law.items.crs import Division, Subdivision
+from public_law.legal_texts.models.crs import Division, Subdivision
 from public_law.legal_texts.parsers.usa.colorado.crs_articles import (
     div_name_text, parse_articles_from_division)
 from public_law.shared.utils.text import NonemptyString

@@ -8,7 +8,7 @@ from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector
 
 from public_law.shared.utils.html import node_name
-from public_law.items.crs import *
+from public_law.legal_texts.models.crs import *
 from public_law.shared.utils.text import (NonemptyString, normalize_whitespace,
                              remove_trailing_period)
 
