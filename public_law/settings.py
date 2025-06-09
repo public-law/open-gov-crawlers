@@ -23,7 +23,11 @@ SPIDERMON_ENABLED = False
 # SPIDERMON_SPIDER_CLOSE_MONITORS = ("public_law.monitors.SpiderCloseMonitorSuite",)
 
 BOT_NAME = "public_law"
-SPIDER_MODULES = ["public_law.spiders"]
+SPIDER_MODULES = [
+    "public_law.spiders",           # Legacy spiders
+    "public_law.glossaries.spiders", # Glossary spiders
+    "public_law.legal_texts.spiders" # Legal text spiders
+]
 NEWSPIDER_MODULE = "public_law.spiders"
 
 
