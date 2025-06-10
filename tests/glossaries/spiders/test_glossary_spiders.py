@@ -24,7 +24,7 @@ def mock_response(spider_class: Any) -> HtmlResponse:
     fixture_path = get_fixture_path(spider_name)
 
     if not fixture_path.exists():
-        pytest.skip(
+        raise RuntimeError(
             f"Fixture file not found for {spider_name}: {fixture_path}")
 
     with open(fixture_path, "rb") as f:

@@ -6,7 +6,9 @@
 - This is a poetry project.
 - pytest must be prefixed with `poetry run` to run the correct pytest.
 - pyright must be prefixed with `poetry run` to run the correct pyright.
-- Some strings have apostrophes in them. NEVER change them.
+- Typographical characters like these will appear in the code: “ ” ‘ ’ etc.
+  Never, NEVER change these. This cannot be stressed enough. They are intentional and part of the data. If you determine them to be the cause of an error then stop and ask the user for guidance.
+- We are **only refactoring** the code. We are not fixing bugs. All tests pass. If you think you've found a bug, stop and ask the user for guidance.
 
 ## 🔧 **Phase 0: Infrastructure Setup**
 - [x] Create _new_ enhanced AutoGlossarySpider-like base class with `parse_glossary()` and abstract `get_metadata()`. The new class allows graceful migration of existing spiders.
@@ -96,12 +98,12 @@
 - [x] **Refactor**: Clean up
 
 ### **11. Great Britain FPR Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/gbr/fpr_glossary_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/gbr/fpr_glossary_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **12. Great Britain CPR Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/gbr/cpr_glossary_test.py`

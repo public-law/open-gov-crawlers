@@ -30,6 +30,16 @@ SUBJECTS: dict[str, tuple[Subject, Subject]] = {
             rdfs_label=NonemptyString("Child custody"),
         ),
     ),
+    "https://example.com/can_doj_glossary": (
+        Subject(
+            uri=LoCSubject("sh85034952"),
+            rdfs_label=NonemptyString("Custody of children"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q638532"),
+            rdfs_label=NonemptyString("Child custody"),
+        ),
+    ),
     "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html": (
         Subject(
             uri=LoCSubject("sh85075720"),
