@@ -56,12 +56,12 @@
 - [x] **Refactor**: Clean up
 
 ### **6. Australia IP Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/aus/ip_glossary_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/aus/ip_glossary_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **7. Australia Law Handbook Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/aus/lawhandbook_glossary_test.py`
