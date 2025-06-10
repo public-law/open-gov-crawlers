@@ -24,12 +24,12 @@
 - [x] **Refactor**: Clean up any duplication
 
 ### **2. USA USCIS Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/usa/uscis_glossary_test.py` 
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser `_parse_entries()` → `parse_entries()`
-- [ ] **Green**: Move `_make_metadata()` → spider `get_metadata()`
-- [ ] **Refactor**: Remove unused functions
+- [x] **Test**: Update `tests/glossaries/parsers/usa/uscis_glossary_test.py` 
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser `_parse_entries()` → `parse_entries()`
+- [x] **Green**: Move `_make_metadata()` → spider `get_metadata()`
+- [x] **Refactor**: Remove unused functions
 
 ### **3. Ireland Courts Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/irl/courts_glossary_test.py`
