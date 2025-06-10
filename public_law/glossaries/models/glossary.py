@@ -1,7 +1,7 @@
 import dataclasses
 from dataclasses import dataclass
 from functools import cache
-from typing import Any, Callable, Iterable, TypeAlias
+from typing import Any, Callable, TypeAlias
 
 from scrapy.http.response.html import HtmlResponse
 
@@ -25,7 +25,7 @@ class GlossaryParseResult:
     """All the info about a glossary"""
 
     metadata: Metadata
-    entries: Iterable[GlossaryEntry]
+    entries: tuple[GlossaryEntry, ...]
 
     def asdict(self):
         return {

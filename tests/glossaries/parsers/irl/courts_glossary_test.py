@@ -13,9 +13,7 @@ ORIG_URL = "https://www.courts.ie/glossary"
 @pytest.fixture(scope="module")
 def glossary():
     print("🔥 GLOSSARY FIXTURE RUNNING - parsing HTML file!")
-    result = glossary_fixture("irl/courts-glossary.html", ORIG_URL, parse_glossary)
-    # Materialize the entries to avoid generator exhaustion issues
-    return GlossaryParseResult(result.metadata, tuple(result.entries))
+    return glossary_fixture("irl/courts-glossary.html", ORIG_URL, parse_glossary)
 
 @pytest.fixture
 def metadata(glossary):

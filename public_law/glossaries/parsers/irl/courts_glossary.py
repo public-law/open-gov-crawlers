@@ -43,7 +43,7 @@ def _make_metadata(html: HtmlResponse) -> Metadata:
         )
 
 
-def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
+def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     TODO: Refactor into a parent class. Write a way to pass lists of
     functions for cleaning up the definitions and phrases.
@@ -67,12 +67,13 @@ def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
             , text.cleanup
         )
 
-    for phrase, defn in _raw_entries(html):
-        yield GlossaryEntry(
+    return tuple(
+        GlossaryEntry(
             phrase=cleanup_phrase(phrase),
             definition=cleanup_definition(defn),
         )
-
+        for phrase, defn in _raw_entries(html)
+    )
 
 def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     """
