@@ -6,6 +6,7 @@
 - This is a poetry project.
 - pytest must be prefixed with `poetry run` to run the correct pytest.
 - pyright must be prefixed with `poetry run` to run the correct pyright.
+- Some strings have apostrophes in them. NEVER change them.
 
 ## 🔧 **Phase 0: Infrastructure Setup**
 - [x] Create _new_ enhanced AutoGlossarySpider-like base class with `parse_glossary()` and abstract `get_metadata()`. The new class allows graceful migration of existing spiders.
