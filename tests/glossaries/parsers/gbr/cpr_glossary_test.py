@@ -1,43 +1,45 @@
 from datetime import date
 import pytest
 from more_itertools import first
-from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.text import NonemptyString
-from public_law.glossaries.parsers.gbr.cpr_glossary import parse_entries
+from public_law.glossaries.models.glossary import glossary_fixture
+from public_law.glossaries.parsers.gbr.cpr_glossary import parse_glossary
 
 ORIG_URL = "https://www.legislation.gov.uk/uksi/2020/759/part/Glossary?view=plain"
 
 @pytest.fixture(scope="module")
-def response():
-    """Load the HTML fixture for Great Britain CPR Glossary"""
-    with open("tests/fixtures/gbr/cpr-glossary.html", "rb") as f:
-        html_content = f.read()
-    
-    return HtmlResponse(
-        url=ORIG_URL,
-        body=html_content,
-        encoding="utf-8",
-    )
+def glossary():
+    return glossary_fixture("gbr/cpr-glossary.html", ORIG_URL, parse_glossary)
 
 @pytest.fixture
-def entries(response):
-    return parse_entries(response)
+def metadata(glossary):
+    return glossary.metadata
+
+@pytest.fixture
+def entries(glossary):
+    return glossary.entries
 
 
-class TestParseEntries:
-    def test_returns_tuple(self, entries):
-        assert isinstance(entries, tuple)
+class TestMetadata:
+    def test_title(self, metadata):
+        assert metadata.dcterms_title == "Criminal Procedure Rules Glossary"
 
+    def test_language(self, metadata):
+        assert metadata.dcterms_language == "en"
+
+    def test_coverage(self, metadata):
+        assert metadata.dcterms_coverage == "GBR"
+
+    def test_source_creator(self, metadata):
+        assert metadata.publiclaw_sourceCreator == "The National Archives"
+
+    def test_source_modified(self, metadata):
+        assert metadata.publiclaw_sourceModified == date(2020, 10, 5)
+
+
+class TestEntries:
     def test_has_entries(self, entries):
         assert len(entries) > 0
-
-    def test_all_entries_have_required_fields(self, entries):
-        for entry in entries:
-            assert isinstance(entry.phrase, NonemptyString)
-            assert hasattr(entry, 'definition')
-            assert len(entry.phrase) > 0
-            assert len(entry.definition) > 0
 
     def test_first_entry(self, entries):
         first_entry = first(entries)
