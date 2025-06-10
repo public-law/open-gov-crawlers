@@ -1,63 +1,17 @@
 from typing import List
 
 from scrapy.http.response.html import HtmlResponse
+from typed_soup import from_response
 
-from typed_soup import from_response, TypedSoup
-
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import Sentence, ensure_ends_with_period
+from public_law.glossaries.models.glossary import GlossaryEntry
+from public_law.shared.utils.text import NonemptyString as String, Sentence
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
-    The top-level, public function of this module. It performs the
-    complete parse of the HTTP response.
-    """
-    metadata = _make_metadata(html)
-    entries = _parse_entries(html)
-
-    return GlossaryParseResult(metadata, entries)
-
-
-def _make_metadata(html: HtmlResponse) -> Metadata:
-    """
-    This Glossary defies the planned subject tagging scheme
-    because it has terms from a wide variety of areas of law.
-
-    TODO: Figure out a way to appropriately choose subjects
-    for it.
-    """
-    source_url = URL(html.url)
-    subjects = (
-        Subject(
-            uri=LoCSubject("sh85075720"),
-            rdfs_label=String("Legal aid"),
-        ),
-        Subject(
-            uri=URL("https://www.wikidata.org/wiki/Q707748"),
-            rdfs_label=String("Legal aid"),
-        ),
-    )
-
-    return Metadata(
-        dcterms_title=String("Law Handbook Glossary"),
-        dcterms_language="en",
-        dcterms_coverage="AUS",
-        # Info about original source
-        dcterms_source=source_url,
-        publiclaw_sourceModified="unknown",
-        publiclaw_sourceCreator=String(
-            "Legal Services Commission of South Australia"),
-        dcterms_subject=subjects,
-    )
-
-
-def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
-    """Parse the glossary entries from the HTML response.
-
+    Parse glossary entries from the Australia Law Handbook Glossary HTML response.
+    
+    Returns a tuple of GlossaryEntry objects with cleaned phrases and definitions.
     The entries are in a definition list (<dl>) with <dt> containing <span class="glossterm"> for terms 
     and <dd class="glossdef"> containing <p> for definitions.
     """
