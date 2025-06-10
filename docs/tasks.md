@@ -88,12 +88,12 @@
 - [x] **Refactor**: Clean up
 
 ### **10. Canada DOJ Glossaries**
-- [ ] **Test**: Update `tests/glossaries/parsers/can/doj_glossaries_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/can/doj_glossaries_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **11. Great Britain FPR Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/gbr/fpr_glossary_test.py`
