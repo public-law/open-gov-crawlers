@@ -121,6 +121,9 @@
 - [ ] **Green**: Create spider
 - [ ] **Refactor**: Clean up
 
+### **15. Documentation**
+- [ ] Write an "Architecture" section in the README that among other things, lists the Benefits (below).
+
 ## 🧹 **Phase Final: Cleanup**
 - [ ] **Test**: Verify all spider integration tests pass
 - [ ] **Test**: Verify all parser unit tests pass  
