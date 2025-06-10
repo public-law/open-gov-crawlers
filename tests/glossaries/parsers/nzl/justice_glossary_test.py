@@ -1,4 +1,5 @@
 from more_itertools import first, last
+import pytest
 
 from public_law.shared.utils.dates import today
 from public_law.shared.models.metadata import Subject
@@ -7,36 +8,41 @@ from public_law.glossaries.parsers.nzl.justice_glossary import parse_glossary
 from public_law.shared.utils.text import URL, NonemptyString
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
-GLOSSARY = glossary_fixture(
-    "nzl/justice-glossary.html",
-    ORIG_URL,
-    parse_glossary,
-)
-METADATA = GLOSSARY.metadata
-ENTRIES = tuple(GLOSSARY.entries)
+
+@pytest.fixture(scope="module")
+def glossary():
+    return glossary_fixture("nzl/justice-glossary.html", ORIG_URL, parse_glossary)
+
+@pytest.fixture
+def metadata(glossary):
+    return glossary.metadata
+
+@pytest.fixture
+def entries(glossary):
+    return glossary.entries
 
 
 class TestMetadata:
-    def test_name(_):
-        assert METADATA.dcterms_title == "Glossary"
+    def test_name(self, metadata):
+        assert metadata.dcterms_title == "Glossary"
 
-    def test_url(_):
-        assert METADATA.dcterms_source == ORIG_URL
+    def test_url(self, metadata):
+        assert metadata.dcterms_source == ORIG_URL
 
-    def test_author(_):
-        assert METADATA.dcterms_creator == "https://public.law"
+    def test_author(self, metadata):
+        assert metadata.dcterms_creator == "https://public.law"
 
-    def test_coverage(_):
-        assert METADATA.dcterms_coverage == "NZL"
+    def test_coverage(self, metadata):
+        assert metadata.dcterms_coverage == "NZL"
 
-    def test_source_modified_date(_):
-        assert METADATA.publiclaw_sourceModified == "unknown"
+    def test_source_modified_date(self, metadata):
+        assert metadata.publiclaw_sourceModified == "unknown"
 
-    def test_scrape_date(_):
-        assert METADATA.dcterms_modified == today()
+    def test_scrape_date(self, metadata):
+        assert metadata.dcterms_modified == today()
 
-    def test_subjects(_):
-        assert METADATA.dcterms_subject == (
+    def test_subjects(self, metadata):
+        assert metadata.dcterms_subject == (
             Subject(
                 uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
                 rdfs_label=NonemptyString("Justice, Administration of"),
@@ -49,20 +55,20 @@ class TestMetadata:
 
 
 class TestEntries:
-    def test_phrase(_):
-        assert first(ENTRIES).phrase == "acquit"
+    def test_phrase(self, entries):
+        assert first(entries).phrase == "acquit"
 
-    def test_definition(_):
+    def test_definition(self, entries):
         assert (
-            first(ENTRIES).definition
+            first(entries).definition
             == "To decide officially in court that a person is not guilty."
         )
 
-    def test_proper_number_of_entries(_):
-        assert len(tuple(ENTRIES)) == 154
+    def test_proper_number_of_entries(self, entries):
+        assert len(entries) == 154
 
-    def test_last_entry(_):
-        last_entry = last(ENTRIES)
+    def test_last_entry(self, entries):
+        last_entry = last(entries)
 
         assert last_entry.phrase == "Youth Court"
         assert last_entry.definition == (
