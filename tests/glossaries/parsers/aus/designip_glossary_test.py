@@ -1,43 +1,30 @@
-from datetime import date
 import pytest
 from more_itertools import first
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.aus.designip_glossary import parse_glossary
+from public_law.shared.utils.text import NonemptyString
+from public_law.glossaries.parsers.aus.designip_glossary import parse_entries
 
 ORIG_URL = "http://manuals.ipaustralia.gov.au/design/glossary"
 
 @pytest.fixture(scope="module")
-def glossary():
-    return glossary_fixture("aus/designip-glossary.html", ORIG_URL, parse_glossary)
+def response():
+    """Load the HTML fixture for Australia Design IP Glossary"""
+    with open("tests/fixtures/aus/designip-glossary.html", "rb") as f:
+        html_content = f.read()
+    
+    return HtmlResponse(
+        url=ORIG_URL,
+        body=html_content,
+        encoding="utf-8",
+    )
 
 @pytest.fixture
-def metadata(glossary):
-    return glossary.metadata
-
-@pytest.fixture
-def entries(glossary):
-    return glossary.entries
+def entries(response):
+    return parse_entries(response)
 
 
-class TestMetadata:
-    def test_title(self, metadata):
-        assert metadata.dcterms_title == "Design Examiners Manual Glossary"
-
-    def test_language(self, metadata):
-        assert metadata.dcterms_language == "en"
-
-    def test_coverage(self, metadata):
-        assert metadata.dcterms_coverage == "AUS"
-
-    def test_source_creator(self, metadata):
-        assert metadata.publiclaw_sourceCreator == "IP Australia"
-
-    def test_source_modified(self, metadata):
-        assert metadata.publiclaw_sourceModified == date(2024, 10, 14)
-
-
-class TestEntries:
+class TestParseEntries:
     def test_has_entries(self, entries):
         assert len(entries) > 0
 
@@ -58,3 +45,11 @@ class TestEntries:
         last_entry = entries[-1]
         assert last_entry.phrase == "Withdraw (as in withdraw a design)"
         assert last_entry.definition == "Where an applicant elects to discontinue their application under s 32 of the Act."
+
+    def test_returns_tuple(self, entries):
+        assert isinstance(entries, tuple)
+
+    def test_all_entries_have_required_fields(self, entries):
+        for entry in entries:
+            assert isinstance(entry.phrase, NonemptyString)
+            assert hasattr(entry, 'definition')
