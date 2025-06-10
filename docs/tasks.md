@@ -8,7 +8,7 @@
 - pyright must be prefixed with `poetry run` to run the correct pyright.
 
 ## 🔧 **Phase 0: Infrastructure Setup**
-- [ ] Create enhanced AutoGlossarySpider base class with `parse_glossary()` and abstract `get_metadata()`
+- [ ] Create _new_ enhanced AutoGlossarySpider-like base class with `parse_glossary()` and abstract `get_metadata()`. The new class allows graceful migration of existing spiders.
 - [ ] Update existing tests to verify they still pass with current architecture
 
 ## 📋 **Per-Glossary Migration (TDD Order)**
