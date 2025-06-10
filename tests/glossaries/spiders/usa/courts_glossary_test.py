@@ -25,36 +25,34 @@ def spider():
     """Create a courts glossary spider instance."""
     return CourtsGlossary()
 
+@pytest.fixture
+def metadata(spider, response):
+    """Get metadata from the spider for testing."""
+    return spider.get_metadata(response)
+
 
 class TestCourtsGlossarySpiderMetadata:
     """Test the spider's get_metadata method."""
     
-    def test_title(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_title(self, metadata):
         assert metadata.dcterms_title == "Glossary of Legal Terms"
 
-    def test_source_url(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_source_url(self, metadata):
         assert metadata.dcterms_source == ORIG_URL
 
-    def test_creator(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_creator(self, metadata):
         assert metadata.dcterms_creator == "https://public.law"
 
-    def test_coverage(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_coverage(self, metadata):
         assert metadata.dcterms_coverage == "USA"
 
-    def test_source_modified_date(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_source_modified_date(self, metadata):
         assert metadata.publiclaw_sourceModified == "unknown"
 
-    def test_scrape_date(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_scrape_date(self, metadata):
         assert metadata.dcterms_modified == today()
 
-    def test_subjects(self, spider, response):
-        metadata = spider.get_metadata(response)
+    def test_subjects(self, metadata):
         assert metadata.dcterms_subject == (
             Subject(
                 uri=URL("http://id.loc.gov/authorities/subjects/sh85033575"),
