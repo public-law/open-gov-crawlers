@@ -25,22 +25,22 @@ def entries(glossary):
 
 
 class TestTheMetadata:
-    def test_gets_the_name(self, metadata):
+    def test_name(self, metadata):
         assert metadata.dcterms_title == "Glossary of Legal Terms"
 
-    def test_gets_the_url(self, metadata):
+    def test_url(self, metadata):
         assert metadata.dcterms_source == "https://www.courts.ie/glossary"
 
-    def test_gets_the_author(self, metadata):
+    def test_author(self, metadata):
         assert metadata.dcterms_creator == "https://public.law"
 
     def test_gets_coverage(self, metadata):
         assert metadata.dcterms_coverage == "IRL"
 
-    def test_gets_the_source_modified_date(self, metadata):
+    def test_source_modified_date(self, metadata):
         assert metadata.publiclaw_sourceModified == "unknown"
 
-    def test_gets_the_scrape_date(self, metadata):
+    def test_scrape_date(self, metadata):
         assert metadata.dcterms_modified == today()
 
     def test_subjects(self, metadata):
@@ -63,7 +63,7 @@ class TestTheEntries:
     def test_gets_proper_number_of_entries(self, entries):
         assert len(entries) == 43
 
-    def test_gets_the_last_entry(self, entries):
+    def test_last_entry(self, entries):
         last_entry = last(entries)
 
         assert last_entry.phrase == "Supervision order"
