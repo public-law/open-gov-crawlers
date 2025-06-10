@@ -1,4 +1,5 @@
 from datetime import date
+import pytest
 
 from more_itertools import first, last
 
@@ -9,40 +10,46 @@ from public_law.glossaries.parsers.aus.ip_glossary import parse_glossary
 from public_law.shared.utils.text import URL, NonemptyString
 
 ORIG_URL = "https://www.ipaustralia.gov.au/tools-resources/ip-glossary"
-GLOSSARY = glossary_fixture("aus/ip-glossary.html", ORIG_URL, parse_glossary)
-METADATA = GLOSSARY.metadata
+
+@pytest.fixture(scope="module")
+def glossary():
+    return glossary_fixture("aus/ip-glossary.html", ORIG_URL, parse_glossary)
+
+@pytest.fixture
+def metadata(glossary):
+    return glossary.metadata
 
 #
 # Tests for metadata.
 #
 
 
-def test_the_name():
-    assert METADATA.dcterms_title == "IP Glossary"
+def test_the_name(metadata):
+    assert metadata.dcterms_title == "IP Glossary"
 
 
-def test_url():
-    assert METADATA.dcterms_source == ORIG_URL
+def test_url(metadata):
+    assert metadata.dcterms_source == ORIG_URL
 
 
-def test_author():
-    assert METADATA.dcterms_creator == "https://public.law"
+def test_author(metadata):
+    assert metadata.dcterms_creator == "https://public.law"
 
 
-def test_coverage():
-    assert METADATA.dcterms_coverage == "AUS"
+def test_coverage(metadata):
+    assert metadata.dcterms_coverage == "AUS"
 
 
-def test_scrape_date():
-    assert METADATA.dcterms_modified == today()
+def test_scrape_date(metadata):
+    assert metadata.dcterms_modified == today()
 
 
-def test_source_modified_date():
-    assert METADATA.publiclaw_sourceModified == date(2021, 3, 26)
+def test_source_modified_date(metadata):
+    assert metadata.publiclaw_sourceModified == date(2021, 3, 26)
 
 
-def test_subjects():
-    assert METADATA.dcterms_subject == (
+def test_subjects(metadata):
+    assert metadata.dcterms_subject == (
         Subject(
             uri=URL("http://id.loc.gov/authorities/subjects/sh85067167"),
             rdfs_label=NonemptyString("Intellectual property"),
@@ -59,23 +66,23 @@ def test_subjects():
 #
 
 
-def test_phrase():
-    assert first(GLOSSARY.entries).phrase == "Assignee"
+def test_phrase(glossary):
+    assert first(glossary.entries).phrase == "Assignee"
 
 
-def test_definition():
+def test_definition(glossary):
     assert (
-        first(GLOSSARY.entries).definition
+        first(glossary.entries).definition
         == "The person/s or corporate body to whom all or limited rights under an IP right are legally transferred."
     )
 
 
-def test_proper_number_of_entries():
-    assert len(tuple(GLOSSARY.entries)) == 53
+def test_proper_number_of_entries(glossary):
+    assert len(glossary.entries) == 53
 
 
-def test_last_entry():
-    last_entry = last(GLOSSARY.entries)
+def test_last_entry(glossary):
+    last_entry = last(glossary.entries)
 
     assert last_entry.phrase == "Voluntary request for examination"
     assert last_entry.definition == (

@@ -1,75 +1,60 @@
 from datetime import date
-
 import pytest
-from scrapy.http.response.html import HtmlResponse
+from more_itertools import first
 
+from public_law.glossaries.models.glossary import glossary_fixture
 from public_law.glossaries.parsers.aus.designip_glossary import parse_glossary
-from public_law.glossaries.models.glossary import GlossaryParseResult
 
+ORIG_URL = "http://manuals.ipaustralia.gov.au/design/glossary"
 
-@pytest.fixture
-def glossary_response():
-    """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/aus/designip-glossary.html", "r") as f:
-        html_content = f.read()
-
-    return HtmlResponse(
-        url="http://manuals.ipaustralia.gov.au/design/glossary",
-        body=html_content.encode(),
-        encoding="utf-8",
-    )
-
+@pytest.fixture(scope="module")
+def glossary():
+    return glossary_fixture("aus/designip-glossary.html", ORIG_URL, parse_glossary)
 
 @pytest.fixture
-def parsed_glossary(glossary_response):
-    """Parse the glossary and return the result."""
-    return parse_glossary(glossary_response)
+def metadata(glossary):
+    return glossary.metadata
+
+@pytest.fixture
+def entries(glossary):
+    return glossary.entries
 
 
-def test_glossary_has_entries(parsed_glossary):
-    """Test that the glossary has entries."""
-    assert len(tuple(parsed_glossary.entries)) > 0
+class TestMetadata:
+    def test_title(self, metadata):
+        assert metadata.dcterms_title == "Design Examiners Manual Glossary"
+
+    def test_language(self, metadata):
+        assert metadata.dcterms_language == "en"
+
+    def test_coverage(self, metadata):
+        assert metadata.dcterms_coverage == "AUS"
+
+    def test_source_creator(self, metadata):
+        assert metadata.publiclaw_sourceCreator == "IP Australia"
+
+    def test_source_modified(self, metadata):
+        assert metadata.publiclaw_sourceModified == date(2024, 10, 14)
 
 
-def test_glossary_has_correct_number_of_entries(parsed_glossary):
-    """Test that the glossary has the correct number of entries."""
-    assert len(tuple(parsed_glossary.entries)) == 87
+class TestEntries:
+    def test_has_entries(self, entries):
+        assert len(entries) > 0
 
+    def test_entry_count(self, entries):
+        assert len(entries) == 87
 
-@pytest.mark.parametrize("field,expected", [
-    ("dcterms_title",            "Design Examiners Manual Glossary"),
-    ("dcterms_language",         "en"),
-    ("dcterms_coverage",         "AUS"),
-    ("publiclaw_sourceCreator",  "IP Australia"),
-    ("publiclaw_sourceModified", date(2024, 10, 14)),
-])
-def test_glossary_metadata(parsed_glossary, field, expected):
-    """Test individual metadata fields."""
-    assert getattr(parsed_glossary.metadata, field) == expected
+    def test_first_entry(self, entries):
+        first_entry = first(entries)
+        assert first_entry.phrase == "ART"
+        assert first_entry.definition == "Administrative Review Tribunal."
 
+    def test_second_entry(self, entries):
+        second_entry = entries[1]
+        assert second_entry.phrase == "Address for correspondence"
+        assert second_entry.definition == "An additional address to which IP Australia may forward correspondence. Note that this is not a requirement, whereas an address for service is a requirement."
 
-def test_first_glossary_entry(parsed_glossary: GlossaryParseResult):
-    """Test the first glossary entry."""
-    entries = tuple(parsed_glossary.entries)
-    first_entry = entries[0]
-
-    assert first_entry.phrase == "ART"
-    assert first_entry.definition == "Administrative Review Tribunal."
-
-
-def test_second_glossary_entry(parsed_glossary: GlossaryParseResult):
-    """Test the second glossary entry."""
-    entries = tuple(parsed_glossary.entries)
-    second_entry = entries[1]
-
-    assert second_entry.phrase == "Address for correspondence"
-    assert second_entry.definition == "An additional address to which IP Australia may forward correspondence. Note that this is not a requirement, whereas an address for service is a requirement."
-
-
-def test_last_glossary_entry(parsed_glossary: GlossaryParseResult):
-    """Test the last glossary entry."""
-    entries = tuple(parsed_glossary.entries)
-    last_entry = entries[-1]
-
-    assert last_entry.phrase == "Withdraw (as in withdraw a design)"
-    assert last_entry.definition == "Where an applicant elects to discontinue their application under s 32 of the Act."
+    def test_last_entry(self, entries):
+        last_entry = entries[-1]
+        assert last_entry.phrase == "Withdraw (as in withdraw a design)"
+        assert last_entry.definition == "Where an applicant elects to discontinue their application under s 32 of the Act."

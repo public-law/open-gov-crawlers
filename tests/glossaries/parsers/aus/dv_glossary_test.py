@@ -1,4 +1,5 @@
 from more_itertools import first, last
+import pytest
 
 from public_law.shared.utils.dates import today
 from public_law.shared.models.metadata import Subject
@@ -10,38 +11,43 @@ from public_law.shared.utils.text import URL, NonemptyString
 GLOSSARY_URL = URL(
     "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
 )
-GLOSSARY = glossary_fixture("aus/dv-glossary.html",
-                            GLOSSARY_URL, parse_glossary)
-METADATA = GLOSSARY.metadata
+
+@pytest.fixture(scope="module")
+def glossary():
+    return glossary_fixture("aus/dv-glossary.html", GLOSSARY_URL, parse_glossary)
+
+@pytest.fixture
+def metadata(glossary):
+    return glossary.metadata
 
 
 class TestTheMetadata:
-    def test_the_name(_):
-        assert METADATA.dcterms_title == "Family, domestic and sexual violence glossary"
+    def test_the_name(self, metadata):
+        assert metadata.dcterms_title == "Family, domestic and sexual violence glossary"
 
-    def test_the_url(_):
-        assert METADATA.dcterms_source == GLOSSARY_URL
+    def test_the_url(self, metadata):
+        assert metadata.dcterms_source == GLOSSARY_URL
 
-    def test_the_author(_):
-        assert METADATA.dcterms_creator == "https://public.law"
+    def test_the_author(self, metadata):
+        assert metadata.dcterms_creator == "https://public.law"
 
-    def test_coverage(_):
-        assert METADATA.dcterms_coverage == "AUS"
+    def test_coverage(self, metadata):
+        assert metadata.dcterms_coverage == "AUS"
 
-    def test_creator(_):
+    def test_creator(self, metadata):
         assert (
-            METADATA.publiclaw_sourceCreator
+            metadata.publiclaw_sourceCreator
             == "Australian Institute of Health and Welfare"
         )
 
-    def test_the_source_modified_date(_):
-        assert METADATA.publiclaw_sourceModified == "unknown"
+    def test_the_source_modified_date(self, metadata):
+        assert metadata.publiclaw_sourceModified == "unknown"
 
-    def test_the_scrape_date(_):
-        assert METADATA.dcterms_modified == today()
+    def test_the_scrape_date(self, metadata):
+        assert metadata.dcterms_modified == today()
 
-    def test_subjects(_):
-        assert METADATA.dcterms_subject == (
+    def test_subjects(self, metadata):
+        assert metadata.dcterms_subject == (
             Subject(
                 uri=URL("http://id.loc.gov/authorities/subjects/sh85047071"),
                 rdfs_label=NonemptyString("Family violence"),
@@ -54,21 +60,21 @@ class TestTheMetadata:
 
 
 class TestTheEntries:
-    def test_phrase(_):
-        assert first(GLOSSARY.entries).phrase == "arranged marriage"
+    def test_phrase(self, glossary):
+        assert first(glossary.entries).phrase == "arranged marriage"
 
-    def test_definition(_):
-        assert first(GLOSSARY.entries).definition == (
+    def test_definition(self, glossary):
+        assert first(glossary.entries).definition == (
             "Distinct from <strong>forced marriage</strong>, an arranged marriage is organised "
             "by the families of both spouses, but consent is still present, "
             "and the spouses have the right to accept or reject the marriage arrangement."
         )
 
-    def test_the_last_entry_phrase(_):
-        assert last(GLOSSARY.entries).phrase == "vulnerable groups"
+    def test_the_last_entry_phrase(self, glossary):
+        assert last(glossary.entries).phrase == "vulnerable groups"
 
-    def test_the_last_entry_definition(_):
-        last_entry = last(GLOSSARY.entries)
+    def test_the_last_entry_definition(self, glossary):
+        last_entry = last(glossary.entries)
 
         assert last_entry.definition == (
             "Population groups that are more likely to experience (or to have experienced) "
@@ -76,5 +82,5 @@ class TestTheEntries:
             "coping with and recovering from family, domestic and sexual violence."
         )
 
-    def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 37
+    def test_proper_number_of_entries(self, glossary):
+        assert len(glossary.entries) == 37
