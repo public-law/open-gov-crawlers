@@ -72,12 +72,12 @@
 - [x] **Refactor**: Clean up
 
 ### **8. Canada Patents Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/can/patents_glossary_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/can/patents_glossary_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **9. Canada Parliamentary Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/can/parliamentary_glossary_test.py`
