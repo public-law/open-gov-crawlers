@@ -1,18 +1,21 @@
 from more_itertools import first, last
+import pytest
 
 from public_law.shared.utils.dates import today
 from public_law.shared.models.metadata import Subject
-from public_law.glossaries.models.glossary import glossary_fixture
+from public_law.glossaries.models.glossary import glossary_fixture, GlossaryParseResult
 from public_law.glossaries.parsers.irl.courts_glossary import parse_glossary
 from public_law.shared.utils.text import URL, NonemptyString
 
-import pytest
 
 ORIG_URL = "https://www.courts.ie/glossary"
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def glossary():
-    return glossary_fixture("irl/courts-glossary.html", ORIG_URL, parse_glossary)
+    print("🔥 GLOSSARY FIXTURE RUNNING - parsing HTML file!")
+    result = glossary_fixture("irl/courts-glossary.html", ORIG_URL, parse_glossary)
+    # Materialize the entries to avoid generator exhaustion issues
+    return GlossaryParseResult(result.metadata, tuple(result.entries))
 
 @pytest.fixture
 def metadata(glossary):
@@ -20,7 +23,7 @@ def metadata(glossary):
 
 @pytest.fixture
 def entries(glossary):
-    return tuple(glossary.entries)
+    return glossary.entries  # Now this is already a tuple, so no conversion needed
 
 
 class TestTheMetadata:
