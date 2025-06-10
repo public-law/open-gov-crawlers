@@ -14,13 +14,13 @@
 ## 📋 **Per-Glossary Migration (TDD Order)**
 
 ### **1. USA Courts Glossary** (simplest - already uses metadata utils)
-- [ ] **Test**: Update `tests/glossaries/parsers/usa/courts_glossary_test.py` to test `parse_entries()` function only
-- [ ] **Test**: Create spider test for `get_metadata()` method  
-- [ ] **Test**: Create integration test for full spider `parse_glossary()`
-- [ ] **Red**: Run tests (should fail)
-- [ ] **Green**: Convert `usa_courts_glossary.py` parser to `parse_entries()` function
-- [ ] **Green**: Create spider with `get_metadata()` method
-- [ ] **Refactor**: Clean up any duplication
+- [x] **Test**: Update `tests/glossaries/parsers/usa/courts_glossary_test.py` to test `parse_entries()` function only
+- [x] **Test**: Create spider test for `get_metadata()` method  
+- [x] **Test**: Create integration test for full spider `parse_glossary()`
+- [x] **Red**: Run tests (should fail)
+- [x] **Green**: Convert `usa_courts_glossary.py` parser to `parse_entries()` function
+- [x] **Green**: Create spider with `get_metadata()` method
+- [x] **Refactor**: Clean up any duplication
 
 ### **2. USA USCIS Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/usa/uscis_glossary_test.py` 
