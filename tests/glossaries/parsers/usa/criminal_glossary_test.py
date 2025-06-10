@@ -1,61 +1,51 @@
-from datetime import date
-
 import pytest
-from scrapy.http.response.html import HtmlResponse
+from more_itertools import first
 
+from public_law.glossaries.models.glossary import glossary_fixture
 from public_law.glossaries.parsers.usa.criminal_glossary import parse_glossary
-from public_law.glossaries.models.glossary import GlossaryParseResult
 
+ORIG_URL = "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"
 
-@pytest.fixture
-def glossary_response():
-    """Create a mock response with the glossary HTML content."""
-    with open("tests/fixtures/usa/criminal-glossary.html", "r") as f:
-        html_content = f.read()
-
-    return HtmlResponse(
-        url="https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary",
-        body=html_content.encode(),
-        encoding="utf-8",
-    )
-
+@pytest.fixture(scope="module")
+def glossary():
+    return glossary_fixture("usa/criminal-glossary.html", ORIG_URL, parse_glossary)
 
 @pytest.fixture
-def parsed_glossary(glossary_response):  # type: ignore
-    """Parse the glossary and return the result."""
-    return parse_glossary(glossary_response)  # type: ignore
+def metadata(glossary):
+    return glossary.metadata
+
+@pytest.fixture
+def entries(glossary):
+    return glossary.entries
 
 
-def test_glossary_has_entries(parsed_glossary):  # type: ignore
-    """Test that the glossary has entries."""
-    assert len(tuple(parsed_glossary.entries)) > 0  # type: ignore
+class TestMetadata:
+    def test_title(self, metadata):
+        assert metadata.dcterms_title == "Criminal Glossary"
+
+    def test_language(self, metadata):
+        assert metadata.dcterms_language == "en"
+
+    def test_coverage(self, metadata):
+        assert metadata.dcterms_coverage == "USA"
+
+    def test_source_creator(self, metadata):
+        assert metadata.publiclaw_sourceCreator == "Superior Court of California, County of San Diego"
+
+    def test_source_modified(self, metadata):
+        assert metadata.publiclaw_sourceModified == "unknown"
 
 
-@pytest.mark.parametrize("field,expected", [
-    ("dcterms_title", "Criminal Glossary"),
-    ("dcterms_language", "en"),
-    ("dcterms_coverage", "USA"),
-    ("publiclaw_sourceCreator", "Superior Court of California, County of San Diego"),
-    ("publiclaw_sourceModified", "unknown"),
-])
-def test_glossary_metadata(parsed_glossary, field, expected):  # type: ignore
-    """Test individual metadata fields."""
-    assert getattr(parsed_glossary.metadata, field) == expected  # type: ignore
+class TestEntries:
+    def test_has_entries(self, entries):
+        assert len(entries) > 0
 
+    def test_first_entry(self, entries):
+        first_entry = first(entries)
+        assert first_entry.phrase == "Adjourn"
+        assert first_entry.definition == "To close a court session for a time."
 
-def test_first_glossary_entry(parsed_glossary: GlossaryParseResult):
-    """Test the first glossary entry."""
-    entries = tuple(parsed_glossary.entries)
-    first_entry = entries[0]
-
-    assert first_entry.phrase == "Adjourn"
-    assert first_entry.definition == "To close a court session for a time."
-
-
-def test_last_glossary_entry(parsed_glossary: GlossaryParseResult):
-    """Test the last glossary entry."""
-    entries = tuple(parsed_glossary.entries)
-    last_entry = entries[-1]
-
-    assert last_entry.phrase == "Witness"
-    assert last_entry.definition == "A person who testifies as to what was seen, heard, or otherwise known."
+    def test_last_entry(self, entries):
+        last_entry = entries[-1]
+        assert last_entry.phrase == "Witness"
+        assert last_entry.definition == "A person who testifies as to what was seen, heard, or otherwise known."
