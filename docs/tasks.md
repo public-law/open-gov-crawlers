@@ -32,12 +32,12 @@
 - [x] **Refactor**: Remove unused functions
 
 ### **3. Ireland Courts Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/irl/courts_glossary_test.py`
-- [ ] **Test**: Create spider tests  
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider with metadata
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/irl/courts_glossary_test.py`
+- [x] **Test**: Create spider tests  
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider with metadata
+- [x] **Refactor**: Clean up
 
 ### **4. Australia DV Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/aus/dv_glossary_test.py`
