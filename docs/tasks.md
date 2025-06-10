@@ -2,6 +2,11 @@
 
 **Goal**: Move metadata configuration from parsers to spiders, making parsers pure data extraction functions.
 
+**Env notes**:
+- This is a poetry project.
+- pytest must be prefixed with `poetry run` to run the correct pytest.
+- pyright must be prefixed with `poetry run` to run the correct pyright.
+
 ## 🔧 **Phase 0: Infrastructure Setup**
 - [ ] Create enhanced AutoGlossarySpider base class with `parse_glossary()` and abstract `get_metadata()`
 - [ ] Update existing tests to verify they still pass with current architecture
