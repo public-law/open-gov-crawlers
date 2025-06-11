@@ -7,10 +7,8 @@ from scrapy.http.response.xml import XmlResponse
 from public_law.legal_texts.models.crs import Article, Division, Subdivision
 from public_law.legal_texts.parsers.usa.colorado.crs import parse_title_bang
 from public_law.test_util import *
+from public_law.legal_texts.models.crs import Article, Division, Title
 
-# A Title with no Divisions.
-TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
-PARSED_TITLE_4 = parse_title_bang(TITLE_4, null_logger)
 
 # A Title which uses Divisions.
 TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
@@ -38,11 +36,10 @@ class TestParseErrors:
 
 class TestFromSubdivision:
     @pytest.fixture(scope="module")
-    def parsed_title_7(self):
+    def parsed_title_7(self) -> Title:
         print(":fire: parsing title 7")
-        # A Title which uses Divisions & Subdivisions.
-        TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
-        return parse_title_bang(TITLE_07, null_logger)
+        title_7 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
+        return parse_title_bang(title_7, null_logger)
 
 
     def test_correct_number(self, parsed_title_7):
@@ -172,55 +169,74 @@ class TestParseArticles:
 
 
 class TestWithNoDivisions:
-    def test_correct_count(self):
-        assert len(PARSED_TITLE_4.children) == 16
+    # A Title with no Divisions.
 
-    def test_theyre_all_articles(self):
-        for child in PARSED_TITLE_4.children:
+    @pytest.fixture(scope="module")
+    def parsed_title_4(self) -> Title:
+        print(":fire: parsing title 4")
+        title_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")
+        return parse_title_bang(title_4, null_logger)
+
+
+    def test_correct_count(self, parsed_title_4):
+        assert len(parsed_title_4.children) == 16
+
+
+    def test_theyre_all_articles(self, parsed_title_4):
+        for child in parsed_title_4.children:
             assert child.kind == "Article"
 
 
-    ARTICLE_1 = cast(Article, PARSED_TITLE_4.children[0])
-
-    def test_a_name(self):
-        assert self.ARTICLE_1.name == "General Provisions"
-
-    def test_a_number(self):
-        assert self.ARTICLE_1.number == "1"
-
-    def test_a_title_number(self):
-        assert self.ARTICLE_1.title_number == "4"
-
-    def test_a_division_name(self):
-        assert self.ARTICLE_1.division_name is None
+    @pytest.fixture(scope="module")
+    def parsed_article_1(self, parsed_title_4) -> Article:
+        print(":fire: parsing article 1")
+        return cast(Article, parsed_title_4.children[0])
 
 
-    ARTICLE_3 = cast(Article, PARSED_TITLE_4.children[2])
+    def test_a_name(self, parsed_article_1):
+        assert parsed_article_1.name == "General Provisions"
 
-    def test_a_name_2(self):
-        assert self.ARTICLE_3.name == "Leases"
+    def test_a_number(self, parsed_article_1):
+        assert parsed_article_1.number == "1"
 
-    def test_a_number_2(self):
-        assert self.ARTICLE_3.number == "2.5"
+    def test_a_title_number(self, parsed_article_1):
+        assert parsed_article_1.title_number == "4"
 
-    def test_a_title_number_2(self):
-        assert self.ARTICLE_3.title_number == "4"
+    def test_a_division_name(self, parsed_article_1):
+        assert parsed_article_1.division_name is None
 
-    def test_a_division_name_2(self):
-        assert self.ARTICLE_3.division_name is None
+    @pytest.fixture(scope="module")
+    def parsed_article_3(self, parsed_title_4) -> Article:
+        print(":fire: parsing article 3")
+        return cast(Article, parsed_title_4.children[2])
+
+    def test_a_name_2(self, parsed_article_3):
+        assert parsed_article_3.name == "Leases"
+
+    def test_a_number_2(self, parsed_article_3):
+        assert parsed_article_3.number == "2.5"
+
+    def test_a_title_number_2(self, parsed_article_3):
+        assert parsed_article_3.title_number == "4"
+
+    def test_a_division_name_2(self, parsed_article_3):
+        assert parsed_article_3.division_name is None
 
 
     # This should be the last article in Title 4.
-    ARTICLE_11 = cast(Article, PARSED_TITLE_4.children[-1])
+    @pytest.fixture(scope="module")
+    def parsed_article_11(self, parsed_title_4) -> Article:
+        print(":fire: parsing article 11")
+        return cast(Article, parsed_title_4.children[-1])
 
-    def test_a_name_3(self):
-        assert self.ARTICLE_11.name == "Fees (Repealed)"
+    def test_a_name_3(self, parsed_article_11):
+        assert parsed_article_11.name == "Fees (Repealed)"
 
-    def test_a_number_3(self):
-        assert self.ARTICLE_11.number == "11"
+    def test_a_number_3(self, parsed_article_11):
+        assert parsed_article_11.number == "11"
 
-    def test_a_title_number_3(self):
-        assert self.ARTICLE_11.title_number == "4"
+    def test_a_title_number_3(self, parsed_article_11):
+        assert parsed_article_11.title_number == "4"
     
-    def test_a_division_name_3(self):
-        assert self.ARTICLE_11.division_name is None
+    def test_a_division_name_3(self, parsed_article_11):
+        assert parsed_article_11.division_name is None
