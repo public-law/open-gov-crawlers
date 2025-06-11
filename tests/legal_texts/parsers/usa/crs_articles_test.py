@@ -1,5 +1,7 @@
+from functools import cached_property
 from typing import cast
 
+import pytest
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.legal_texts.models.crs import Article, Division, Subdivision
@@ -35,14 +37,16 @@ class TestParseErrors:
 
 
 class TestFromSubdivision:
+    @pytest.fixture(scope="module")
     def parsed_title_7(self):
+        print(":fire: parsing title 7")
         # A Title which uses Divisions & Subdivisions.
         TITLE_07 = XmlResponse(body = fixture('usa', 'crs', "title07.xml"), url = "title07.xml", encoding = "utf-8")
         return parse_title_bang(TITLE_07, null_logger)
 
 
-    def test_correct_number(self):
-        div_8 =    cast(Division, self.parsed_title_7().children[7])
+    def test_correct_number(self, parsed_title_7):
+        div_8 =    cast(Division, parsed_title_7.children[7])
         assert div_8.name == 'Corporations - Continued'
 
         subdiv_1 = cast(Subdivision, div_8.children[0])
@@ -51,24 +55,24 @@ class TestFromSubdivision:
         assert len(subdiv_1.articles) == 17
 
 
-    def test_correct_div_name(self):
-        div_8    = cast(Division, self.parsed_title_7().children[7])
+    def test_correct_div_name(self, parsed_title_7):
+        div_8    = cast(Division, parsed_title_7.children[7])
         subdiv_1 = cast(Subdivision, div_8.children[0])
         art_1    = subdiv_1.articles[0]
 
         assert art_1.division_name == div_8.name
 
 
-    def test_correct_subdiv_name(self):
-        div_8    = cast(Division, self.parsed_title_7().children[7])
+    def test_correct_subdiv_name(self, parsed_title_7):
+        div_8    = cast(Division, parsed_title_7.children[7])
         subdiv_1 = cast(Subdivision, div_8.children[0])
         art_1    = subdiv_1.articles[0]
 
         assert art_1.subdivision_name == subdiv_1.name
 
 
-    def test_we_got_article_55(self):
-        div_2 = cast(Division, self.parsed_title_7().children[1])
+    def test_we_got_article_55(self, parsed_title_7):
+        div_2 = cast(Division, parsed_title_7.children[1])
         assert div_2.kind == 'Division'
         assert div_2.name == 'Associations'
 
@@ -79,15 +83,15 @@ class TestFromSubdivision:
         assert art_55.name   == "Cooperatives - General"
 
 
-    def test_we_got_article_56(self):
-        div_2      = cast(Division, self.parsed_title_7().children[1])
+    def test_we_got_article_56(self, parsed_title_7):
+        div_2      = cast(Division, parsed_title_7.children[1])
         article_56 = cast(Article, div_2.children[1])
 
         assert article_56.name == "Cooperatives"
 
 
-    def test_repealed_statute_number(self):
-        last_div         = cast(Division, self.parsed_title_7().children[-1])
+    def test_repealed_statute_number(self, parsed_title_7):
+        last_div         = cast(Division, parsed_title_7.children[-1])
         subdiv           = cast(Subdivision, last_div.children[-2])
         article_104      = subdiv.articles[3]
 
@@ -96,8 +100,8 @@ class TestFromSubdivision:
         assert article_104.number == '104'
 
 
-    def test_repealed_statute_name(self):
-        last_div         = cast(Division, self.parsed_title_7().children[-1])
+    def test_repealed_statute_name(self, parsed_title_7):
+        last_div         = cast(Division, parsed_title_7.children[-1])
         subdiv           = cast(Subdivision, last_div.children[-2])
         article_104      = subdiv.articles[3]
 
@@ -106,9 +110,9 @@ class TestFromSubdivision:
         assert article_104.name == 'Name (Repealed)'
 
 
-    def test_we_get_articles_101_to_117(self):
+    def test_we_get_articles_101_to_117(self, parsed_title_7):
         expected_numbers = [str(i) for i in range(101, 118)]
-        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        last_div         = cast(Division, parsed_title_7.children[-1])
         subdiv           = cast(Subdivision, last_div.children[-2])
         article_numbers  = [a.number for a in subdiv.articles]
 
@@ -117,9 +121,9 @@ class TestFromSubdivision:
         assert article_numbers  == expected_numbers
 
 
-    def test_we_get_articles_121_to_137(self):
+    def test_we_get_articles_121_to_137(self, parsed_title_7):
         expected_numbers = [str(i) for i in range(121, 138)]
-        last_div         = cast(Division, self.parsed_title_7().children[-1])
+        last_div         = cast(Division, parsed_title_7.children[-1])
         last_subdiv      = cast(Subdivision, last_div.children[-1])
         article_numbers  = [a.number for a in last_subdiv.articles]
 
