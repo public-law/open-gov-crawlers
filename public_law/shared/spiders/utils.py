@@ -7,10 +7,10 @@ import inspect
 import pkgutil
 
 from .base import BaseGlossarySpider
-from .enhanced_base import AutoGlossarySpider
+from .enhanced_base import AutoGlossarySpider, EnhancedAutoGlossarySpider
 
 
-def discover_glossary_spiders() -> list[type[BaseGlossarySpider | AutoGlossarySpider]]:
+def discover_glossary_spiders() -> list[type[BaseGlossarySpider | AutoGlossarySpider | EnhancedAutoGlossarySpider]]:
     """Return all glossary spider classes in *public_law.glossaries.spiders*.
 
     A *glossary spider* is defined as any subclass of :class:`BaseGlossarySpider`
@@ -23,7 +23,7 @@ def discover_glossary_spiders() -> list[type[BaseGlossarySpider | AutoGlossarySp
     # Local import to avoid import-time side-effects
     import public_law.glossaries.spiders as spiders_pkg
 
-    spiders: list[type[BaseGlossarySpider | AutoGlossarySpider]] = []
+    spiders: list[type[BaseGlossarySpider | AutoGlossarySpider | EnhancedAutoGlossarySpider]] = []
 
     for module_info in pkgutil.walk_packages(spiders_pkg.__path__, prefix=f"{spiders_pkg.__name__}."):
         module = importlib.import_module(module_info.name)
@@ -31,8 +31,8 @@ def discover_glossary_spiders() -> list[type[BaseGlossarySpider | AutoGlossarySp
         for obj in module.__dict__.values():
             if (
                 inspect.isclass(obj)
-                and (issubclass(obj, BaseGlossarySpider) or issubclass(obj, AutoGlossarySpider))
-                and obj not in (BaseGlossarySpider, AutoGlossarySpider)
+                and (issubclass(obj, BaseGlossarySpider) or issubclass(obj, AutoGlossarySpider) or issubclass(obj, EnhancedAutoGlossarySpider))
+                and obj not in (BaseGlossarySpider, AutoGlossarySpider, EnhancedAutoGlossarySpider)
             ):
                 spiders.append(obj)
 

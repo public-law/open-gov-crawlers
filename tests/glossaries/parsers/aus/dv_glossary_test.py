@@ -1,74 +1,45 @@
 from more_itertools import first, last
+import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.dates import today
-from public_law.shared.models.metadata import Subject
-from public_law.glossaries.models.glossary import glossary_fixture
-# The System Under Test
-from public_law.glossaries.parsers.aus.dv_glossary import parse_glossary
-from public_law.shared.utils.text import URL, NonemptyString
+from public_law.shared.utils.text import NonemptyString
+from public_law.glossaries.parsers.aus.dv_glossary import parse_entries
 
-GLOSSARY_URL = URL(
-    "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
-)
-GLOSSARY = glossary_fixture("aus/dv-glossary.html",
-                            GLOSSARY_URL, parse_glossary)
-METADATA = GLOSSARY.metadata
+GLOSSARY_URL = "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
 
+@pytest.fixture(scope="module")
+def response():
+    """Load the HTML fixture for Australia DV Glossary"""
+    with open("tests/fixtures/aus/dv-glossary.html", "rb") as f:
+        html_content = f.read()
+    
+    return HtmlResponse(
+        url=GLOSSARY_URL,
+        body=html_content,
+        encoding="utf-8",
+    )
 
-class TestTheMetadata:
-    def test_the_name(_):
-        assert METADATA.dcterms_title == "Family, domestic and sexual violence glossary"
-
-    def test_the_url(_):
-        assert METADATA.dcterms_source == GLOSSARY_URL
-
-    def test_the_author(_):
-        assert METADATA.dcterms_creator == "https://public.law"
-
-    def test_coverage(_):
-        assert METADATA.dcterms_coverage == "AUS"
-
-    def test_creator(_):
-        assert (
-            METADATA.publiclaw_sourceCreator
-            == "Australian Institute of Health and Welfare"
-        )
-
-    def test_the_source_modified_date(_):
-        assert METADATA.publiclaw_sourceModified == "unknown"
-
-    def test_the_scrape_date(_):
-        assert METADATA.dcterms_modified == today()
-
-    def test_subjects(_):
-        assert METADATA.dcterms_subject == (
-            Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85047071"),
-                rdfs_label=NonemptyString("Family violence"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q156537"),
-                rdfs_label=NonemptyString("Domestic violence"),
-            ),
-        )
+@pytest.fixture
+def entries(response):
+    return parse_entries(response)
 
 
-class TestTheEntries:
-    def test_phrase(_):
-        assert first(GLOSSARY.entries).phrase == "arranged marriage"
+class TestParseEntries:
+    def test_first_entry_phrase(self, entries):
+        assert first(entries).phrase == "arranged marriage"
 
-    def test_definition(_):
-        assert first(GLOSSARY.entries).definition == (
+    def test_first_entry_definition(self, entries):
+        assert first(entries).definition == (
             "Distinct from <strong>forced marriage</strong>, an arranged marriage is organised "
             "by the families of both spouses, but consent is still present, "
             "and the spouses have the right to accept or reject the marriage arrangement."
         )
 
-    def test_the_last_entry_phrase(_):
-        assert last(GLOSSARY.entries).phrase == "vulnerable groups"
+    def test_last_entry_phrase(self, entries):
+        assert last(entries).phrase == "vulnerable groups"
 
-    def test_the_last_entry_definition(_):
-        last_entry = last(GLOSSARY.entries)
+    def test_last_entry_definition(self, entries):
+        last_entry = last(entries)
 
         assert last_entry.definition == (
             "Population groups that are more likely to experience (or to have experienced) "
@@ -76,5 +47,13 @@ class TestTheEntries:
             "coping with and recovering from family, domestic and sexual violence."
         )
 
-    def test_proper_number_of_entries(_):
-        assert len(tuple(GLOSSARY.entries)) == 37
+    def test_proper_number_of_entries(self, entries):
+        assert len(entries) == 37
+
+    def test_returns_tuple(self, entries):
+        assert isinstance(entries, tuple)
+
+    def test_all_entries_have_required_fields(self, entries):
+        for entry in entries:
+            assert isinstance(entry.phrase, NonemptyString)
+            assert hasattr(entry, 'definition')

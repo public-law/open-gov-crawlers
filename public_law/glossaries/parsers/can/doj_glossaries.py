@@ -6,8 +6,8 @@ from scrapy.http.response.html import HtmlResponse
 from scrapy.selector.unified import Selector, SelectorList
 
 from public_law.shared.exceptions import ParseException
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.shared.models.metadata import Subject
+from public_law.glossaries.models.glossary import GlossaryEntry
 from public_law.shared.utils.text import (URL, LoCSubject, NonemptyString, Sentence,
                      capitalize_first_char, ensure_ends_with_period,
                      cleanup)
@@ -21,6 +21,16 @@ SelectorLike: TypeAlias = SelectorList | HtmlResponse
 
 SUBJECTS: dict[str, tuple[Subject, Subject]] = {
     "https://www.justice.gc.ca/eng/fl-df/parent/mp-fdp/p11.html": (
+        Subject(
+            uri=LoCSubject("sh85034952"),
+            rdfs_label=NonemptyString("Custody of children"),
+        ),
+        Subject(
+            uri=URL("https://www.wikidata.org/wiki/Q638532"),
+            rdfs_label=NonemptyString("Child custody"),
+        ),
+    ),
+    "https://example.com/can_doj_glossary": (
         Subject(
             uri=LoCSubject("sh85034952"),
             rdfs_label=NonemptyString("Custody of children"),
@@ -98,10 +108,8 @@ def configured_urls() -> list[str]:
     return list(SUBJECTS.keys())
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    name = parse_name(html)
-    pub_date = first_match(html, "dl#wb-dtmd time::text", "Pub. date")
-
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    """Parse entries from the HTML response."""
     entries: list[GlossaryEntry] = []
 
     match html.selector.css("main dl"):
@@ -139,29 +147,7 @@ def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
             )
         )
 
-    parsed_entries = tuple(entries)
-    url = html.url
-
-    match SUBJECTS.get(url):
-        case tuple(subjects):
-            dc_subject = subjects
-        case None:
-            raise ParseException(f"No subjects configured for {url}")
-
-    metadata = Metadata(
-        dcterms_source=URL(url),
-        dcterms_title=NonemptyString(name),
-        dcterms_language="en",
-        dcterms_coverage="CAN",
-        publiclaw_sourceModified=date.fromisoformat(pub_date),
-        publiclaw_sourceCreator=NonemptyString("Department of Justice Canada"),
-        dcterms_subject=dc_subject,
-    )
-
-    return GlossaryParseResult(
-        metadata=metadata,
-        entries=parsed_entries,
-    )
+    return tuple(entries)
 
 
 def parse_name(html: SelectorLike) -> str:

@@ -1,42 +1,12 @@
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import (Sentence, ensure_ends_with_period, make_soup,
-                       cleanup, normalize_whitespace)
+from public_law.glossaries.models.glossary import GlossaryEntry
+from public_law.shared.utils.text import NonemptyString as String, Sentence
+from public_law.shared.utils.text import make_soup, normalize_whitespace
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    parsed_entries = __parse_entries(html)
-
-    return GlossaryParseResult(
-        metadata=Metadata(
-            dcterms_title=String(
-                "Glossary of Parliamentary Terms for Intermediate Students"),
-            dcterms_language="en",
-            dcterms_coverage="CAN",
-            # Info about original source
-            dcterms_source=String(html.url),
-            publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("Parliament of Canada"),
-            dcterms_subject=(
-                Subject(
-                    uri=LoCSubject("sh85075807"),
-                    rdfs_label=String("Legislative bodies"),
-                ),
-                Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q35749"),
-                    rdfs_label=String("Parliament"),
-                ),
-            ),
-        ),
-        entries=parsed_entries,
-    )
-
-
-def __parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    """Parse entries from the HTML response."""
     soup = make_soup(html)
 
     # Skip the "Committees" entry.

@@ -2,43 +2,13 @@ from typing import Iterable
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
+from public_law.glossaries.models.glossary import GlossaryEntry
 from public_law.shared.utils.text import NonemptyString as String
 from public_law.shared.utils.text import Sentence, cleanup
 from typed_soup import from_response, TypedSoup
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    entries = _parse_entries(html)
-
-    return GlossaryParseResult(
-        metadata=Metadata(
-            dcterms_title=String("Glossary"),
-            dcterms_language="en",
-            dcterms_coverage="NZL",
-            # Info about original source
-            dcterms_source=String(
-                "https://www.justice.govt.nz/about/glossary/"),
-            publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("New Zealand Ministry of Justice"),
-            dcterms_subject=(
-                Subject(
-                    uri=LoCSubject("sh85071120"),
-                    rdfs_label=String("Justice, Administration of"),
-                ),
-                Subject(
-                    uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-                    rdfs_label=String("Administration of justice"),
-                ),
-            ),
-        ),
-        entries=entries,
-    )
-
-
-def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
     soup = from_response(html)
     return tuple(

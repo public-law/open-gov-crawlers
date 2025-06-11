@@ -5,80 +5,48 @@ from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
 from public_law.shared.utils import text
-
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import Sentence, WikidataTopic
+from public_law.glossaries.models.glossary import GlossaryEntry
+from public_law.shared.utils.text import NonemptyString as String, Sentence
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
-    The top-level, public function of this module. It performs the
-    complete parse of the HTTP response.
-    """
-    metadata = _make_metadata(html)
-    entries  = _parse_entries(html)
-
-    return GlossaryParseResult(metadata, entries)
-
-
-def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)
-    subjects = (
-                Subject(LoCSubject("sh85033571"), String("Courts")),
-                Subject(WikidataTopic("Q41487"),  String("Court")),
-            )
+    Parse glossary entries from the IRL Courts Glossary HTML response.
     
-    return Metadata(
-            dcterms_title=String("Glossary of Legal Terms"),
-            dcterms_language="en",
-            dcterms_coverage="IRL",
-            # Info about original source
-            dcterms_source=source_url,
-            publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("The Courts Service of Ireland"),
-            dcterms_subject=subjects,
-        )
-
-
-def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:
-    """
-    TODO: Refactor into a parent class. Write a way to pass lists of
-    functions for cleaning up the definitions and phrases.
+    Returns a tuple of GlossaryEntry objects with cleaned phrases and definitions.
     """
 
     def cleanup_definition(definition: str) -> Sentence:
         return pipe(
-            definition
-            , text.cleanup
-            , text.lstrip(":")                                              # type: ignore
-            , text.ensure_ends_with_period
-            , text.cleanup
-            , text.capitalize_first_char
-            , Sentence
+            definition,
+            text.cleanup,
+            text.lstrip(":"),                                              # type: ignore
+            text.ensure_ends_with_period,
+            text.cleanup,
+            text.capitalize_first_char,
+            Sentence,
         )
 
     def cleanup_phrase(phrase: str) -> String:
         return text.pipe(
-            phrase
-            , text.rstrip(":")                                             # type: ignore
-            , text.cleanup
+            phrase,
+            text.rstrip(":"),                                             # type: ignore
+            text.cleanup,
         )
 
-    for phrase, defn in _raw_entries(html):
-        yield GlossaryEntry(
+    return tuple(
+        GlossaryEntry(
             phrase=cleanup_phrase(phrase),
             definition=cleanup_definition(defn),
         )
-
+        for phrase, defn in _raw_entries(html)
+    )
 
 def _raw_entries(html: HtmlResponse) -> Iterable[tuple[Any, Any]]:
     """
-    The core of this parser.
-
-    TODO: Refactor all the glossary parsers to need only this function.
+    Extract raw phrase/definition pairs from the HTML.
+    
+    The core extraction logic for this parser.
     """
     return chunked(
         html.xpath("//p/strong/parent::p/text() | //strong/text()").getall(), 2  # type: ignore

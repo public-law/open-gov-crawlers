@@ -1,46 +1,14 @@
 from typed_soup import from_response, TypedSoup
 from scrapy.http.response.html import HtmlResponse
 
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
-from ....shared.models.metadata import Metadata, Subject
+from ...models.glossary import GlossaryEntry
 from ....shared.utils.text import (
-    URL, LoCSubject, WikidataTopic, NonemptyString as String,
+    NonemptyString as String,
     Sentence, ensure_ends_with_period,
 )
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    """
-    The top-level, public function of this module. It performs the
-    complete parse of the HTTP response.
-    """
-    metadata = _make_metadata(html)
-    entries =  _parse_entries(html)
-
-    return GlossaryParseResult(metadata, entries)
-
-
-def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)
-    subjects = (
-        Subject(LoCSubject("sh85034086"), String("Criminal Procedure")),
-        Subject(WikidataTopic("Q146071"), String("Criminal Procedure")),
-    )
-
-    return Metadata(
-        dcterms_title=String("Criminal Glossary"),
-        dcterms_language="en",
-        dcterms_coverage="USA",
-        # Info about original source
-        dcterms_source=source_url,
-        publiclaw_sourceModified="unknown",
-        publiclaw_sourceCreator=String(
-            "Superior Court of California, County of San Diego"),
-        dcterms_subject=subjects,
-    )
-
-
-def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse the glossary entries from the HTML response.
 
     The entries are in a table, with each <tr> containing two <td>s: 
