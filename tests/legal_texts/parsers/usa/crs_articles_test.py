@@ -4,25 +4,28 @@ from typing import cast
 import pytest
 from scrapy.http.response.xml import XmlResponse
 
-from public_law.legal_texts.models.crs import Article, Division, Subdivision
+from public_law.legal_texts.models.crs import Article, Division, Subdivision, Title
 from public_law.legal_texts.parsers.usa.colorado.crs import parse_title_bang
 from public_law.test_util import *
-from public_law.legal_texts.models.crs import Article, Division, Title
 
 
 class TestParseErrors:
     # Divisions aren't parsing correctly.
-    TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
-    PARSED_TITLE_1 = parse_title_bang(TITLE_1, null_logger)
+    @pytest.fixture(scope="module")
+    def parsed_title_1(self) -> Title:
+        print(":fire: parsing title 1")
+        title_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
+        return parse_title_bang(title_1, null_logger)
 
-    def test_name(self):
-        first_div = cast(Division, self.PARSED_TITLE_1.children[0])
+
+    def test_name(self, parsed_title_1):
+        first_div = cast(Division, parsed_title_1.children[0])
         seventh_article = first_div.children[6]
 
         assert seventh_article.name == "Internet-based Voting Pilot Program for Absent Uniformed Services Electors"
 
-    def test_title_number(self):
-        first_div = cast(Division, self.PARSED_TITLE_1.children[0])
+    def test_title_number(self, parsed_title_1):
+        first_div = cast(Division, parsed_title_1.children[0])
         seventh_article = first_div.children[6]
 
         assert seventh_article.title_number == "1"
