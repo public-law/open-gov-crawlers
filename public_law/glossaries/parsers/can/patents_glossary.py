@@ -2,46 +2,12 @@ from typing import Iterable
 
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
-from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic
-from public_law.shared.utils.text import NonemptyString as String
-from public_law.shared.utils.text import Sentence, ensure_ends_with_period
+from public_law.glossaries.models.glossary import GlossaryEntry
+from public_law.shared.utils.text import NonemptyString as String, Sentence
 from typed_soup import from_response, TypedSoup
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
-    """
-    The top-level, public function of this module. It performs the
-    complete parse of the HTTP response.
-    """
-    metadata = _make_metadata(html)
-    entries = _parse_entries(html)
-
-    return GlossaryParseResult(metadata, entries)
-
-
-def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = URL(html.url)
-    subjects = (
-        Subject(LoCSubject("sh85098655"), String("Patents")),
-        Subject(WikidataTopic("Q3039731"), String("Patent Law")),
-    )
-
-    return Metadata(
-        dcterms_title=String("Canadian Patent Glossary"),
-        dcterms_language="en",
-        dcterms_coverage="CAN",
-        # Info about original source
-        dcterms_source=source_url,
-        publiclaw_sourceModified="unknown",
-        publiclaw_sourceCreator=String(
-            "Canadian Intellectual Property Office"),
-        dcterms_subject=subjects,
-    )
-
-
-def _parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """Parse entries from the HTML response."""
     soup = from_response(html)
     return tuple(

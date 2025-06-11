@@ -5,6 +5,7 @@ from scrapy import Spider
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.models.glossary import GlossaryParseResult
+from public_law.shared.models.metadata import Metadata
 
 
 class AutoGlossarySpider(Spider):
@@ -15,7 +16,7 @@ class AutoGlossarySpider(Spider):
     automatically resolved based on the spider name following the convention:
 
     Spider name: "{country}_{topic}_glossary" 
-    Parser module: "public_law.parsers.{country}.{topic}_glossary"
+    Parser module: "public_law.glossaries.parsers.{country}.{topic}_glossary"
 
     Example:
         class DVGlossary(AutoGlossarySpider):
@@ -29,6 +30,10 @@ class AutoGlossarySpider(Spider):
     def __init_subclass__(cls, **kwargs: Any) -> None:
         """Validate required attributes at class definition time."""
         super().__init_subclass__(**kwargs)
+
+        # Skip validation for base classes (they don't need spider attributes)
+        if cls.__name__ in ('AutoGlossarySpider', 'EnhancedAutoGlossarySpider'):
+            return
 
         # Check that name is defined as a class attribute
         if not hasattr(cls, 'name') or not getattr(cls, 'name', None):
@@ -90,7 +95,7 @@ class AutoGlossarySpider(Spider):
         Resolve the parser module path based on the spider name.
 
         Converts spider names like "aus_dv_glossary" to parser paths like
-        "public_law.parsers.aus.dv_glossary".
+        "public_law.glossaries.parsers.aus.dv_glossary".
         """
         # Remove "_glossary" suffix if present
         name_without_suffix = self.name.removesuffix("_glossary")
@@ -104,3 +109,60 @@ class AutoGlossarySpider(Spider):
 
         country, topic = parts
         return f"public_law.glossaries.parsers.{country}.{topic}_glossary"
+
+
+class EnhancedAutoGlossarySpider(AutoGlossarySpider):
+    """
+    New enhanced base class for the refactored architecture.
+    
+    This class separates concerns cleanly:
+    - Parsers handle pure data extraction (parse_entries)
+    - Spiders handle configuration and orchestration (get_metadata + parse_glossary)
+    
+    Subclasses MUST define 'name', 'start_urls', and 'get_metadata()' method.
+    
+    Example:
+        class DVGlossary(EnhancedAutoGlossarySpider):
+            name       = "aus_dv_glossary"
+            start_urls = ["https://example.com/glossary"]
+            
+            def get_metadata(self, response: HtmlResponse) -> Metadata:
+                return Metadata(
+                    dcterms_title=String("Family, domestic and sexual violence glossary"),
+                    dcterms_coverage="AUS",
+                    # ... etc
+                )
+    
+    Use this for new spiders or when migrating existing ones.
+    """
+    
+    def parse_glossary(self, response: HtmlResponse) -> GlossaryParseResult:
+        """
+        Parse the glossary page using the automatically resolved parser and spider metadata.
+
+        This method automatically imports the appropriate parser based on the spider's name,
+        calls it to extract entries, gets metadata from the spider, and combines them.
+        """
+        parser_module_path = self._resolve_parser_module()
+        parser_module = importlib.import_module(parser_module_path)
+
+        if not hasattr(parser_module, 'parse_entries'):
+            raise AttributeError(
+                f"Parser module {parser_module_path} must have a 'parse_entries' function"
+            )
+
+        entries = parser_module.parse_entries(response)
+        metadata = self.get_metadata(response)
+        
+        return GlossaryParseResult(metadata, entries)
+
+    def get_metadata(self, response: HtmlResponse) -> Metadata:
+        """
+        Get metadata for this glossary. Must be implemented by subclasses.
+        
+        This method should return a Metadata object with all the Dublin Core
+        and other metadata fields for this specific glossary.
+        """
+        raise NotImplementedError(
+            f"{self.__class__.__name__} must implement get_metadata(response) method"
+        )

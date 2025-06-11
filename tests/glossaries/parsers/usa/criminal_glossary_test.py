@@ -1,40 +1,24 @@
 import pytest
 from more_itertools import first
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.usa.criminal_glossary import parse_glossary
+from public_law.glossaries.parsers.usa.criminal_glossary import parse_entries
 
 ORIG_URL = "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"
 
 @pytest.fixture(scope="module")
-def glossary():
-    return glossary_fixture("usa/criminal-glossary.html", ORIG_URL, parse_glossary)
+def html_response():
+    with open("tests/fixtures/usa/criminal-glossary.html", encoding="utf8") as f:
+        html = f.read()
+    return HtmlResponse(
+        url=ORIG_URL,
+        body=html,
+        encoding="utf-8",
+    )
 
 @pytest.fixture
-def metadata(glossary):
-    return glossary.metadata
-
-@pytest.fixture
-def entries(glossary):
-    return glossary.entries
-
-
-class TestMetadata:
-    def test_title(self, metadata):
-        assert metadata.dcterms_title == "Criminal Glossary"
-
-    def test_language(self, metadata):
-        assert metadata.dcterms_language == "en"
-
-    def test_coverage(self, metadata):
-        assert metadata.dcterms_coverage == "USA"
-
-    def test_source_creator(self, metadata):
-        assert metadata.publiclaw_sourceCreator == "Superior Court of California, County of San Diego"
-
-    def test_source_modified(self, metadata):
-        assert metadata.publiclaw_sourceModified == "unknown"
-
+def entries(html_response):
+    return parse_entries(html_response)
 
 class TestEntries:
     def test_has_entries(self, entries):

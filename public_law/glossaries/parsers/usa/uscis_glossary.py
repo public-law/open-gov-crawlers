@@ -3,42 +3,18 @@ from typing import Any, Iterable
 from scrapy.http.response.html import HtmlResponse
 from toolz.functoolz import pipe  # type: ignore
 
-from ...models.glossary import GlossaryEntry, GlossaryParseResult
+from ...models.glossary import GlossaryEntry
 
-from ....shared.models.metadata import Metadata, Subject
 from ....shared.utils           import text
 from ....shared.utils.text      import NonemptyString as String
 
 
-def parse_glossary(html: HtmlResponse) -> GlossaryParseResult:
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
-    The top-level, public function of this module. It performs the
-    complete parse of the HTTP response.
+    Parse glossary entries from HTML response.
+    Returns a tuple of GlossaryEntry objects without metadata.
     """
-    metadata = _make_metadata(html)
-    entries  = tuple(_parse_entries(html))
-
-    return GlossaryParseResult(metadata, entries)
-
-
-def _make_metadata(html: HtmlResponse) -> Metadata:
-    source_url = text.URL(html.url)
-
-    subjects = (
-                Subject(text.LoCSubject("sh85042790"), String("Emigration and immigration law")),
-                Subject(text.WikidataTopic("Q231147"),  String("immigration law")), 
-            )
-    
-    return Metadata(
-            dcterms_title=String("USCIS Glossary"),
-            dcterms_language="en",
-            dcterms_coverage="USA",
-            # Info about original source
-            dcterms_source=source_url,
-            publiclaw_sourceModified="unknown",
-            publiclaw_sourceCreator=String("U.S. Citizenship and Immigration Services"),
-            dcterms_subject=subjects,
-        )
+    return tuple(_parse_entries(html))
 
 
 def _parse_entries(html: HtmlResponse) -> Iterable[GlossaryEntry]:

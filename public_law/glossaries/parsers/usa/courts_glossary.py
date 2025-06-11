@@ -16,29 +16,12 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from ...utils.metadata     import us_courts_glossary_metadata
-from ...models.glossary    import GlossaryEntry, GlossaryParseResult
+from ...models.glossary    import GlossaryEntry
 
 from ....shared.utils.text import make_soup, cleanup, Sentence
 
 
-def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
-    """
-    Parses the US Courts glossary page and returns a GlossaryParseResult
-    to the Spider.
-    """
-    # A GlossaryParseResult is a class with just two attributes:
-    # the entries and metadata.
-
-    # 1. Create the two pieces of the GlossaryParseResult.
-    entries  = _parse_entries(response)       # Parse the entries from the HTML response
-    metadata = us_courts_glossary_metadata()  # Call the metadata function
-
-    # 2. Create and return a new GlossaryParseResult object that wraps them up.
-    return GlossaryParseResult(entries=entries, metadata=metadata)
-
-
-def _parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+def parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     The entries are the <dt> (term) and <dd> (definition) pairs in the <dl>
     definition list:

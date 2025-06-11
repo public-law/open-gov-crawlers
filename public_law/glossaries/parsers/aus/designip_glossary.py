@@ -1,55 +1,24 @@
-from datetime import date
 from typing import Tuple
 
 from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.glossaries.models.glossary import GlossaryEntry, GlossaryParseResult
+from public_law.glossaries.models.glossary import GlossaryEntry
 from public_law.shared.utils.text import (
-    LoCSubject,
     NonemptyString as String,
     Sentence,
-    URL,
     make_soup,
     normalize_whitespace,
     ensure_starts_with_capital,
 )
 
 
-def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
-    """Parse the Design IP glossary from the HTML response."""
-    return GlossaryParseResult(
-        metadata=_make_metadata(response),
-        entries=_parse_entries(response),
-    )
-
-
-def _make_metadata(response: HtmlResponse) -> Metadata:
-    """Create metadata for the Design IP glossary."""
-    return Metadata(
-        dcterms_title=String("Design Examiners Manual Glossary"),
-        dcterms_language="en",
-        dcterms_coverage="AUS",
-        dcterms_source=String(response.url),
-        dcterms_creator=String("IP Australia"),
-        publiclaw_sourceModified=date(2024, 10, 14),
-        publiclaw_sourceCreator=String("IP Australia"),
-        dcterms_subject=(
-            Subject(
-                uri=LoCSubject("sh85067167"),
-                rdfs_label=String("Intellectual property"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q131257"),
-                rdfs_label=String("Intellectual property"),
-            ),
-        ),
-    )
-
-
-def _parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
-    """Parse glossary entries from the HTML response."""
+def parse_entries(response: HtmlResponse) -> Tuple[GlossaryEntry, ...]:
+    """
+    Parse glossary entries from the Australia Design IP Glossary HTML response.
+    
+    Returns a tuple of GlossaryEntry objects with cleaned phrases and definitions.
+    """
     soup = make_soup(response)
 
     def process_paragraph(p: Tag) -> GlossaryEntry | None:

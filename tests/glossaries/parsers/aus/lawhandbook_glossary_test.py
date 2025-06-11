@@ -1,43 +1,30 @@
-from datetime import date
 import pytest
 from more_itertools import first
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.aus.lawhandbook_glossary import parse_glossary
+from public_law.shared.utils.text import NonemptyString
+from public_law.glossaries.parsers.aus.lawhandbook_glossary import parse_entries
 
 ORIG_URL = "https://lawhandbook.sa.gov.au/go01.php"
 
 @pytest.fixture(scope="module")
-def glossary():
-    return glossary_fixture("aus/lawhandbook-glossary.html", ORIG_URL, parse_glossary)
+def response():
+    """Load the HTML fixture for Australia Law Handbook Glossary"""
+    with open("tests/fixtures/aus/lawhandbook-glossary.html", "rb") as f:
+        html_content = f.read()
+    
+    return HtmlResponse(
+        url=ORIG_URL,
+        body=html_content,
+        encoding="utf-8",
+    )
 
 @pytest.fixture
-def metadata(glossary):
-    return glossary.metadata
-
-@pytest.fixture
-def entries(glossary):
-    return glossary.entries
+def entries(response):
+    return parse_entries(response)
 
 
-class TestMetadata:
-    def test_title(self, metadata):
-        assert metadata.dcterms_title == "Law Handbook Glossary"
-
-    def test_language(self, metadata):
-        assert metadata.dcterms_language == "en"
-
-    def test_coverage(self, metadata):
-        assert metadata.dcterms_coverage == "AUS"
-
-    def test_source_creator(self, metadata):
-        assert metadata.publiclaw_sourceCreator == "Legal Services Commission of South Australia"
-
-    def test_source_modified(self, metadata):
-        assert metadata.publiclaw_sourceModified == "unknown"
-
-
-class TestEntries:
+class TestParseEntries:
     def test_has_entries(self, entries):
         assert len(entries) > 0
 
@@ -50,3 +37,11 @@ class TestEntries:
         last_entry = entries[-1]
         assert last_entry.phrase == "written off"
         assert last_entry.definition == "Of a debt: cancelled, releasing the debtor from obligation to pay."
+
+    def test_returns_tuple(self, entries):
+        assert isinstance(entries, tuple)
+
+    def test_all_entries_have_required_fields(self, entries):
+        for entry in entries:
+            assert isinstance(entry.phrase, NonemptyString)
+            assert hasattr(entry, 'definition')

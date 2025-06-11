@@ -1,66 +1,33 @@
 from more_itertools import first, last
 import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.dates import today
-from public_law.shared.models.metadata import Subject
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.nzl.justice_glossary import parse_glossary
-from public_law.shared.utils.text import URL, NonemptyString
+from public_law.glossaries.parsers.nzl.justice_glossary import parse_entries
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
 
 @pytest.fixture(scope="module")
-def glossary():
-    return glossary_fixture("nzl/justice-glossary.html", ORIG_URL, parse_glossary)
+def html_response():
+    with open("tests/fixtures/nzl/justice-glossary.html", encoding="utf8") as f:
+        html = f.read()
+    return HtmlResponse(
+        url=ORIG_URL,
+        body=html,
+        encoding="utf-8",
+    )
 
-@pytest.fixture
-def metadata(glossary):
-    return glossary.metadata
-
-@pytest.fixture
-def entries(glossary):
-    return glossary.entries
-
-
-class TestMetadata:
-    def test_name(self, metadata):
-        assert metadata.dcterms_title == "Glossary"
-
-    def test_url(self, metadata):
-        assert metadata.dcterms_source == ORIG_URL
-
-    def test_author(self, metadata):
-        assert metadata.dcterms_creator == "https://public.law"
-
-    def test_coverage(self, metadata):
-        assert metadata.dcterms_coverage == "NZL"
-
-    def test_source_modified_date(self, metadata):
-        assert metadata.publiclaw_sourceModified == "unknown"
-
-    def test_scrape_date(self, metadata):
-        assert metadata.dcterms_modified == today()
-
-    def test_subjects(self, metadata):
-        assert metadata.dcterms_subject == (
-            Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
-                rdfs_label=NonemptyString("Justice, Administration of"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-                rdfs_label=NonemptyString("Administration of justice"),
-            ),
-        )
+@pytest.fixture(scope="module")
+def entries(html_response):
+    return parse_entries(html_response)
 
 
 class TestEntries:
     def test_phrase(self, entries):
-        assert first(entries).phrase == "acquit"
+        assert entries[0].phrase == "acquit"
 
     def test_definition(self, entries):
         assert (
-            first(entries).definition
+            entries[0].definition
             == "To decide officially in court that a person is not guilty."
         )
 
@@ -68,10 +35,8 @@ class TestEntries:
         assert len(entries) == 154
 
     def test_last_entry(self, entries):
-        last_entry = last(entries)
-
-        assert last_entry.phrase == "Youth Court"
-        assert last_entry.definition == (
+        assert entries[-1].phrase == "Youth Court"
+        assert entries[-1].definition == (
             "The Youth Court has jurisdiction to deal with "
             "young people charged with criminal offences."
         )
