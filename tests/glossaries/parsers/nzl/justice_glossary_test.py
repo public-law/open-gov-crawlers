@@ -23,11 +23,11 @@ def entries(html_response):
 
 class TestEntries:
     def test_phrase(self, entries):
-        assert first(entries).phrase == "acquit"
+        assert entries[0].phrase == "acquit"
 
     def test_definition(self, entries):
         assert (
-            first(entries).definition
+            entries[0].definition
             == "To decide officially in court that a person is not guilty."
         )
 
@@ -35,10 +35,8 @@ class TestEntries:
         assert len(entries) == 154
 
     def test_last_entry(self, entries):
-        last_entry = last(entries)
-
-        assert last_entry.phrase == "Youth Court"
-        assert last_entry.definition == (
+        assert entries[-1].phrase == "Youth Court"
+        assert entries[-1].definition == (
             "The Youth Court has jurisdiction to deal with "
             "young people charged with criminal offences."
         )

@@ -20,7 +20,7 @@ def response():
         encoding="utf-8",
     )
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def entries(response):
     """Parse entries using the new parse_entries function."""
     return tuple(parse_entries(response))
