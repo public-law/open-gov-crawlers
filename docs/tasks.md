@@ -110,9 +110,9 @@
 - [x] **Test**: Update `tests/glossaries/parsers/gbr/cpr_glossary_test.py`
 - [x] **Test**: Create spider tests
 - [x] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **13. USA Criminal Glossary**
 - [ ] **Test**: Update `tests/glossaries/parsers/usa/criminal_glossary_test.py`
