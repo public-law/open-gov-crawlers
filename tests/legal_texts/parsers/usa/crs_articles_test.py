@@ -10,12 +10,6 @@ from public_law.test_util import *
 from public_law.legal_texts.models.crs import Article, Division, Title
 
 
-# A Title which uses Divisions.
-TITLE_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
-PARSED_TITLE_16 = parse_title_bang(TITLE_16, null_logger)
-
-
-
 class TestParseErrors:
     # Divisions aren't parsing correctly.
     TITLE_1 =  XmlResponse(body = fixture('usa', 'crs', "title01.xml"), url = "title01.xml", encoding = "utf-8")
@@ -130,39 +124,46 @@ class TestFromSubdivision:
 
 
 class TestParseArticles:
-    def test_correct_number_of_articles_in_a_division_1(self):
+    @pytest.fixture(scope="module")
+    def parsed_title_16(self) -> Title:
+        print(":fire: parsing title 16")
+        title_16 = XmlResponse(body = fixture('usa', 'crs', "title16.xml"), url = "title16.xml", encoding = "utf-8")
+        return parse_title_bang(title_16, null_logger)
+
+
+    def test_correct_number_of_articles_in_a_division_1(self, parsed_title_16):
         # Title 16 contains eight Divisions.
         #   The first Division is _Code of Criminal Procedure_
         #       This Division contains 22 Articles.
-        div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
+        div_1_code_of_crim_pro = cast(Division, parsed_title_16.children[0])
 
         assert div_1_code_of_crim_pro.name          == "Code of Criminal Procedure"
         assert len(div_1_code_of_crim_pro.children) == 22
 
 
-    def test_correct_number_of_articles_in_a_division_2(self):
-        division_2 = cast(Division, PARSED_TITLE_16.children[1])
+    def test_correct_number_of_articles_in_a_division_2(self, parsed_title_16):
+        division_2 = cast(Division, parsed_title_16.children[1])
         
         assert division_2.name          == "Uniform Mandatory Disposition of Detainers Act"
         assert len(division_2.children) == 1
 
 
-    def test_article_number_1(self):
-        code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
+    def test_article_number_1(self, parsed_title_16):
+        code_of_crim_pro = cast(Division, parsed_title_16.children[0])
         article_1        = cast(Article, code_of_crim_pro.children[0])
 
         assert article_1.number == "1"
 
 
-    def test_article_name_1(self):
-        div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
+    def test_article_name_1(self, parsed_title_16):
+        div_1_code_of_crim_pro = cast(Division, parsed_title_16.children[0])
         article_1              = div_1_code_of_crim_pro.children[0]
 
         assert article_1.name == "General Provisions"
 
 
-    def test_division_name_1(self):
-        div_1_code_of_crim_pro = cast(Division, PARSED_TITLE_16.children[0])
+    def test_division_name_1(self, parsed_title_16):
+        div_1_code_of_crim_pro = cast(Division, parsed_title_16.children[0])
         article_1              = cast(Article, div_1_code_of_crim_pro.children[0])
 
         assert article_1.division_name == "Code of Criminal Procedure"
