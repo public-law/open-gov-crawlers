@@ -131,12 +131,9 @@
 - [x] **Refactor**: Clean up
 
 ### **15. Documentation**
-- [ ] Write an "Architecture" section in the README that among other things, lists the Benefits (below).
+- [x] Write an "Architecture" section in the README that among other things, lists the Benefits (below).
 
 ## 🧹 **Phase Final: Cleanup**
-- [ ] **Test**: Verify all spider integration tests pass
-- [ ] **Test**: Verify all parser unit tests pass  
-- [ ] **Test**: Run full test suite
 - [ ] **Cleanup**: Remove `public_law/glossaries/utils/metadata.py`
 - [ ] **Cleanup**: Remove any unused `_make_metadata()` functions
 - [ ] **Cleanup**: Update any remaining imports/references

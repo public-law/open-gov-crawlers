@@ -28,29 +28,122 @@ public_law/
     └── utils/             # Common utilities
 ```
 
+## Architecture
+
+Our glossary crawling system follows a clean separation of concerns between **data extraction** and **configuration management**:
+
+### Before: Monolithic Parser Architecture
+```
+Parser = HTML extraction + metadata creation
+```
+
+### After: Separated Spider/Parser Architecture
+```
+Parser = Pure HTML extraction (parse_entries())
+Spider = Configuration + orchestration (get_metadata() + inherited parse_glossary())
+```
+
+### Key Components
+
+**Parsers** (`public_law/glossaries/parsers/`):
+- **Pure functions** that extract glossary entries from HTML
+- Export only `parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]`
+- No metadata creation, no side effects
+- Easily testable in isolation
+
+**Spiders** (`public_law/glossaries/spiders/`):
+- Inherit from `EnhancedAutoGlossarySpider` base class
+- Implement `get_metadata(response: HtmlResponse) -> Metadata` method
+- Handle all configuration: URLs, Dublin Core metadata, subjects
+- Orchestrate the parsing process via inherited `parse_glossary()`
+
+**Base Classes** (`public_law/shared/spiders/`):
+- `EnhancedAutoGlossarySpider`: Provides `parse_glossary()` orchestration
+- Automatically resolves and calls the appropriate parser
+- Combines parser output with spider metadata
+
+### Benefits
+
+**🔄 DRY (Don't Repeat Yourself)**:
+- `parse_glossary()` orchestration logic written once in base class
+- No duplication of parsing workflow across spiders
+
+**🛡️ Type Safety**:
+- All configuration data strongly typed in Python
+- Compile-time validation of metadata structure
+- IDE support for autocompletion and refactoring
+
+**🎯 Separation of Concerns**:
+- **Parsers**: Focus solely on HTML → data extraction
+- **Spiders**: Focus solely on configuration and orchestration
+- Clear boundaries make the system easier to understand and maintain
+
+**🧪 Testability**:
+- Parsers can be tested independently with just HTML fixtures
+- Spiders can be tested independently for metadata correctness
+- Integration tests verify the complete workflow
+- Faster test execution due to focused test scope
+
+**🔧 Maintainability**:
+- Changes to parsing logic isolated to parser modules
+- Changes to metadata/configuration isolated to spider modules
+- Base class improvements benefit all spiders automatically
+
+### Example Usage
+
+```python
+# Parser: Pure data extraction
+def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
+    soup = from_response(html)
+    return tuple(
+        GlossaryEntry(phrase=..., definition=...)
+        for entry in soup.find_all("dt")
+    )
+
+# Spider: Configuration + orchestration
+class MyGlossarySpider(EnhancedAutoGlossarySpider):
+    name = "jurisdiction_source_glossary"
+    start_urls = ["https://example.gov/glossary"]
+    
+    def get_metadata(self, response: HtmlResponse) -> Metadata:
+        return Metadata(
+            dcterms_title="My Glossary",
+            dcterms_coverage="USA",
+            dcterms_subject=(...),
+            # ... other Dublin Core metadata
+        )
+```
+
+The spider automatically calls the parser and combines results:
+```python
+result = spider.parse_glossary(response)
+# result.entries from parser
+# result.metadata from spider
+```
+
 ## Data Sources
 
-|                   |                                                                                                                                                                   | Source code                                                                                                                                                                                                                                                                                                                                                                                                        | Dataset                                                                                                     |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
-| Australia         | [Family, domestic and sexual violence...](https://www.public.law/dictionary/sources/aihw.gov.au__reports-data_behaviours-risk-factors_domestic-violence_glossary) | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/dv_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/dv_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/dv_glossary_test.py)                                  | [`json`](https://github.com/public-law/datasets/blob/master/Australia/dv-glossary.json)                     |
-| Australia         | [IP Glossary](https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary)                                                          | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/ip_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/ip_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/ip_glossary_test.py)                                  | [`json`](https://github.com/public-law/datasets/blob/master/Australia/ip-glossary.json)                     |
-| Australia         | [Design IP Glossary](https://www.public.law/dictionary/sources/ipaustralia.gov.au__design_glossary)                                                               | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/designip_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/designip_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/designip_glossary_test.py)                | [`json`](https://github.com/public-law/datasets/blob/master/Australia/designip-glossary.json)               |
-| Australia         | [Law Handbook Glossary](https://www.public.law/dictionary/sources/lawhandbook.sa.gov.au__go01)                                                                    | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/lawhandbook_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/lawhandbook_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/lawhandbook_glossary_test.py)       | [`json`](https://github.com/public-law/datasets/blob/master/Australia/lawhandbook-glossary.json)            |
-| Canada            | [Parliamentary Glossary](https://www.public.law/dictionary/sources/lop.parl.ca__About_Parliament_Education_glossary-intermediate-students-e)                      | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/can/parliamentary_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/can/parliamentary_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/can/parliamentary_glossary_test.py) | [`json`](https://github.com/public-law/datasets/blob/master/Canada/parliamentary-glossary.json)             |
-| Canada            | [Patents Glossary](https://www.public.law/dictionary/sources/ised-isde.canada.ca__patents_glossary)                                                               | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/can/patents_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/can/patents_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/can/patents_glossary_test.py)                   | [`json`](https://github.com/public-law/datasets/blob/master/Canada/patents-glossary.json)                   |
-| Great Britain     | [Criminal Procedure Rules Glossary](https://www.public.law/dictionary/sources/legislation.gov.uk__uksi_2020_759_part_Glossary)                                    | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/gbr/cpr_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/gbr/cpr_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/gbr/cpr_glossary_test.py)                               | [`json`](https://github.com/public-law/datasets/blob/master/GreatBritain/cpr-glossary.json)                 |
-| Great Britain     | [Family Procedure Rules Glossary](https://www.public.law/dictionary/sources/justice.gov.uk__courts_procedure-rules_family_backmatter_fpr_glossary)                | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/gbr/fpr_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/gbr/fpr_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/gbr/fpr_glossary_test.py)                               | [`json`](https://github.com/public-law/datasets/blob/master/GreatBritain/fpr-glossary.json)                 |
-| Ireland           | [Courts Glossary](https://www.public.law/dictionary/sources/courts.ie__glossary)                                                                                  | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/irl/courts_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/irl/courts_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/irl/courts_glossary_test.py)                      | [`json`](https://github.com/public-law/datasets/blob/master/Ireland/courts-glossary.json)                   |
-| New Zealand       | [Justice Glossary](https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary)                                                                     | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/nzl/justice_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/nzl/justice_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/nzl/justice_glossary_test.py)                   | [`json`](https://github.com/public-law/datasets/blob/master/NewZealand/justice-glossary.json)               |
-| USA               | [US Courts Glossary](https://www.public.law/dictionary/sources/uscourts.gov__glossary)                                                                            | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/courts_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/courts_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/courts_glossary_test.py)                      | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/us-courts-glossary.json)           |
-| USA               | [USCIS Glossary](https://www.public.law/dictionary/sources/uscis.gov__tools_glossary)                                                                             | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/uscis_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/uscis_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/uscis_glossary_test.py)                         | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/uscis-glossary.json)               |
-| USA               | [Criminal Glossary](https://www.public.law/dictionary/sources/sdcourt.ca.gov__sdcourt_criminal2_criminalglossary)                                                 | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/ca_criminal_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/ca_criminal_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/criminal_glossary_test.py)          | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/criminal-glossary.json)            |
-| Intergovernmental | [Rome Statute](https://world.public.law/rome_statute)                                                                                                             | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/legal_texts/parsers/int/rome_statute.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/legal_texts/spiders/int/rome_statute.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/legal_texts/parsers/int/rome_statute_test.py)                            | [`json`](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json) |
+|                   |                                                                                                                                                                   | Source code                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Dataset                                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------- |
+| Australia         | [Family, domestic and sexual violence...](https://www.public.law/dictionary/sources/aihw.gov.au__reports-data_behaviours-risk-factors_domestic-violence_glossary) | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/dv_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/dv_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/dv_glossary_test.py)                                                                                                                                                           | [`json`](https://github.com/public-law/datasets/blob/master/Australia/dv-glossary.json)                     |
+| Australia         | [IP Glossary](https://www.public.law/dictionary/sources/ipaustralia.gov.au__tools-resources_ip-glossary)                                                          | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/ip_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/ip_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/ip_glossary_test.py)                                                                                                                                                           | [`json`](https://github.com/public-law/datasets/blob/master/Australia/ip-glossary.json)                     |
+| Australia         | [Design IP Glossary](https://www.public.law/dictionary/sources/ipaustralia.gov.au__design_glossary)                                                               | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/designip_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/designip_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/designip_glossary_test.py)                                                                                                                                         | [`json`](https://github.com/public-law/datasets/blob/master/Australia/designip-glossary.json)               |
+| Australia         | [Law Handbook Glossary](https://www.public.law/dictionary/sources/lawhandbook.sa.gov.au__go01)                                                                    | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/aus/lawhandbook_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/aus/lawhandbook_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/aus/lawhandbook_glossary_test.py)                                                                                                                                | [`json`](https://github.com/public-law/datasets/blob/master/Australia/lawhandbook-glossary.json)            |
+| Canada            | [Parliamentary Glossary](https://www.public.law/dictionary/sources/lop.parl.ca__About_Parliament_Education_glossary-intermediate-students-e)                      | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/can/parliamentary_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/can/parliamentary_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/can/parliamentary_glossary_test.py)                                                                                                                          | [`json`](https://github.com/public-law/datasets/blob/master/Canada/parliamentary-glossary.json)             |
+| Canada            | [Patents Glossary](https://www.public.law/dictionary/sources/ised-isde.canada.ca__patents_glossary)                                                               | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/can/patents_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/can/patents_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/can/patents_glossary_test.py)                                                                                                                                            | [`json`](https://github.com/public-law/datasets/blob/master/Canada/patents-glossary.json)                   |
+| Great Britain     | [Criminal Procedure Rules Glossary](https://www.public.law/dictionary/sources/legislation.gov.uk__uksi_2020_759_part_Glossary)                                    | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/gbr/cpr_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/gbr/cpr_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/gbr/cpr_glossary_test.py)                                                                                                                                                        | [`json`](https://github.com/public-law/datasets/blob/master/GreatBritain/cpr-glossary.json)                 |
+| Great Britain     | [Family Procedure Rules Glossary](https://www.public.law/dictionary/sources/justice.gov.uk__courts_procedure-rules_family_backmatter_fpr_glossary)                | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/gbr/fpr_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/gbr/fpr_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/gbr/fpr_glossary_test.py)                                                                                                                                                        | [`json`](https://github.com/public-law/datasets/blob/master/GreatBritain/fpr-glossary.json)                 |
+| Ireland           | [Courts Glossary](https://www.public.law/dictionary/sources/courts.ie__glossary)                                                                                  | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/irl/courts_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/irl/courts_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/irl/courts_glossary_test.py)                                                                                                                                               | [`json`](https://github.com/public-law/datasets/blob/master/Ireland/courts-glossary.json)                   |
+| New Zealand       | [Justice Glossary](https://www.public.law/dictionary/sources/justice.govt.nz__about_glossary)                                                                     | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/nzl/justice_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/nzl/justice_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/nzl/justice_glossary_test.py)                                                                                                                                            | [`json`](https://github.com/public-law/datasets/blob/master/NewZealand/justice-glossary.json)               |
+| USA               | [US Courts Glossary](https://www.public.law/dictionary/sources/uscourts.gov__glossary)                                                                            | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/courts_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/courts_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/courts_glossary_test.py)                                                                                                                                               | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/us-courts-glossary.json)           |
+| USA               | [USCIS Glossary](https://www.public.law/dictionary/sources/uscis.gov__tools_glossary)                                                                             | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/uscis_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/uscis_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/uscis_glossary_test.py)                                                                                                                                                  | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/uscis-glossary.json)               |
+| USA               | [Criminal Glossary](https://www.public.law/dictionary/sources/sdcourt.ca.gov__sdcourt_criminal2_criminalglossary)                                                 | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/criminal_glossary.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/criminal_glossary.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/parsers/usa/criminal_glossary_test.py) \| [`spider tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/glossaries/spiders/usa/criminal_glossary_test.py) | [`json`](https://github.com/public-law/datasets/blob/master/UnitedStates/criminal-glossary.json)            |
+| Intergovernmental | [Rome Statute](https://world.public.law/rome_statute)                                                                                                             | [`parser`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/legal_texts/parsers/int/rome_statute.py) \|  [`spider`](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/legal_texts/spiders/int/rome_statute.py) \|  [`tests`](https://github.com/public-law/open-gov-crawlers/blob/master/tests/legal_texts/parsers/int/rome_statute_test.py)                                                                                                                                                     | [`json`](https://github.com/public-law/datasets/blob/master/Intergovernmental/RomeStatute/RomeStatute.json) |
 
 
 > [!TIP]
-> The [USA Courts Glossary parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/courts_glossary.py)
-> is the best example of our coding style.
+> The [USA Courts Glossary](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/spiders/usa/courts_glossary.py) spider and [parser](https://github.com/public-law/open-gov-crawlers/blob/master/public_law/glossaries/parsers/usa/courts_glossary.py)
+> are the best examples of our new architecture and coding style.
 
 
 ## Example: USA Courts Glossary Parser
@@ -153,10 +246,20 @@ poetry run ptw .
 
 To add a new glossary crawler:
 
-1. Pick a source and add a new spider under `public_law/glossaries/spiders/{jurisdiction}/`.
-2. Write a parser in `public_law/glossaries/parsers/{jurisdiction}/` that extracts terms and metadata.
-3. Add a test case under `tests/glossaries/parsers/{jurisdiction}/`.
-4. Run the spider using `scrapy crawl --overwrite-output tmp/output.json {spider_name}`.
+1. **Create the parser** in `public_law/glossaries/parsers/{jurisdiction}/`:
+   - Write a pure `parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]` function
+   - Focus only on HTML → data extraction, no metadata
+   - Add parser tests under `tests/glossaries/parsers/{jurisdiction}/`
+
+2. **Create the spider** in `public_law/glossaries/spiders/{jurisdiction}/`:
+   - Inherit from `EnhancedAutoGlossarySpider`
+   - Implement `get_metadata(response: HtmlResponse) -> Metadata` method
+   - Configure `name` and `start_urls` attributes
+   - Add spider tests under `tests/glossaries/spiders/{jurisdiction}/`
+
+3. **Test and run**:
+   - Run tests: `poetry run pytest tests/glossaries/{parser,spiders}/{jurisdiction}/`
+   - Run spider: `scrapy crawl --overwrite-output tmp/output.json {spider_name}`
 
 To add a new legal text crawler:
 
