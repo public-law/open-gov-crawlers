@@ -16,9 +16,10 @@ def html_response():
         encoding="utf-8",
     )
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def entries(html_response):
     return parse_entries(html_response)
+
 
 class TestEntries:
     def test_phrase(self, entries):
