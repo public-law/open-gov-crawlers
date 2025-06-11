@@ -9,6 +9,7 @@
 - Typographical characters like these will appear in the code: “ ” ‘ ’ etc.
   Never, NEVER change these. This cannot be stressed enough. They are intentional and part of the data. If you determine them to be the cause of an error then stop and ask the user for guidance.
 - We are **only refactoring** the code. We are not fixing bugs. All tests pass. If you think you've found a bug, stop and ask the user for guidance.
+- Complete the sub-tasks in the order they appear.
 
 ## 🔧 **Phase 0: Infrastructure Setup**
 - [x] Create _new_ enhanced AutoGlossarySpider-like base class with `parse_glossary()` and abstract `get_metadata()`. The new class allows graceful migration of existing spiders.
@@ -106,9 +107,9 @@
 - [x] **Refactor**: Clean up
 
 ### **12. Great Britain CPR Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/gbr/cpr_glossary_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
+- [x] **Test**: Update `tests/glossaries/parsers/gbr/cpr_glossary_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
 - [ ] **Green**: Convert parser
 - [ ] **Green**: Create spider
 - [ ] **Refactor**: Clean up

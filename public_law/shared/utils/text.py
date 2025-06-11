@@ -226,6 +226,13 @@ def normalize_whitespace(text: str|TypedSoup) -> str:
     return " ".join(no_newlines.strip().split())
 
 
+def normalize_apostrophes(text: str) -> str:
+    """
+    Replace typographical apostrophes with straight apostrophes.
+    """
+    return text.replace("’", "'").replace("‘", "'")
+
+
 def cleanup(text: str|TypedSoup) -> NonemptyString:
     """
     Remove extra whitespace from around and within the string,
