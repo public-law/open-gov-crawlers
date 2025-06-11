@@ -17,13 +17,14 @@ def response():
         encoding="utf-8",
     )
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def spider():
     return JusticeGlossarySpider()
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def metadata(spider, response):
     return spider.get_metadata(response)
+
 
 class TestGetMetadata:
     def test_returns_metadata_object(self, metadata):
