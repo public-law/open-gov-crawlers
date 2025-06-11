@@ -134,16 +134,16 @@
 - [x] Write an "Architecture" section in the README that among other things, lists the Benefits (below).
 
 ## 🧹 **Phase Final: Cleanup**
-- [ ] **Cleanup**: Remove `public_law/glossaries/utils/metadata.py`
-- [ ] **Cleanup**: Remove any unused `_make_metadata()` functions
-- [ ] **Cleanup**: Update any remaining imports/references
+- [x] **Cleanup**: Remove `public_law/glossaries/utils/metadata.py`
+- [x] **Cleanup**: Remove any unused `_make_metadata()` functions
+- [x] **Cleanup**: Update any remaining imports/references
 
 ## 📊 **Validation**
-- [ ] All tests pass
-- [ ] No `_make_metadata` functions remain in parsers
-- [ ] All spiders inherit from AutoGlossarySpider
-- [ ] All parsers export only `parse_entries()` function
-- [ ] Metadata utils directory removed
+- [x] All tests pass
+- [x] No `_make_metadata` functions remain in parsers
+- [x] All spiders inherit from AutoGlossarySpider
+- [x] All parsers export only `parse_entries()` function
+- [x] Metadata utils directory removed
 
 ## 🎯 **Architecture Goals**
 

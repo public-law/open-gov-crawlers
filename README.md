@@ -15,8 +15,7 @@ public_law/
 ├── glossaries/          # Legal glossary crawlers
 │   ├── models/            # Data models for glossary entries
 │   ├── parsers/           # HTML parsing logic by jurisdiction
-│   ├── spiders/           # Scrapy spiders by jurisdiction
-│   └── utils/             # Shared utilities
+│   └── spiders/           # Scrapy spiders by jurisdiction
 ├── legal_texts/         # Legal document crawlers
 │   ├── models/            # Data models for legal documents
 │   ├── parsers/           # Document parsing logic
