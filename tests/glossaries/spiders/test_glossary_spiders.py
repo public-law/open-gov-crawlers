@@ -1,3 +1,7 @@
+"""
+This file is used to test that all glossary spiders use Dublin Core naming format.
+"""
+
 from pathlib import Path
 from typing import Any
 
