@@ -4,7 +4,6 @@ from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
 from public_law.shared.models.metadata import Metadata, Subject
 from public_law.shared.utils.text import URL, LoCSubject
 from public_law.shared.utils.text import NonemptyString as String
-from public_law.glossaries.parsers.aus.dv_glossary import parse_entries
 
 
 class DVGlossary(EnhancedAutoGlossarySpider):
@@ -13,7 +12,6 @@ class DVGlossary(EnhancedAutoGlossarySpider):
     start_urls = [
         "https://www.aihw.gov.au/reports-data/behaviours-risk-factors/domestic-violence/glossary"
     ]
-    parse_function = parse_entries
 
     def get_metadata(self, response: HtmlResponse) -> Metadata:
         """Generate metadata for the Australia DV Glossary."""

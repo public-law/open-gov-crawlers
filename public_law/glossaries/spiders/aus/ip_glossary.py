@@ -6,7 +6,7 @@ from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
 from public_law.shared.models.metadata import Metadata, Subject
 from public_law.shared.utils.text import URL, LoCSubject
 from public_law.shared.utils.text import NonemptyString as String
-from public_law.glossaries.parsers.aus.ip_glossary import parse_entries
+
 
 
 class IPGlossary(EnhancedAutoGlossarySpider):
@@ -14,7 +14,7 @@ class IPGlossary(EnhancedAutoGlossarySpider):
     start_urls = [
         "https://raw.githubusercontent.com/public-law/datasets/master/Australia/ip-glossary.html"
     ]
-    parse_function = parse_entries
+
 
     def get_metadata(self, response: HtmlResponse) -> Metadata:
         """Generate metadata for the Australia IP Glossary."""
