@@ -123,12 +123,12 @@
 - [x] **Refactor**: Clean up
 
 ### **14. New Zealand Justice Glossary**
-- [ ] **Test**: Update `tests/glossaries/parsers/nzl/justice_glossary_test.py`
-- [ ] **Test**: Create spider tests
-- [ ] **Red**: Run tests
-- [ ] **Green**: Convert parser
-- [ ] **Green**: Create spider
-- [ ] **Refactor**: Clean up
+- [x] **Test**: Update `tests/glossaries/parsers/nzl/justice_glossary_test.py`
+- [x] **Test**: Create spider tests
+- [x] **Red**: Run tests
+- [x] **Green**: Convert parser
+- [x] **Green**: Create spider
+- [x] **Refactor**: Clean up
 
 ### **15. Documentation**
 - [ ] Write an "Architecture" section in the README that among other things, lists the Benefits (below).

@@ -1,14 +1,22 @@
 from typing import Any, cast
 import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.nzl import justice_glossary
+from public_law.glossaries.spiders.nzl.justice_glossary import JusticeGlossarySpider
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
 
 @pytest.fixture(scope="module")
 def glossary():
-    return glossary_fixture("nzl/justice-glossary.html", ORIG_URL, justice_glossary.parse_glossary)
+    with open("tests/fixtures/nzl/justice-glossary.html", "rb") as f:
+        html_content = f.read()
+    response = HtmlResponse(
+        url=ORIG_URL,
+        body=html_content,
+        encoding="utf-8",
+    )
+    spider = JusticeGlossarySpider()
+    return spider.parse_glossary(response)
 
 
 class TestAsDict:
