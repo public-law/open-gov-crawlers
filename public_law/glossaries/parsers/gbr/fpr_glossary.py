@@ -4,7 +4,7 @@ from bs4 import Tag
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.models.glossary import GlossaryEntry
-from public_law.shared.utils.text import Sentence, ensure_ends_with_period, make_soup, cleanup
+from public_law.shared.utils.text import Sentence, ensure_ends_with_period, make_soup, cleanup, normalize_quotes
 
 
 def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
@@ -29,8 +29,7 @@ def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:
             phrase=cleanup(term.text),
             definition=Sentence(
                 ensure_ends_with_period(
-                    cleanup(defn.text.replace(
-                        "“", '"').replace("”", '"'))
+                    cleanup(normalize_quotes(defn.text))
                 )
             ),
         )
