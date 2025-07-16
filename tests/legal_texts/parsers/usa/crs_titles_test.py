@@ -1,7 +1,7 @@
 from scrapy.http.response.xml import XmlResponse
 
 from public_law.legal_texts.parsers.usa.colorado.crs import parse_title_bang
-from public_law.test_util import *
+from public_law.test_util import fixture, null_logger
 
 # A Title with no Divisions.
 TITLE_4 =  XmlResponse(body = fixture('usa', 'crs', "title04.xml"), url = "title04.xml", encoding = "utf-8")

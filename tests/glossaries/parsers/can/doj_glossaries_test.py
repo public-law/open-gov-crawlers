@@ -1,14 +1,9 @@
-from datetime import date
-from typing import cast
 
 import pytest
-from more_itertools import first, nth
+from more_itertools import nth
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.dates import today
 from public_law.shared.utils.text import NonemptyString
-from public_law.glossaries.models.glossary import (GlossaryEntry, GlossaryParseResult,
-                                        glossary_fixture)
 from public_law.glossaries.parsers.can.doj_glossaries import parse_entries
 
 # Test URLs from the original fixtures

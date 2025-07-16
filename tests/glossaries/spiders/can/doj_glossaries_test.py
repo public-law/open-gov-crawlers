@@ -3,9 +3,8 @@ from datetime import date
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.can.doj_glossaries import DOJGlossariesSpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, NonemptyString
-from public_law.shared.utils.dates import today
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject
 
 # Test URLs from the original fixtures
 P7G_URL = "https://www.justice.gc.ca/eng/rp-pr/cp-pm/eval/rep-rap/12/lap-paj/p7g.html"
@@ -175,7 +174,7 @@ class TestSpiderIntegration:
         assert P18_URL in spider.start_urls
 
     def test_inherits_from_enhanced_base(self, spider):
-        from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
+        from public_law.glossaries.spiders._base.enhanced_base import EnhancedAutoGlossarySpider
         assert isinstance(spider, EnhancedAutoGlossarySpider)
 
     def test_parse_glossary_integration_p7g(self, spider, p7g_response):

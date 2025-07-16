@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import cast
 
 import pytest
@@ -6,7 +5,7 @@ from scrapy.http.response.xml import XmlResponse
 
 from public_law.legal_texts.models.crs import Article, Division, Subdivision, Title
 from public_law.legal_texts.parsers.usa.colorado.crs import parse_title_bang
-from public_law.test_util import *
+from public_law.test_util import fixture, null_logger
 
 
 class TestParseErrors:

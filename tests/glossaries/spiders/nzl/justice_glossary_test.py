@@ -2,8 +2,8 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.nzl.justice_glossary import JusticeGlossarySpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, NonemptyString
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
 
@@ -70,7 +70,7 @@ class TestSpiderIntegration:
         assert spider.start_urls[0] == ORIG_URL
 
     def test_inherits_from_enhanced_base(self, spider):
-        from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
+        from public_law.glossaries.spiders._base.enhanced_base import EnhancedAutoGlossarySpider
         assert isinstance(spider, EnhancedAutoGlossarySpider)
 
     def test_parse_glossary_integration(self, spider, response):

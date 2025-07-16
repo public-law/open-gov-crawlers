@@ -1,7 +1,7 @@
 from datetime import date
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
+from public_law.glossaries.spiders._base.enhanced_base import EnhancedAutoGlossarySpider
 from public_law.shared.models.metadata import Metadata
 from public_law.shared.utils.text import URL, NonemptyString
 from public_law.shared.exceptions import ParseException

@@ -6,8 +6,8 @@ import importlib
 import inspect
 import pkgutil
 
-from .base import BaseGlossarySpider
-from .enhanced_base import AutoGlossarySpider, EnhancedAutoGlossarySpider
+from public_law.glossaries.spiders._base.base import BaseGlossarySpider
+from public_law.glossaries.spiders._base.enhanced_base import AutoGlossarySpider, EnhancedAutoGlossarySpider
 
 
 def discover_glossary_spiders() -> list[type[BaseGlossarySpider | AutoGlossarySpider | EnhancedAutoGlossarySpider]]:
