@@ -1,13 +1,9 @@
-from typing import TypeVar, Optional, List, Iterator, Any, Dict, Union
-from bs4 import BeautifulSoup, Tag, ResultSet
-from scrapy.http.response.html import HtmlResponse
+from typing import TypeVar, Any
 from scrapy.http.response.xml import XmlResponse
 from scrapy.selector.unified import Selector, SelectorList
 from toolz.functoolz import curry
 
 from public_law.shared.exceptions import ParseException
-from public_law.shared.utils.text import make_soup
-from public_law.shared.models.result import Result, Ok, Err
 
 T = TypeVar('T')
 

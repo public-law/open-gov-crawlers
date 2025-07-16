@@ -16,29 +16,12 @@
 
 from scrapy.http.response.html import HtmlResponse
 
-from ...utils.metadata     import us_courts_glossary_metadata
-from ...models.glossary    import GlossaryEntry, GlossaryParseResult
+from ...models.glossary    import GlossaryEntry
 
 from ....shared.utils.text import make_soup, cleanup, Sentence
 
 
-def parse_glossary(response: HtmlResponse) -> GlossaryParseResult:
-    """
-    Parses the US Courts glossary page and returns a GlossaryParseResult
-    to the Spider.
-    """
-    # A GlossaryParseResult is a class with just two attributes:
-    # the entries and metadata.
-
-    # 1. Create the two pieces of the GlossaryParseResult.
-    entries  = _parse_entries(response)       # Parse the entries from the HTML response
-    metadata = us_courts_glossary_metadata()  # Call the metadata function
-
-    # 2. Create and return a new GlossaryParseResult object that wraps them up.
-    return GlossaryParseResult(entries=entries, metadata=metadata)
-
-
-def _parse_entries(response: HtmlResponse) -> list[GlossaryEntry]:
+def parse_entries(response: HtmlResponse) -> tuple[GlossaryEntry, ...]:
     """
     The entries are the <dt> (term) and <dd> (definition) pairs in the <dl>
     definition list:
@@ -52,7 +35,7 @@ def _parse_entries(response: HtmlResponse) -> list[GlossaryEntry]:
       ...
     </dl>
 
-    This function parses the <dl> definition list into a list of
+    This function parses the <dl> definition list into a tuple of
     GlossaryEntry objects.
     """
     soup = make_soup(response)                 # Parse the HTML response into a BeautifulSoup object
@@ -60,8 +43,8 @@ def _parse_entries(response: HtmlResponse) -> list[GlossaryEntry]:
     assert len(dt_list) == len(dd_list)        # Ensure each term has a definition
     list_of_pairs = zip(dt_list, dd_list)      # Pair each <dt> with its corresponding <dd>
 
-    # Convert the list of pairs into a list of GlossaryEntry objects
-    return [
+    # Convert the list of pairs into a tuple of GlossaryEntry objects
+    return tuple(
         GlossaryEntry(phrase=cleanup(dt.text), definition=Sentence(dd.text))
         for dt, dd in list_of_pairs
-    ]
+    )

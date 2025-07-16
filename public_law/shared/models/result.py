@@ -1,3 +1,10 @@
+"""
+A Rust-like Result type. 
+
+It's not yet used in the project, but it'd be interesting to see
+if it creates cleaner code.
+"""
+
 from dataclasses import dataclass
 from typing import TypeVar, Generic, Any, TypeAlias, Callable
 

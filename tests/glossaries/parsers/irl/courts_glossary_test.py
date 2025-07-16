@@ -1,59 +1,37 @@
 from more_itertools import first, last
+import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.dates import today
-from public_law.shared.models.metadata import Subject
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.irl.courts_glossary import parse_glossary
-from public_law.shared.utils.text import URL, NonemptyString
-
-ORIG_URL = "https://www.courts.ie/glossary"
-GLOSSARY = glossary_fixture(
-    "irl/courts-glossary.html", ORIG_URL, parse_glossary)
-METADATA = GLOSSARY.metadata
-ENTRIES = tuple(GLOSSARY.entries)
+from public_law.shared.utils.text import NonemptyString
+from public_law.glossaries.parsers.irl.courts_glossary import parse_entries
 
 
-class TestTheMetadata:
-    def test_gets_the_name(_):
-        assert METADATA.dcterms_title == "Glossary of Legal Terms"
+@pytest.fixture(scope="module")
+def response():
+    """Load the HTML fixture for IRL Courts Glossary"""
+    with open("tests/fixtures/irl/courts-glossary.html", "rb") as f:
+        html_content = f.read()
+    
+    return HtmlResponse(
+        url="https://www.courts.ie/glossary",
+        body=html_content,
+        encoding="utf-8",
+    )
 
-    def test_gets_the_url(_):
-        assert METADATA.dcterms_source == "https://www.courts.ie/glossary"
-
-    def test_gets_the_author(_):
-        assert METADATA.dcterms_creator == "https://public.law"
-
-    def test_gets_coverage(_):
-        assert METADATA.dcterms_coverage == "IRL"
-
-    def test_gets_the_source_modified_date(_):
-        assert METADATA.publiclaw_sourceModified == "unknown"
-
-    def test_gets_the_scrape_date(_):
-        assert METADATA.dcterms_modified == today()
-
-    def test_subjects(_):
-        assert METADATA.dcterms_subject == (
-            Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85033571"),
-                rdfs_label=NonemptyString("Courts"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q41487"),
-                rdfs_label=NonemptyString("Court"),
-            ),
-        )
+@pytest.fixture
+def entries(response):
+    return parse_entries(response)
 
 
-class TestTheEntries:
-    def test_definition(_):
-        assert first(ENTRIES).definition == "A written statement made on oath."
+class TestParseEntries:
+    def test_first_entry_definition(self, entries):
+        assert first(entries).definition == "A written statement made on oath."
 
-    def test_gets_proper_number_of_entries(_):
-        assert len(ENTRIES) == 43
+    def test_gets_proper_number_of_entries(self, entries):
+        assert len(entries) == 43
 
-    def test_gets_the_last_entry(_):
-        last_entry = last(ENTRIES)
+    def test_last_entry(self, entries):
+        last_entry = last(entries)
 
         assert last_entry.phrase == "Supervision order"
         assert last_entry.definition == (
@@ -61,3 +39,11 @@ class TestTheEntries:
             "The child is not removed from his or her home environment. A supervision "
             "order is for a fixed period of time not longer than 12 months initially."
         )
+
+    def test_returns_tuple(self, entries):
+        assert isinstance(entries, tuple)
+
+    def test_all_entries_have_required_fields(self, entries):
+        for entry in entries:
+            assert isinstance(entry.phrase, NonemptyString)
+            assert hasattr(entry, 'definition')

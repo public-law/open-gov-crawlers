@@ -1,28 +1,37 @@
 from typing import Any, cast
+import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.can import doj_glossaries
+from public_law.glossaries.spiders.nzl.justice_glossary import JusticeGlossarySpider
 
-GLOSSARY = glossary_fixture(
-    "can/index.html",
-    "https://laws-lois.justice.gc.ca/eng/glossary/",
-    doj_glossaries.parse_glossary,
-)
+ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
+
+@pytest.fixture(scope="module")
+def glossary():
+    with open("tests/fixtures/nzl/justice-glossary.html", "rb") as f:
+        html_content = f.read()
+    response = HtmlResponse(
+        url=ORIG_URL,
+        body=html_content,
+        encoding="utf-8",
+    )
+    spider = JusticeGlossarySpider()
+    return spider.parse_glossary(response)
 
 
 class TestAsDict:
-    def it_returns_real_data(self):
-        entries = cast(list[dict[str, Any]], GLOSSARY.asdict()["entries"])
-        assert entries[0]["phrase"] == "C.R.C."
+    def test_returns_real_data(self, glossary):
+        entries = cast(list[dict[str, Any]], glossary.asdict()["entries"])
+        assert entries[0]["phrase"] == "acquit"
 
-    def it_converts_itself_to_a_dict(self):
-        assert GLOSSARY.asdict()
+    def test_converts_to_dict(self, glossary):
+        assert glossary.asdict()
 
-    def test_dict_func_doesnt_change_it(self):
-        assert GLOSSARY.asdict() == dict(GLOSSARY.asdict())
+    def test_dict_func_doesnt_change_it(self, glossary):
+        assert glossary.asdict() == dict(glossary.asdict())
 
-    def test_dict_func_is_equivalent(self):
-        assert GLOSSARY.asdict() == dict(GLOSSARY)
+    def test_dict_func_is_equivalent(self, glossary):
+        assert glossary.asdict() == dict(glossary)
 
-    def test_has_renamed_metadata_key(self):
-        assert "dcterms:subject" in GLOSSARY.asdict()["metadata"]
+    def test_has_renamed_metadata_key(self, glossary):
+        assert "dcterms:subject" in glossary.asdict()["metadata"]

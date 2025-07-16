@@ -1,71 +1,41 @@
-from more_itertools import first, last
+import pytest
+from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.utils.dates import today
-from public_law.shared.models.metadata import Subject
-from public_law.glossaries.models.glossary import glossary_fixture
-from public_law.glossaries.parsers.nzl.justice_glossary import parse_glossary
-from public_law.shared.utils.text import URL, NonemptyString
+from public_law.glossaries.parsers.nzl.justice_glossary import parse_entries
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
-GLOSSARY = glossary_fixture(
-    "nzl/justice-glossary.html",
-    ORIG_URL,
-    parse_glossary,
-)
-METADATA = GLOSSARY.metadata
-ENTRIES = tuple(GLOSSARY.entries)
 
+@pytest.fixture(scope="module")
+def html_response():
+    with open("tests/fixtures/nzl/justice-glossary.html", encoding="utf8") as f:
+        html = f.read()
+    return HtmlResponse(
+        url=ORIG_URL,
+        body=html,
+        encoding="utf-8",
+    )
 
-class TestMetadata:
-    def test_name(_):
-        assert METADATA.dcterms_title == "Glossary"
-
-    def test_url(_):
-        assert METADATA.dcterms_source == ORIG_URL
-
-    def test_author(_):
-        assert METADATA.dcterms_creator == "https://public.law"
-
-    def test_coverage(_):
-        assert METADATA.dcterms_coverage == "NZL"
-
-    def test_source_modified_date(_):
-        assert METADATA.publiclaw_sourceModified == "unknown"
-
-    def test_scrape_date(_):
-        assert METADATA.dcterms_modified == today()
-
-    def test_subjects(_):
-        assert METADATA.dcterms_subject == (
-            Subject(
-                uri=URL("http://id.loc.gov/authorities/subjects/sh85071120"),
-                rdfs_label=NonemptyString("Justice, Administration of"),
-            ),
-            Subject(
-                uri=URL("https://www.wikidata.org/wiki/Q16514399"),
-                rdfs_label=NonemptyString("Administration of justice"),
-            ),
-        )
+@pytest.fixture(scope="module")
+def entries(html_response):
+    return parse_entries(html_response)
 
 
 class TestEntries:
-    def test_phrase(_):
-        assert first(ENTRIES).phrase == "acquit"
+    def test_phrase(self, entries):
+        assert entries[0].phrase == "acquit"
 
-    def test_definition(_):
+    def test_definition(self, entries):
         assert (
-            first(ENTRIES).definition
+            entries[0].definition
             == "To decide officially in court that a person is not guilty."
         )
 
-    def test_proper_number_of_entries(_):
-        assert len(tuple(ENTRIES)) == 154
+    def test_proper_number_of_entries(self, entries):
+        assert len(entries) == 154
 
-    def test_last_entry(_):
-        last_entry = last(ENTRIES)
-
-        assert last_entry.phrase == "Youth Court"
-        assert last_entry.definition == (
+    def test_last_entry(self, entries):
+        assert entries[-1].phrase == "Youth Court"
+        assert entries[-1].definition == (
             "The Youth Court has jurisdiction to deal with "
             "young people charged with criminal offences."
         )

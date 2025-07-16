@@ -1,10 +1,14 @@
+"""
+This file is used to test that all glossary spiders use Dublin Core naming format.
+"""
+
 from pathlib import Path
 from typing import Any
 
 import pytest
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.spiders.utils import discover_glossary_spiders
+from public_law.glossaries.spiders._base.utils import discover_glossary_spiders
 
 # List of all glossary spiders to test (auto-generated)
 GLOSSARY_SPIDERS = discover_glossary_spiders()
@@ -24,7 +28,7 @@ def mock_response(spider_class: Any) -> HtmlResponse:
     fixture_path = get_fixture_path(spider_name)
 
     if not fixture_path.exists():
-        pytest.skip(
+        raise RuntimeError(
             f"Fixture file not found for {spider_name}: {fixture_path}")
 
     with open(fixture_path, "rb") as f:

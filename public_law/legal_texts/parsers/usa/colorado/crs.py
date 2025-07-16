@@ -3,7 +3,6 @@
 from typing import Optional, Protocol
 
 from scrapy.http.response.xml import XmlResponse
-from scrapy.selector.unified import Selector
 
 from public_law.shared.utils import html, seq, text
 from public_law.shared.exceptions import ParseException
