@@ -3,8 +3,8 @@ from datetime import date
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.gbr.fpr_glossary import FPRGlossarySpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic, NonemptyString
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic
 
 ORIG_URL = "https://www.justice.gov.uk/courts/procedure-rules/family/backmatter/fpr_glossary"
 

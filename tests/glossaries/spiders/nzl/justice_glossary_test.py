@@ -2,8 +2,8 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.nzl.justice_glossary import JusticeGlossarySpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, NonemptyString
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject
 
 ORIG_URL = "https://www.justice.govt.nz/about/glossary/"
 

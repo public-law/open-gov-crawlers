@@ -2,9 +2,8 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.can.parliamentary_glossary import ParliamentaryGlossary
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, NonemptyString
-from public_law.shared.utils.dates import today
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject
 
 ORIG_URL = "https://lop.parl.ca/About/Parliament/Education/glossary-intermediate-students-e.html"
 

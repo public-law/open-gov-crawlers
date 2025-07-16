@@ -1,4 +1,3 @@
-from more_itertools import first, last
 import pytest
 from scrapy.http.response.html import HtmlResponse
 

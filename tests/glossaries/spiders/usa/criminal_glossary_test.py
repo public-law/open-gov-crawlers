@@ -2,8 +2,8 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.usa.criminal_glossary import CriminalGlossarySpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic, NonemptyString
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import URL, LoCSubject, WikidataTopic
 
 ORIG_URL = "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalglossary"
 

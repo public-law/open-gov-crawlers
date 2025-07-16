@@ -3,7 +3,6 @@ from typing import Iterable
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.models.glossary import GlossaryEntry
-from public_law.shared.utils.text import NonemptyString as String
 from public_law.shared.utils.text import Sentence, cleanup
 from typed_soup import from_response, TypedSoup
 

@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import cast
 
 import pytest

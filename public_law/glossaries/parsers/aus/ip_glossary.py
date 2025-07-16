@@ -1,7 +1,7 @@
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.models.glossary import GlossaryEntry
-from public_law.shared.utils.text import NonemptyString as String, Sentence, make_soup, cleanup
+from public_law.shared.utils.text import Sentence, make_soup, cleanup
 
 
 def parse_entries(html: HtmlResponse) -> tuple[GlossaryEntry, ...]:

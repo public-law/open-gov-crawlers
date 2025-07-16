@@ -3,7 +3,6 @@ import pytest
 
 from public_law.glossaries.models.glossary import GlossaryEntry
 from public_law.glossaries.parsers.usa.uscis_glossary import parse_entries
-from public_law.shared.utils.text import NonemptyString
 from scrapy.http.response.html import HtmlResponse
 
 ORIG_URL = "https://www.uscis.gov/tools/glossary"

@@ -2,8 +2,8 @@ import pytest
 from scrapy.http.response.html import HtmlResponse
 
 from public_law.glossaries.spiders.can.patents_glossary import PatentsGlossarySpider
-from public_law.shared.models.metadata import Metadata, Subject
-from public_law.shared.utils.text import LoCSubject, WikidataTopic, NonemptyString, URL
+from public_law.shared.models.metadata import Metadata
+from public_law.shared.utils.text import LoCSubject, WikidataTopic, URL
 
 ORIG_URL = "https://ised-isde.canada.ca/site/canadian-intellectual-property-office/en/patents/glossary"
 

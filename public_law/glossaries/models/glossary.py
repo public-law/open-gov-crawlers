@@ -1,6 +1,5 @@
 import dataclasses
 from dataclasses import dataclass
-from functools import cache
 from typing import Any, Callable, TypeAlias
 
 from scrapy.http.response.html import HtmlResponse
