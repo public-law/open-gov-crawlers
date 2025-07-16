@@ -1,6 +1,6 @@
 from scrapy.http.response.html import HtmlResponse
 
-from public_law.shared.spiders.enhanced_base import EnhancedAutoGlossarySpider
+from public_law.glossaries.spiders._base.enhanced_base import EnhancedAutoGlossarySpider
 from public_law.shared.models.metadata import Metadata, Subject
 from public_law.shared.utils.text import URL, LoCSubject
 from public_law.shared.utils.text import NonemptyString as String
