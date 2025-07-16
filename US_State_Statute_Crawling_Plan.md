@@ -4,6 +4,8 @@
 
 This plan outlines the development of Scrapy spiders to crawl statutes for 45 US states (excluding California, Colorado, Oregon, New York, and Nevada), following the established architecture patterns in the `open-gov-crawlers` repository.
 
+**Legal Significance**: This project builds on the landmark Supreme Court victory in Georgia v. Public.Resource.Org (2020), where Carl Malamud and Public.Resource.Org successfully defended the public's right to access official legal materials without copyright restrictions. Georgia is prioritized as our first implementation target to honor this victory and demonstrate the principles of open government data access.
+
 ## 1. State List and URLs
 
 ### 45 Target States
@@ -19,7 +21,7 @@ Based on research, here are the 45 states with their official statute website UR
 | Connecticut | https://www.cga.ct.gov/current/pub/titles.htm | Connecticut General Statutes |
 | Delaware | https://delcode.delaware.gov/ | Delaware Code |
 | Florida | http://www.leg.state.fl.us/Statutes/ | Florida Statutes |
-| Georgia | https://www.lexisnexis.com/hottopics/gacode/ | Official Code of Georgia Annotated |
+| **Georgia** | https://www.lexisnexis.com/hottopics/gacode/ | **Official Code of Georgia Annotated** ⭐ |
 | Hawaii | http://www.capitol.hawaii.gov/hrscurrent/ | Hawaii Revised Statutes |
 | Idaho | https://legislature.idaho.gov/statutesrules/idstat/ | Idaho Statutes |
 | Illinois | http://www.ilga.gov/legislation/ilcs/ilcs.asp | Illinois Compiled Statutes |
@@ -336,8 +338,9 @@ def _parse_single_section(element, base_url: str) -> StatuteEntry | None:
 
 ## 5. State Categorization by Difficulty
 
-### Tier 1: Easy (HTML-friendly, structured)
+### Tier 1: High Priority (Easy + Legally Significant)
 **Priority: Implement first**
+- **Georgia Code (HIGH PRIORITY)** - Following Georgia v. Public.Resource.Org Supreme Court victory (2020), Georgia's official legal code is now freely accessible without copyright restrictions. This represents a landmark win for public access to legal materials, and crawling Georgia's statutes supports the open government data movement that Carl Malamud championed.
 - Florida Statutes (clean HTML structure)
 - Utah Code (modern website)
 - Virginia Code (well-structured)
@@ -352,7 +355,6 @@ def _parse_single_section(element, base_url: str) -> StatuteEntry | None:
 - Texas Statutes
 
 ### Tier 3: Complex (JavaScript-heavy, CAPTCHAs, complex navigation)
-- Georgia Code (LexisNexis)
 - Maryland Code
 - New Jersey Statutes
 - Pennsylvania Consolidated Statutes
@@ -683,7 +685,7 @@ class FloridaStatutes(EnhancedAutoStatuteSpider):
 ### Phase 1 (Months 1-2): Foundation and Tier 1 States
 1. Implement base classes and data models
 2. Create testing framework
-3. Implement 5 Tier 1 states (Florida, Utah, Virginia, Washington, Wisconsin)
+3. Implement 6 Tier 1 states with **Georgia as top priority** (Georgia, Florida, Utah, Virginia, Washington, Wisconsin)
 
 ### Phase 2 (Months 3-4): Tier 2 States  
 1. Implement 10 Tier 2 states
@@ -712,9 +714,12 @@ class FloridaStatutes(EnhancedAutoStatuteSpider):
 ## 14. Risk Mitigation
 
 1. **Website Changes**: Implement monitoring for structure changes
-2. **Rate Limiting**: Respectful crawling with proper delays
-3. **Legal Compliance**: Follow robots.txt and terms of service
+2. **Rate Limiting**: Respectful crawling with proper delays (especially important for Georgia given the legal precedent)
+3. **Legal Compliance**: Follow robots.txt and terms of service. **Georgia Note**: The Georgia v. Public.Resource.Org Supreme Court decision establishes legal precedent for public access to official legal materials, but we maintain respectful crawling practices.
 4. **Data Validation**: Comprehensive testing and validation
 5. **Backup Plans**: Manual fallbacks for critical states
+6. **Legal Precedent**: Document compliance with Georgia v. Public.Resource.Org decision for transparency and legal defensibility
 
-This comprehensive plan provides a roadmap for systematically implementing statute crawling spiders for all 45 target states while maintaining code quality and following the established repository patterns.
+This comprehensive plan provides a roadmap for systematically implementing statute crawling spiders for all 45 target states while maintaining code quality and following the established repository patterns. 
+
+**Acknowledgment**: This work builds upon the pioneering efforts of Carl Malamud and Public.Resource.Org in defending public access to legal materials. The Georgia v. Public.Resource.Org Supreme Court victory represents a landmark achievement for open government data, and this project aims to honor that legacy by making state statutes freely accessible to all.
