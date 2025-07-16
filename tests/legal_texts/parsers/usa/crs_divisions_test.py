@@ -4,7 +4,7 @@ from scrapy.http.response.xml import XmlResponse
 
 from public_law.legal_texts.models.crs import Division, Subdivision
 from public_law.legal_texts.parsers.usa.colorado.crs import parse_title_bang
-from public_law.test_util import *
+from public_law.test_util import fixture, null_logger
 
 # Divisions aren't parsing correctly.
 TITLE_1 = XmlResponse(body=fixture('usa', 'crs', "title01.xml"),
