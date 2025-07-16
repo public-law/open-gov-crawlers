@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from public_law.shared.utils.text import *
+from public_law.shared.utils.text import NonemptyString, titleize, remove_trailing_period, normalize_whitespace, URL
 
 #
 # Items for the Colorado Revised Statutes.
