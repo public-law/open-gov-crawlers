@@ -2,10 +2,10 @@ from typing import Optional
 import re
 
 from scrapy.http.response.html import HtmlResponse
-from bs4 import BeautifulSoup
+from bs4 import Tag
 
 from public_law.legal_texts.models.statute import StatuteEntry
-from public_law.shared.utils.html import from_response
+from typed_soup import from_response, TypedSoup
 from public_law.shared.utils.text import NonemptyString, normalize_whitespace, URI
 
 
@@ -23,7 +23,7 @@ def parse_statute_entries(response: HtmlResponse) -> tuple[StatuteEntry, ...]:
         Tuple of StatuteEntry objects extracted from the page
     """
     soup = from_response(response)
-    entries = []
+    entries: list[StatuteEntry] = []
     
     # Find the main statute content area - LexisNexis uses various container patterns
     statute_content = _find_statute_content(soup)
@@ -49,7 +49,7 @@ def parse_statute_entries(response: HtmlResponse) -> tuple[StatuteEntry, ...]:
     return tuple(entries)
 
 
-def _find_statute_content(soup: BeautifulSoup) -> Optional[BeautifulSoup]:
+def _find_statute_content(soup: TypedSoup) -> Optional[TypedSoup]:
     """Find the main statute content area in LexisNexis HTML structure."""
     
     # Try multiple strategies for LexisNexis content discovery
@@ -68,36 +68,43 @@ def _find_statute_content(soup: BeautifulSoup) -> Optional[BeautifulSoup]:
     ]
     
     for selector in content_selectors:
-        content = soup.select_one(selector)
-        if content and content.get_text(strip=True):
+        # TypedSoup doesn't have select_one, use CSS selectors with find
+        try:
+            content = soup.find(selector)
+        except:
+            continue
+        if content and content.get_text().strip():
             return content
     
     # Final fallback - use the entire body if no specific content area found
-    body = soup.find('body')
-    return body if body else soup
+    body = soup('body')
+    return body[0] if body else soup
 
 
-def _find_statute_sections(content_element: BeautifulSoup) -> list:
+def _find_statute_sections(content_element: TypedSoup) -> list[TypedSoup]:
     """Find all statute section elements in the content."""
     
     # Georgia statutes typically use patterns like "16-1-1" (Title-Chapter-Section)
     # Try different strategies to find statute sections
     
     # Strategy 1: Look for elements containing Georgia section numbers
-    sections_with_numbers = []
-    for element in content_element.find_all(['div', 'section', 'article', 'p', 'h1', 'h2', 'h3', 'h4']):
-        text = element.get_text(strip=True)
-        if _contains_georgia_section_number(text):
-            sections_with_numbers.append(element)
+    sections_with_numbers: list[TypedSoup] = []
+    for tag_name in ['div', 'section', 'article', 'p', 'h1', 'h2', 'h3', 'h4']:
+        for element in content_element(tag_name):
+            text = element.get_text().strip()
+            if _contains_georgia_section_number(text):
+                sections_with_numbers.append(element)
     
     if sections_with_numbers:
         return sections_with_numbers
     
     # Strategy 2: Look for headings that might contain section information
-    headings = content_element.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+    headings: list[TypedSoup] = []
+    for tag_name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+        headings.extend(content_element(tag_name))
     if headings:
         # For each heading, include the following content until the next heading
-        full_sections = []
+        full_sections: list[list[TypedSoup]] = []
         for i, heading in enumerate(headings):
             section_content = [heading]
             current = heading.next_sibling
@@ -122,10 +129,11 @@ def _find_statute_sections(content_element: BeautifulSoup) -> list:
         '[id*="statute"]',
     ]
     
-    for pattern in lexis_patterns:
-        elements = content_element.select(pattern)
-        if elements:
-            return elements
+    # TypedSoup doesn't support CSS selectors like select(), skip this strategy
+    # for pattern in lexis_patterns:
+    #     elements = content_element.select(pattern)
+    #     if elements:
+    #         return elements
     
     # Strategy 4: Fallback - treat the entire content as one section if it contains Georgia patterns
     if _contains_georgia_section_number(content_element.get_text()):
@@ -155,7 +163,7 @@ def _contains_georgia_section_number(text: str) -> bool:
     return False
 
 
-def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
+def _parse_single_section(element: TypedSoup | list[TypedSoup], base_url: str) -> Optional[StatuteEntry]:
     """Parse a single Georgia statute section element into a StatuteEntry.
     
     Args:
@@ -170,11 +178,11 @@ def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
         section_elements = element
         heading = section_elements[0] if section_elements else None
         content_elements = section_elements[1:] if len(section_elements) > 1 else []
-        full_text = ' '.join(el.get_text(strip=True) for el in section_elements if hasattr(el, 'get_text'))
+        full_text = ' '.join(el.get_text().strip() for el in section_elements)
     else:
         heading = element
         content_elements = []
-        full_text = element.get_text(strip=True) if hasattr(element, 'get_text') else str(element)
+        full_text = element.get_text().strip()
     
     if not full_text or len(full_text.strip()) < 20:
         return None
@@ -190,7 +198,7 @@ def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
     # Extract the main statute text
     if content_elements:
         # Combine text from multiple elements, excluding the title
-        section_text = ' '.join(el.get_text(strip=True) for el in content_elements if el.get_text(strip=True))
+        section_text = ' '.join(el.get_text().strip() for el in content_elements if el.get_text().strip())
     else:
         # Get text from the main element, excluding the section number and title
         section_text = full_text
@@ -239,7 +247,7 @@ def _extract_georgia_section_number(text: str) -> Optional[str]:
         r'O\.C\.G\.A\.\s*§\s*(\d{1,2}-\d{1,3}-\d{1,4})',  # O.C.G.A. § 16-1-1
         r'§\s*(\d{1,2}-\d{1,3}-\d{1,4})',                 # § 16-1-1
         r'Section\s+(\d{1,2}-\d{1,3}-\d{1,4})',           # Section 16-1-1
-        r'\b(\d{1,2}-\d{1,3}-\d{1,4})\b',                 # Just the number
+        r'(?<!\d-)(\d{1,2}-\d{1,3}-\d{1,4})(?!-\d)',        # Just the number, not part of longer sequence
     ]
     
     for pattern in patterns:
@@ -250,12 +258,12 @@ def _extract_georgia_section_number(text: str) -> Optional[str]:
     return None
 
 
-def _extract_section_title(heading_element, full_text: str, section_number: str) -> Optional[str]:
+def _extract_section_title(heading_element: TypedSoup | None, full_text: str, section_number: str) -> Optional[str]:
     """Extract section title from heading element or full text."""
     
     # Try to get title from heading element
-    if heading_element and hasattr(heading_element, 'get_text'):
-        heading_text = heading_element.get_text(strip=True)
+    if heading_element:
+        heading_text = heading_element.get_text().strip()
         if heading_text and section_number in heading_text:
             # Remove section number to get just the title
             title = re.sub(f".*{re.escape(section_number)}[.\\s]*", "", heading_text).strip()

@@ -1,10 +1,10 @@
 from typing import Optional
 
 from scrapy.http.response.html import HtmlResponse
-from bs4 import BeautifulSoup
+from bs4 import Tag
 
 from public_law.legal_texts.models.statute import StatuteEntry
-from public_law.shared.utils.html import from_response
+from typed_soup import from_response, TypedSoup
 from public_law.shared.utils.text import NonemptyString, normalize_whitespace, URI
 
 
@@ -21,15 +21,12 @@ def parse_statute_entries(response: HtmlResponse) -> tuple[StatuteEntry, ...]:
         Tuple of StatuteEntry objects extracted from the page
     """
     soup = from_response(response)
-    entries = []
+    entries: list[StatuteEntry] = []
     
     # Find the main statute content area
-    # Florida statutes typically have a specific structure we need to parse
-    statute_content = soup.find('div', id='statute-content') or soup.find('main')
-    
-    if not statute_content:
-        # Fallback: look for common statute indicators
-        statute_content = soup.find('div', class_='statute') or soup
+    # For now, use the entire soup as content
+    # TypedSoup has different API than BeautifulSoup
+    statute_content = soup
     
     # Look for individual statute sections
     sections = _find_statute_sections(statute_content)
@@ -48,36 +45,55 @@ def parse_statute_entries(response: HtmlResponse) -> tuple[StatuteEntry, ...]:
     return tuple(entries)
 
 
-def _find_statute_sections(content_element) -> list:
+def _find_statute_sections(content_element: TypedSoup) -> list[TypedSoup]:
     """Find all statute section elements in the content."""
     # Try different strategies to find statute sections based on Florida's HTML structure
     
-    # Strategy 1: Look for elements with section numbers
-    sections = content_element.find_all('div', class_='statute-section')
+    # Strategy 1: Look for headings that contain Florida section numbers
+    sections: list[TypedSoup] = []
+    
+    # Search through different heading types
+    for tag_name in ['h1', 'h2', 'h3', 'h4']:
+        for heading in content_element(tag_name):
+            text = heading.get_text().lower()
+            if any(pattern in text for pattern in ['section', '§', 'florida']):
+                sections.append(heading)
+    
     if sections:
         return sections
     
-    # Strategy 2: Look for headings that contain section numbers
-    sections = content_element.find_all(['h1', 'h2', 'h3', 'h4'], 
-                                       string=lambda text: text and 'section' in text.lower())
-    if sections:
-        # For each heading, include the following content until the next heading
-        full_sections = []
-        for heading in sections:
-            section_content = [heading]
-            current = heading.next_sibling
-            while current and current.name not in ['h1', 'h2', 'h3', 'h4']:
-                if current.name:  # Skip text nodes
-                    section_content.append(current)
-                current = current.next_sibling
-            full_sections.append(section_content)
-        return full_sections
+    # Strategy 2: Look for any elements containing Florida section patterns
+    all_elements: list[TypedSoup] = []
+    for tag_name in ['div', 'p', 'section', 'article']:
+        for element in content_element(tag_name):
+            text = element.get_text()
+            if _contains_florida_section_number(text):
+                all_elements.append(element)
+    
+    if all_elements:
+        return all_elements
     
     # Strategy 3: Fallback - treat the entire content as one section
     return [content_element] if content_element else []
 
 
-def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
+def _contains_florida_section_number(text: str) -> bool:
+    """Check if text contains a Florida section number pattern."""
+    import re
+    florida_patterns = [
+        r'\d{3}\.\d{2,3}',  # 768.28 format
+        r'§\s*\d{3}\.\d{2,3}',  # § 768.28 format
+        r'Section\s+\d{3}\.\d{2,3}',  # Section 768.28 format
+    ]
+    
+    for pattern in florida_patterns:
+        if re.search(pattern, text, re.IGNORECASE):
+            return True
+    
+    return False
+
+
+def _parse_single_section(element: TypedSoup, base_url: str) -> Optional[StatuteEntry]:
     """Parse a single statute section element into a StatuteEntry.
     
     Args:
@@ -107,10 +123,10 @@ def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
     # Extract the main text content
     if content_elements:
         # Combine text from multiple elements
-        section_text = ' '.join(el.get_text(strip=True) for el in content_elements if el.get_text(strip=True))
+        section_text = ' '.join(el.get_text().strip() for el in content_elements if el.get_text().strip())
     else:
         # Get text from the main element, excluding the header
-        section_text = element.get_text(strip=True) if hasattr(element, 'get_text') else str(element)
+        section_text = element.get_text().strip()
         # Remove the section number/title from the beginning if it's there
         if section_title and section_text.startswith(section_title):
             section_text = section_text[len(section_title):].strip()
@@ -144,16 +160,16 @@ def _parse_single_section(element, base_url: str) -> Optional[StatuteEntry]:
         return None
 
 
-def _extract_section_info(heading_element) -> Optional[tuple[str, str]]:
+def _extract_section_info(heading_element: TypedSoup | None) -> Optional[tuple[str, str]]:
     """Extract section number and title from a heading element.
     
     Returns:
         Tuple of (section_number, section_title) or None if not found
     """
-    if not heading_element or not hasattr(heading_element, 'get_text'):
+    if not heading_element:
         return None
     
-    text = heading_element.get_text(strip=True)
+    text = heading_element.get_text().strip()
     if not text:
         return None
     
