@@ -10,7 +10,7 @@ from public_law.shared.exceptions.parse_exception import ParseException
 from public_law.shared.utils.text import normalize_whitespace
 
 join = curry(str.join)
-map = curry(map)
+map  = curry(map)
 
 
 class CitationSet(NamedTuple):
