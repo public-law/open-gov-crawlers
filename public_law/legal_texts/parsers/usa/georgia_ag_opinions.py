@@ -35,12 +35,10 @@ class OpinionParseResult(NamedTuple):
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
-    summary = first(html, css=".page-top__subtitle--re p::text",
-                    expected="summary")
-    title = first(html, css="h1.page-top__title--opinion::text",
-                  expected="title")
-    date = first(html, css="time::text",
-                 expected="date")
+    summary = first(html, css=".page-top__subtitle--re p::text",   expected="summary")
+    title   = first(html, css="h1.page-top__title--opinion::text", expected="title")
+    date    = first(html, css="time::text",                        expected="date")
+    
     full_text = cast(
         str,
         pipe(
@@ -49,7 +47,8 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
             join("\n"),
         ),
     )
-    citation_set = cast(CitationSet, pipe(
+    
+    citations = cast(CitationSet, pipe(
         re.findall(
             r"\d+-\d+-\d+(?:\([-().A-Za-z0-9]*[-A-Za-z0-9]\))?", full_text),
         set,
@@ -58,13 +57,13 @@ def parse_ag_opinion(html: Response) -> OpinionParseResult:
     ))
 
     return OpinionParseResult(
-        summary=summary,
-        title=title,
-        is_official=title.startswith("Official"),
-        date=opinion_date_to_iso8601(date),
-        full_text=full_text,
-        source_url=html.url,
-        citations=citation_set,
+        summary     = summary,
+        title       = title,
+        is_official = title.startswith("Official"),
+        date        = opinion_date_to_iso8601(date),
+        full_text   = full_text,
+        source_url  = html.url,
+        citations   = citations,
     )
 
 
