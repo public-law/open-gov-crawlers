@@ -25,13 +25,13 @@ class CitationSet(NamedTuple):
 class OpinionParseResult(NamedTuple):
     """All the collected data from an opinion page"""
 
-    source_url: str
-    title: str
+    source_url:  str
+    title:       str
     is_official: bool
-    date: str
-    summary: str
-    full_text: str
-    citations: CitationSet
+    date:        str
+    summary:     str
+    full_text:   str
+    citations:   CitationSet
 
 
 def parse_ag_opinion(html: Response) -> OpinionParseResult:
