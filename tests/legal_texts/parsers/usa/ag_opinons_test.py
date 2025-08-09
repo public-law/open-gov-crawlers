@@ -33,9 +33,11 @@ class TestParseAgOpinion:
         )
         assert PARSED_OPINION.summary == expected_summary
 
+    
     def test_gets_the_date(self):
         assert PARSED_OPINION.date == "2017-10-02"
 
+    
     def test_gets_the_full_text(self):
         expected_text = (
             "You have requested, in your letter of August 16, 2017, my opinion concerning whether any of the following misdemeanor offenses enacted during the 2017 Session of the General Assembly should be designated as offenses for which persons charged with violations are to be fingerprinted.\n"
@@ -49,9 +51,11 @@ class TestParseAgOpinion:
         )
         assert PARSED_OPINION.full_text == expected_text
 
+    
     def test_gets_the_source_url(self):
         assert PARSED_OPINION.source_url == "https://law.georgia.gov/opinions/2017-3"
 
+    
     def test_gets_all_ocga_cites(self):
         expected_cites = [
             "26-5-40",
